@@ -12,6 +12,7 @@
 #include <QObject>
 #include <QList>
 #include <QGeoCoordinate>
+#include "QmlObjectListModel.h"
 
 /// Routines for loading polygons or polylines from KML or SHP files.
 class ShapeFileHelper : public QObject
@@ -39,6 +40,7 @@ public:
     static ShapeType determineShapeType(const QString& file, QString& errorString);
     static bool loadPolygonFromFile(const QString& file, QList<QGeoCoordinate>& vertices, QString& errorString);
     static bool loadPolylineFromFile(const QString& file, QList<QGeoCoordinate>& coords, QString& errorString);
+    static bool savePolygonToKML(QString path, QmlObjectListModel *_polygonModel);
 
 private:
     static bool _fileIsKML(const QString& file, QString& errorString);

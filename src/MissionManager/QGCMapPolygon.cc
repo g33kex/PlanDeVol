@@ -517,32 +517,5 @@ void QGCMapPolygon::verifyClockwiseWinding(void)
 }
 
 void QGCMapPolygon::savePolygonToKML(QString path) {
-    QFile file( path );
-    if ( file.open(QIODevice::WriteOnly) ) {
-        QTextStream stream( &file );
-        stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-        stream << "<kml xmlns=\"http://www.opengis.net/kml/2.2\">" << endl;
-        stream << "<Placemark>" << endl;
-        stream << "<name>The Pentagon</name>" << endl;
-        stream << "<Polygon>" << endl;
-        stream << "<extrude>1</extrude>" << endl;
-        stream << "<outerBoundaryIs>" << endl;
-        stream << "<LinearRing>" << endl;
-        stream << "<coordinates>" << endl;
-
-        for (QList<QObject*>::iterator j = _polygonModel.objectList()->begin(); j != _polygonModel.objectList()->end(); j++)
-        {
-            qDebug() << (((QGCQGeoCoordinate*) (*j))->toString());
-            stream << (((QGCQGeoCoordinate*) (*j))->toString()) << ",50" << endl; //le dernier element étant l'altitude du tracé, il n'est pas important
-        }
-
-        stream << "</coordinates>" << endl;
-        stream << "</LinearRing>" << endl;
-        stream << "</outerBoundaryIs>" << endl;
-        stream << "</Polygon>" << endl;
-        stream << "</Placemark>" << endl;
-        stream << "</kml>" << endl;
-
-    }
-    else qDebug() << "ERROR";
+    ShapeFileHelper::savePolygonToKML(path, &_polygonModel);
 }
