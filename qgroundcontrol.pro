@@ -388,6 +388,7 @@ INCLUDEPATH += \
 #
 
 HEADERS += \
+    src/MissionManager/ParcelleManager.h \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
@@ -396,6 +397,7 @@ HEADERS += \
     src/GPS/Drivers/src/base_station.h
 
 SOURCES += \
+    src/MissionManager/ParcelleManager.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \
@@ -1246,3 +1248,6 @@ contains (CONFIG, QGC_DISABLE_INSTALLER_SETUP) {
 } else {
     include(QGCInstaller.pri)
 }
+
+FORMS += \
+    src/MissionManager/ParcelleManager.ui

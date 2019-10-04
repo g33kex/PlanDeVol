@@ -443,6 +443,16 @@ int MissionController::insertComplexMissionItemFromKMLOrSHP(QString itemName, QS
     return _insertComplexMissionItemWorker(newItem, i);
 }
 
+void MissionController::insertComplexMissionFromDialog(QList<QString> fileList) {
+
+    //TODO : peut etre ici voir +1 / -1
+    int i = _missionItemCount;
+    for (QList<QString>::iterator j = fileList.begin(); j != fileList.end(); ++j) {
+        insertComplexMissionItemFromKMLOrSHP(_surveyMissionItemName, (*j), i);
+        i++;
+    }
+}
+
 int MissionController::_insertComplexMissionItemWorker(ComplexMissionItem* complexItem, int i)
 {
     int sequenceNumber = _nextSequenceNumber();
