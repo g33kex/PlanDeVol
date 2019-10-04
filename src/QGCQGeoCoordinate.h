@@ -27,7 +27,7 @@ public:
     void            setCoordinate   (const QGeoCoordinate& coordinate);
     bool            dirty           (void) const { return _dirty; }
     void            setDirty        (bool dirty);
-
+    QString toString();
 signals:
     void coordinateChanged  (QGeoCoordinate coordinate);
     void dirtyChanged       (bool dirty);

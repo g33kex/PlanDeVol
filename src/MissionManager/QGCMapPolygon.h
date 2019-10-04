@@ -94,8 +94,7 @@ public:
     QGeoCoordinate  center      (void) const { return _center; }
     bool            centerDrag  (void) const { return _centerDrag; }
     bool            interactive (void) const { return _interactive; }
-
-    QVariantList        path        (void) const { return _polygonPath; }
+    QVariantList        path        (void) const {return _polygonPath; }
     QmlObjectListModel* qmlPathModel(void) { return &_polygonModel; }
     QmlObjectListModel& pathModel   (void) { return _polygonModel; }
 
@@ -126,6 +125,8 @@ private:
     QPolygonF _toPolygonF(void) const;
     QGeoCoordinate _coordFromPointF(const QPointF& point) const;
     QPointF _pointFFromCoord(const QGeoCoordinate& coordinate) const;
+
+    void savePolygonToKML(QString path);
 
     QVariantList        _polygonPath;
     QmlObjectListModel  _polygonModel;

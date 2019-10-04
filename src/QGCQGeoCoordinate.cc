@@ -35,3 +35,7 @@ void QGCQGeoCoordinate::setDirty(bool dirty)
         emit dirtyChanged(dirty);
     }
 }
+
+QString QGCQGeoCoordinate::toString() {
+    return (QString::number(_coordinate.longitude()) + "," + QString::number(_coordinate.latitude()));
+}
