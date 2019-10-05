@@ -1,5 +1,5 @@
 #include <QDialog>
-#include "DbManager.h"
+//#include "DbManager.h"
 #include "MissionController.h"
 
 #include <QSqlTableModel>

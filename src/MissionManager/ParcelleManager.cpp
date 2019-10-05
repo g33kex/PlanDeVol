@@ -1,6 +1,6 @@
 #include "ParcelleManager.h"
 #include "ui_ParcelleManager.h"
-#include "DbManager.h"
+//#include "DbManager.h"
 #include "ComplexMissionItem.h"
 #include "SurveyComplexItem.h"
 #include <QSqlTableModel>
@@ -8,7 +8,7 @@
 
 
 extern QString username;
-extern DbManager *db;
+//extern DbManager *db;
 
 
 ParcelleManager::ParcelleManager(QWidget *parent) :
@@ -24,17 +24,17 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     missionControler(missionControler)
 {
     ui->setupUi(this);
-    SqlParcelleModel = new QSqlTableModel(this, db->getDB());
-    SqlParcelleModel->setTable("Parcelle");
-    SqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    QString filtre = QString("owner = \'") + username + QString("\'");
-    qDebug() << filtre;
-    SqlParcelleModel->setFilter(filtre);
-    SqlParcelleModel->select();
-    SqlParcelleModel->setHeaderData(0, Qt::Horizontal, tr("owner"));
-    SqlParcelleModel->setHeaderData(1, Qt::Horizontal, tr("polygon"));
-    SqlParcelleModel->setHeaderData(2, Qt::Horizontal, tr("type"));
-    SqlParcelleModel->setHeaderData(3, Qt::Horizontal, tr("id"));
+//    SqlParcelleModel = new QSqlTableModel(this, db->getDB());
+//    SqlParcelleModel->setTable("Parcelle");
+//    SqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+//    QString filtre = QString("owner = \'") + username + QString("\'");
+//    qDebug() << filtre;
+//    SqlParcelleModel->setFilter(filtre);
+//    SqlParcelleModel->select();
+//    SqlParcelleModel->setHeaderData(0, Qt::Horizontal, tr("owner"));
+//    SqlParcelleModel->setHeaderData(1, Qt::Horizontal, tr("polygon"));
+//    SqlParcelleModel->setHeaderData(2, Qt::Horizontal, tr("type"));
+//    SqlParcelleModel->setHeaderData(3, Qt::Horizontal, tr("id"));
 }
 
 ParcelleManager::~ParcelleManager()
@@ -65,8 +65,8 @@ void ParcelleManager::addToMission() {
     {
         QModelIndex index = selection.at(i);
         qDebug() << index.row();
-        KmlParcelleList->append(index.row()); // ici il faudra mettre le path
+        KmlParcelleList->append("foo"); // ici il faudra mettre le path
     }
 
-    missionControler->insertComplexMissionFromDialog(KmlParcelleList);
+    missionControler->insertComplexMissionFromDialog(*KmlParcelleList);
 }
