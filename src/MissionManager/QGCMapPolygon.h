@@ -69,6 +69,9 @@ public:
     /// Adjust polygon winding order to be clockwise (if needed)
     Q_INVOKABLE void verifyClockwiseWinding(void);
 
+    ///Save the polygon as KML (for Save as Parcelle)
+    Q_INVOKABLE void savePolygonToKML(QString path);
+
     /// Saves the polygon to the json object.
     ///     @param json Json object to save to
     void saveToJson(QJsonObject& json);
@@ -125,8 +128,6 @@ private:
     QPolygonF _toPolygonF(void) const;
     QGeoCoordinate _coordFromPointF(const QPointF& point) const;
     QPointF _pointFFromCoord(const QGeoCoordinate& coordinate) const;
-
-    void savePolygonToKML(QString path);
 
     QVariantList        _polygonPath;
     QmlObjectListModel  _polygonModel;

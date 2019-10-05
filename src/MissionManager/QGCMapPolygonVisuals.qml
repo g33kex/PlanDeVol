@@ -248,6 +248,11 @@ Item {
             text:           qsTr("Load KML/SHP...")
             onTriggered:    kmlOrSHPLoadDialog.openForLoad()
         }
+
+        QGCMenuItem {
+            text:           qsTr("Save as Parcelle...")
+            onTriggered:    mapPolygon.savePolygonToKML("TODO : path");
+        }
     }
 
     Component {
