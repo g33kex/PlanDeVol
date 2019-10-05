@@ -202,6 +202,8 @@ public:
     static const QString patternStructureScanName;
     static const QString patternCorridorScanName;
 
+    QList<ComplexMissionItem*> sortToMinTime(QList<ComplexMissionItem*> toSort);
+
 signals:
     void visualItemsChanged             (void);
     void waypointLinesChanged           (void);
@@ -279,6 +281,7 @@ private:
     void _addTimeDistance(bool vtolInHover, double hoverTime, double cruiseTime, double extraTime, double distance, int seqNum);
     int _insertComplexMissionItemWorker(ComplexMissionItem* complexItem, int i);
     void _warnIfTerrainFrameUsed(void);
+
 
 private:
     MissionManager*         _missionManager;

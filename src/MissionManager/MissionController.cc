@@ -443,12 +443,15 @@ int MissionController::insertComplexMissionItemFromKMLOrSHP(QString itemName, QS
     return _insertComplexMissionItemWorker(newItem, i);
 }
 
+
+
 void MissionController::insertComplexMissionFromDialog(QList<QString> fileList) {
 
-    //TODO : peut etre ici voir +1 / -1
-    int i = _missionItemCount;
+    int i = _missionItemCount+1;    // +1 because 0 is the start !!
     for (QList<QString>::iterator j = fileList.begin(); j != fileList.end(); ++j) {
-        insertComplexMissionItemFromKMLOrSHP(_surveyMissionItemName, (*j), i);
+        qDebug() << (*j);
+        ComplexMissionItem* newItem = new SurveyComplexItem(_controllerVehicle, _flyView, (*j), _visualItems);
+        _insertComplexMissionItemWorker(newItem, i);
         i++;
     }
 }
@@ -2165,4 +2168,16 @@ void MissionController::_updateTimeout()
 void MissionController::_complexBoundingBoxChanged()
 {
     _updateTimer.start(UPDATE_TIMEOUT);
+}
+
+QList<ComplexMissionItem*> MissionController::sortToMinTime(QList<ComplexMissionItem*> toSort) {
+
+
+
+    MissionController *_null = new MissionController(_masterController);
+    QList<ComplexMissionItem *> *res = new QList<ComplexMissionItem*>();
+
+
+
+    return *res;
 }
