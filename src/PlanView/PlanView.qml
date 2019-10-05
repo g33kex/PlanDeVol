@@ -1024,7 +1024,7 @@ Item {
                     }
                 }
 
-                QGCButton {
+              /*  QGCButton {
                     text:               qsTr("Save Mission Waypoints As KML...")
                     Layout.columnSpan:  2
                     enabled:            !_planMasterController.syncInProgress && _visualItems.count > 1
@@ -1037,7 +1037,7 @@ Item {
                         dropPanel.hide()
                         _planMasterController.saveKmlToSelectedFile()
                     }
-                }
+                }*/
 
                 Rectangle {
                     width:              parent.width * 0.8
