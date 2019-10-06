@@ -382,12 +382,14 @@ INCLUDEPATH += \
     src/ui/px4_configuration \
     src/ui/toolbar \
     src/ui/uas \
+    src/DataManager
 
 #
 # Plugin API
 #
 
 HEADERS += \
+    src/DataManager/DbManager.h \
     src/MissionManager/ParcelleManager.h \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
@@ -397,6 +399,7 @@ HEADERS += \
     src/GPS/Drivers/src/base_station.h
 
 SOURCES += \
+    src/DataManager/DbManager.cpp \
     src/MissionManager/ParcelleManager.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \

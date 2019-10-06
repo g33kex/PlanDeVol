@@ -24,6 +24,8 @@
 #include <QJsonDocument>
 #include <QFileInfo>
 
+#include "DataManager/DbManager.h"
+
 QGC_LOGGING_CATEGORY(PlanMasterControllerLog, "PlanMasterControllerLog")
 
 const int   PlanMasterController::kPlanFileVersion =            1;
@@ -31,6 +33,9 @@ const char* PlanMasterController::kPlanFileType =               "Plan";
 const char* PlanMasterController::kJsonMissionObjectKey =       "mission";
 const char* PlanMasterController::kJsonGeoFenceObjectKey =      "geoFence";
 const char* PlanMasterController::kJsonRallyPointsObjectKey =   "rallyPoints";
+
+extern QString username;
+extern DbManager *db;
 
 PlanMasterController::PlanMasterController(QObject* parent)
     : QObject                   (parent)
@@ -430,6 +435,8 @@ void PlanMasterController::saveToFile(const QString& filename)
             emit currentPlanFileChanged();
         }
     }
+
+    db->addMission(username, filename);     //we add the mission to the DB
 
     // Only clear dirty bit if we are offline
     if (offline()) {
