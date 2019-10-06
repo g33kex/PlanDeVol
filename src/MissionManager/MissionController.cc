@@ -2170,14 +2170,33 @@ void MissionController::_complexBoundingBoxChanged()
     _updateTimer.start(UPDATE_TIMEOUT);
 }
 
-QList<ComplexMissionItem*> MissionController::sortToMinTime(QList<ComplexMissionItem*> toSort) {
+QList<ComplexMissionItem*> MissionController::sortToCW(QList<ComplexMissionItem*> toSort) {
 
+    double meanLat = 0.0;
+    double meanLong = 0.0;
+    QList<ComplexMissionItem*> *toSort_R = new QList<ComplexMissionItem*>();
+    QList<ComplexMissionItem*> *toSort_L = new QList<ComplexMissionItem*>();
 
+    QMap<double, ComplexMissionItem*> *missionToAngle_L = new QMap<double, ComplexMissionItem*> ();
+    QMap<double, ComplexMissionItem*> *missionToAngle_R = new QMap<double, ComplexMissionItem*> ();
+    for (QList<ComplexMissionItem*>::iterator i = toSort.begin(); i != toSort.end(); ++i) {
+        meanLat = meanLat + (*i)->coordinate().latitude();
+        meanLong = meanLong + (*i)->coordinate().longitude();
+        if ((*i)->coordinate().longitude() > 0) toSort_R->append(*i);
+        else toSort_L->append(*i);
+    }
+    meanLat = meanLat / toSort.size();
+    meanLong = meanLat / toSort.size();
 
-    MissionController *_null = new MissionController(_masterController);
-    QList<ComplexMissionItem *> *res = new QList<ComplexMissionItem*>();
+    //par construction, une QMap est triée
+    for (QList<ComplexMissionItem*>::iterator i = toSort_L->begin(); i != toSort_L->end(); ++i) {
+        missionToAngle_L->insert((*i)->coordinate().latitude() / (*i)->coordinate().longitude(), (*i));
+    }
 
+    //par construction, une QMap est triée
+    for (QList<ComplexMissionItem*>::iterator i = toSort_R->begin(); i != toSort_R->end(); ++i) {
+        missionToAngle_R->insert((*i)->coordinate().latitude() / (*i)->coordinate().longitude(), (*i));
+    }
 
-
-    return *res;
+    return (missionToAngle_L->values() + missionToAngle_R->values());
 }
