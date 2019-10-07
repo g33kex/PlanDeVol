@@ -186,6 +186,20 @@ Item {
         }
     }
 
+    QGCFileDialog {
+        id:             saveAsParcelleDialog
+        folder:         QGroundControl.settingsManager.appSettings.missionSavePath
+        title:          qsTr("Select Parcelle save file")
+        nameFilters:    [qsTr("All Files (*)")]
+        selectExisting: false
+        fileExtension:  qsTr(".parcelle")
+
+        onAcceptedForSave: {
+            mapPolygon.savePolygonToKML(file);
+            close();
+        }
+    }
+
     QGCMenu {
         id: menu
 
@@ -251,7 +265,7 @@ Item {
 
         QGCMenuItem {
             text:           qsTr("Save as Parcelle...")
-            onTriggered:    mapPolygon.savePolygonToKML("TODO : path");
+            onTriggered:    saveAsParcelleDialog.openForSave()
         }
     }
 
