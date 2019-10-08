@@ -479,6 +479,7 @@ Item {
         }
     }
 
+
     Component {
         id: editVertexPositionDialog
 
