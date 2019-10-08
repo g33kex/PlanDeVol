@@ -11,12 +11,16 @@
 #include "AppSettings.h"
 #include "KMLFileHelper.h"
 #include "SHPFileHelper.h"
+#include "DataManager/DbManager.h"
 
 #include <QFile>
 #include <QVariant>
 #include "QGCQGeoCoordinate.h"
 
 const char* ShapeFileHelper::_errorPrefix = QT_TR_NOOP("Shape file load failed. %1");
+extern QString username;
+extern DbManager *db;
+
 
 QVariantList ShapeFileHelper::determineShapeType(const QString& file)
 {
@@ -136,6 +140,7 @@ bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygo
         stream << "</Placemark>" << endl;
         stream << "</kml>" << endl;
         file.close();
+        db->addParcelle(username, path, "");        //on ajoute le fichier a la DB !
         return 0;
     }
     qDebug() << "ERROR";

@@ -202,7 +202,7 @@ public:
     static const QString patternStructureScanName;
     static const QString patternCorridorScanName;
 
-    QList<ComplexMissionItem*> sortToMinTime(QList<ComplexMissionItem*> toSort);
+    QList<ComplexMissionItem*> sortToCW(QList<ComplexMissionItem*> toSort);
 
 signals:
     void visualItemsChanged             (void);

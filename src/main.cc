@@ -27,6 +27,7 @@
 #include <QStringListModel>
 #include "QGCApplication.h"
 #include "AppMessages.h"
+#include "DataManager/DbManager.h"
 
 #ifndef __mobile__
     #include "QGCSerialPortInfo.h"
@@ -210,6 +211,12 @@ bool checkAndroidWritePermission() {
 #endif
 
 //-----------------------------------------------------------------------------
+
+extern DbManager *db;
+DbManager *db;;
+extern QString username;
+QString username = "foo";
+
 /**
  * @brief Starts the application
  *
@@ -381,6 +388,8 @@ int main(int argc, char *argv[])
 #ifdef __android__
         checkAndroidWritePermission();
 #endif
+        db = new DbManager();
+        db->addUser("user", "", "user", "user");
         if (!app->_initForNormalAppBoot()) {
             return -1;
         }
