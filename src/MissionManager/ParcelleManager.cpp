@@ -38,6 +38,8 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     SqlParcelleModel->setHeaderData(2, Qt::Horizontal, tr("type"));
     SqlParcelleModel->setHeaderData(3, Qt::Horizontal, tr("id"));
 
+    ui->sqlView->setModel(SqlParcelleModel);
+
     connect(ui->mission_B, SIGNAL(clicked()), this, SLOT(addToMission()));
     connect(ui->add_B, SIGNAL(clicked()), this, SLOT(addParcelle()));
     connect(ui->rm_B, SIGNAL(clicked()), this, SLOT(deleteParcelle()));
@@ -51,7 +53,7 @@ ParcelleManager::~ParcelleManager()
 
 void ParcelleManager::deleteParcelle() {
     qDebug() << "in userSpace::deleteParcelle";
-    QModelIndexList selection = ui->DBwidget->selectionModel()->selectedRows();
+    QModelIndexList selection = ui->sqlView->selectionModel()->selectedRows();
 
     for(int i=0; i< selection.count(); i++)
     {
@@ -64,7 +66,7 @@ void ParcelleManager::deleteParcelle() {
 
 void ParcelleManager::addToMission() {
     qDebug() << "in userSpace::addToMission";
-    QModelIndexList selection = ui->DBwidget->selectionModel()->selectedRows();
+    QModelIndexList selection = ui->sqlView->selectionModel()->selectedRows();
     QList<QString> *KmlParcelleList= new QList<QString>() ;
 
     for(int i=0; i< selection.count(); i++)

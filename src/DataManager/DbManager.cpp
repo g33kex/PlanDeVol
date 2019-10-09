@@ -5,37 +5,37 @@
 //TODO : valeur par defaut a mettre
 
 DbManager::DbManager() {
-   m_db = QSqlDatabase::addDatabase("QSQLITE");
-   m_db.setDatabaseName("database.sqlite3");
+    m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db.setDatabaseName("database.sqlite3");
 
 
 
-   if (!m_db.open()) {
-      qDebug() << "Error: connection with database fail";
-   }
-   else {
-      QSqlQuery pragma("PRAGMA foreign_keys = ON");
-      pragma.exec();
-      qDebug() << "Database: connection ok";
-   }
+    if (!m_db.open()) {
+        qDebug() << "Error: connection with database fail";
+    }
+    else {
+        QSqlQuery pragma("PRAGMA foreign_keys = ON");
+        pragma.exec();
+        qDebug() << "Database: connection ok";
+    }
 }
 
 bool DbManager::addUser(const QString& username, const QString& password, const QString& nom, const QString& prenom) {
-   bool success = false;
-   if (username == "" ) return success;
-   QString hashpassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
-   QSqlQuery query;
-   if( ! query.prepare("INSERT INTO Person (username, password, nom, prenom) VALUES (:username, :password, :nom, :prenom)")) {
-       qDebug() << "error prepare" << query.lastError();
-   }
-   query.bindValue(":username", username);
-   query.bindValue(":password", hashpassword);
-   query.bindValue(":nom", nom);
-   query.bindValue(":prenom", prenom);
+    bool success = false;
+    if (username == "" ) return success;
+    QString hashpassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
+    QSqlQuery query;
+    if( ! query.prepare("INSERT INTO Person (username, password, nom, prenom) VALUES (:username, :password, :nom, :prenom)")) {
+        qDebug() << "error prepare" << query.lastError();
+    }
+    query.bindValue(":username", username);
+    query.bindValue(":password", hashpassword);
+    query.bindValue(":nom", nom);
+    query.bindValue(":prenom", prenom);
 
-   if(query.exec()) success = true;
-   else qDebug() << "addUser error:  " << query.lastError();
-   return success;
+    if(query.exec()) success = true;
+    else qDebug() << "addUser error:  " << query.lastError();
+    return success;
 }
 
 bool DbManager::deleteUser(const QString& username) {

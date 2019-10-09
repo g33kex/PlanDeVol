@@ -1254,3 +1254,6 @@ contains (CONFIG, QGC_DISABLE_INSTALLER_SETUP) {
 
 FORMS += \
     src/MissionManager/ParcelleManager.ui
+
+DISTFILES += \
+    database.sqlite3
