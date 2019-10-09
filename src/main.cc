@@ -29,6 +29,8 @@
 #include "AppMessages.h"
 #include "DataManager/DbManager.h"
 
+#include "ParcelleManager.h"
+
 #ifndef __mobile__
     #include "QGCSerialPortInfo.h"
     #include "RunGuard.h"
@@ -227,6 +229,12 @@ QString username = "foo";
 
 int main(int argc, char *argv[])
 {
+    //ADD LOGIN CODE HERE
+  /*  QApplication apptest(argc,argv);
+    ParcelleManager* parcelle = new ParcelleManager(nullptr);
+    parcelle->show();*/
+
+
 #ifndef __mobile__
     RunGuard guard("QGroundControlRunGuardKey");
     if (!guard.tryToRun()) {

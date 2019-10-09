@@ -937,7 +937,7 @@ Item {
                 Layout.columnSpan:  2
             }
 
-            QGCButton {
+           /* QGCButton {
                 text:               qsTr("Load KML/SHP...")
                 Layout.fillWidth:   true
                 enabled:            !_planMasterController.syncInProgress
@@ -945,6 +945,15 @@ Item {
                     _planMasterController.loadShapeFromSelectedFile()
                     dropPanel.hide()
                 }
+            }*/
+
+            QGCButton {
+                text:               qsTr("Parcelle Manager")
+                Layout.fillWidth:   true
+                onClicked: {
+                    _planMasterController.showParcelleManager()
+                }
+
             }
         } // Column
     }

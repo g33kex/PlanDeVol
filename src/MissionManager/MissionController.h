@@ -18,6 +18,7 @@
 
 #include "QGCGeoBoundingCube.h"
 
+
 #include <QHash>
 
 class CoordinateVector;
@@ -203,6 +204,7 @@ public:
     static const QString patternCorridorScanName;
 
     QList<ComplexMissionItem*> sortToCW(QList<ComplexMissionItem*> toSort);
+
 
 signals:
     void visualItemsChanged             (void);

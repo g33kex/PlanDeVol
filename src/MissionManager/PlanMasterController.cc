@@ -90,6 +90,7 @@ void PlanMasterController::start(bool flyView)
         qgcApp()->toolbox()->airspaceManager()->flightPlan()->startFlightPlanning(this);
     }
 #endif
+
 }
 
 void PlanMasterController::startStaticActiveVehicle(Vehicle* vehicle, bool deleteWhenSendCompleted)
@@ -565,6 +566,15 @@ void PlanMasterController::_showPlanFromManagerVehicle(void)
             _rallyPointController.showPlanFromManagerVehicle();
         }
     }
+}
+
+void PlanMasterController::showParcelleManager(void) {
+    int argc=0;
+    char ** argv = nullptr;
+    QApplication dialogApp(argc,argv);
+
+    ParcelleManager* parcelleManager = new ParcelleManager(nullptr,missionController());
+    parcelleManager->exec();
 }
 
 bool PlanMasterController::syncInProgress(void) const

@@ -11,12 +11,14 @@ extern QString username;
 //extern DbManager *db;
 
 
+
 ParcelleManager::ParcelleManager(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ParcelleManager)
 {
     ui->setupUi(this);
 }
+
 
 ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionControler) :
     QDialog(parent),
@@ -69,4 +71,10 @@ void ParcelleManager::addToMission() {
     }
 
     missionControler->insertComplexMissionFromDialog(*KmlParcelleList);
+}
+
+void ParcelleManager::showParcelleManager(MissionController *missionControler) {
+    ParcelleManager* parcelleManager = new ParcelleManager(nullptr,missionControler);
+    parcelleManager->exec();
+
 }
