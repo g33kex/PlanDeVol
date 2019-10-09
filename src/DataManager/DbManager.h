@@ -14,16 +14,10 @@ class DbManager
 
         bool addParcelle(const QString& owner, const QString& polygon, const QString& type);
         bool deleteParcelle(const int id);
-        // We do not want the user to modify the owner or the polygon (so that he will not
-        // add more parcelle than he can)
-        bool modifyTypeParcelle(const int id, const QString& type);
         QMap<QString, int>* getAllParcelle();
 
         bool addMission(const QString& owner, const QString& ordre);
         bool deleteMission(const int id);
-        // We do not want the user to modify the owner or the polygon (so that he will not
-        // add more mission than he can)
-        bool modifyMission(const int id, const QString& ordre);
         QMap<QString, int> * getAllMission();
 
         QString getPassword(const QString& user);

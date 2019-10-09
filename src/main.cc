@@ -218,6 +218,8 @@ extern DbManager *db;
 DbManager *db;;
 extern QString username;
 QString username = "foo";
+extern QSqlTableModel *SqlParcelleModel;
+QSqlTableModel *SqlParcelleModel;
 
 /**
  * @brief Starts the application
@@ -397,7 +399,7 @@ int main(int argc, char *argv[])
         checkAndroidWritePermission();
 #endif
         db = new DbManager();
-        db->addUser("user", "", "user", "user");
+        SqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
         if (!app->_initForNormalAppBoot()) {
             return -1;
         }

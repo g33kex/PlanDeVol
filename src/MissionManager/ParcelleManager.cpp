@@ -9,6 +9,7 @@
 
 extern QString username;
 extern DbManager *db;
+extern QSqlTableModel *SqlParcelleModel;
 
 
 
@@ -26,7 +27,6 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     missionControler(missionControler)
 {
     ui->setupUi(this);
-    SqlParcelleModel = new QSqlTableModel(this, db->getDB());
     SqlParcelleModel->setTable("Parcelle");
     SqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 //    QString filtre = QString("owner = \'") + username + QString("\'");
@@ -34,7 +34,7 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
 //    SqlParcelleModel->setFilter(filtre);
     SqlParcelleModel->select();
     SqlParcelleModel->setHeaderData(0, Qt::Horizontal, tr("owner"));
-    SqlParcelleModel->setHeaderData(1, Qt::Horizontal, tr("polygon"));
+    SqlParcelleModel->setHeaderData(1, Qt::Horizontal, tr("file"));
     SqlParcelleModel->setHeaderData(2, Qt::Horizontal, tr("type"));
     SqlParcelleModel->setHeaderData(3, Qt::Horizontal, tr("id"));
 
@@ -59,6 +59,7 @@ void ParcelleManager::deleteParcelle() {
     {
         QModelIndex index = selection.at(i);
         qDebug() << index.row();
+        //here, remove the file !
         SqlParcelleModel->removeRow(index.row());
     }
 }

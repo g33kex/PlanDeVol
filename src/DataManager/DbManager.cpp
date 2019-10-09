@@ -106,12 +106,12 @@ bool DbManager::addParcelle(const QString& owner, const QString& polygon, const 
    if (owner == "" || polygon == "") return success;
 
    QSqlQuery query;
-   query.prepare("INSERT INTO Parcelle (owner, polygon, type) VALUES (:owner, :polygon, :type)");
+   query.prepare("INSERT INTO Parcelle (owner, parcelleFile, type) VALUES (:owner, :parcelleFile, :type)");
    query.bindValue(":owner", owner);
-   query.bindValue(":polygon", polygon);
+   query.bindValue(":parcelleFile", polygon);
    query.bindValue(":type", type);
    if(query.exec()) success = true;
-   else qDebug() << "addUser error:  " << query.lastError();
+   else qDebug() << "addParcelle error:  " << query.lastError();
 
    return success;
 }
@@ -127,22 +127,6 @@ bool DbManager::deleteParcelle(const int id) {
     else qDebug() << "deleteUser error :" << query.lastError();
 
     return success;
-}
-
-
-bool DbManager::modifyTypeParcelle(const int id, const QString& type) {
-    bool success = false;
-    if (id == 0) return success;
-
-    QSqlQuery query;
-    query.prepare("UPDATE Parcelle SET type=(:type) WHERE id = (:id)");
-    query.bindValue(":type", type);
-    query.bindValue(":id", id);
-    if(query.exec()) success = true;
-    else qDebug() << "deleteUser error :" << query.lastError();
-
-    return success;
-
 }
 
 QMap<QString, int>* DbManager::getAllParcelle() {
@@ -179,18 +163,6 @@ bool DbManager::deleteMission(const int id) {
     if(query.exec()) success = true;
     else qDebug() << "deleteUser error :" << query.lastError();
 
-    return success;
-}
-
-bool DbManager::modifyMission(const int id, const QString& ordre) {
-    bool success = false;
-
-    QSqlQuery query;
-    query.prepare("UPDATE Mission SET ordre = (:ordre) WHERE id = (:id)");
-    query.bindValue(":id", id);
-    query.bindValue(":ordre", ordre);
-    if(query.exec()) success = true;
-    else qDebug() << "deleteUser error :" << query.lastError();
     return success;
 }
 

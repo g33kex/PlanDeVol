@@ -29,7 +29,6 @@ private slots:
 private:
     void closeEvent(QCloseEvent *bar);
     Ui::ParcelleManager *ui;
-    QSqlTableModel *SqlParcelleModel;
     MissionController *missionControler;
 };
 
