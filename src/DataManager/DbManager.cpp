@@ -146,11 +146,11 @@ bool DbManager::addMission(const QString& owner, const QString& ordre) {
    if (owner == "" || ordre == "") return success;
 
    QSqlQuery query;
-   query.prepare("INSERT INTO Mission (owner, ordre) VALUES (:owner, :ordre)");
+   query.prepare("INSERT INTO Mission (owner, missionFile) VALUES (:owner, :missionFile)");
    query.bindValue(":owner", owner);
-   query.bindValue(":ordre", ordre);
+   query.bindValue(":missionFile", ordre);
    if(query.exec()) success = true;
-   else qDebug() << "addUser error:  " << query.lastError();
+   else qDebug() << "addUMission error:  " << query.lastError();
 
    return success;
 }
