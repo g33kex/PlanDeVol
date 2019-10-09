@@ -78,3 +78,9 @@ void ParcelleManager::showParcelleManager(MissionController *missionControler) {
     parcelleManager->exec();
 
 }
+
+void ParcelleManager::closeEvent(QCloseEvent *bar)
+{
+    // Do something
+    this->close();
+}

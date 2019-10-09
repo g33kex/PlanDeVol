@@ -51,7 +51,7 @@ class QGCFileDownload;
  * the central management unit of the groundstation application.
  *
  **/
-class QGCApplication : public QGuiApplication
+class QGCApplication : public QApplication
 {
     Q_OBJECT
 

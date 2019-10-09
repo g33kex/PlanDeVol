@@ -28,6 +28,7 @@ private slots:
     void addToMission();
 
 private:
+    void closeEvent(QCloseEvent *bar);
     Ui::ParcelleManager *ui;
     QSqlTableModel *SqlParcelleModel;
     MissionController *missionControler;
