@@ -25,9 +25,11 @@ private slots:
     void deleteParcelle();
     void addToMission();
     void addParcelle();
+    void saveToDb();
 
 private:
     void closeEvent(QCloseEvent *bar);
+    QList<QString> *toDel;
     Ui::ParcelleManager *ui;
     MissionController *missionControler;
 };

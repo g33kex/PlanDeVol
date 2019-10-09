@@ -27,6 +27,7 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     missionControler(missionControler)
 {
     ui->setupUi(this);
+    toDel = new QList<QString>();
     SqlParcelleModel->setTable("Parcelle");
     SqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 //    QString filtre = QString("owner = \'") + username + QString("\'");
@@ -43,6 +44,7 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     connect(ui->mission_B, SIGNAL(clicked()), this, SLOT(addToMission()));
     connect(ui->add_B, SIGNAL(clicked()), this, SLOT(addParcelle()));
     connect(ui->rm_B, SIGNAL(clicked()), this, SLOT(deleteParcelle()));
+    connect(ui->save_B, SIGNAL(clicked()), this, SLOT(saveToDb()));
 }
 
 ParcelleManager::~ParcelleManager()
@@ -58,8 +60,8 @@ void ParcelleManager::deleteParcelle() {
     for(int i=0; i< selection.count(); i++)
     {
         QModelIndex index = selection.at(i);
-        qDebug() << index.row();
-        //here, remove the file !
+        qDebug() << SqlParcelleModel->record(index.row()).value("parcelleFile").toString();
+        toDel->append(SqlParcelleModel->record(index.row()).value("parcelleFile").toString());
         SqlParcelleModel->removeRow(index.row());
     }
 }
@@ -87,4 +89,13 @@ void ParcelleManager::addParcelle() {
 void ParcelleManager::closeEvent(QCloseEvent *bar) {
     bar->ignore();
     this->deleteLater();
+}
+
+void ParcelleManager::saveToDb() {
+    for (QList<QString>::iterator i = toDel->begin(); i != toDel->end(); ++i) {
+        QFile file ((*i));
+        file.remove();
+    }
+    toDel->clear();
+    SqlParcelleModel->submitAll();
 }
