@@ -19,13 +19,12 @@ public:
     explicit ParcelleManager(QWidget *parent = nullptr);
     explicit ParcelleManager(QWidget *parent, MissionController *missionControler);
 
-    static void showParcelleManager(MissionController *missionControler);
-
     ~ParcelleManager();
 
 private slots:
     void deleteParcelle();
     void addToMission();
+    void addParcelle();
 
 private:
     void closeEvent(QCloseEvent *bar);

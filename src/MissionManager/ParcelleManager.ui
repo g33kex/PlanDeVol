@@ -31,7 +31,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QPushButton" name="ok_B">
+     <widget class="QPushButton" name="rm_B">
       <property name="text">
        <string>Remove a Parcelle</string>
       </property>

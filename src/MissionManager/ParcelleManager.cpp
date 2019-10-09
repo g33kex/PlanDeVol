@@ -1,6 +1,6 @@
 #include "ParcelleManager.h"
 #include "ui_ParcelleManager.h"
-//#include "DbManager.h"
+#include "DataManager/DbManager.h"
 #include "ComplexMissionItem.h"
 #include "SurveyComplexItem.h"
 #include <QSqlTableModel>
@@ -8,7 +8,7 @@
 
 
 extern QString username;
-//extern DbManager *db;
+extern DbManager *db;
 
 
 
@@ -26,17 +26,21 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     missionControler(missionControler)
 {
     ui->setupUi(this);
-//    SqlParcelleModel = new QSqlTableModel(this, db->getDB());
-//    SqlParcelleModel->setTable("Parcelle");
-//    SqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    SqlParcelleModel = new QSqlTableModel(this, db->getDB());
+    SqlParcelleModel->setTable("Parcelle");
+    SqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 //    QString filtre = QString("owner = \'") + username + QString("\'");
 //    qDebug() << filtre;
 //    SqlParcelleModel->setFilter(filtre);
-//    SqlParcelleModel->select();
-//    SqlParcelleModel->setHeaderData(0, Qt::Horizontal, tr("owner"));
-//    SqlParcelleModel->setHeaderData(1, Qt::Horizontal, tr("polygon"));
-//    SqlParcelleModel->setHeaderData(2, Qt::Horizontal, tr("type"));
-//    SqlParcelleModel->setHeaderData(3, Qt::Horizontal, tr("id"));
+    SqlParcelleModel->select();
+    SqlParcelleModel->setHeaderData(0, Qt::Horizontal, tr("owner"));
+    SqlParcelleModel->setHeaderData(1, Qt::Horizontal, tr("polygon"));
+    SqlParcelleModel->setHeaderData(2, Qt::Horizontal, tr("type"));
+    SqlParcelleModel->setHeaderData(3, Qt::Horizontal, tr("id"));
+
+    connect(ui->mission_B, SIGNAL(clicked()), this, SLOT(addToMission()));
+    connect(ui->add_B, SIGNAL(clicked()), this, SLOT(addParcelle()));
+    connect(ui->rm_B, SIGNAL(clicked()), this, SLOT(deleteParcelle()));
 }
 
 ParcelleManager::~ParcelleManager()
@@ -69,18 +73,15 @@ void ParcelleManager::addToMission() {
         qDebug() << index.row();
         KmlParcelleList->append("foo"); // ici il faudra mettre le path
     }
-
     missionControler->insertComplexMissionFromDialog(*KmlParcelleList);
+    this->deleteLater();
 }
 
-void ParcelleManager::showParcelleManager(MissionController *missionControler) {
-    ParcelleManager* parcelleManager = new ParcelleManager(nullptr,missionControler);
-    parcelleManager->exec();
-
+void ParcelleManager::addParcelle() {
+    return;
 }
 
-void ParcelleManager::closeEvent(QCloseEvent *bar)
-{
-    // Do something
-    this->close();
+void ParcelleManager::closeEvent(QCloseEvent *bar) {
+    bar->ignore();
+    this->deleteLater();
 }

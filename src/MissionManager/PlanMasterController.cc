@@ -569,9 +569,6 @@ void PlanMasterController::_showPlanFromManagerVehicle(void)
 }
 
 void PlanMasterController::showParcelleManager(void) {
-//    int argc=0;
-//    char ** argv = nullptr;
-//    QApplication dialogApp(argc,argv);
 
     ParcelleManager* parcelleManager = new ParcelleManager(nullptr,missionController());
     parcelleManager->show();
