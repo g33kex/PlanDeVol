@@ -1,30 +1,30 @@
-#include "login.h"
-#include "ui_login.h"
+#include "Login.h"
+#include "ui_Login.h"
 #include <QMessageBox>
 #include <QCryptographicHash>
-#include "DataManager/dbmanager.h"
-#include "admin.h"
+#include "DataManager/DbManager.h"
+#include "Admin.h"
 
-login::login(QWidget *parent) : QWidget(parent), ui(new Ui::login)
+Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login)
 {
     ui->setupUi(this);
     qDebug() << "up" ;
     QObject::connect(ui->connectButton, SIGNAL(clicked()), this, SLOT(connection()));
 }
 
-login::login(QWidget *parent, DbManager *db) : QWidget(parent), ui(new Ui::login), dbManager(db)
+Login::Login(QWidget *parent, DbManager *db) : QWidget(parent), ui(new Ui::Login), dbManager(db)
 {
     ui->setupUi(this);
     qDebug() << "down" ;
     QObject::connect(ui->connectButton, SIGNAL(clicked()), this, SLOT(connection()));
 }
 
-login::~login()
+Login::~Login()
 {
     delete ui;
 }
 
-bool login::connection() {
+bool Login::connection() {
     QString login = ui->input_login->text();
     if (login == "") return false;
     QString mdp = QCryptographicHash::hash(ui->input_pass->text().toUtf8(), QCryptographicHash::Sha3_256);

@@ -1,16 +1,16 @@
 #include "admin.h"
-#include "ui_admin.h"
+#include "ui_Admin.h"
 #include "DataManager/DbManager.h"
 #include "login.h"
 #include <QSqlTableModel>
 #include <QMessageBox>
 
 
-admin::admin(QWidget *parent) : QWidget(parent), ui(new Ui::admin) {
+Admin::Admin(QWidget *parent) : QWidget(parent), ui(new Ui::Admin) {
     ui->setupUi(this);
 }
 
-admin::admin(QWidget *parent, DbManager *db) : QWidget(parent), ui(new Ui::admin), db(db) {
+Admin::Admin(QWidget *parent, DbManager *db) : QWidget(parent), ui(new Ui::Admin), db(db) {
     ui->setupUi(this);
     list_User = *db->getAllUser();
     SqlPersonmodel = new QSqlTableModel(this, db->getDB());
@@ -27,9 +27,9 @@ admin::admin(QWidget *parent, DbManager *db) : QWidget(parent), ui(new Ui::admin
 
 //    QMap<QString, int> *map = fpara->getMap();
 
-    ui->in_low->setText(QString::number(map->value("lowSpeed")));
-    ui->in_med->setText(QString::number(map->value("medSpeed")));
-    ui->in_fast->setText(QString::number(map->value("fastSpeed")));
+//    ui->in_low->setText(QString::number(map->value("lowSpeed")));
+//    ui->in_med->setText(QString::number(map->value("medSpeed")));
+//    ui->in_fast->setText(QString::number(map->value("fastSpeed")));
 
 
     connect(ui->disco_B, SIGNAL(clicked()), this, SLOT(disconnect()));
@@ -39,29 +39,29 @@ admin::admin(QWidget *parent, DbManager *db) : QWidget(parent), ui(new Ui::admin
     connect(ui->save_B, SIGNAL(clicked()), this, SLOT(saveFlightParam()));
 }
 
-admin::~admin() {
+Admin::~Admin() {
     delete ui;
 }
 
-void admin::disconnect() {
+void Admin::disconnect() {
     qDebug() << "in admin::disconnect";
-    login* login_widget = new login(nullptr, db);
+    Login* login_widget = new Login(nullptr, db);
     login_widget->show();
     this->close();
 }
 
-void admin::addUser() {
+void Admin::addUser() {
     qDebug() << "in admin::addUser";
 //    dialog_add_user* add_widget = new dialog_add_user(nullptr, SqlPersonmodel);
 //    add_widget->show();
 }
 
-void admin::saveUser() {
+void Admin::saveUser() {
     qDebug() << "in admin::saveUser";
     SqlPersonmodel->submitAll();
 }
 
-void admin::deleteUser() {
+void Admin::deleteUser() {
     qDebug() << "in admin::deleteUser";
     QModelIndexList selection = ui->listUser->selectionModel()->selectedRows();
 

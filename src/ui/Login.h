@@ -2,27 +2,27 @@
 #define LOGIN_H
 
 #include <QWidget>
-#include "DataManager/dbmanager.h"
+#include "DataManager/DbManager.h"
 
 
 namespace Ui {
-class login;
+class Login;
 }
 
-class login : public QWidget
+class Login : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit login(QWidget *parent = nullptr);
-    explicit login(QWidget *parent = nullptr, DbManager *db = nullptr);
-    ~login();
+    explicit Login(QWidget *parent = nullptr);
+    explicit Login(QWidget *parent = nullptr, DbManager *db = nullptr);
+    ~Login();
 
 public slots:
     bool connection();
 
 private:
-    Ui::login *ui;
+    Ui::Login *ui;
     DbManager *dbManager;
 };
 

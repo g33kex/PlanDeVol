@@ -2,21 +2,21 @@
 #define ADMIN_H
 
 #include <QWidget>
-#include "DataManager/dbmanager.h"
+#include "DataManager/DbManager.h"
 #include <QSqlTableModel>
 
 namespace Ui {
-class admin;
+class Admin;
 }
 
-class admin : public QWidget
+class Admin : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit admin(QWidget *parent = nullptr);
-    explicit admin(QWidget *parent = nullptr, DbManager *db = nullptr);
-    ~admin();
+    explicit Admin(QWidget *parent = nullptr);
+    explicit Admin(QWidget *parent = nullptr, DbManager *db = nullptr);
+    ~Admin();
 
 public slots:
     void disconnect();
@@ -26,7 +26,7 @@ public slots:
 //    void saveFlightParam();
 
 private:
-    Ui::admin *ui;
+    Ui::Admin *ui;
     QVector<QString> list_User;
     DbManager *db;
     QSqlTableModel *SqlPersonmodel;
