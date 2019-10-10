@@ -396,7 +396,9 @@ HEADERS += \
     src/api/QGCSettings.h \
     src/api/QmlComponentInfo.h \
     src/comm/MavlinkMessagesTimer.h \
-    src/GPS/Drivers/src/base_station.h
+    src/GPS/Drivers/src/base_station.h \
+    src/ui/Admin.h \
+    src/ui/Login.h
 
 SOURCES += \
     src/DataManager/DbManager.cpp \
@@ -405,7 +407,9 @@ SOURCES += \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \
     src/api/QmlComponentInfo.cc \
-    src/comm/MavlinkMessagesTimer.cc
+    src/comm/MavlinkMessagesTimer.cc \
+    src/ui/Admin.cpp \
+    src/ui/Login.cpp
 
 #
 # Unit Test specific configuration goes here (requires full debug build with all plugins)
@@ -1253,7 +1257,9 @@ contains (CONFIG, QGC_DISABLE_INSTALLER_SETUP) {
 }
 
 FORMS += \
-    src/MissionManager/ParcelleManager.ui
+    src/MissionManager/ParcelleManager.ui \
+    src/ui/Admin.ui \
+    src/ui/Login.ui
 
 DISTFILES += \
     database.sqlite3
