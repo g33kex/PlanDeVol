@@ -114,6 +114,7 @@ Item {
         }
     }
 
+
     Connections {
         target: _appSettings ? _appSettings.defaultMissionItemAltitude : null
         onRawValueChanged: {
@@ -174,6 +175,16 @@ Item {
         QGCViewMessage {
             message:    qsTr("You need at least one item to create a KML.")
         }
+    }
+
+    Dialog {
+        id: dialog
+        title: "Title"
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        visible: true
+
+        onAccepted: console.log("Ok clicked")
+        onRejected: console.log("Cancel clicked")
     }
 
     PlanMasterController {

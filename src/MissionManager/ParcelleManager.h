@@ -28,7 +28,7 @@ private slots:
     void saveToDb();
 
 private:
-    void closeEvent(QCloseEvent *bar);
+    //void closeEvent(QCloseEvent *bar);
     QList<QString> *toDel;
     Ui::ParcelleManager *ui;
     MissionController *missionControler;

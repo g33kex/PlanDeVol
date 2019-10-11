@@ -1,7 +1,7 @@
-#include "admin.h"
+#include "Admin.h"
 #include "ui_Admin.h"
 #include "DataManager/DbManager.h"
-#include "login.h"
+#include "Login.h"
 #include <QSqlTableModel>
 #include <QMessageBox>
 

@@ -86,10 +86,10 @@ void ParcelleManager::addParcelle() {
     return;
 }
 
-void ParcelleManager::closeEvent(QCloseEvent *bar) {
+/*void ParcelleManager::closeEvent(QCloseEvent *bar) {
     bar->ignore();
     this->deleteLater();
-}
+}*/
 
 void ParcelleManager::saveToDb() {
     for (QList<QString>::iterator i = toDel->begin(); i != toDel->end(); ++i) {
