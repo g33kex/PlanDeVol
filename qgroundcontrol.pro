@@ -1150,7 +1150,7 @@ contains (DEFINES, QGC_AIRMAP_ENABLED) {
         src/Airmap/AirMapTrafficMonitor.h \
         src/Airmap/AirMapVehicleManager.h \
         src/Airmap/AirMapWeatherInfoManager.h \
-        src/Airmap/LifetimeChecker.h \
+        src/Airmap/LifetimeChecker.h\
 
     SOURCES += \
         src/Airmap/AirMapAdvisoryManager.cc \
