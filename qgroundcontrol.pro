@@ -389,6 +389,7 @@ INCLUDEPATH += \
 #
 
 HEADERS += \
+    src/Admin/ChecklistController.h \
     src/DataManager/DbManager.h \
     src/MissionManager/ParcelleManager.h \
     src/api/QGCCorePlugin.h \
@@ -401,6 +402,7 @@ HEADERS += \
     src/ui/Login.h
 
 SOURCES += \
+    src/Admin/ChecklistController.cpp \
     src/DataManager/DbManager.cpp \
     src/MissionManager/ParcelleManager.cpp \
     src/api/QGCCorePlugin.cc \
