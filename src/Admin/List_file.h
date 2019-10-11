@@ -9,7 +9,7 @@ class List_file : public QList<QString>
 {
 public:
     List_file(QString file);
-    void load();
+    bool load();
     void save();
 
 private:

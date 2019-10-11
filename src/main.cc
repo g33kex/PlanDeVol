@@ -225,6 +225,8 @@ QSqlTableModel *SqlParcelleModel;
 extern List_file *checklist;
 List_file *checklist;
 
+extern List_file *speedParam;
+List_file *speedParam;
 /**
  * @brief Starts the application
  *
@@ -406,13 +408,19 @@ int main(int argc, char *argv[])
         SqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
 
         checklist = new List_file("Checklist");
-        checklist->load();
-//        qDebug() << checklist->count();
-//        checklist->append("foo1");
-//        checklist->append("bar2");
-//        checklist->save();
-//        qDebug() << checklist->count();
+        if (! checklist->load()) {
+            qDebug() << "checklist file is empty";
+        }
 
+        speedParam = new List_file("SpeedParam");
+        //param par defaut if the file is empty
+        if (! speedParam->load()) {
+            qDebug() << "speedParam file is empty";
+            speedParam->clear();
+            speedParam->append("40");
+            speedParam->append("60");
+            speedParam->append("80");
+        }
 
         if (!app->_initForNormalAppBoot()) {
             return -1;

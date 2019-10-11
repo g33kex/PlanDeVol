@@ -27,11 +27,11 @@ void List_file::save() {
     file.close();
 }
 
-void List_file::load() {
+bool List_file::load() {
     this->clear();
     QFile file(_file);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
+        return false;
 
     QTextStream in(&file);
     while (!in.atEnd()) {
@@ -39,5 +39,7 @@ void List_file::load() {
         this->append(line);
     }
     file.close();
+    if (this->count() == 0)  return false;
+    return true;
 }
 
