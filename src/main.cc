@@ -28,6 +28,7 @@
 #include "QGCApplication.h"
 #include "AppMessages.h"
 #include "DataManager/DbManager.h"
+#include "Admin/ChecklistController.h"
 
 #include "ParcelleManager.h"
 
@@ -400,6 +401,16 @@ int main(int argc, char *argv[])
 #endif
         db = new DbManager();
         SqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
+
+        ChecklistController *foo = new ChecklistController();
+        foo->initFromFile();
+        qDebug() << foo->count();
+        foo->append("foo1");
+        foo->append("bar2");
+        foo->saveToFile();
+        qDebug() << foo->count();
+
+
         if (!app->_initForNormalAppBoot()) {
             return -1;
         }
