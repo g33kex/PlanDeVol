@@ -56,6 +56,7 @@ public:
     QString abbreviation        (void) const final { return tr("S"); }
     bool    readyForSave        (void) const final;
     double  additionalTimeDelay (void) const final;
+    void    setCruiseSpeed      (double speed);
 
     // Must match json spec for GridEntryLocation
     enum EntryLocation {

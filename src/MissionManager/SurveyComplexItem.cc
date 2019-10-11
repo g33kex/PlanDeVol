@@ -1555,3 +1555,7 @@ double SurveyComplexItem::additionalTimeDelay (void) const
 
     return hoverTime;
 }
+
+void SurveyComplexItem::setCruiseSpeed (double speed) {
+    _cruiseSpeed = speed;
+}

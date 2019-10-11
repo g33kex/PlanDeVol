@@ -445,13 +445,15 @@ int MissionController::insertComplexMissionItemFromKMLOrSHP(QString itemName, QS
 
 
 
-void MissionController::insertComplexMissionFromDialog(QList<QString> fileList) {
+void MissionController::insertComplexMissionFromDialog(QMap<QString, double> fileList) {
 
     int i = _missionItemCount+1;    // +1 because 0 is the start !!
     QList<ComplexMissionItem*> *toInsert = new QList<ComplexMissionItem*>();
-    for (QList<QString>::iterator j = fileList.begin(); j != fileList.end(); ++j) {
+    for (QMap<QString, double>::iterator j = fileList.begin(); j != fileList.end(); ++j) {
         qDebug() << (*j);
-        toInsert->append(new SurveyComplexItem(_controllerVehicle, _flyView, (*j), _visualItems));
+        SurveyComplexItem *foo = new SurveyComplexItem(_controllerVehicle, _flyView, j.key(), _visualItems);
+        foo->setCruiseSpeed(j.value());
+        toInsert->append(foo);
     }
     *toInsert = sortToCW(*toInsert);
     for (QList<ComplexMissionItem*>::iterator j = toInsert->begin(); j != toInsert->end(); ++j) {

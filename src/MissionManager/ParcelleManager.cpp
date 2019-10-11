@@ -5,11 +5,14 @@
 #include "SurveyComplexItem.h"
 #include <QSqlTableModel>
 #include "MissionController.h"
+#include <QMap>
+#include "Admin/List_file.h"
 
 
 extern QString username;
 extern DbManager *db;
 extern QSqlTableModel *SqlParcelleModel;
+extern List_file *speedParam;
 
 
 
@@ -70,13 +73,13 @@ void ParcelleManager::deleteParcelle() {
 void ParcelleManager::addToMission() {
     qDebug() << "in userSpace::addToMission";
     QModelIndexList selection = ui->sqlView->selectionModel()->selectedRows();
-    QList<QString> *KmlParcelleList= new QList<QString>() ;
+    QMap<QString, double> *KmlParcelleList= new QMap<QString, double>() ;
 
     for(int i=0; i< selection.count(); i++)
     {
         QModelIndex index = selection.at(i);
         qDebug() << index.row();
-        KmlParcelleList->append("foo"); // ici il faudra mettre le path
+        KmlParcelleList->insert(SqlParcelleModel->record(index.row()).value("parcelleFile").toString(), speedParam->at(SqlParcelleModel->record(index.row()).value("speed").toInt()).toDouble());
     }
     missionControler->insertComplexMissionFromDialog(*KmlParcelleList);
     this->deleteLater();
