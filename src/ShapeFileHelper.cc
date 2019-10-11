@@ -114,7 +114,7 @@ QStringList ShapeFileHelper::fileDialogKMLOrSHPFilters(void) const
     return QStringList(tr("KML/SHP Files (*.%1 *.%2)").arg(AppSettings::kmlFileExtension).arg(AppSettings::shpFileExtension));
 }
 
-bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygonModel) {
+bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygonModel, int speed) {
     QFile file( path );
     if ( file.open(QIODevice::WriteOnly) ) {
         QTextStream stream( &file );
@@ -141,6 +141,11 @@ bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygo
         stream << "</Placemark>" << endl;
         stream << "</kml>" << endl;
         file.close();
+
+        // valeur par defaut : le milieu
+        if (!(speed == 0 || speed == 1 || speed == 2)) {
+            speed = 1;
+        }
         db->addParcelle(username, path, "");        //on ajoute le fichier a la DB !
         SqlParcelleModel->select();
         return 0;

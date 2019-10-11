@@ -40,7 +40,7 @@ public:
     static ShapeType determineShapeType(const QString& file, QString& errorString);
     static bool loadPolygonFromFile(const QString& file, QList<QGeoCoordinate>& vertices, QString& errorString);
     static bool loadPolylineFromFile(const QString& file, QList<QGeoCoordinate>& coords, QString& errorString);
-    static bool savePolygonToKML(QString path, QmlObjectListModel *_polygonModel);
+    static bool savePolygonToKML(QString path, QmlObjectListModel *_polygonModel, int speed);
 
 private:
     static bool _fileIsKML(const QString& file, QString& errorString);

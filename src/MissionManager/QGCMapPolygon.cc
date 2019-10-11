@@ -518,6 +518,6 @@ void QGCMapPolygon::verifyClockwiseWinding(void)
 
 void QGCMapPolygon::savePolygonToKML(QString path) {
     qDebug() << "the area is  : " << this->area() / 10000 << "hectare";
-    //TODO : ajouter la verif ici !
-    ShapeFileHelper::savePolygonToKML(path, &_polygonModel);
+    //TODO : ajouter la verif ici ! + un form pour la vitesse !
+    ShapeFileHelper::savePolygonToKML(path, &_polygonModel, 0);
 }
