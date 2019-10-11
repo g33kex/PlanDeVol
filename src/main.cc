@@ -28,7 +28,7 @@
 #include "QGCApplication.h"
 #include "AppMessages.h"
 #include "DataManager/DbManager.h"
-#include "Admin/ChecklistController.h"
+#include "Admin/List_file.h"
 
 #include "ParcelleManager.h"
 
@@ -222,6 +222,9 @@ QString username = "foo";
 extern QSqlTableModel *SqlParcelleModel;
 QSqlTableModel *SqlParcelleModel;
 
+extern List_file *checklist;
+List_file *checklist;
+
 /**
  * @brief Starts the application
  *
@@ -402,13 +405,13 @@ int main(int argc, char *argv[])
         db = new DbManager();
         SqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
 
-        ChecklistController *foo = new ChecklistController();
-        foo->initFromFile();
-        qDebug() << foo->count();
-        foo->append("foo1");
-        foo->append("bar2");
-        foo->saveToFile();
-        qDebug() << foo->count();
+        checklist = new List_file("Checklist");
+        checklist->load();
+//        qDebug() << checklist->count();
+//        checklist->append("foo1");
+//        checklist->append("bar2");
+//        checklist->save();
+//        qDebug() << checklist->count();
 
 
         if (!app->_initForNormalAppBoot()) {

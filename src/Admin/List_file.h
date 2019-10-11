@@ -5,12 +5,15 @@
 #define CHECKLISTCONTROLLER_H
 
 
-class ChecklistController : public QList<QString>
+class List_file : public QList<QString>
 {
 public:
-    ChecklistController();
-    void initFromFile();
-    void saveToFile();
+    List_file(QString file);
+    void load();
+    void save();
+
+private:
+    QString _file;
 };
 
 #endif // CHECKLISTCONTROLLER_H

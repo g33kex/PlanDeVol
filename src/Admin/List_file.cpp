@@ -1,18 +1,19 @@
-#include "ChecklistController.h"
+#include "List_file.h"
 #include <QFile>
 #include <QList>
 #include <QString>
 #include <QTextStream>
 
 
-ChecklistController::ChecklistController() :
-    QList<QString> ()
+List_file::List_file(QString file) :
+    QList<QString> (),
+    _file(file)
 { ; }
 
 
 
-void ChecklistController::saveToFile() {
-    QFile file("Checklist");
+void List_file::save() {
+    QFile file(_file);
     file.resize(0);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
@@ -26,9 +27,9 @@ void ChecklistController::saveToFile() {
     file.close();
 }
 
-void ChecklistController::initFromFile() {
+void List_file::load() {
     this->clear();
-    QFile file("Checklist");
+    QFile file(_file);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
