@@ -1,6 +1,7 @@
 #include <QDialog>
 //#include "DbManager.h"
 #include "MissionController.h"
+#include "Admin/GeoportailLink.h"
 
 #include <QSqlTableModel>
 #include <QNetworkReply>
@@ -38,6 +39,7 @@ private:
     QList<QString> *toDel;
     Ui::ParcelleManager *ui;
     MissionController *missionControler;
+    GeoportailLink *geoportailParcelle;
 };
 
 #endif // PARCELLEMANAGER_H

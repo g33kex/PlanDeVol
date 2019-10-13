@@ -10,7 +10,6 @@ GeoportailLink::GeoportailLink() {
     request = *new QNetworkRequest(QUrl("http://url"));
     request.setRawHeader("User-Agent", "MyOwnBrowser 1.0");
     _qnam = new QNetworkAccessManager(this);
-    QObject::connect(_qnam, SIGNAL(finished(QNetworkReply*)), this, SLOT(managerFinished(QNetworkReply*)));
 }
 
 GeoportailLink::~GeoportailLink()

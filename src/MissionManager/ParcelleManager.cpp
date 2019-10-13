@@ -15,7 +15,6 @@ extern QString username;
 extern DbManager *db;
 extern QSqlTableModel *SqlParcelleModel;
 extern List_file *speedParam;
-extern GeoportailLink *geoportailLink;
 
 
 
@@ -34,6 +33,7 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
 {
     ui->setupUi(this);
     toDel = new QList<QString>();
+    geoportailParcelle = new GeoportailLink();
     SqlParcelleModel->setTable("Parcelle");
     SqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 //    QString filtre = QString("owner = \'") + username + QString("\'");
@@ -51,6 +51,7 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     connect(ui->add_B, SIGNAL(clicked()), this, SLOT(requestParcelle()));
     connect(ui->rm_B, SIGNAL(clicked()), this, SLOT(deleteParcelle()));
     connect(ui->save_B, SIGNAL(clicked()), this, SLOT(saveToDb()));
+    connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
 }
 
 ParcelleManager::~ParcelleManager()
@@ -95,7 +96,7 @@ void ParcelleManager::requestParcelle() {
 
     QUrl foo = QUrl("https://wxs.ign.fr/" + APIkey + "/geoportail/wfs?request=GetCapabilities&SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typeName=RPG.2016:parcelles_graphiques&outputFormat=kml&srsname=EPSG:2154&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/fes/2.0%22%3E%20%3CPropertyIsEqualTo%3E%20%3CValueReference%3Eid_parcel%3C/ValueReference%3E%20%3CLiteral%3E"+ NbIlot +"%3C/Literal%3E%20%3C/PropertyIsEqualTo%3E%20%3C/Filter%3E");
 
-    geoportailLink->requestGeo(foo);
+    geoportailParcelle->requestGeo(foo);
     return;
 }
 
@@ -103,6 +104,7 @@ void ParcelleManager::requestReply(QNetworkReply *reply) {
     qDebug() << "requestReply";
     if (reply->error()) {
         qDebug() << reply->errorString();
+        emit downloadEnded(false);
         return;
     }
 
