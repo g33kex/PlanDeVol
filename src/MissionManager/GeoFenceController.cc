@@ -62,10 +62,14 @@ GeoFenceController::GeoFenceController(PlanMasterController* masterController, Q
 
     managerVehicleChanged(_managerVehicle);
 
+    geoportailFence = new GeoportailLink();
+
     connect(this,                       &GeoFenceController::breachReturnPointChanged,  this, &GeoFenceController::_setDirty);
     connect(&_breachReturnAltitudeFact, &Fact::rawValueChanged,                         this, &GeoFenceController::_setDirty);
     connect(&_polygons,                 &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
     connect(&_circles,                  &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
+    connect(geoportailFence, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
+
 }
 
 GeoFenceController::~GeoFenceController()
@@ -194,6 +198,29 @@ bool GeoFenceController::load(const QJsonObject& json, QString& errorString)
     setDirty(false);
 
     return true;
+}
+
+void GeoFenceController::requestFences() {
+
+    QString NbIlot = "9583";
+    QString APIkey = "0ktrk696j3muq3kxsxw22nya";
+
+    QUrl foo = QUrl("https://wxs.ign.fr/" + APIkey + "/geoportail/wfs?request=GetCapabilities&SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typeName=RPG.2016:parcelles_graphiques&outputFormat=kml&srsname=EPSG:2154&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/fes/2.0%22%3E%20%3CPropertyIsEqualTo%3E%20%3CValueReference%3Eid_parcel%3C/ValueReference%3E%20%3CLiteral%3E"+ NbIlot +"%3C/Literal%3E%20%3C/PropertyIsEqualTo%3E%20%3C/Filter%3E");
+
+    geoportailFence->requestGeo(foo);
+    return;
+}
+
+void GeoFenceController::requestReply(QNetworkReply *reply) {
+    qDebug() << "requestReply";
+    if (reply->error()) {
+        qDebug() << reply->errorString();
+        emit downloadEnded(false);
+        return;
+    }
+
+    QString answer = reply->readAll();
+
 }
 
 void GeoFenceController::save(QJsonObject& json)

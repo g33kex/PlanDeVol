@@ -17,6 +17,7 @@
 #include "Vehicle.h"
 #include "MultiVehicleManager.h"
 #include "QGCLoggingCategory.h"
+#include "Admin/GeoportailLink.h"
 
 Q_DECLARE_LOGGING_CATEGORY(GeoFenceControllerLog)
 
@@ -89,6 +90,7 @@ signals:
     void editorQmlChanged               (QString editorQml);
     void loadComplete                   (void);
     void paramCircularFenceChanged      (void);
+    void downloadEnded                  (bool);
 
 private slots:
     void _polygonDirtyChanged       (bool dirty);
@@ -100,6 +102,8 @@ private slots:
     void _managerSendComplete       (bool error);
     void _managerRemoveAllComplete  (bool error);
     void _parametersReady           (void);
+    void requestFences              (void);
+    void requestReply               (QNetworkReply *reply);
 
 private:
     void _init(void);
@@ -113,6 +117,8 @@ private:
     double              _breachReturnDefaultAltitude;
     bool                _itemsRequested;
     Fact*               _px4ParamCircularFenceFact;
+
+    GeoportailLink *geoportailFence;
 
     static QMap<QString, FactMetaData*> _metaDataMap;
 
