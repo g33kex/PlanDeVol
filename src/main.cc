@@ -422,6 +422,8 @@ int main(int argc, char *argv[])
             speedParam->append("80");
         }
 
+//        new ParcelleManager(nullptr, nullptr);
+
         if (!app->_initForNormalAppBoot()) {
             return -1;
         }

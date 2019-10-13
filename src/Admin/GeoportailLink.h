@@ -17,6 +17,11 @@ public:
 
     void requestGeo(QUrl url);
 
+signals:
+    void finished(QNetworkReply*);
+public slots:
+    void Managerfinished(QNetworkReply*);
+
 private:
     QNetworkAccessManager* _qnam;
     QNetworkRequest request;

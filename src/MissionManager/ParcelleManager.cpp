@@ -52,6 +52,9 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     connect(ui->rm_B, SIGNAL(clicked()), this, SLOT(deleteParcelle()));
     connect(ui->save_B, SIGNAL(clicked()), this, SLOT(saveToDb()));
     connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
+
+
+//    requestParcelle();
 }
 
 ParcelleManager::~ParcelleManager()

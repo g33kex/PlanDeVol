@@ -1106,7 +1106,7 @@ contains (DEFINES, QGC_GST_MICROHARD_ENABLED) {
 #-------------------------------------------------------------------------------------
 # AirMap
 
-DEFINES += QGC_AIRMAP_ENABLED
+#DEFINES += QGC_AIRMAP_ENABLED
 
 contains (DEFINES, QGC_AIRMAP_ENABLED) {
 
