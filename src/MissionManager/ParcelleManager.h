@@ -22,12 +22,16 @@ public:
 
     ~ParcelleManager();
 
+signals:
+    void downloadEnded(bool);
+
+
 private slots:
     void deleteParcelle();
     void addToMission();
     void requestParcelle();
     void saveToDb();
-    void requestFinished(QNetworkReply *reply);
+    void requestReply(QNetworkReply *reply);
 
 private:
     //void closeEvent(QCloseEvent *bar);

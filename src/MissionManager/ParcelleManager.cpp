@@ -99,8 +99,8 @@ void ParcelleManager::requestParcelle() {
     return;
 }
 
-void ParcelleManager::requestFinished(QNetworkReply *reply) {
-    qDebug() << "requestFinished";
+void ParcelleManager::requestReply(QNetworkReply *reply) {
+    qDebug() << "requestReply";
     if (reply->error()) {
         qDebug() << reply->errorString();
         return;
@@ -108,11 +108,14 @@ void ParcelleManager::requestFinished(QNetworkReply *reply) {
 
     QString answer = reply->readAll();
 
-    //tester if success !
-
-    qDebug() << answer;
-    ShapeFileHelper::savePolygonFromGeoportail("foo", answer, 2);
-
+    // dans une reponse normale, il n'y a qu'un polygon de decrit.
+    if (answer.count("<Polygon>") == 1) {
+        ShapeFileHelper::savePolygonFromGeoportail("foo", answer, 2);
+        emit downloadEnded(true);
+        return;
+    }
+    qDebug() << "ERROR no awnser or too many";
+    emit downloadEnded(false);
     return;
 }
 
