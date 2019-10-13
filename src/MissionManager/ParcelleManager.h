@@ -3,6 +3,7 @@
 #include "MissionController.h"
 
 #include <QSqlTableModel>
+#include <QNetworkReply>
 
 #ifndef PARCELLEMANAGER_H
 #define PARCELLEMANAGER_H
@@ -24,8 +25,9 @@ public:
 private slots:
     void deleteParcelle();
     void addToMission();
-    void addParcelle();
+    void requestParcelle();
     void saveToDb();
+    void requestFinished(QNetworkReply *reply);
 
 private:
     //void closeEvent(QCloseEvent *bar);

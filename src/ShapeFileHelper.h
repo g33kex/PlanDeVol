@@ -41,6 +41,7 @@ public:
     static bool loadPolygonFromFile(const QString& file, QList<QGeoCoordinate>& vertices, QString& errorString);
     static bool loadPolylineFromFile(const QString& file, QList<QGeoCoordinate>& coords, QString& errorString);
     static bool savePolygonToKML(QString path, QmlObjectListModel *_polygonModel, int speed);
+    static bool savePolygonFromGeoportail(QString filepath, QString content, int speed);
 
 private:
     static bool _fileIsKML(const QString& file, QString& errorString);

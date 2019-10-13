@@ -389,8 +389,10 @@ INCLUDEPATH += \
 #
 
 HEADERS += \
+    src/Admin/GeoportailLink.h \
     src/Admin/List_file.h \
     src/DataManager/DbManager.h \
+    src/DataManager/tinyxml2.h \
     src/MissionManager/ParcelleManager.h \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
@@ -402,8 +404,10 @@ HEADERS += \
     src/ui/Login.h
 
 SOURCES += \
+    src/Admin/GeoportailLink.cpp \
     src/Admin/List_file.cpp \
     src/DataManager/DbManager.cpp \
+    src/DataManager/tinyxml2.cpp \
     src/MissionManager/ParcelleManager.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
@@ -1103,6 +1107,8 @@ contains (DEFINES, QGC_GST_MICROHARD_ENABLED) {
 
 #-------------------------------------------------------------------------------------
 # AirMap
+
+DEFINES += QGC_AIRMAP_ENABLED
 
 contains (DEFINES, QGC_AIRMAP_ENABLED) {
 

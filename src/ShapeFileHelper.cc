@@ -114,6 +114,20 @@ QStringList ShapeFileHelper::fileDialogKMLOrSHPFilters(void) const
     return QStringList(tr("KML/SHP Files (*.%1 *.%2)").arg(AppSettings::kmlFileExtension).arg(AppSettings::shpFileExtension));
 }
 
+bool ShapeFileHelper::savePolygonFromGeoportail(QString filepath, QString content, int speed) {
+    QFile file( filepath );
+    if ( file.open(QIODevice::WriteOnly) ) {
+        QTextStream stream( &file );
+        stream << content;
+        file.close();
+        db->addParcelle(username, filepath, "");        //on ajoute le fichier a la DB !
+        SqlParcelleModel->select();
+        return true;
+    }
+    qDebug() << "ERROR";
+    return -1;
+}
+
 bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygonModel, int speed) {
     QFile file( path );
     if ( file.open(QIODevice::WriteOnly) ) {
