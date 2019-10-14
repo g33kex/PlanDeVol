@@ -18,7 +18,7 @@
 #include "MultiVehicleManager.h"
 #include "QGCLoggingCategory.h"
 #include "QGCComboBox.h"
-#include "ParcelleManager.h"
+#include "ParcelleManagerController.h"
 
 
 Q_DECLARE_LOGGING_CATEGORY(PlanMasterControllerLog)

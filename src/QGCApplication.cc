@@ -512,6 +512,8 @@ void QGCApplication::_initCommon()
     qmlRegisterType<SyslinkComponentController>     (kQGCControllers,                       1, 0, "SyslinkComponentController");
     qmlRegisterType<EditPositionDialogController>   (kQGCControllers,                       1, 0, "EditPositionDialogController");
 
+    qmlRegisterType<ParcelleManagerController>      (kQGCControllers,                       1, 0, "ParcelleManagerController");
+
 #ifndef __mobile__
 #ifndef NO_SERIAL_LINK
     qmlRegisterType<FirmwareUpgradeController>      (kQGCControllers,                       1, 0, "FirmwareUpgradeController");
@@ -544,6 +546,17 @@ bool QGCApplication::_initForNormalAppBoot()
     connect(this, &QGCApplication::lastWindowClosed, this, QGCApplication::quit);
 
     _qmlAppEngine = toolbox()->corePlugin()->createRootWindow(this);
+
+    ParcelleSqlModel *model = new ParcelleSqlModel();
+    model->setTable("Parcelle");
+    model->select();
+    model->generateRoleNames();
+
+    qDebug() << "creating context";
+    QQmlContext *ctxt = _qmlAppEngine->rootContext();
+    ctxt->setContextProperty("myModel", model);
+
+
 
     // Now that main window is up check for lost log files
     connect(this, &QGCApplication::checkForLostLogFiles, toolbox()->mavlinkProtocol(), &MAVLinkProtocol::checkForLostLogFiles);

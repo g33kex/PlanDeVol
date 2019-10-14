@@ -390,7 +390,8 @@ INCLUDEPATH += \
 
 HEADERS += \
     src/DataManager/DbManager.h \
-    src/MissionManager/ParcelleManager.h \
+    src/MissionManager/ParcelleManagerController.h \
+    src/MissionManager/ParcelleSqlModel.hpp \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
@@ -402,7 +403,8 @@ HEADERS += \
 
 SOURCES += \
     src/DataManager/DbManager.cpp \
-    src/MissionManager/ParcelleManager.cpp \
+    src/MissionManager/ParcelleManagerController.cpp \
+    src/MissionManager/ParcelleSqlModel.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \

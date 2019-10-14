@@ -177,15 +177,10 @@ Item {
         }
     }
 
-    Dialog {
-        id: parcelleManager
-        title: "parcelleManager"
-        modality: Qt.WindowModal
-        standardButtons: Dialog.Ok | Dialog.Cancel
-        visible: false
+    ParcelleManager {
+        id: _parcelleManager
 
-        onAccepted: console.log("Ok clicked")
-        onRejected: console.log("Cancel clicked")
+
     }
 
     PlanMasterController {
@@ -964,7 +959,7 @@ Item {
                 Layout.fillWidth:   true
                 onClicked: {
                    // _planMasterController.showParcelleManager()
-                    parcelleManager.visible=true
+                    _parcelleManager.show()
                 }
 
             }

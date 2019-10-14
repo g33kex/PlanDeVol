@@ -29,7 +29,7 @@
 #include "AppMessages.h"
 #include "DataManager/DbManager.h"
 
-#include "ParcelleManager.h"
+#include "ParcelleManagerController.h"
 
 #ifndef __mobile__
     #include "QGCSerialPortInfo.h"
