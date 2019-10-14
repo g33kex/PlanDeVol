@@ -82,6 +82,7 @@ public:
     QmlObjectListModel* polygons                (void) { return &_polygons; }
     QmlObjectListModel* circles                 (void) { return &_circles; }
     QGeoCoordinate      breachReturnPoint       (void) const { return _breachReturnPoint; }
+    QmlObjectListModel* polylines               (void)  { return &_polylines;}
 
     void setBreachReturnPoint(const QGeoCoordinate& breachReturnPoint);
 
@@ -116,6 +117,7 @@ private:
     bool                _dirty;
     QmlObjectListModel  _polygons;
     QmlObjectListModel  _circles;
+    QmlObjectListModel  _polylines;
     QGeoCoordinate      _breachReturnPoint;
     Fact                _breachReturnAltitudeFact;
     double              _breachReturnDefaultAltitude;

@@ -23,6 +23,7 @@
 #include "PlanMasterController.h"
 #include "SettingsManager.h"
 #include "AppSettings.h"
+#include "QGCMapPolyline.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -59,7 +60,7 @@ GeoFenceController::GeoFenceController(PlanMasterController* masterController, Q
 
     connect(&_polygons, &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
     connect(&_circles,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
-
+    //connect(&_polylines,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
     managerVehicleChanged(_managerVehicle);
 
     geoportailFence = new GeoportailLink();
@@ -68,6 +69,7 @@ GeoFenceController::GeoFenceController(PlanMasterController* masterController, Q
     connect(&_breachReturnAltitudeFact, &Fact::rawValueChanged,                         this, &GeoFenceController::_setDirty);
     connect(&_polygons,                 &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
     connect(&_circles,                  &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
+    //connect(&_polylines,                 &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
     connect(geoportailFence, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyGeoFence(QNetworkReply*)));
     connect(geoportailHT, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyHT(QNetworkReply*)));
 
@@ -637,7 +639,7 @@ void GeoFenceController::parsesMultiplePolyline(QString source) {
     //root->features
     QJsonArray array = jsonObject["features"].toArray();
     foreach (const QJsonValue & v, array) {
-        QGCFencePolygon* fencePolygon = new QGCFencePolygon(false /* inclusion */, this /* parent */);
+        QGCMapPolyline* polylineHT = new QGCMapPolyline(nullptr);
         QList<QGeoCoordinate> *path = new QList<QGeoCoordinate>();
         //features->geometry->coordiantes ([0]..[0] -> array in a array in a array
         QJsonArray array_bla = v.toObject()["geometry"].toObject()["coordinates"].toArray();
@@ -650,7 +652,8 @@ void GeoFenceController::parsesMultiplePolyline(QString source) {
             path->append(*coord);
         }
 
-        //TO ADD to a polyline !!
+        polylineHT->setPath(*path);
+        _polylines.append(polylineHT);
     }
 }
 
