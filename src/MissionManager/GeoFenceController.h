@@ -109,6 +109,8 @@ private slots:
 
 private:
     void _init(void);
+    void parsesMultiplePolygon(QString source);
+    void parsesMultiplePolyline(QString source);
 
     GeoFenceManager*    _geoFenceManager;
     bool                _dirty;
