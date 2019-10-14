@@ -103,7 +103,9 @@ private slots:
     void _managerRemoveAllComplete  (bool error);
     void _parametersReady           (void);
     void requestFences              (void);
-    void requestReply               (QNetworkReply *reply);
+    void requestReplyGeoFence       (QNetworkReply *reply);
+    void requestHT                  (void);
+    void requestReplyHT             (QNetworkReply *reply);
 
 private:
     void _init(void);
@@ -118,7 +120,8 @@ private:
     bool                _itemsRequested;
     Fact*               _px4ParamCircularFenceFact;
 
-    GeoportailLink *geoportailFence;
+    GeoportailLink      *geoportailFence;
+    GeoportailLink      *geoportailHT;
 
     static QMap<QString, FactMetaData*> _metaDataMap;
 
