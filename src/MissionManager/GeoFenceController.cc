@@ -500,8 +500,6 @@ void GeoFenceController::addInclusionPolygon(QGeoCoordinate topLeft, QGeoCoordin
 
     clearAllInteractive();
     polygon->setInteractive(true);
-
-    requestFences();
 }
 
 void GeoFenceController::addInclusionCircle(QGeoCoordinate topLeft, QGeoCoordinate bottomRight)
