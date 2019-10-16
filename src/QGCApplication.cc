@@ -461,6 +461,7 @@ void QGCApplication::_initCommon()
 
     QSettings settings;
 
+
     // Register our Qml objects
 
     qmlRegisterType<QGCPalette>     ("QGroundControl.Palette", 1, 0, "QGCPalette");
@@ -528,6 +529,8 @@ void QGCApplication::_initCommon()
     qmlRegisterSingletonType<ScreenToolsController>     ("QGroundControl.ScreenToolsController",    1, 0, "ScreenToolsController",  screenToolsControllerSingletonFactory);
     qmlRegisterSingletonType<ShapeFileHelper>           ("QGroundControl.ShapeFileHelper",          1, 0, "ShapeFileHelper",        shapeFileHelperSingletonFactory);
 
+    qmlRegisterType<SqlParcelleModel>                   ("QGroundControl",                          1, 0, "SqlParcelleModel");
+
 }
 
 bool QGCApplication::_initForNormalAppBoot()
@@ -545,18 +548,8 @@ bool QGCApplication::_initForNormalAppBoot()
     // Exit main application when last window is closed
     connect(this, &QGCApplication::lastWindowClosed, this, QGCApplication::quit);
 
+
     _qmlAppEngine = toolbox()->corePlugin()->createRootWindow(this);
-
-    ParcelleSqlModel *model = new ParcelleSqlModel();
-    model->setTable("Parcelle");
-    model->select();
-    model->generateRoleNames();
-
-    qDebug() << "creating context";
-    QQmlContext *ctxt = _qmlAppEngine->rootContext();
-    ctxt->setContextProperty("myModel", model);
-
-
 
     // Now that main window is up check for lost log files
     connect(this, &QGCApplication::checkForLostLogFiles, toolbox()->mavlinkProtocol(), &MAVLinkProtocol::checkForLostLogFiles);

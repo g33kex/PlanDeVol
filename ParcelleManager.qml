@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
+import QtQuick.Controls 1.4
 import QtGraphicalEffects 1.0
 import QtLocation 5.11
 import QtPositioning 5.11
@@ -8,6 +9,7 @@ import QtPositioning 5.11
 
 import QGroundControl                   1.0
 import QGroundControl.Controllers       1.0
+
 
 
 
@@ -24,51 +26,10 @@ Item {
     }
 
     function show() {
+        parcelleModel.setupForParcelle()
         popup.open()
     }
 
-   /* Dialog {
-        id: _dialog
-        title: "parcelleManager"
-        modality: Qt.WindowModal
-        standardButtons: Dialog.Ok | Dialog.Cancel
-        visible: false
-
-        onAccepted: console.log("Ok clicked")
-        onRejected: console.log("Cancel clicked")
-    }*/
-
-   /* GridLayout {
-        id: grid
-        visible: false
-        columns: 2
-        Text { text: "Three"; font.bold: true; }
-         Text { text: "words"; color: "red" }
-         Text { text: "in"; font.underline: true }
-         Text { text: "a"; font.pixelSize: 20 }
-         Text { text: "row"; font.strikeout: true }
-
-         Rectangle { id: one }
-         Rectangle { id: two }
-
-    }*/
-   /* Window {
-        visible: true
-        modality: Qt.WindowModal
-        Rectangle {
-        id: page
-        width: 320; height: 480
-        color: "lightgray"
-
-        Text {
-            id: helloText
-            text: "Hello world!"
-            y: 30
-            anchors.horizontalCenter: page.horizontalCenter
-            font.pointSize: 24; font.bold: true
-        }
-    }
-    }*/
     Popup {
          id: popup
          width: parent.width
@@ -95,12 +56,6 @@ Item {
                 columns: 3
                 rows: 3
                 anchors.fill: parent
-               /* ListView {
-                    Layout.columnSpan: 3
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    model: _parcelleManagerController.getSqlParcelleModel()
-                }*/
                Rectangle {
                     Layout.columnSpan: 3
                     Layout.fillWidth: true
@@ -108,72 +63,44 @@ Item {
                     color: "white"
                     id: page1
 
-                    Text {
-                        id: name
+                    SqlParcelleModel {
+                        id: parcelleModel
+
+                    }
+                   /* ListView {
                         anchors.fill: parent
-                        text: parcelleSqlModel.name
-                        font.bold: true; font.pointSize: 16
-                        color: "white"
-                    }
-
-                    Text {
+                        model: parcelleModel
+                        delegate: Text { text: parcelleModel.owner }
+                    }*/
+                    TableView {
+                        id: tableView
                         anchors.fill: parent
-                        text: "Amount: " + parcelleSqlModel.qta
-                        font.pointSize: 16
-                        opacity: 1
-                        color: "white"
-                    }
+                        TableViewColumn {
+                            role: "owner"
+                            title: "Owner"
+                            movable: false
+                            width: 2*tableView.width/8
+                        }
+                        TableViewColumn {
+                            role: "parcelleFile"
+                            title: "ParcelleFile"
+                            movable : false
+                            width: 4*tableView.width/8
+                        }
+                        TableViewColumn {
+                            role: "type"
+                            title: "Type"
+                            movable: false
+                            width: tableView.width/8
+                        }
+                        TableViewColumn {
+                            role: "speed"
+                            title: "Speed"
+                            movable: false
+                            width: tableView.width/8
+                        }
 
-                    ListModel {
-                        id: nameModel
-                        ListElement { name: "Alice" }
-                        ListElement { name: "Bob" }
-                        ListElement { name: "Jane" }
-                        ListElement { name: "Harry" }
-                        ListElement { name: "Wendy" }
-                    }
-                    Component {
-                        id: nameDelegate
-                        Text {
-                            text: name;
-                            font.pixelSize: 24
-                        }
-                    }
-
-                    ListView {
-                        anchors.fill: parent
-                        clip: true
-                        model: nameModel
-                        delegate: nameDelegate
-                        header: bannercomponent
-                        footer: Rectangle {
-                            width: parent.width; height: 30;
-                            gradient: clubcolors
-                        }
-                        highlight: Rectangle {
-                            width: parent.width
-                            color: "lightgray"
-                        }
-                    }
-
-                    Component {     //instantiated when header is processed
-                        id: bannercomponent
-                        Rectangle {
-                            id: banner
-                            width: parent.width; height: 50
-                            gradient: clubcolors
-                            border {color: "#9EDDF2"; width: 2}
-                            Text {
-                                anchors.centerIn: parent
-                                text: "Club Members"
-                                font.pixelSize: 32
-                            }
-                        }
-                    }
-                    Gradient {
-                        id: clubcolors
-                        GradientStop { position: 0.0; color: "#8EE2FE"}
-                        GradientStop { position: 0.66; color: "#7ED2EE"}
+                        model: parcelleModel
                     }
                }
 
@@ -181,7 +108,7 @@ Item {
                       id: myModel
                       ListElement { type: "Dog"; age: 8 }
                       ListElement { type: "Cat"; age: 5 }
-                  }
+                  }*/
 
                   Component {
                       id: myDelegate
@@ -193,7 +120,7 @@ Item {
                       }
                   }
 
-                  ListView {
+                 /* ListView {
                       anchors.fill: parent
                       model: myModel
                       delegate: myDelegate
@@ -208,7 +135,7 @@ Item {
                     Layout.margins : margin
                     text: "Add Parcelle"
                     onClicked: {
-                        _parcelleManagerController.addParcelle()
+                        _parcelleManagerController.addParcelle(parcelleModel)
                     }
                 }
                 Button {
@@ -216,7 +143,10 @@ Item {
                     Layout.margins : margin
                     text: "Remove Parcelle"
                     onClicked: {
-                        _parcelleManagerController.deleteParcelle()
+                        tableView.selection.forEach( function(rowIndex) {
+                            console.log(rowIndex)
+                            _parcelleManagerController.deleteParcelle(parcelleModel,rowIndex)
+                        } )
                     }
                 }
                 Button {
@@ -231,7 +161,6 @@ Item {
 
                     Layout.margins : margin
                     Layout.columnSpan: 2
-                    //Layout.preferredWidth: parent.width/2
                     Layout.fillWidth: true
 
                     Layout.alignment: Qt.AlignHCenter
@@ -244,17 +173,7 @@ Item {
                     onClicked: {
                         popup.close()
                     }
-                }
-               /* GroupBox {
-                title:"map types"
-                               ComboBox{
-                                  model:map.supportedMapTypes
-                                   textRole:"description"
-                                   onCurrentIndexChanged: {map.activeMapType = map.supportedMapTypes[currentIndex]; print(currentIndex); print(map.supportedMapTypes[currentIndex])}
-
-                               }
-                }*/
-
+                 }
             }
             }
             Plugin {
@@ -283,90 +202,7 @@ Item {
 
 
         }
-
-      /*   ColumnLayout {
-               id: mainLayout
-               anchors.fill: parent
-               anchors.margins: margin
-               GroupBox {
-                   id: rowBox
-                   title: "Row layout"
-                   Layout.fillWidth: true
-
-                   RowLayout {
-                       id: rowLayout
-                       anchors.fill: parent
-                       TextField {
-                           placeholderText: "This wants to grow horizontally"
-                           Layout.fillWidth: true
-                       }
-                       Button {
-                           text: "Button"
-                       }
-                   }
-               }
-
-               GroupBox {
-                   id: gridBox
-                   title: "Grid layout"
-                   Layout.fillWidth: true
-
-                   GridLayout {
-                       id: gridLayout
-                       rows: 3
-                       flow: GridLayout.TopToBottom
-                       anchors.fill: parent
-
-                       Label { text: "Line 1" }
-                       Label { text: "Line 2" }
-                       Label { text: "Line 3" }
-
-                       TextField { }
-                       TextField { }
-                       TextField { }
-
-                       TextArea {
-                           text: "This widget spans over three rows in the GridLayout.\n"
-                               + "All items in the GridLayout are implicitly positioned from top to bottom."
-                           Layout.rowSpan: 3
-                           Layout.fillHeight: true
-                           Layout.fillWidth: true
-                       }
-                   }
-               }
-               TextArea {
-                   id: t3
-                   text: "This fills the whole cell"
-                   Layout.minimumHeight: 30
-                   Layout.fillHeight: true
-                   Layout.fillWidth: true
-               }
-               GroupBox {
-                   id: stackBox
-                   title: "Stack layout"
-                   implicitWidth: 200
-                   implicitHeight: 60
-                   Layout.fillWidth: true
-                   Layout.fillHeight: true
-                   StackLayout {
-                       id: stackLayout
-                       anchors.fill: parent
-
-                       function advance() { currentIndex = (currentIndex + 1) % count }
-
-                       Repeater {
-                           id: stackRepeater
-                           model: 5
-                           Rectangle {
-                               color: Qt.hsla((0.5 + index)/stackRepeater.count, 0.3, 0.7, 1)
-                               Button { anchors.centerIn: parent; text: "Page " + (index + 1); onClicked: { stackLayout.advance() } }
-                           }
-                       }
-                   }
-               }
-         }*/
     }
-
 
 
 }

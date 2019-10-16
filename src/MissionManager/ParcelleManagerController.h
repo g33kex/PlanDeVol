@@ -1,6 +1,6 @@
 //#include "DbManager.h"
 #include "MissionController.h"
-#include "ParcelleSqlModel.hpp"
+#include "SqlParcelleModel.hpp"
 
 #include <QSqlTableModel>
 
@@ -22,9 +22,9 @@ public:
    // Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 
 public slots:
-    void deleteParcelle();
+    void deleteParcelle(SqlParcelleModel *model, int index);
     void addToMission();
-    void addParcelle();
+    void addParcelle(SqlParcelleModel *model);
     void saveToDb();
 
 private:

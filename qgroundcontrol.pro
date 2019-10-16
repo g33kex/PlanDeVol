@@ -36,6 +36,7 @@ QML_IMPORT_PATH += $$PWD/src/QmlControls
 #
 # OS Specific settings
 #
+QMAKE_CXX =ccache g++
 
 MacBuild {
     QMAKE_INFO_PLIST    = Custom-Info.plist
@@ -391,7 +392,7 @@ INCLUDEPATH += \
 HEADERS += \
     src/DataManager/DbManager.h \
     src/MissionManager/ParcelleManagerController.h \
-    src/MissionManager/ParcelleSqlModel.hpp \
+    src/MissionManager/SqlParcelleModel.hpp \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
@@ -404,7 +405,7 @@ HEADERS += \
 SOURCES += \
     src/DataManager/DbManager.cpp \
     src/MissionManager/ParcelleManagerController.cpp \
-    src/MissionManager/ParcelleSqlModel.cpp \
+    src/MissionManager/SqlParcelleModel.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \

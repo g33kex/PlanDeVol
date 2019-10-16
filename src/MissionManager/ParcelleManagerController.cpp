@@ -17,9 +17,9 @@ ParcelleManagerController::ParcelleManagerController(MissionController *missionC
 {
     toDel = new QList<QString>();
 
-    ParcelleSqlModel *model = new  ParcelleSqlModel;
+    SqlParcelleModel *model = new  SqlParcelleModel;
 
-    model = new ParcelleSqlModel();
+    model = new SqlParcelleModel();
     model->generateRoleNames();
     model->select();
 
@@ -51,7 +51,8 @@ ParcelleManagerController::~ParcelleManagerController()
 }
 
 
-void ParcelleManagerController::deleteParcelle() {
+void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, int index) {
+    qDebug() << "Removing " << index;
   /*  qDebug() << "in userSpace::deleteParcelle";
     QModelIndexList selection = ui->sqlView->selectionModel()->selectedRows();
     for(int i=0; i< selection.count(); i++)
@@ -61,6 +62,11 @@ void ParcelleManagerController::deleteParcelle() {
         toDel->append(SqlParcelleModel->record(index.row()).value("parcelleFile").toString());
         SqlParcelleModel->removeRow(index.row());
     }*/
+    model->removeRow(index);
+    model->submitAll();
+
+
+
 }
 
 
@@ -79,8 +85,22 @@ void ParcelleManagerController::addToMission() {
     this->deleteLater();*/
 }
 
-void ParcelleManagerController::addParcelle() {
-    return;
+void ParcelleManagerController::addParcelle(SqlParcelleModel *model) {
+    QSqlRecord newRecord = model->record();
+    newRecord.setValue("owner", QVariant("John Grisham"));
+    newRecord.setValue("parcelleFile", QVariant("The Litigators"));
+    newRecord.setValue("type", QVariant("test"));
+    newRecord.setValue("speed",QVariant(10));
+  //  qDebug() << "Insert row" << model->insertRecord(model->rowCount(), newRecord);
+
+    /*-1 is set to indicate that it will be added to the last row*/
+
+    if(model->insertRecord(-1, newRecord))
+        qDebug()<<"successful insertion" << newRecord.value("owner") << "was its owner";
+    model->submitAll();
+    QSqlRecord  writtenRec( model->record(model->rowCount() - 1 ) );
+    qDebug() << "owner of inserted record: " << writtenRec.value("owner") << "row field name 0" << writtenRec.fieldName(0);
+
 }
 
 /*void ParcelleManager::closeEvent(QCloseEvent *bar) {
