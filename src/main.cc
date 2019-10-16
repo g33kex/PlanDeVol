@@ -215,12 +215,18 @@ bool checkAndroidWritePermission() {
 
 //-----------------------------------------------------------------------------
 
-extern DbManager *db;
-DbManager *db;;
+
 extern QString username;
 QString username = "foo";
+
+extern DbManager *db;
+DbManager *db;
 extern QSqlTableModel *SqlParcelleModel;
 QSqlTableModel *SqlParcelleModel;
+extern QSqlTableModel *SqlUserModel;
+QSqlTableModel *SqlUserModel;
+extern QSqlTableModel *SqlMissionModel;
+QSqlTableModel *SqlMissionModel;
 
 extern List_file *checklist;
 List_file *checklist;
@@ -406,11 +412,27 @@ int main(int argc, char *argv[])
 #endif
         db = new DbManager();
         SqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
+        SqlParcelleModel->setTable("Parcelle");
+        SqlUserModel = new QSqlTableModel(nullptr, db->getDB());
+        SqlUserModel->setTable("Person");
+        SqlMissionModel = new QSqlTableModel(nullptr, db->getDB());
+        SqlMissionModel->setTable("Mission");
 
-        checklist = new List_file("Checklist");
-        if (! checklist->load()) {
-            qDebug() << "checklist file is empty";
-        }
+//        QSqlRecord record = SqlParcelleModel->record();
+
+//        record.setValue("owner", "foo");
+//        record.setValue("parcelleFile", "fooFile");
+//        record.setValue("type", "fooType");
+//        record.setValue("speed", 2);
+//        /*-1 is set to indicate that it will be added to the last row*/
+//        if(SqlParcelleModel->insertRecord(-1, record)){
+//            qDebug()<<"successful insertion";
+//            SqlParcelleModel->submitAll();
+//        }
+//        checklist = new List_file("Checklist");
+//        if (! checklist->load()) {
+//            qDebug() << "checklist file is empty";
+//        }
 
         speedParam = new List_file("SpeedParam");
         //param par defaut if the file is empty

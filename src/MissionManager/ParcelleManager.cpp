@@ -34,7 +34,6 @@ ParcelleManager::ParcelleManager(QWidget *parent, MissionController *missionCont
     ui->setupUi(this);
     toDel = new QList<QString>();
     geoportailParcelle = new GeoportailLink();
-    SqlParcelleModel->setTable("Parcelle");
     SqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 //    QString filtre = QString("owner = \'") + username + QString("\'");
 //    qDebug() << filtre;

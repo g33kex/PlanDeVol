@@ -36,7 +36,7 @@ const char* PlanMasterController::kJsonRallyPointsObjectKey =   "rallyPoints";
 
 extern QString username;
 extern DbManager *db;
-extern QSqlTableModel *SqlParcelleModel;
+extern QSqlTableModel *SqlMissionModel;
 
 PlanMasterController::PlanMasterController(QObject* parent)
     : QObject                   (parent)
