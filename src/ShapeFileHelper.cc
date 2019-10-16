@@ -20,7 +20,7 @@
 const char* ShapeFileHelper::_errorPrefix = QT_TR_NOOP("Shape file load failed. %1");
 extern QString username;
 extern DbManager *db;
-extern QSqlTableModel *sqlParcelleModel;
+//extern QSqlTableModel *sqlParcelleModel;
 
 
 QVariantList ShapeFileHelper::determineShapeType(const QString& file)
@@ -142,7 +142,7 @@ bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygo
         stream << "</kml>" << endl;
         file.close();
         db->addParcelle(username, path, "");        //on ajoute le fichier a la DB !
-        sqlParcelleModel->select();
+//        sqlParcelleModel->select();
         return 0;
     }
     qDebug() << "ERROR";

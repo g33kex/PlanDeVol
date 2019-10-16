@@ -16,7 +16,7 @@ public:
     explicit SqlParcelleModel(QObject *parent = nullptr);
 
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
-    Q_INVOKABLE bool setData(const QModelIndex &item, const QVariant &value, int role) override;
+//    Q_INVOKABLE bool setData(const QModelIndex &item, const QVariant &value, int role) override;
 
     void generateRoleNames();
 

@@ -17,29 +17,28 @@ ParcelleManagerController::ParcelleManagerController(MissionController *missionC
 {
     toDel = new QList<QString>();
 
-    SqlParcelleModel *model = new SqlParcelleModel();
-    model->setTable("Parcelle");
-    model->generateRoleNames();
-    model->select();
+//    SqlParcelleModel *model = new SqlParcelleModel();
+//    model->generateRoleNames();
+//    model->select();
 
 
-    /*sqlParcelleModel->setTable("Parcelle");
-    sqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+//    sqlParcelleModel->setTable("Parcelle");
+//    sqlParcelleModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 //    QString filtre = QString("owner = \'") + username + QString("\'");
 //    qDebug() << filtre;
 //    SqlParcelleModel->setFilter(filtre);
-    sqlParcelleModel->select();
-    sqlParcelleModel->setHeaderData(0, Qt::Horizontal, tr("owner"));
-    sqlParcelleModel->setHeaderData(1, Qt::Horizontal, tr("file"));
-    sqlParcelleModel->setHeaderData(2, Qt::Horizontal, tr("type"));
-    sqlParcelleModel->setHeaderData(3, Qt::Horizontal, tr("id"));*/
+//    sqlParcelleModel->select();
+//    sqlParcelleModel->setHeaderData(0, Qt::Horizontal, tr("owner"));
+//    sqlParcelleModel->setHeaderData(1, Qt::Horizontal, tr("file"));
+//    sqlParcelleModel->setHeaderData(2, Qt::Horizontal, tr("type"));
+//    sqlParcelleModel->setHeaderData(3, Qt::Horizontal, tr("id"));*/
 
-    //ui->sqlView->setModel(SqlParcelleModel);
+//    ui->sqlView->setModel(SqlParcelleModel);
 
-    /*connect(ui->mission_B, SIGNAL(clicked()), this, SLOT(addToMission()));
-    connect(ui->add_B, SIGNAL(clicked()), this, SLOT(addParcelle()));
-    connect(ui->rm_B, SIGNAL(clicked()), this, SLOT(deleteParcelle()));
-    connect(ui->save_B, SIGNAL(clicked()), this, SLOT(saveToDb()));*/
+//    connect(ui->mission_B, SIGNAL(clicked()), this, SLOT(addToMission()));
+//    connect(ui->add_B, SIGNAL(clicked()), this, SLOT(addParcelle()));
+//    connect(ui->rm_B, SIGNAL(clicked()), this, SLOT(deleteParcelle()));
+//    connect(ui->save_B, SIGNAL(clicked()), this, SLOT(saveToDb()));
 }
 
 ParcelleManagerController::ParcelleManagerController() {}
@@ -86,19 +85,20 @@ void ParcelleManagerController::addToMission() {
 
 void ParcelleManagerController::addParcelle(SqlParcelleModel *model) {
     QSqlRecord newRecord = model->record();
-    newRecord.setValue("owner", QVariant("John Grisham"));
+    newRecord.setValue("owner", QVariant("foo"));
     newRecord.setValue("parcelleFile", QVariant("The Litigators"));
     newRecord.setValue("type", QVariant("test"));
-    newRecord.setValue("speed",QVariant(10));
-  //  qDebug() << "Insert row" << model->insertRecord(model->rowCount(), newRecord);
+    newRecord.setValue("speed",QVariant(int(2)));
+//  qDebug() << "Insert row" << model->insertRecord(model->rowCount(), newRecord);
 
     /*-1 is set to indicate that it will be added to the last row*/
 
-    if(model->insertRecord(-1, newRecord))
+    if(model->insertRecord(-1, newRecord)) {
         qDebug()<<"successful insertion" << newRecord.value("owner") << "was its owner";
-    model->submitAll();
-    QSqlRecord  writtenRec( model->record(model->rowCount() - 1 ) );
-    qDebug() << "owner of inserted record: " << writtenRec.value("owner") << "row field name 0" << writtenRec.fieldName(0);
+        model->submitAll();
+    }
+//    QSqlRecord  writtenRec( model->record(model->rowCount() - 1 ) );
+//    qDebug() << "owner of inserted record: " << writtenRec.value("owner") << "row field name 0" << writtenRec.fieldName(0);
 
 }
 

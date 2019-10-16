@@ -34,18 +34,18 @@ QVariant SqlParcelleModel::data(const QModelIndex &index, int role) const {
 
 }
 
-bool SqlParcelleModel::setData(const QModelIndex &item, const QVariant &value, int role)
-{
-    qDebug() << "Setting data with value" << value;
-    if (item.isValid() && role == Qt::EditRole) {
-        ((QSqlTableModel) this->parent()).setData(item,value,role);
-       // qDebug() << "validata=" << QSqlTableModel::setData(item, value,role);
-        emit dataChanged(item, item);
-        return true;
-    }
-    return false;
+//bool SqlParcelleModel::setData(const QModelIndex &item, const QVariant &value, int role)
+//{
+//    qDebug() << "Setting data with value" << value;
+//    if (item.isValid() && role == Qt::EditRole) {
+//        ((QSqlTableModel) this->parent()).setData(item,value,role);
+//       // qDebug() << "validata=" << QSqlTableModel::setData(item, value,role);
+//        emit dataChanged(item, item);
+//        return true;
+//    }
+//    return false;
 
-}
+//}
 
 void SqlParcelleModel::generateRoleNames()
 {

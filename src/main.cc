@@ -218,8 +218,8 @@ extern DbManager *db;
 DbManager *db;;
 extern QString username;
 QString username = "foo";
-extern QSqlTableModel *sqlParcelleModel;
-QSqlTableModel *sqlParcelleModel;
+//extern QSqlTableModel *sqlParcelleModel;
+//QSqlTableModel *sqlParcelleModel;
 
 /**
  * @brief Starts the application
@@ -400,39 +400,39 @@ int main(int argc, char *argv[])
 #endif
         db = new DbManager();
 
-        sqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
-        sqlParcelleModel->setTable("Parcelle");
-        sqlParcelleModel->select();
-        sqlParcelleModel->insertRow(sqlParcelleModel->rowCount());
-        qDebug() << "row count:" << sqlParcelleModel->rowCount();
+//        sqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
+//        sqlParcelleModel->setTable("Parcelle");
+//        sqlParcelleModel->select();
+//        sqlParcelleModel->insertRow(sqlParcelleModel->rowCount());
+//        qDebug() << "row count:" << sqlParcelleModel->rowCount();
 
     /*    sqlUserModel = new QSqlTableModel(nullptr, db->getDB());
         sqlUserModel->setTable("Person");
         sqlMissionModel = new QSqlTableModel(nullptr, db->getDB());
         sqlMissionModel->setTable("Mission");*/
 
-        QSqlRecord record = sqlParcelleModel->record();
+//        QSqlRecord record = sqlParcelleModel->record();
 
-        record.setValue("owner", "bonsoir");
-        record.setValue("parcelleFile", "fooFooile");
-        record.setValue("type", "fooTooype");
-        record.setValue("speed", 2);
-        /*-1 is set to indicate that it will be added to the last row*/
-        if(sqlParcelleModel->insertRecord(-1, record)){
-            qDebug()<<"successful insertion with value " << record.value("owner");
-            sqlParcelleModel->submitAll();
-        }
-        else {
+//        record.setValue("owner", "bonsoir");
+//        record.setValue("parcelleFile", "fooFooile");
+//        record.setValue("type", "fooTooype");
+//        record.setValue("speed", 2);
+//        /*-1 is set to indicate that it will be added to the last row*/
+//        if(sqlParcelleModel->insertRecord(-1, record)){
+//            qDebug()<<"successful insertion with value " << record.value("owner");
+//            sqlParcelleModel->submitAll();
+//        }
+//        else {
 
-            qDebug() << "could not insert data";
-        }
-        qDebug() << "row count:" << sqlParcelleModel->rowCount();
+//            qDebug() << "could not insert data";
+//        }
+//        qDebug() << "row count:" << sqlParcelleModel->rowCount();
 
-        for(int i=0; i<10;i++) {
+//        for(int i=0; i<10;i++) {
 
-            qDebug() << "row: " << sqlParcelleModel->record(i).value("owner");
+//            qDebug() << "row: " << sqlParcelleModel->record(i).value("owner");
 
-        }
+//        }
 
         if (!app->_initForNormalAppBoot()) {
             return -1;
