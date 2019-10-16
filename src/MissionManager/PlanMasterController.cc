@@ -571,8 +571,8 @@ void PlanMasterController::_showPlanFromManagerVehicle(void)
 
 void PlanMasterController::showParcelleManager(void) {
 
-    ParcelleManager* parcelleManager = new ParcelleManager(nullptr,missionController());
-    parcelleManager->show();
+   /* ParcelleManager* parcelleManager = new ParcelleManager(nullptr,missionController());
+    parcelleManager->show();*/
 }
 
 bool PlanMasterController::syncInProgress(void) const

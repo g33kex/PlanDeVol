@@ -45,6 +45,7 @@ MacBuild {
 }
 
 LinuxBuild {
+	QMAKE_CXX =ccache g++
     CONFIG  += qesp_linux_udev
 }
 
@@ -392,7 +393,8 @@ HEADERS += \
     src/Admin/GeoportailLink.h \
     src/Admin/List_file.h \
     src/DataManager/DbManager.h \
-    src/MissionManager/ParcelleManager.h \
+    src/MissionManager/ParcelleManagerController.h \
+    src/MissionManager/SqlParcelleModel.hpp \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
@@ -406,7 +408,8 @@ SOURCES += \
     src/Admin/GeoportailLink.cpp \
     src/Admin/List_file.cpp \
     src/DataManager/DbManager.cpp \
-    src/MissionManager/ParcelleManager.cpp \
+    src/MissionManager/ParcelleManagerController.cpp \
+    src/MissionManager/SqlParcelleModel.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \

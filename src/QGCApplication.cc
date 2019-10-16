@@ -461,6 +461,7 @@ void QGCApplication::_initCommon()
 
     QSettings settings;
 
+
     // Register our Qml objects
 
     qmlRegisterType<QGCPalette>     ("QGroundControl.Palette", 1, 0, "QGCPalette");
@@ -512,6 +513,8 @@ void QGCApplication::_initCommon()
     qmlRegisterType<SyslinkComponentController>     (kQGCControllers,                       1, 0, "SyslinkComponentController");
     qmlRegisterType<EditPositionDialogController>   (kQGCControllers,                       1, 0, "EditPositionDialogController");
 
+    qmlRegisterType<ParcelleManagerController>      (kQGCControllers,                       1, 0, "ParcelleManagerController");
+
 #ifndef __mobile__
 #ifndef NO_SERIAL_LINK
     qmlRegisterType<FirmwareUpgradeController>      (kQGCControllers,                       1, 0, "FirmwareUpgradeController");
@@ -525,6 +528,8 @@ void QGCApplication::_initCommon()
     qmlRegisterSingletonType<QGroundControlQmlGlobal>   ("QGroundControl",                          1, 0, "QGroundControl",         qgroundcontrolQmlGlobalSingletonFactory);
     qmlRegisterSingletonType<ScreenToolsController>     ("QGroundControl.ScreenToolsController",    1, 0, "ScreenToolsController",  screenToolsControllerSingletonFactory);
     qmlRegisterSingletonType<ShapeFileHelper>           ("QGroundControl.ShapeFileHelper",          1, 0, "ShapeFileHelper",        shapeFileHelperSingletonFactory);
+
+    qmlRegisterType<SqlParcelleModel>                   ("QGroundControl",                          1, 0, "SqlParcelleModel");
 
 }
 
@@ -542,6 +547,7 @@ bool QGCApplication::_initForNormalAppBoot()
 
     // Exit main application when last window is closed
     connect(this, &QGCApplication::lastWindowClosed, this, QGCApplication::quit);
+
 
     _qmlAppEngine = toolbox()->corePlugin()->createRootWindow(this);
 

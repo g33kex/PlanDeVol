@@ -30,7 +30,7 @@
 #include "DataManager/DbManager.h"
 #include "Admin/List_file.h"
 
-#include "ParcelleManager.h"
+#include "ParcelleManagerController.h"
 
 #ifndef __mobile__
     #include "QGCSerialPortInfo.h"
@@ -219,6 +219,7 @@ bool checkAndroidWritePermission() {
 extern QString username;
 QString username = "foo";
 
+/*
 extern DbManager *db;
 DbManager *db;
 extern QSqlTableModel *SqlParcelleModel;
@@ -227,7 +228,7 @@ extern QSqlTableModel *SqlUserModel;
 QSqlTableModel *SqlUserModel;
 extern QSqlTableModel *SqlMissionModel;
 QSqlTableModel *SqlMissionModel;
-
+*/
 extern List_file *checklist;
 List_file *checklist;
 
@@ -411,6 +412,7 @@ int main(int argc, char *argv[])
         checkAndroidWritePermission();
 #endif
         db = new DbManager();
+/*
         SqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
         SqlParcelleModel->setTable("Parcelle");
         SqlUserModel = new QSqlTableModel(nullptr, db->getDB());
@@ -418,21 +420,22 @@ int main(int argc, char *argv[])
         SqlMissionModel = new QSqlTableModel(nullptr, db->getDB());
         SqlMissionModel->setTable("Mission");
 
-//        QSqlRecord record = SqlParcelleModel->record();
+        QSqlRecord record = SqlParcelleModel->record();
 
-//        record.setValue("owner", "foo");
-//        record.setValue("parcelleFile", "fooFile");
-//        record.setValue("type", "fooType");
-//        record.setValue("speed", 2);
-//        /*-1 is set to indicate that it will be added to the last row*/
-//        if(SqlParcelleModel->insertRecord(-1, record)){
-//            qDebug()<<"successful insertion";
-//            SqlParcelleModel->submitAll();
-//        }
-//        checklist = new List_file("Checklist");
-//        if (! checklist->load()) {
-//            qDebug() << "checklist file is empty";
-//        }
+        record.setValue("owner", "foo");
+        record.setValue("parcelleFile", "fooFile");
+        record.setValue("type", "fooType");
+        record.setValue("speed", 2);
+        //-1 is set to indicate that it will be added to the last row
+        if(SqlParcelleModel->insertRecord(-1, record)){
+            qDebug()<<"successful insertion";
+            SqlParcelleModel->submitAll();
+        }
+*/
+        checklist = new List_file("Checklist");
+        if (! checklist->load()) {
+            qDebug() << "checklist file is empty";
+        }
 
         speedParam = new List_file("SpeedParam");
         //param par defaut if the file is empty
@@ -444,7 +447,6 @@ int main(int argc, char *argv[])
             speedParam->append("80");
         }
 
-//        new ParcelleManager(nullptr, nullptr);
 
         if (!app->_initForNormalAppBoot()) {
             return -1;
