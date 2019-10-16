@@ -17,9 +17,8 @@ ParcelleManagerController::ParcelleManagerController(MissionController *missionC
 {
     toDel = new QList<QString>();
 
-    SqlParcelleModel *model = new  SqlParcelleModel;
-
-    model = new SqlParcelleModel();
+    SqlParcelleModel *model = new SqlParcelleModel();
+    model->setTable("Parcelle");
     model->generateRoleNames();
     model->select();
 

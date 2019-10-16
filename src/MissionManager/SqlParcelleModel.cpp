@@ -3,11 +3,12 @@
 #include <QSqlQueryModel>
 #include <QSqlRelationalTableModel>
 #include <QDebug>
+#include "DataManager/DbManager.h"
 
-
+extern DbManager *db;
 
 SqlParcelleModel::SqlParcelleModel(QObject *parent)
-    : QSqlRelationalTableModel(parent) {
+    : QSqlRelationalTableModel(parent, db->getDB()) {
 
 }
 

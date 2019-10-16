@@ -1,3 +1,5 @@
+#include "DataManager/DbManager.h"
+
 #ifndef PARCELLESQLMODEL_H
 #define PARCELLESQLEMODEL_H
 
