@@ -22,10 +22,10 @@ public:
    // Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 
 public slots:
-    void deleteParcelle(SqlParcelleModel *model, int index);
-    void addToMission();
+    void deleteParcelle(SqlParcelleModel *model, QList<int> indexes);
+    void addToMission(SqlParcelleModel *model, QList<int> indexes);
     void addParcelle(SqlParcelleModel *model);
-    void saveToDb();
+    //void saveToDb();
 
 private:
     //void closeEvent(QCloseEvent *bar);

@@ -75,6 +75,7 @@ Item {
                     TableView {
                         id: tableView
                         anchors.fill: parent
+                        selectionMode: SelectionMode.MultiSelection
                         TableViewColumn {
                             role: "owner"
                             title: "Owner"
@@ -142,33 +143,38 @@ Item {
                     Layout.fillWidth: true
                     Layout.margins : margin
                     text: "Remove Parcelle"
-                    onClicked: {
-                        tableView.selection.forEach( function(rowIndex) {
-                            console.log(rowIndex)
-                            _parcelleManagerController.deleteParcelle(parcelleModel,rowIndex)
-                        } )
-                    }
+                        onClicked: {
+                                var selected=[]
+                                tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                tableView.selection.clear()
+
+                                _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+                           }
                 }
                 Button {
                     Layout.fillWidth: true
                     Layout.margins : margin
-                    text: "Insert to Mission"
+                    text: "Insert Parcelle to Mission"
                     onClicked: {
-                        _parcelleManagerController.addToMission()
-                    }
+                            var selected = []
+                            tableView.selection.forEach( function(rowIndex) {selected.push(rowIndex)} )
+                            tableView.selection.clear()
+
+                            _parcelleManagerController.addToMission(parcelleModel,selected)
+                       }
                 }
                 Button {
 
                     Layout.margins : margin
-                    Layout.columnSpan: 2
                     Layout.fillWidth: true
 
                     Layout.alignment: Qt.AlignHCenter
-                    text: "Save to database"
+                    text: "Modify Parcelle"
 
                 }
                 Button {
                     Layout.fillWidth: true
+                    Layout.margins: margin
                     text: "Cancel"
                     onClicked: {
                         popup.close()

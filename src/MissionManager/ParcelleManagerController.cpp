@@ -49,8 +49,9 @@ ParcelleManagerController::~ParcelleManagerController()
 }
 
 
-void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, int index) {
-    qDebug() << "Removing " << index;
+void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, QList<int> indexes) {
+    for(int i=0; i<indexes.size();i++) {
+    qDebug() << "Removing " << indexes[i];
   /*  qDebug() << "in userSpace::deleteParcelle";
     QModelIndexList selection = ui->sqlView->selectionModel()->selectedRows();
     for(int i=0; i< selection.count(); i++)
@@ -60,7 +61,8 @@ void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, int inde
         toDel->append(SqlParcelleModel->record(index.row()).value("parcelleFile").toString());
         SqlParcelleModel->removeRow(index.row());
     }*/
-    model->removeRow(index);
+    model->removeRow(indexes[i]);
+    }
     model->submitAll();
 
 
@@ -68,7 +70,7 @@ void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, int inde
 }
 
 
-void ParcelleManagerController::addToMission() {
+void ParcelleManagerController::addToMission(SqlParcelleModel *model, QList<int> indexes) {
     qDebug() << "in userSpace::addToMission";
     /*QModelIndexList selection = ui->sqlView->selectionModel()->selectedRows();
     QList<QString> *KmlParcelleList= new QList<QString>() ;
@@ -107,14 +109,14 @@ void ParcelleManagerController::addParcelle(SqlParcelleModel *model) {
     this->deleteLater();
 }*/
 
-void ParcelleManagerController::saveToDb() {
+/*void ParcelleManagerController::saveToDb() {
     for (QList<QString>::iterator i = toDel->begin(); i != toDel->end(); ++i) {
         QFile file ((*i));
         file.remove();
     }
     toDel->clear();
     //sqlParcelleModel->submitAll();
-}
+}*/
 
 
 
