@@ -121,7 +121,7 @@ bool ShapeFileHelper::savePolygonFromGeoportail(QString filepath, QString conten
         stream << content;
         file.close();
         db->addParcelle(username, filepath, "");        //on ajoute le fichier a la DB !
-        SqlParcelleModel->select();
+        //SqlParcelleModel->select();
         return true;
     }
     qDebug() << "ERROR";

@@ -1,8 +1,10 @@
 //#include "DbManager.h"
 #include "MissionController.h"
 #include "SqlParcelleModel.hpp"
+#include "Admin/GeoportailLink.h"
 
 #include <QSqlTableModel>
+#include <QNetworkReply>
 
 #ifndef PARCELLEMANAGERCONTROLLER_H
 #define PARCELLEMANAGERCONTROLLER_H
@@ -20,6 +22,8 @@ public:
 
 
    // Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
+signals:
+    void downloadEnded(bool);
 
 public slots:
     void deleteParcelle(SqlParcelleModel *model, QList<int> indexes);
@@ -28,9 +32,12 @@ public slots:
     //void saveToDb();
 
 private:
+    void requestReply(QNetworkReply *reply);
+    void requestParcelle(QString nbIlot);
     //void closeEvent(QCloseEvent *bar);
     QList<QString> *toDel;
     MissionController *missionControler;
+    GeoportailLink *geoportailParcelle;
 };
 
 #endif // PARCELLEMANAGERCONTROLLER_H

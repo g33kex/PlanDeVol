@@ -15,7 +15,7 @@ public:
     explicit GeoportailLink();
     ~GeoportailLink();
 
-    void requestGeo(QUrl url);
+    void requestGeo(QString);
 
 signals:
     void finished(QNetworkReply*);
@@ -25,6 +25,7 @@ public slots:
 private:
     QNetworkAccessManager* _qnam;
     QNetworkRequest request;
+    QString APIkey = "0ktrk696j3muq3kxsxw22nya";
 };
 
 #endif // GEOPORTAILLINK_H

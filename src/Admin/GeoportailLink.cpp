@@ -18,10 +18,10 @@ GeoportailLink::~GeoportailLink()
     delete _qnam;
 }
 
-void GeoportailLink::requestGeo(QUrl url) {
+void GeoportailLink::requestGeo(QString req) {
     qDebug() << "start";
 
-    request.setUrl(url);
+    request.setUrl(QUrl("https://wxs.ign.fr/" + APIkey + "/geoportail/wfs?" + req));
     _qnam->get(request);
 }
 

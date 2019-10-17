@@ -209,15 +209,12 @@ void GeoFenceController::requestFences() {
     QString NE_lat = "46.964844";
     QString SW_long = "0.182167";
     QString SW_lat = "46.944426";
-    QString APIkey = "0ktrk696j3muq3kxsxw22nya";
 
-    QUrl foo = QUrl("https://wxs.ign.fr/" + APIkey
-                    + "/geoportail/wfs?request=GetCapabilities&SERVICE=WFS&VERSION=2.0.0"
-                    + "&request=GetFeature&typeName=TRANSPORTS.DRONES.RESTRICTIONS:carte_restriction_drones_lf"
+    QString req = QString("request=GetFeature&typeName=TRANSPORTS.DRONES.RESTRICTIONS:carte_restriction_drones_lf")
                     + "&outputFormat=application/json&srsname=EPSG:4326&bbox="
-                    + SW_long + "," + SW_lat + "," + NE_long + "," + NE_lat + ",EPSG:4326");
+                    + SW_long + "," + SW_lat + "," + NE_long + "," + NE_lat + ",EPSG:4326";
 
-    geoportailFence->requestGeo(foo);
+    geoportailFence->requestGeo(req);
     return;
 }
 
@@ -240,15 +237,13 @@ void GeoFenceController::requestHT() {
     QString NE_lat = "46.964844";
     QString SW_long = "0.182167";
     QString SW_lat = "46.944426";
-    QString APIkey = "0ktrk696j3muq3kxsxw22nya";
 
-    QUrl foo = QUrl("https://wxs.ign.fr/" + APIkey
-                    + "/geoportail/wfs?request=GetCapabilities&SERVICE=WFS&VERSION=2.0.0"
+    QString req = QString("request=GetCapabilities&SERVICE=WFS&VERSION=2.0.0")
                     + "&request=GetFeature&typeName=BDTOPO_V3:ligne_electrique"
                     + "&outputFormat=application/json&srsname=EPSG:4326&bbox="
-                    + SW_long + "," + SW_lat + "," + NE_long + "," + NE_lat + ",EPSG:4326");
+                    + SW_long + "," + SW_lat + "," + NE_long + "," + NE_lat + ",EPSG:4326";
 
-    geoportailHT->requestGeo(foo);
+    geoportailHT->requestGeo(req);
     return;
 }
 

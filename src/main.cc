@@ -219,9 +219,11 @@ bool checkAndroidWritePermission() {
 extern QString username;
 QString username = "foo";
 
-/*
+
 extern DbManager *db;
 DbManager *db;
+
+/*
 extern QSqlTableModel *SqlParcelleModel;
 QSqlTableModel *SqlParcelleModel;
 extern QSqlTableModel *SqlUserModel;
