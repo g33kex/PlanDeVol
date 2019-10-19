@@ -152,7 +152,7 @@ static QObject* shapeFileHelperSingletonFactory(QQmlEngine*, QJSEngine*)
 }
 
 QGCApplication::QGCApplication(int &argc, char* argv[], bool unitTesting)
-    : QApplication           (argc, argv)
+    : QGuiApplication           (argc, argv)
     , _runningUnitTests         (unitTesting)
 {
     _app = this;
