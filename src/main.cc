@@ -414,30 +414,23 @@ int main(int argc, char *argv[])
         checkAndroidWritePermission();
 #endif
         db = new DbManager();
-/*
-        SqlParcelleModel = new QSqlTableModel(nullptr, db->getDB());
-        SqlParcelleModel->setTable("Parcelle");
-        SqlUserModel = new QSqlTableModel(nullptr, db->getDB());
-        SqlUserModel->setTable("Person");
-        SqlMissionModel = new QSqlTableModel(nullptr, db->getDB());
-        SqlMissionModel->setTable("Mission");
 
-        QSqlRecord record = SqlParcelleModel->record();
-
-        record.setValue("owner", "foo");
-        record.setValue("parcelleFile", "fooFile");
-        record.setValue("type", "fooType");
-        record.setValue("speed", 2);
-        //-1 is set to indicate that it will be added to the last row
-        if(SqlParcelleModel->insertRecord(-1, record)){
-            qDebug()<<"successful insertion";
-            SqlParcelleModel->submitAll();
-        }
-*/
         checklist = new List_file("Checklist");
+        //param par defaut if the file is empty
         if (! checklist->load()) {
             qDebug() << "checklist file is empty";
             checklist->append("RAS: Rien a Signaler");
+        }
+
+        for(QList<QString>::iterator i = checklist->begin(); i != checklist->end(); ++i) {
+            if((*i).count(":") < 1) {
+                (*i).append(":foo");
+            }
+            if((*i).count(":") > 1) {
+                int index = (*i).indexOf(":");
+//                (*i) = (*i).replace(":", ";");
+//                (*i) = (*i).replace(index, (*i).size(), ":");
+            }
         }
 
         speedParam = new List_file("SpeedParam");
