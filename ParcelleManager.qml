@@ -117,7 +117,7 @@ Item {
                     Layout.margins : margin
                     text: "Add Parcelle"
                     onClicked: {
-                        _parcelleManagerController.addParcelle(parcelleModel)
+                        addParcelleDialog.open()
                     }
                 }
                 Button {
@@ -266,6 +266,55 @@ Item {
                     function updateContent() {
                         value=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed")
                     }
+                }
+
+
+            }
+
+
+        }
+
+        Dialog {
+            id: addParcelleDialog
+
+
+            onYes: {
+                _parcelleManagerController.addParcelle(parcelleModel, a_ilotNumberField.getText(), a_fileField.getText(), a_typeField.getText(), a_speedBox.value)
+            }
+
+
+            title: "Edit Parcelle"
+
+            standardButtons: Dialog.Ok | Dialog.Cancel
+
+            GridLayout {
+                columns: 4
+                anchors.fill: parent
+
+                Label {
+                    text: "Ilot number"
+                }
+                Label {
+                    text: "ParcelleFile"
+                }
+                Label {
+                    text: "Type"
+                }
+                Label {
+                    text: "Speed"
+
+                }
+                TextField {
+                    id: a_ilotField
+                }
+                TextField {
+                    id: a_fileField
+                }
+                TextField {
+                    id: a_typeField
+                }
+                SpinBox {
+                    id: a_speedBox
                 }
 
 

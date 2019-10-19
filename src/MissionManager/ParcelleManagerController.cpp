@@ -85,7 +85,7 @@ void ParcelleManagerController::addToMission(SqlParcelleModel *model, QList<int>
     this->deleteLater();*/
 }
 
-void ParcelleManagerController::addParcelle(SqlParcelleModel *model) {
+void ParcelleManagerController::addParcelle(SqlParcelleModel *model, QString ilotNumber, QString file, QString type, int speed) {
     QSqlRecord newRecord = model->record();
     newRecord.setValue("owner", QVariant("foo"));
     newRecord.setValue("parcelleFile", QVariant("The Litigators"));
