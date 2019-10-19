@@ -23,6 +23,8 @@ public:
     Q_INVOKABLE void setupForParcelle();
     QHash<int, QByteArray> roleNames() const override {	return roles;	}
 
+    Q_INVOKABLE QVariant getRecordValue(int recordIndex, QString role);
+
 };
 
 #endif // PARCELLESQLMODEL_H

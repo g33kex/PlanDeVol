@@ -28,7 +28,7 @@ QVariant SqlParcelleModel::data(const QModelIndex &index, int role) const {
                     return record(index.row()).value(QString(roles.value(role)));
             }
         }*/
-        qDebug() << "Fetching data, role" << role-Qt::UserRole-1 << "data " << QSqlQueryModel::data(this->index(index.row(), role - Qt::UserRole -1), Qt::DisplayRole);
+      //  qDebug() << "Fetching data, role" << role-Qt::UserRole-1 << "data " << QSqlQueryModel::data(this->index(index.row(), role - Qt::UserRole -1), Qt::DisplayRole);
        return QSqlQueryModel::data(this->index(index.row(), role - Qt::UserRole -1), Qt::DisplayRole);
     }
 
@@ -77,4 +77,9 @@ void SqlParcelleModel::setupForParcelle() {
         qDebug() << owner << file;
     }*/
 
+}
+
+QVariant SqlParcelleModel::getRecordValue(int recordIndex, QString role) {
+    qDebug() << "getting record value of record" <<recordIndex << " got value " <<  this->record(recordIndex).value(role);
+    return this->record(recordIndex).value(role);
 }

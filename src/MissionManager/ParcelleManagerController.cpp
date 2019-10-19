@@ -104,6 +104,13 @@ void ParcelleManagerController::addParcelle(SqlParcelleModel *model) {
 
 }
 
+void ParcelleManagerController::modifyParcelle(SqlParcelleModel *model, int index, QString owner, QString parcelleFile, QString type, int speed) {
+    //TODO : Modify parcelle
+}
+
+
+
+
 /*void ParcelleManager::closeEvent(QCloseEvent *bar) {
     bar->ignore();
     this->deleteLater();
