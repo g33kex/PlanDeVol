@@ -59,6 +59,11 @@ void ParcelleManagerController::addParcelle(SqlParcelleModel *model, QString ilo
     _file = file;
 
     qDebug() << "in addParcelle";
+    qDebug() << ilotNumber;
+    qDebug() << file;
+    qDebug() << type;
+    qDebug() << speed;
+
 
     QSqlRecord newRecord = model->record();
     newRecord.setValue("owner", QVariant(username));
@@ -92,6 +97,7 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
     }
 
     QString answer = reply->readAll();
+    qDebug() << answer;
 
     // dans une reponse normale, il n'y a qu'un polygon de decrit.
     if (answer.count("<Polygon>") == 1) {

@@ -279,7 +279,11 @@ Item {
 
 
             onAccepted: {
-                _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.getText(), a_fileField.getText(), a_typeField.getText(), a_speedBox.value)
+                function f() {
+                    console.log("a is ", a_ilotField.getText(), "b is ", a_fileField.getText(), "c is ", a_typeField.getText());
+                }
+                f()
+                _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, a_fileField.text, a_typeField.text, a_speedBox.value)
             }
 
 
