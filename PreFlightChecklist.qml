@@ -17,13 +17,49 @@ import QGroundControl.Controls      1.0
 import QGroundControl.FlightDisplay 1.0
 
 Rectangle {
+    id: mainRect
     width:      mainColumn.width  + ScreenTools.defaultFontPixelWidth * 3
     height:     mainColumn.height + ScreenTools.defaultFontPixelHeight
     color:      qgcPal.windowShade
     radius:     3
 
+    Component.onCompleted: {
+
+        var list = _planController.getCustomChecklist();
+        console.log("list size:"+list.length)
+        for(var i=0; i<list.length; i++) {
+            console.log(list[i])
+
+        var parts = list[i].split(':')
+
+
+        var obj = Qt.createQmlObject("
+
+
+        import QGroundControl.Controls      1.0
+
+
+            PreFlightCheckButton {
+                name:           qsTr(\""+parts[0]+"\")
+                manualText: \""+parts[1]+"\"
+            }
+
+
+        ", customCheckGroup, "check"+i)
+        }
+
+        listModel.reset()
+
+    }
+
     PreFlightCheckModel {
         id:     listModel
+
+        PreFlightCheckGroup {
+            id: customCheckGroup
+            name: qsTr("Custom checks")
+        }
+
         PreFlightCheckGroup {
             name: qsTr("Initial checks")
 

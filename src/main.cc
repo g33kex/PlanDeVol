@@ -437,6 +437,7 @@ int main(int argc, char *argv[])
         checklist = new List_file("Checklist");
         if (! checklist->load()) {
             qDebug() << "checklist file is empty";
+            checklist->append("RAS: Rien a Signaler");
         }
 
         speedParam = new List_file("SpeedParam");
