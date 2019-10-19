@@ -217,7 +217,7 @@ Item {
             }
 
             onAccepted: {
-                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.getText(), fileField.getText(), typeField.getText(), speedBox.value)
+                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.value)
             }
 
 
@@ -251,6 +251,7 @@ Item {
                 }
                 TextField {
                     id: fileField
+                    enabled: false
                     function updateContent() {
                         text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "parcelleFile")
                     }
@@ -263,6 +264,8 @@ Item {
                 }
                 SpinBox {
                     id: speedBox
+                    maximumValue: 3
+                    minimumValue: 1
                     function updateContent() {
                         value=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed")
                     }
@@ -279,15 +282,11 @@ Item {
 
 
             onAccepted: {
-                function f() {
-                    console.log("a is ", a_ilotField.getText(), "b is ", a_fileField.getText(), "c is ", a_typeField.getText());
-                }
-                f()
                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, a_fileField.text, a_typeField.text, a_speedBox.value)
             }
 
 
-            title: "Edit Parcelle"
+            title: "Add Parcelle"
 
             standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -318,6 +317,8 @@ Item {
                     id: a_typeField
                 }
                 SpinBox {
+                    maximumValue: 3
+                    minimumValue: 1
                     id: a_speedBox
                 }
 

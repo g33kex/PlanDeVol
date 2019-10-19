@@ -112,6 +112,16 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
 }
 
 void ParcelleManagerController::modifyParcelle(SqlParcelleModel *model, int index, QString owner, QString parcelleFile, QString type, int speed) {
-    //TODO : Modify parcelle
+
+    QSqlRecord record = model->record(index);
+
+    record.setValue("owner", QVariant(owner));
+    record.setValue("parcelleFile", QVariant(parcelleFile));
+    record.setValue("type", QVariant(type));
+    record.setValue("speed",QVariant(speed));
+
+    bool ok = model->setRecord(index, record);
+    qDebug() << ok;
+    model->submitAll();
 }
 
