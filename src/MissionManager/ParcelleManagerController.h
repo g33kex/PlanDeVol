@@ -29,15 +29,16 @@ public slots:
     void deleteParcelle(SqlParcelleModel *model, QList<int> indexes);
     void addToMission(SqlParcelleModel *model, QList<int> indexes);
     void addParcelle(SqlParcelleModel *model);
+    void requestReply(QNetworkReply *reply);
     //void saveToDb();
 
 private:
-    void requestReply(QNetworkReply *reply);
     void requestParcelle(QString nbIlot);
     //void closeEvent(QCloseEvent *bar);
     QList<QString> *toDel;
     MissionController *missionControler;
     GeoportailLink *geoportailParcelle;
+    QString _file;
 };
 
 #endif // PARCELLEMANAGERCONTROLLER_H

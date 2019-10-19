@@ -63,15 +63,15 @@ GeoFenceController::GeoFenceController(PlanMasterController* masterController, Q
     //connect(&_polylines,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
     managerVehicleChanged(_managerVehicle);
 
-    geoportailFence = new GeoportailLink();
-    geoportailHT = new GeoportailLink();
+//    geoportailFence = new GeoportailLink();
+//    geoportailHT = new GeoportailLink();
     connect(this,                       &GeoFenceController::breachReturnPointChanged,  this, &GeoFenceController::_setDirty);
     connect(&_breachReturnAltitudeFact, &Fact::rawValueChanged,                         this, &GeoFenceController::_setDirty);
     connect(&_polygons,                 &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
     connect(&_circles,                  &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
     //connect(&_polylines,                 &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
-    connect(geoportailFence, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyGeoFence(QNetworkReply*)));
-    connect(geoportailHT, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyHT(QNetworkReply*)));
+//    connect(geoportailFence, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyGeoFence(QNetworkReply*)));
+//    connect(geoportailHT, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyHT(QNetworkReply*)));
 
 }
 
@@ -214,7 +214,7 @@ void GeoFenceController::requestFences() {
                     + "&outputFormat=application/json&srsname=EPSG:4326&bbox="
                     + SW_long + "," + SW_lat + "," + NE_long + "," + NE_lat + ",EPSG:4326";
 
-    geoportailFence->requestGeo(req);
+    //geoportailFence->requestGeo(req);
     return;
 }
 
@@ -243,7 +243,7 @@ void GeoFenceController::requestHT() {
                     + "&outputFormat=application/json&srsname=EPSG:4326&bbox="
                     + SW_long + "," + SW_lat + "," + NE_long + "," + NE_lat + ",EPSG:4326";
 
-    geoportailHT->requestGeo(req);
+    //geoportailHT->requestGeo(req);
     return;
 }
 

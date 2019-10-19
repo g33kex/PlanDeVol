@@ -124,8 +124,8 @@ private:
     bool                _itemsRequested;
     Fact*               _px4ParamCircularFenceFact;
 
-    GeoportailLink      *geoportailFence;
-    GeoportailLink      *geoportailHT;
+//    GeoportailLink      *geoportailFence;
+//    GeoportailLink      *geoportailHT;
 
     static QMap<QString, FactMetaData*> _metaDataMap;
 

@@ -21,9 +21,14 @@ ParcelleManagerController::ParcelleManagerController(MissionController *missionC
     missionControler(missionControler)
 {
     geoportailParcelle = new GeoportailLink();
+    connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
+
 }
 
-ParcelleManagerController::ParcelleManagerController() {}
+ParcelleManagerController::ParcelleManagerController() {
+    geoportailParcelle = new GeoportailLink();
+    connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
+}
 
 ParcelleManagerController::~ParcelleManagerController()
 {
@@ -39,9 +44,6 @@ void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, QList<in
         model->removeRow(indexes[i]);
     }
     model->submitAll();
-
-
-
 }
 
 
@@ -63,29 +65,33 @@ void ParcelleManagerController::addToMission(SqlParcelleModel *model, QList<int>
 }
 
 void ParcelleManagerController::addParcelle(SqlParcelleModel *model) {
-//    QSqlRecord newRecord = model->record();
-//    newRecord.setValue("owner", QVariant("foo"));
-//    newRecord.setValue("parcelleFile", QVariant("The Litigators"));
-//    newRecord.setValue("type", QVariant("test"));
-//    newRecord.setValue("speed",QVariant(int(2)));
-////  qDebug() << "Insert row" << model->insertRecord(model->rowCount(), newRecord);
 
-//    /*-1 is set to indicate that it will be added to the last row*/
+    QString owner, file, type, nbIlot;
+    int speed;
 
-//    if(model->insertRecord(-1, newRecord)) {
-//        qDebug()<<"successful insertion" << newRecord.value("owner") << "was its owner";
-//        model->submitAll();
-//    }
+    _file = file;
 
 
-    QString nbIlot;
-    requestParcelle(nbIlot);
+    QSqlRecord newRecord = model->record();
+    newRecord.setValue("owner", QVariant(owner));
+    newRecord.setValue("parcelleFile", QVariant(file));
+    newRecord.setValue("type", QVariant(type));
+    newRecord.setValue("speed",QVariant(speed));
+
+    /*-1 is set to indicate that it will be added to the last row*/
+    if(model->insertRecord(-1, newRecord)) {
+        qDebug()<<"successful insertion" << newRecord.value("owner") << "was its owner";
+        model->submitAll();
+    }
+    qDebug() << "addParcelle";
+
+    nbIlot = "11350";
+    this->requestParcelle(nbIlot);
 }
 
 void ParcelleManagerController::requestParcelle(QString NbIlot) {
 
     QString req = "request=GetCapabilities&SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typeName=RPG.2016:parcelles_graphiques&outputFormat=kml&srsname=EPSG:2154&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/fes/2.0%22%3E%20%3CPropertyIsEqualTo%3E%20%3CValueReference%3Eid_parcel%3C/ValueReference%3E%20%3CLiteral%3E"+ NbIlot +"%3C/Literal%3E%20%3C/PropertyIsEqualTo%3E%20%3C/Filter%3E";
-
     geoportailParcelle->requestGeo(req);
     return;
 }
@@ -102,7 +108,7 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
 
     // dans une reponse normale, il n'y a qu'un polygon de decrit.
     if (answer.count("<Polygon>") == 1) {
-        ShapeFileHelper::savePolygonFromGeoportail("foo", answer, 2);
+        ShapeFileHelper::savePolygonFromGeoportail(_file, answer);
         //add to DB!
         emit downloadEnded(true);
         return;

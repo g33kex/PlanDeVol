@@ -22,7 +22,7 @@ signals:
 public slots:
     void Managerfinished(QNetworkReply*);
 
-private:
+public:
     QNetworkAccessManager* _qnam;
     QNetworkRequest request;
     QString APIkey = "0ktrk696j3muq3kxsxw22nya";
