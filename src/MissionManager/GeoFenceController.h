@@ -33,6 +33,7 @@ public:
 
     Q_PROPERTY(QmlObjectListModel*  polygons                READ polygons                                           CONSTANT)
     Q_PROPERTY(QmlObjectListModel*  circles                 READ circles                                            CONSTANT)
+    Q_PROPERTY(QmlObjectListModel*  polylines               READ polylines                                          CONSTANT)
     Q_PROPERTY(QGeoCoordinate       breachReturnPoint       READ breachReturnPoint      WRITE setBreachReturnPoint  NOTIFY breachReturnPointChanged)
     Q_PROPERTY(Fact*                breachReturnAltitude    READ breachReturnAltitude                               CONSTANT)
 
@@ -48,6 +49,11 @@ public:
     ///     @param topLeft - Top left coordinate or map viewport
     ///     @param topLeft - Bottom right left coordinate or map viewport
     Q_INVOKABLE void addInclusionCircle(QGeoCoordinate topLeft, QGeoCoordinate bottomRight);
+
+    /// Download HT map and Geofence from Geoportail
+    ///     @param topLeft - Top right coordinate or map viewport
+    ///     @param topLeft - Bottom left coordinate or map viewport
+    Q_INVOKABLE void downloadGeofences(QGeoCoordinate topRight, QGeoCoordinate bottomLeft);
 
     /// Deletes the specified polygon from the polygon list
     ///     @param index Index of poygon to delete
@@ -103,13 +109,10 @@ private slots:
     void _managerSendComplete       (bool error);
     void _managerRemoveAllComplete  (bool error);
     void _parametersReady           (void);
-    void requestFences              (void);
+    void requestFences              (QString NE_long, QString NE_lat, QString SW_long, QString SW_lat);
     void requestReplyGeoFence       (QNetworkReply *reply);
-    void requestHT                  (void);
+    void requestHT                  (QString NE_long, QString NE_lat, QString SW_long, QString SW_lat);
     void requestReplyHT             (QNetworkReply *reply);
-
-public slots:
-    void downloadGeofences          (QRect viewPortRect);
 
 private:
     void _init(void);
@@ -127,8 +130,8 @@ private:
     bool                _itemsRequested;
     Fact*               _px4ParamCircularFenceFact;
 
-//    GeoportailLink      *geoportailFence;
-//    GeoportailLink      *geoportailHT;
+    GeoportailLink      *geoportailFence;
+    GeoportailLink      *geoportailHT;
 
     static QMap<QString, FactMetaData*> _metaDataMap;
 

@@ -71,7 +71,10 @@ QGCFlickable {
                     anchors.right: parent.right
                     text: "Download Geofences"
                     onClicked: {
-                        _geoFenceController.downloadGeofences(Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height));
+                        var rect = Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height)
+                        var topRightCoord = flightMap.toCoordinate(Qt.point(rect.x  + rect.width, rect.y), false /* clipToViewPort */)
+                        var bottomLeftCoord = flightMap.toCoordinate(Qt.point(rect.x, rect.y + rect.height), false /* clipToViewPort */)
+                        _geoFenceController.downloadGeofences(topRightCoord, bottomLeftCoord);
                     }
                 }
 

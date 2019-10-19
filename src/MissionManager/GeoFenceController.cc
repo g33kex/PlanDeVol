@@ -63,15 +63,15 @@ GeoFenceController::GeoFenceController(PlanMasterController* masterController, Q
     //connect(&_polylines,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
     managerVehicleChanged(_managerVehicle);
 
-//    geoportailFence = new GeoportailLink();
-//    geoportailHT = new GeoportailLink();
+    geoportailFence = new GeoportailLink();
+    geoportailHT = new GeoportailLink();
     connect(this,                       &GeoFenceController::breachReturnPointChanged,  this, &GeoFenceController::_setDirty);
     connect(&_breachReturnAltitudeFact, &Fact::rawValueChanged,                         this, &GeoFenceController::_setDirty);
     connect(&_polygons,                 &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
     connect(&_circles,                  &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
-    //connect(&_polylines,                 &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
-//    connect(geoportailFence, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyGeoFence(QNetworkReply*)));
-//    connect(geoportailHT, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyHT(QNetworkReply*)));
+    connect(&_polylines,                &QmlObjectListModel::dirtyChanged,              this, &GeoFenceController::_setDirty);
+    connect(geoportailFence, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyGeoFence(QNetworkReply*)));
+    connect(geoportailHT, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReplyHT(QNetworkReply*)));
 
 }
 
@@ -203,18 +203,14 @@ bool GeoFenceController::load(const QJsonObject& json, QString& errorString)
     return true;
 }
 
-void GeoFenceController::requestFences() {
+void GeoFenceController::requestFences(QString NE_long, QString NE_lat, QString SW_long, QString SW_lat) {
 
-    QString NE_long = "0.218800";
-    QString NE_lat = "46.964844";
-    QString SW_long = "0.182167";
-    QString SW_lat = "46.944426";
 
     QString req = QString("request=GetFeature&typeName=TRANSPORTS.DRONES.RESTRICTIONS:carte_restriction_drones_lf")
                     + "&outputFormat=application/json&srsname=EPSG:4326&bbox="
                     + SW_long + "," + SW_lat + "," + NE_long + "," + NE_lat + ",EPSG:4326";
-
-    //geoportailFence->requestGeo(req);
+    qDebug() << req;
+    geoportailFence->requestGeo(req);
     return;
 }
 
@@ -231,19 +227,14 @@ void GeoFenceController::requestReplyGeoFence(QNetworkReply *reply) {
     // parse to obtain all polygons
 }
 
-void GeoFenceController::requestHT() {
-
-    QString NE_long = "0.218800";
-    QString NE_lat = "46.964844";
-    QString SW_long = "0.182167";
-    QString SW_lat = "46.944426";
+void GeoFenceController::requestHT(QString NE_long, QString NE_lat, QString SW_long, QString SW_lat) {
 
     QString req = QString("request=GetCapabilities&SERVICE=WFS&VERSION=2.0.0")
                     + "&request=GetFeature&typeName=BDTOPO_V3:ligne_electrique"
                     + "&outputFormat=application/json&srsname=EPSG:4326&bbox="
                     + SW_long + "," + SW_lat + "," + NE_long + "," + NE_lat + ",EPSG:4326";
 
-    //geoportailHT->requestGeo(req);
+    geoportailHT->requestGeo(req);
     return;
 }
 
@@ -256,7 +247,7 @@ void GeoFenceController::requestReplyHT(QNetworkReply *reply) {
     }
 
     QString answer = reply->readAll();
-    // parse to obtain all polygons
+    parsesMultiplePolyline(answer);
 }
 
 void GeoFenceController::save(QJsonObject& json)
@@ -584,15 +575,22 @@ void GeoFenceController::_parametersReady(void)
 
 void GeoFenceController::parsesMultiplePolygon(QString source) {
 
+
     //load a QJsonDoc
     QJsonDocument jsonResponse = QJsonDocument::fromJson(source.toUtf8());
     //the root
     QJsonObject jsonObject = jsonResponse.object();
 
+    if(jsonObject.find("numberMatched").value().toInt() == 0) {
+        qDebug() << "return none";
+        return;
+    }
     //check if the number returns correspond to the number hits
     if (jsonObject.find("numberMatched").value().toInt() == jsonObject.find("numberReturned").value().toInt())
     {
         qDebug() << "blablabla ca a match !";
+
+        qDebug() << "number matched " + QString::number(jsonObject.find("numberMatched").value().toInt());
     }
 
     //root->features
@@ -602,13 +600,13 @@ void GeoFenceController::parsesMultiplePolygon(QString source) {
         QGCFencePolygon* fencePolygon = new QGCFencePolygon(false /* inclusion */, this /* parent */);
         QList<QGeoCoordinate> *path = new QList<QGeoCoordinate>();
         //features->geometry->coordiantes ([0]..[0] -> array in a array in a array
-        QJsonArray array_bla = v.toObject()["geometry"].toObject()["coordinates"].toArray()[0].toArray()[0].toArray();
+        QJsonArray array_geom = v.toObject()["geometry"].toObject()["coordinates"].toArray()[0].toArray()[0].toArray();
         //for each coord
-        foreach (const QJsonValue & bla, array_bla) {
-            //
-            QGeoCoordinate *coord = new QGeoCoordinate(bla.toArray()[1].toDouble(), bla.toArray()[0].toDouble(), 50);
+        for(int i = 0; i < array_geom.count(); i++) {
+            QGeoCoordinate *coord = new QGeoCoordinate(array_geom.at(i).toArray()[1].toDouble(), array_geom.at(i).toArray()[0].toDouble(), 50);
             path->append(*coord);
         }
+
         fencePolygon->setPath(*path);
         _polygons.append(fencePolygon);
     }
@@ -622,6 +620,11 @@ void GeoFenceController::parsesMultiplePolyline(QString source) {
     QJsonDocument jsonResponse = QJsonDocument::fromJson(source.toUtf8());
     //the root
     QJsonObject jsonObject = jsonResponse.object();
+
+    if(jsonObject.find("numberMatched").value().toInt() == 0) {
+        qDebug() << "return none";
+        return;
+    }
 
     //check if the number returns correspond to the number hits
     if (jsonObject.find("numberMatched").value().toInt() == jsonObject.find("numberReturned").value().toInt())
@@ -643,7 +646,6 @@ void GeoFenceController::parsesMultiplePolyline(QString source) {
 
         foreach (const QJsonValue & bla, array_bla) {
             QGeoCoordinate *coord = new QGeoCoordinate(bla.toArray()[1].toDouble(), bla.toArray()[0].toDouble());
-            qDebug() << bla.toArray()[0];
             path->append(*coord);
         }
 
@@ -652,5 +654,11 @@ void GeoFenceController::parsesMultiplePolyline(QString source) {
     }
 }
 
-void GeoFenceController::downloadGeofences(QRect viewportRect){}
+void GeoFenceController::downloadGeofences(QGeoCoordinate NE, QGeoCoordinate SW) {
+
+    qDebug() << QString::number(NE.longitude()) + QString("--") + QString::number(NE.latitude()) + "--" + QString::number(SW.longitude()) + "--" + QString::number(SW.latitude());
+    requestHT(QString::number(NE.longitude()), QString::number(NE.latitude()), QString::number(SW.longitude()), QString::number(SW.latitude()));
+    requestFences(QString::number(NE.longitude()), QString::number(NE.latitude()), QString::number(SW.longitude()), QString::number(SW.latitude()));
+
+}
 
