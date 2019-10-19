@@ -141,7 +141,7 @@ Item {
                             tableView.selection.forEach( function(rowIndex) {selected.push(rowIndex)} )
                             tableView.selection.clear()
 
-                            _parcelleManagerController.addToMission(parcelleModel,selected)
+                            _parcelleManagerController.addToMission(parcelleModel,_planMasterController.missionController,selected)
                        }
                 }
                 Button {

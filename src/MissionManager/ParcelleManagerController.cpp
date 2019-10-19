@@ -70,7 +70,7 @@ void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, QList<in
 }
 
 
-void ParcelleManagerController::addToMission(SqlParcelleModel *model, QList<int> indexes) {
+void ParcelleManagerController::addToMission(SqlParcelleModel *model,MissionController *missionController, QList<int> indexes) {
     qDebug() << "in userSpace::addToMission";
     /*QModelIndexList selection = ui->sqlView->selectionModel()->selectedRows();
     QList<QString> *KmlParcelleList= new QList<QString>() ;
