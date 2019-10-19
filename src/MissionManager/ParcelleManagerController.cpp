@@ -47,7 +47,7 @@ void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, QList<in
 }
 
 
-void ParcelleManagerController::addToMission(SqlParcelleModel *model, QList<int> indexes) {
+void ParcelleManagerController::addToMission(SqlParcelleModel *model,MissionController *missionController, QList<int> indexes) {
     qDebug() << "in userSpace::addToMission";
 
 
@@ -116,5 +116,9 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
     qDebug() << "ERROR no awnser or too many";
     emit downloadEnded(false);
     return;
+}
+
+void ParcelleManagerController::modifyParcelle(SqlParcelleModel *model, int index, QString owner, QString parcelleFile, QString type, int speed) {
+    //TODO : Modify parcelle
 }
 

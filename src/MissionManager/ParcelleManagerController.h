@@ -27,10 +27,10 @@ signals:
 
 public slots:
     void deleteParcelle(SqlParcelleModel *model, QList<int> indexes);
-    void addToMission(SqlParcelleModel *model, QList<int> indexes);
-    void addParcelle(SqlParcelleModel *model);
+    void addToMission(SqlParcelleModel *model,MissionController *missionController, QList<int> indexes);
+    void modifyParcelle(SqlParcelleModel *model, int index, QString owner, QString parcelleFile, QString type, int speed);
+    void addParcelle(SqlParcelleModel *model, QString ilotNumber, QString file, QString type, int speed);
     void requestReply(QNetworkReply *reply);
-    //void saveToDb();
 
 private:
     void requestParcelle(QString nbIlot);

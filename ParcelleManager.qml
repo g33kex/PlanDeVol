@@ -5,6 +5,7 @@ import QtQuick.Controls 1.4
 import QtGraphicalEffects 1.0
 import QtLocation 5.11
 import QtPositioning 5.11
+import QtQuick.Dialogs 1.2
 
 
 import QGroundControl                   1.0
@@ -27,13 +28,14 @@ Item {
 
     function show() {
         parcelleModel.setupForParcelle()
-        popup.open()
+        parcelleManagerPopup.open()
     }
 
     Popup {
-         id: popup
+         id: parcelleManagerPopup
          width: parent.width
          height: parent.height
+
 
          modal: true
          focus: true
@@ -67,11 +69,7 @@ Item {
                         id: parcelleModel
 
                     }
-                   /* ListView {
-                        anchors.fill: parent
-                        model: parcelleModel
-                        delegate: Text { text: parcelleModel.owner }
-                    }*/
+
                     TableView {
                         id: tableView
                         anchors.fill: parent
@@ -104,13 +102,6 @@ Item {
                         model: parcelleModel
                     }
                }
-
-                  /*ListModel {
-                      id: myModel
-                      ListElement { type: "Dog"; age: 8 }
-                      ListElement { type: "Cat"; age: 5 }
-                  }*/
-
                   Component {
                       id: myDelegate
                       Rectangle {
@@ -121,22 +112,12 @@ Item {
                       }
                   }
 
-                 /* ListView {
-                      anchors.fill: parent
-                      model: myModel
-                      delegate: myDelegate
-                      highlight: highlightBar
-                      highlightFollowsCurrentItem: false
-                  }*/
-
-
-
                 Button {
                     Layout.fillWidth: true
                     Layout.margins : margin
                     text: "Add Parcelle"
                     onClicked: {
-                        _parcelleManagerController.addParcelle(parcelleModel)
+                        addParcelleDialog.open()
                     }
                 }
                 Button {
@@ -160,7 +141,7 @@ Item {
                             tableView.selection.forEach( function(rowIndex) {selected.push(rowIndex)} )
                             tableView.selection.clear()
 
-                            _parcelleManagerController.addToMission(parcelleModel,selected)
+                            _parcelleManagerController.addToMission(parcelleModel,_planMasterController.missionController,selected)
                        }
                 }
                 Button {
@@ -171,13 +152,26 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: "Modify Parcelle"
 
+                    onClicked: {
+                        if(tableView.selection.count===1) {
+                            var sel=0
+                            tableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                            editParcelleDialog.parcelleIndex=sel
+                            editParcelleDialog.refresh()
+                            editParcelleDialog.open()
+                        }
+                        else {
+                            errorModifyOnlyOneParcelleDialog.open()
+                        }
+                    }
+
                 }
                 Button {
                     Layout.fillWidth: true
                     Layout.margins: margin
                     text: "Cancel"
                     onClicked: {
-                        popup.close()
+                        parcelleManagerPopup.close()
                     }
                  }
             }
@@ -206,6 +200,135 @@ Item {
 
             }
 
+
+        }
+
+
+        Dialog {
+            id: editParcelleDialog
+
+            property int parcelleIndex: 0
+
+            function refresh() {
+                ownerField.updateContent()
+                fileField.updateContent()
+                typeField.updateContent()
+                speedBox.updateContent()
+            }
+
+            onYes: {
+                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.getText(), fileField.getText(), typeField.getText(), speedBox.value)
+            }
+
+
+            title: "Edit Parcelle"
+
+            standardButtons: Dialog.Ok | Dialog.Cancel
+
+            GridLayout {
+                columns: 4
+                anchors.fill: parent
+
+                Label {
+                    text: "Owner"
+                }
+                Label {
+                    text: "ParcelleFile"
+                }
+                Label {
+                    text: "Type"
+                }
+                Label {
+                    text: "Speed"
+
+                }
+                TextField {
+                    id: ownerField
+                    enabled: false
+                    function updateContent() {
+                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "owner")
+                    }
+                }
+                TextField {
+                    id: fileField
+                    function updateContent() {
+                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "parcelleFile")
+                    }
+                }
+                TextField {
+                    id: typeField
+                    function updateContent() {
+                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "type")
+                    }
+                }
+                SpinBox {
+                    id: speedBox
+                    function updateContent() {
+                        value=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed")
+                    }
+                }
+
+
+            }
+
+
+        }
+
+        Dialog {
+            id: addParcelleDialog
+
+
+            onYes: {
+                _parcelleManagerController.addParcelle(parcelleModel, a_ilotNumberField.getText(), a_fileField.getText(), a_typeField.getText(), a_speedBox.value)
+            }
+
+
+            title: "Edit Parcelle"
+
+            standardButtons: Dialog.Ok | Dialog.Cancel
+
+            GridLayout {
+                columns: 4
+                anchors.fill: parent
+
+                Label {
+                    text: "Ilot number"
+                }
+                Label {
+                    text: "ParcelleFile"
+                }
+                Label {
+                    text: "Type"
+                }
+                Label {
+                    text: "Speed"
+
+                }
+                TextField {
+                    id: a_ilotField
+                }
+                TextField {
+                    id: a_fileField
+                }
+                TextField {
+                    id: a_typeField
+                }
+                SpinBox {
+                    id: a_speedBox
+                }
+
+
+            }
+
+
+        }
+
+        Dialog {
+            id: errorModifyOnlyOneParcelleDialog
+            title: "Error"
+            Label{
+                text: "Please select ONE Parcelle to modify."
+            }
 
         }
     }
