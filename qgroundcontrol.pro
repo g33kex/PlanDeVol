@@ -45,7 +45,7 @@ MacBuild {
 }
 
 LinuxBuild {
-	QMAKE_CXX =ccache g++
+        QMAKE_CXX =ccache g++
     CONFIG  += qesp_linux_udev
 }
 
@@ -1272,3 +1272,5 @@ FORMS += \
 
 DISTFILES += \
     database.sqlite3
+
+RESOURCES +=

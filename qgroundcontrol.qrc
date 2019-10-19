@@ -213,6 +213,7 @@
         <file alias="VideoPageWidget.qml">src/FlightMap/Widgets/VideoPageWidget.qml</file>
         <file alias="VirtualJoystick.qml">src/FlightDisplay/VirtualJoystick.qml</file>
         <file>ParcelleManager.qml</file>
+        <file>PreFlightChecklist.qml</file>
     </qresource>
     <qresource prefix="/json">
         <file alias="APMMavlinkStreamRate.SettingsGroup.json">src/Settings/APMMavlinkStreamRate.SettingsGroup.json</file>
