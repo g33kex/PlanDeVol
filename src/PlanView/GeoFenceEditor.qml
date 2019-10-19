@@ -78,6 +78,17 @@ QGCFlickable {
                     }
                 }
 
+                QGCButton {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    text: "Clear Geofences"
+                    onClicked: {
+                        _geoFenceController.clearGeofences();
+                    }
+
+                }
+
+
                 Column {
                     anchors.left:       parent.left
                     anchors.right:      parent.right

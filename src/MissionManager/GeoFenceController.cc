@@ -597,6 +597,13 @@ void GeoFenceController::parsesMultiplePolygon(QString source) {
     QJsonArray array = jsonObject["features"].toArray();
     //for each feature
     foreach (const QJsonValue & v, array) {
+
+        if ( !v.toObject()["properties"].toObject()["limite"].toString().contains("Vol interdit")) {
+            continue;
+        }
+
+        qDebug() << v.toObject()["properties"].toObject()["limite"].toString();
+
         QGCFencePolygon* fencePolygon = new QGCFencePolygon(false /* inclusion */, this /* parent */);
         QList<QGeoCoordinate> *path = new QList<QGeoCoordinate>();
         //features->geometry->coordiantes ([0]..[0] -> array in a array in a array
@@ -661,4 +668,10 @@ void GeoFenceController::downloadGeofences(QGeoCoordinate NE, QGeoCoordinate SW)
     requestFences(QString::number(NE.longitude()), QString::number(NE.latitude()), QString::number(SW.longitude()), QString::number(SW.latitude()));
 
 }
+
+void GeoFenceController::clearGeofences(void) {
+    _polygons.clear();
+    _polylines.clear();
+}
+
 
