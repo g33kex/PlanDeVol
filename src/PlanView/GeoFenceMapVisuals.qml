@@ -34,6 +34,7 @@ Item {
     property var    _paramCircleFenceComponent
     property var    _polygons:                  myGeoFenceController.polygons
     property var    _circles:                   myGeoFenceController.circles
+    property var    _polylines:                 myGeoFenceController.polylines
     property color  _borderColor:               "orange"
     property int    _borderWidthInclusion:      2
     property int    _borderWidthExclusion:      0
@@ -118,6 +119,18 @@ Item {
             borderColor:        _borderColor
             interiorColor:      object.inclusion ? _interiorColorInclusion : _interiorColorExclusion
             interiorOpacity:    object.inclusion ? _interiorOpacityInclusion : _interiorOpacityExclusion
+        }
+    }
+
+    Instantiator {
+        model: _polylines
+
+        delegate : QGCMapPolylineVisuals {
+            parent:         _root
+            mapControl:     map
+            mapPolyline:    object
+            lineWidth:      3
+            lineColor:      "red"
         }
     }
 

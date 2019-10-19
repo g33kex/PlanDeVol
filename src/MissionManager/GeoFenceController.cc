@@ -60,7 +60,7 @@ GeoFenceController::GeoFenceController(PlanMasterController* masterController, Q
 
     connect(&_polygons, &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
     connect(&_circles,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
-    //connect(&_polylines,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
+    connect(&_polylines,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
     managerVehicleChanged(_managerVehicle);
 
     geoportailFence = new GeoportailLink();
