@@ -16,15 +16,6 @@ extern QString username;
 extern DbManager *db;
 extern List_file *speedParam;
 
-
-ParcelleManagerController::ParcelleManagerController(MissionController *missionControler) :
-    missionControler(missionControler)
-{
-    geoportailParcelle = new GeoportailLink();
-    connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
-
-}
-
 ParcelleManagerController::ParcelleManagerController() {
     geoportailParcelle = new GeoportailLink();
     connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
@@ -60,20 +51,17 @@ void ParcelleManagerController::addToMission(SqlParcelleModel *model,MissionCont
         qDebug() << i;
         KmlParcelleList->insert(file, speed); // ici il faudra mettre le path
     }
-    missionControler->insertComplexMissionFromDialog(*KmlParcelleList);
+    missionController->insertComplexMissionFromDialog(*KmlParcelleList);
     this->deleteLater();
 }
 
-void ParcelleManagerController::addParcelle(SqlParcelleModel *model) {
-
-    QString owner, file, type, nbIlot;
-    int speed;
-
+void ParcelleManagerController::addParcelle(SqlParcelleModel *model, QString ilotNumber, QString file, QString type, int speed) {
     _file = file;
 
+    qDebug() << "in addParcelle";
 
     QSqlRecord newRecord = model->record();
-    newRecord.setValue("owner", QVariant(owner));
+    newRecord.setValue("owner", QVariant(username));
     newRecord.setValue("parcelleFile", QVariant(file));
     newRecord.setValue("type", QVariant(type));
     newRecord.setValue("speed",QVariant(speed));
@@ -85,8 +73,7 @@ void ParcelleManagerController::addParcelle(SqlParcelleModel *model) {
     }
     qDebug() << "addParcelle";
 
-    nbIlot = "11350";
-    this->requestParcelle(nbIlot);
+    this->requestParcelle(ilotNumber);
 }
 
 void ParcelleManagerController::requestParcelle(QString NbIlot) {

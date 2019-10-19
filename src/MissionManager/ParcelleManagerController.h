@@ -14,7 +14,6 @@ class ParcelleManagerController : public QObject {
     Q_OBJECT
 
 public:
-    explicit ParcelleManagerController(MissionController *missionControler);
     explicit ParcelleManagerController();
 
     ~ParcelleManagerController();

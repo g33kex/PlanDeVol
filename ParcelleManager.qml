@@ -216,7 +216,7 @@ Item {
                 speedBox.updateContent()
             }
 
-            onYes: {
+            onAccepted: {
                 _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.getText(), fileField.getText(), typeField.getText(), speedBox.value)
             }
 
@@ -278,8 +278,8 @@ Item {
             id: addParcelleDialog
 
 
-            onYes: {
-                _parcelleManagerController.addParcelle(parcelleModel, a_ilotNumberField.getText(), a_fileField.getText(), a_typeField.getText(), a_speedBox.value)
+            onAccepted: {
+                _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.getText(), a_fileField.getText(), a_typeField.getText(), a_speedBox.value)
             }
 
 
