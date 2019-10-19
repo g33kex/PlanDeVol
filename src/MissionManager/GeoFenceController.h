@@ -108,6 +108,9 @@ private slots:
     void requestHT                  (void);
     void requestReplyHT             (QNetworkReply *reply);
 
+public slots:
+    void downloadGeofences          (QRect viewPortRect);
+
 private:
     void _init(void);
     void parsesMultiplePolygon(QString source);

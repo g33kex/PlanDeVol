@@ -652,3 +652,5 @@ void GeoFenceController::parsesMultiplePolyline(QString source) {
     }
 }
 
+void GeoFenceController::downloadGeofences(QRect viewportRect){}
+

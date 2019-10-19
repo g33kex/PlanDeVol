@@ -66,6 +66,15 @@ QGCFlickable {
                                             qsTr("This vehicle does not support GeoFence.")
                 }
 
+                QGCButton {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    text: "Download Geofences"
+                    onClicked: {
+                        _geoFenceController.downloadGeofences(Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height));
+                    }
+                }
+
                 Column {
                     anchors.left:       parent.left
                     anchors.right:      parent.right
