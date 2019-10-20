@@ -428,8 +428,8 @@ int main(int argc, char *argv[])
             }
             if((*i).count(":") > 1) {
                 int index = (*i).indexOf(":");
-//                (*i) = (*i).replace(":", ";");
-//                (*i) = (*i).replace(index, (*i).size(), ":");
+                (*i) = (*i).replace(":", ";");
+                (*i) = (*i).replace(index, 1, ":");
             }
         }
 
