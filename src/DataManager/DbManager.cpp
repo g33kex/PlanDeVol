@@ -1,7 +1,8 @@
 #include "DataManager/DbManager.h"
 #include <QCryptographicHash>
+#include "Admin/List_file.h"
 
-
+extern List_file *nbParam;
 //TODO : valeur par defaut a mettre
 
 DbManager::DbManager() {
@@ -202,8 +203,8 @@ QSqlDatabase DbManager::getDB() {
 }
 
 
-//we return 11 so that it block if the request come to an error
-int DbManager::getNbMission(QString username) {
+//we return false so that it block if the request come to an error
+bool DbManager::getNbMission(QString username) {
     QSqlQuery query;
     query.prepare("SELECT count(missionFile) FROM Mission WHERE owner = (:username)");
     query.bindValue(":username", username);
@@ -211,12 +212,12 @@ int DbManager::getNbMission(QString username) {
         query.first();
         QString value = query.value("count(missionFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt();
+        return value.toInt() <= nbParam->at(2);
     }
-    return 11;
+    return false;
 }
 
-int DbManager::getNbParcelle(QString username) {
+bool DbManager::getNbParcelle(QString username) {
     QSqlQuery query;
     query.prepare("SELECT count(parcelleFile) FROM Parcelle WHERE owner = (:username)");
     query.bindValue(":username", username);
@@ -224,7 +225,7 @@ int DbManager::getNbParcelle(QString username) {
         query.first();
         QString value = query.value("count(parcelleFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt();
+        return value.toInt() <= nbParam->at(3);
     }
-    return 11;
+    return false;
 }

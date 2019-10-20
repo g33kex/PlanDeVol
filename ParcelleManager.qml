@@ -122,7 +122,7 @@ Item {
                     text: "Add Parcelle"
 
                     onClicked: {
-                        if(QGroundControl.settingsManager.appSettings.nbParcelle < 11) {
+                        if(QGroundControl.settingsManager.appSettings.nbParcelle) {
                             addParcelleDialog.open()
                         }
                         else {
@@ -353,7 +353,7 @@ Item {
     MessageDialog {
         id: messageDialog_toomuch
         title: "Warning"
-        text: "Limite de 10 parcelles enregistrées atteintes."
+        text: "Limite de parcelles enregistrées atteintes."
     }
 
 }

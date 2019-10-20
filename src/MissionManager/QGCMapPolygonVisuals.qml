@@ -266,7 +266,7 @@ Item {
         QGCMenuItem {
             text:           qsTr("Save as Parcelle...")
             onTriggered: {
-                if(QGroundControl.settingsManager.appSettings.nbParcelle < 11) {
+                if(QGroundControl.settingsManager.appSettings.nbParcelle) {
                     saveAsParcelleDialog.openForSave()
                 }
                 else {
@@ -583,7 +583,7 @@ Item {
     MessageDialog {
         id: messageDialog_toomuch
         title: "Warning"
-        text: "Limite de 10 parcelles enregistrées atteintes."
+        text: "Limite de parcelles enregistrées atteintes."
     }
 }
 

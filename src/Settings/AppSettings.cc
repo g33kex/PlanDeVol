@@ -218,10 +218,10 @@ MAV_TYPE AppSettings::offlineEditingVehicleTypeFromVehicleType(MAV_TYPE vehicleT
     }
 }
 
-int AppSettings::nbMission(void){
+bool AppSettings::nbMission(void){
     return db->getNbMission(username);
 }
 
-int AppSettings::nbParcelle(void){
+bool AppSettings::nbParcelle(void){
     return db->getNbParcelle(username);
 }

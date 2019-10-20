@@ -236,6 +236,9 @@ List_file *checklist;
 
 extern List_file *speedParam;
 List_file *speedParam;
+
+extern List_file *nbParam;
+List_file *nbParam;
 /**
  * @brief Starts the application
  *
@@ -442,6 +445,17 @@ int main(int argc, char *argv[])
             speedParam->append("40");
             speedParam->append("60");
             speedParam->append("80");
+        }
+
+        //permet de contenir le nombre de sessions, missions et parcelles
+        nbParam = new List_file("nbParam");
+        //param par defaut if the file is empty
+        if (! nbParam->load()) {
+            qDebug() << "nbParam file is empty";
+            nbParam->clear();
+            nbParam->append("10");
+            nbParam->append("10");
+            nbParam->append("10");
         }
 
 

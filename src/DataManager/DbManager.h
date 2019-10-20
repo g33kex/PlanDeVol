@@ -24,8 +24,8 @@ class DbManager
 
         QSqlDatabase getDB();
 
-        int getNbMission(QString username);
-        int getNbParcelle(QString username);
+        bool getNbMission(QString username);
+        bool getNbParcelle(QString username);
     private:
         QSqlDatabase m_db;
 };
