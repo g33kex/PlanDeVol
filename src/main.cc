@@ -422,6 +422,7 @@ int main(int argc, char *argv[])
             checklist->append("RAS: Rien a Signaler");
         }
 
+        // verifier qu'il n'y a qu'une occurence de :
         for(QList<QString>::iterator i = checklist->begin(); i != checklist->end(); ++i) {
             if((*i).count(":") < 1) {
                 (*i).append(":foo");
