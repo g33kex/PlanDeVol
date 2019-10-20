@@ -44,11 +44,11 @@ void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionContro
 
     QMap<QString, double> *KmlParcelleList= new QMap<QString, double>() ;
 
-    for(int i=0; i<indexes.size();i++)
+    for(QList<int>::iterator i = indexes.begin(); i != indexes.end(); ++i)
     {
-        QString file = model->record(i).value("parcelleFile").toString();
-        double speed = speedParam->at(model->record(i).value("speed").toInt()).toDouble();
-        qDebug() << i;
+        QString file = model->record(*i).value("parcelleFile").toString();
+        double speed = speedParam->at(model->record(*i).value("speed").toInt()-1).toDouble();
+        qDebug() << *i;
         KmlParcelleList->insert(file, speed); // ici il faudra mettre le path
     }
     missionController->insertComplexMissionFromDialog(*KmlParcelleList);

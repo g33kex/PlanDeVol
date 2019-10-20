@@ -441,9 +441,9 @@ int main(int argc, char *argv[])
         if (! speedParam->load()) {
             qDebug() << "speedParam file is empty";
             speedParam->clear();
+            speedParam->append("15");
+            speedParam->append("30");
             speedParam->append("40");
-            speedParam->append("60");
-            speedParam->append("80");
         }
 
         //permet de contenir le nombre de sessions, missions et parcelles

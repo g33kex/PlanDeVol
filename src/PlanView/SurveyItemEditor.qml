@@ -212,6 +212,16 @@ Rectangle {
                 Layout.fillWidth:   true
                 visible:            !_usingPreset
             }
+
+//            QGCLabel {
+//                text:       qsTr("Flight Speed")
+//                visible:    !_usingPreset
+//            }
+//            FactTextField {
+//                fact:               missionItem.FlightSpeed
+//                Layout.fillWidth:   true
+//                visible:            !_usingPreset
+//            }
         }
 
         QGCButton {
