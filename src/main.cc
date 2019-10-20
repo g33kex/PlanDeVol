@@ -416,7 +416,6 @@ int main(int argc, char *argv[])
 #ifdef __android__
         checkAndroidWritePermission();
 #endif
-        db = new DbManager();
 
         checklist = new List_file("Checklist");
         //param par defaut if the file is empty
@@ -458,6 +457,7 @@ int main(int argc, char *argv[])
             nbParam->append("10");
         }
 
+        db = new DbManager();
 
         if (!app->_initForNormalAppBoot()) {
             return -1;

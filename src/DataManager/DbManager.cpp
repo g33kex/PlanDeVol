@@ -212,7 +212,7 @@ bool DbManager::getNbMission(QString username) {
         query.first();
         QString value = query.value("count(missionFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt() <= nbParam->at(2);
+        return value.toInt() <= nbParam->at(1);
     }
     return false;
 }
@@ -225,7 +225,7 @@ bool DbManager::getNbParcelle(QString username) {
         query.first();
         QString value = query.value("count(parcelleFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt() <= nbParam->at(3);
+        return value.toInt() <= nbParam->at(2);
     }
     return false;
 }
