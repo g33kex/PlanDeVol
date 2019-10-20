@@ -23,6 +23,9 @@ class DbManager
         QString getPassword(const QString& user);
 
         QSqlDatabase getDB();
+
+        int getNbMission(QString username);
+        int getNbParcelle(QString username);
     private:
         QSqlDatabase m_db;
 };

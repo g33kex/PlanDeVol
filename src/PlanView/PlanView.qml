@@ -1036,10 +1036,18 @@ Item {
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.containsItems
                     onClicked: {
-                        dropPanel.hide()
-                        _planMasterController.saveToSelectedFile()
+                        if(_appSettings.nbMission < 11) {
+                            dropPanel.hide()
+                            _planMasterController.saveToSelectedFile()
+                        }
+                        else {
+                            messageDialog_toomuch.open()
+                        }
+
+
                     }
                 }
+            }
 
               /*  QGCButton {
                     text:               qsTr("Save Mission Waypoints As KML...")
@@ -1106,5 +1114,10 @@ Item {
 
             }
         }
+
+    MessageDialog {
+        id: messageDialog_toomuch
+        title: "Warning"
+        text: "Limite de 10 missions enregistrées atteintes."
     }
 }

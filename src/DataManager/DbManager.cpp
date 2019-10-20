@@ -200,3 +200,31 @@ QString DbManager::getPassword(const QString& user) {
 QSqlDatabase DbManager::getDB() {
     return m_db;
 }
+
+
+//we return 11 so that it block if the request come to an error
+int DbManager::getNbMission(QString username) {
+    QSqlQuery query;
+    query.prepare("SELECT count(missionFile) FROM Mission WHERE owner = (:username)");
+    query.bindValue(":username", username);
+    if(query.exec()) {
+        query.first();
+        QString value = query.value("count(missionFile)").toString();
+        qDebug() << "query" << value;
+        return value.toInt();
+    }
+    return 11;
+}
+
+int DbManager::getNbParcelle(QString username) {
+    QSqlQuery query;
+    query.prepare("SELECT count(parcelleFile) FROM Parcelle WHERE owner = (:username)");
+    query.bindValue(":username", username);
+    if(query.exec()) {
+        query.first();
+        QString value = query.value("count(parcelleFile)").toString();
+        qDebug() << "query" << value;
+        return value.toInt();
+    }
+    return 11;
+}

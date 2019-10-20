@@ -11,6 +11,7 @@
 #include "QGCPalette.h"
 #include "QGCApplication.h"
 #include "ParameterManager.h"
+#include "DataManager/DbManager.h"
 
 #include <QQmlEngine>
 #include <QtQml>
@@ -33,6 +34,9 @@ const char* AppSettings::missionDirectory =         "Missions";
 const char* AppSettings::logDirectory =             "Logs";
 const char* AppSettings::videoDirectory =           "Video";
 const char* AppSettings::crashDirectory =           "CrashLogs";
+
+extern DbManager *db;
+extern QString username;
 
 DECLARE_SETTINGGROUP(App, "")
 {
@@ -212,4 +216,12 @@ MAV_TYPE AppSettings::offlineEditingVehicleTypeFromVehicleType(MAV_TYPE vehicleT
     } else {
         return MAV_TYPE_QUADROTOR;
     }
+}
+
+int AppSettings::nbMission(void){
+    return db->getNbMission(username);
+}
+
+int AppSettings::nbParcelle(void){
+    return db->getNbParcelle(username);
 }
