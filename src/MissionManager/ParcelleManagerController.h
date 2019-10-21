@@ -18,9 +18,9 @@ public:
 
     ~ParcelleManagerController();
 
-    Q_PROPERTY(QmlObjectListModel* parcelles READ parcelles CONSTANT)
+//    Q_PROPERTY(QmlObjectListModel* parcelles READ parcelles CONSTANT)
 
-   // Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
+//    Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 signals:
     void downloadEnded(bool);
 
@@ -36,7 +36,6 @@ public slots:
 private:
     void initParcelles();
     void requestParcelle(QString nbIlot);
-    //void closeEvent(QCloseEvent *bar);
     QList<QString> *toDel;
     MissionController *missionControler;
     GeoportailLink *geoportailParcelle;

@@ -23,7 +23,7 @@ Item {
         id: _parcelleManagerController
     }
 
-    property var _parcelles: _parcelleManagerController.parcelles
+//    property var _parcelles: _parcelleManagerController.parcelles
 
     function show() {
         //parcelleModel.setupForParcelle()
@@ -138,9 +138,9 @@ Item {
                                 var selected=[]
                                 tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
                                 tableView.selection.clear()
-                                admin.open()
+//                                admin.open()
 //                                if (admin.true) {
-//                                    _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+                                _parcelleManagerController.deleteParcelle(parcelleModel,selected)
 //                                }
                            }
                 }
@@ -210,19 +210,19 @@ Item {
                 zoomLevel: 14
                 activeMapType: map.supportedMapTypes[1]
 
-                MapItemView {
-                    model: _parcelles
-                    delegate: MapPolygon {
-                        path: coordinates
-                    }
+//                MapItemView {
+//                    model: _parcelles
+//                    delegate: MapPolygon {
+//                        path: coordinates
+//                    }
 
-                    MapPolygon {
-                        id: areaPolygon
-                        border.width: 1
-                        border.color: "red"
-                        color: Qt.rgba(255, 0, 0, 0.1)
-                    }
-                }
+//                    MapPolygon {
+//                        id: areaPolygon
+//                        border.width: 1
+//                        border.color: "red"
+//                        color: Qt.rgba(255, 0, 0, 0.1)
+//                    }
+//                }
             }
 
 

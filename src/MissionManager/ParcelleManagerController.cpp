@@ -21,7 +21,8 @@ extern List_file *speedParam;
 ParcelleManagerController::ParcelleManagerController() {
     geoportailParcelle = new GeoportailLink();
     connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
-    initParcelles();
+    _parcelles = new QmlObjectListModel();
+//    initParcelles();
 }
 
 ParcelleManagerController::~ParcelleManagerController()

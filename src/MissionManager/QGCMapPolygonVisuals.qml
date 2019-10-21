@@ -268,8 +268,8 @@ Item {
             text:           qsTr("Save as Parcelle...")
             onTriggered: {
                 if(QGroundControl.settingsManager.appSettings.nbParcelle) {
-                    //saveAsParcelleDialog.openForSave()
-                    verif.open()
+                    saveAsParcelleDialog.openForSave()
+//                    verif.open()
                 }
                 else {
                     messageDialog_toomuch.open()
