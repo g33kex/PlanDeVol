@@ -139,8 +139,10 @@ Item {
                                 var selected=[]
                                 tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
                                 tableView.selection.clear()
-
-                                _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+                                admin.open()
+//                                if (admin.true) {
+//                                    _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+//                                }
                            }
                 }
                 Button {
@@ -355,6 +357,35 @@ Item {
         id: messageDialog_toomuch
         title: "Warning"
         text: "Limite de parcelles enregistrées atteintes."
+    }
+
+    Dialog {
+        id : admin
+        title: "Admin"
+        GridLayout {
+            columns: 2
+            anchors.fill: parent
+
+            Label {
+                text: "username"
+            }
+            TextField {
+                id: a_username
+                enabled: false
+                text: "admin"
+            }
+            Label {
+                text: "password"
+            }
+            TextField {
+                id: a_password
+                echoMode: PasswordEchoOnEdit
+            }
+
+        }
+        onAccepted: {
+            _parcelleManagerController.verif(a_username.text, a_password.text)
+        }
     }
 
 }

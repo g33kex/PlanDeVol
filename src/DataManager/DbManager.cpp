@@ -180,7 +180,7 @@ QMap<QString, int> * DbManager::getAllMission() {
 }
 
 QString DbManager::getPassword(const QString& user) {
-    //qDebug() << "in getPassword" << user;
+    qDebug() << "in getPassword" << user;
     QSqlQuery query;
     query.prepare("SELECT * FROM Person WHERE username = (:username)");
     query.bindValue(":username", user);

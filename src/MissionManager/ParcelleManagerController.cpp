@@ -10,6 +10,7 @@
 #include "QGCApplication.h"
 #include "Admin/List_file.h"
 #include "ShapeFileHelper.h"
+#include <QCryptographicHash>
 
 
 extern QString username;
@@ -123,5 +124,20 @@ void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index,
     bool ok = model->setRecord(index, record);
     qDebug() << ok;
     model->submitAll();
+}
+
+bool ParcelleManagerController::verif(QString user, QString pass) {
+        if (user == "") return false;
+        QString mdp = QCryptographicHash::hash(pass.toUtf8(), QCryptographicHash::Sha3_256);
+        qDebug() << mdp;
+        QString mdp_base = db->getPassword(user);
+        if(mdp_base.compare(mdp) == 0) {
+            qDebug() << "true";
+            return true;
+        }
+        else {
+            return false;
+        }
+
 }
 
