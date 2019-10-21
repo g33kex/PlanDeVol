@@ -106,16 +106,6 @@ Item {
                         model: parcelleModel
                     }
                }
-                  Component {
-                      id: myDelegate
-                      Rectangle {
-                        color: "gray"
-                        Text {
-                            text: type + ", " + age
-                        }
-                      }
-                  }
-
                 Button {
                     Layout.fillWidth: true
                     Layout.margins : margin

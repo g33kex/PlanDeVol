@@ -79,6 +79,20 @@ void SqlCustomModel::setupForParcelle() {
 
 }
 
+void SqlCustomModel::setupForMission() {
+    this->setTable("Mission");
+    this->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->generateRoleNames();
+    this->select();
+}
+
+void SqlCustomModel::setupForUser() {
+    this->setTable("Person");
+    this->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->generateRoleNames();
+    this->select();
+}
+
 QVariant SqlCustomModel::getRecordValue(int recordIndex, QString role) {
     qDebug() << "getting record value of record" <<recordIndex << " got value " <<  this->record(recordIndex).value(role);
     return this->record(recordIndex).value(role);

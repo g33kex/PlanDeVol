@@ -4,6 +4,8 @@ import QtQuick.Controls 2.0
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
 import QtQuick.Dialogs 1.2
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 
 Item {
 
@@ -13,6 +15,348 @@ Item {
     LoginController {
         id: _loginController
     }
+
+    ParcelleManagerController {
+        id: _parcelleManagerController
+    }
+
+    Popup {
+        id: adminInterface
+        width: parent.width
+        height: parent.height
+        modal: true
+        ColumnLayout {
+            anchors.fill: parent
+        TabView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+
+            Tab {
+                id: adminInterfaceUserTab
+                title: "User Manager"
+
+
+                ColumnLayout {
+                    anchors.fill: parent
+                   Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "white"
+
+
+
+                        TableView {
+                            id: userTableView
+                            anchors.fill: parent
+                            selectionMode: SelectionMode.MultiSelection
+                            TableViewColumn {
+                                role: "username"
+                                title: "Username"
+                                movable: false
+                                width: userTableView.width/3
+                            }
+                            TableViewColumn {
+                                role: "nom"
+                                title: "Nom"
+                                movable : false
+                                width: userTableView.width/3
+                            }
+                            TableViewColumn {
+                                role: "prenom"
+                                title: "Prenom"
+                                movable : false
+                                width: userTableView.width/3
+                            }
+
+                            SqlCustomModel {
+                                id: userModel
+
+                                Component.onCompleted: {
+                                    setupForUser()
+                                }
+
+                            }
+
+                            model: userModel
+
+                            Dialog {
+                                id: addUserDialog
+
+
+                                onAccepted: {
+                                    _loginController.addUser(adminInterface.userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
+                                }
+
+
+                                title: "Add User"
+
+                                standardButtons: Dialog.Ok | Dialog.Cancel
+
+                                GridLayout {
+                                    columns: 4
+                                    anchors.fill: parent
+
+                                    Label {
+                                        text: "Username"
+                                    }
+                                    Label {
+                                        text: "Password"
+                                    }
+                                    Label {
+                                        text: "Nom"
+                                    }
+                                    Label {
+                                        text: "Prenom"
+
+                                    }
+                                    TextField {
+                                        id: a_usernameField
+                                    }
+                                    TextField {
+                                        id: a_passwordField
+                                        echoMode: TextInput.Password
+                                    }
+                                    TextField {
+                                        id: a_nomField
+                                    }
+                                    TextField {
+                                        id: a_prenomField
+                                    }
+                                }
+                            }
+                        }
+                   }
+
+
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.margins : margin
+                        text: "Remove User"
+                            onClicked: {
+                                    var selected=[]
+                                    userTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                    userTableView.selection.clear()
+
+                                    _loginController.deleteUser(userModel,selected)
+                               }
+                    }
+
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.margins : margin
+                        text: "Add User"
+                        onClicked: {
+                            addUserDialog.open()
+                        }
+                    }
+                }
+            }
+            Tab {
+                title: "Mission Manager"
+                ColumnLayout {
+                    anchors.fill: parent
+                   Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "white"
+
+                        SqlCustomModel {
+                            id: missionModel
+
+                            Component.onCompleted: {
+                                setupForMission()
+                            }
+
+                        }
+
+                        TableView {
+                            id: missionTableView
+                            anchors.fill: parent
+                            selectionMode: SelectionMode.MultiSelection
+                            TableViewColumn {
+                                role: "owner"
+                                title: "Owner"
+                                movable: false
+                                width: missionTableView.width/2
+                            }
+                            TableViewColumn {
+                                role: "missionFile"
+                                title: "MissionFile"
+                                movable : false
+                                width: missionTableView.width/2
+                            }
+
+                            model: missionModel
+                        }
+                   }
+
+
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.margins : margin
+                        text: "Remove Mission"
+                            onClicked: {
+                                    var selected=[]
+                                    missionTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                    missionTableView.selection.clear()
+
+                                    _loginController.deleteMission(missionModel,selected)
+                               }
+                    }
+                }
+            }
+            Tab {
+                title: "Parcelle Manager"
+                ColumnLayout {
+                    anchors.fill: parent
+                   Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "white"
+
+                        SqlCustomModel {
+                            id: parcelleModel
+
+                            Component.onCompleted: {
+                                setupForParcelle()
+                            }
+
+                        }
+
+                        TableView {
+                            id: parcelleTableView
+                            anchors.fill: parent
+                            selectionMode: SelectionMode.MultiSelection
+                            TableViewColumn {
+                                role: "owner"
+                                title: "Owner"
+                                movable: false
+                                width: 2*parcelleTableView.width/8
+                            }
+                            TableViewColumn {
+                                role: "parcelleFile"
+                                title: "ParcelleFile"
+                                movable : false
+                                width: 4*parcelleTableView.width/8
+                            }
+                            TableViewColumn {
+                                role: "type"
+                                title: "Type"
+                                movable: false
+                                width: parcelleTableView.width/8
+                            }
+                            TableViewColumn {
+                                role: "speed"
+                                title: "Speed"
+                                movable: false
+                                width: parcelleTableView.width/8
+                            }
+
+                            model: parcelleModel
+                        }
+                   }
+
+
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.margins : margin
+                        text: "Remove Parcelle"
+                            onClicked: {
+                                    var selected=[]
+                                    parcelleTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                    parcelleTableView.selection.clear()
+
+                                    _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+                               }
+                    }
+                }
+            }
+            Tab {
+                title: "Flight Parameters"
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    property var m: 5
+                    property var m2: 2
+
+                Label {
+                    text: "Speed"
+                    color: "gray"
+                    Layout.margins: m2
+                }
+
+                SpinBox {
+                    id: speedBox
+                    value: _loginController.getParamSpeed()
+                    Layout.margins: m
+                }
+
+                Label {
+                    text: "Altitude"
+                    color: "gray"
+                    Layout.margins: m2
+                }
+
+                SpinBox {
+                    id: altBox
+                    value: _loginController.getParamAlt()
+                    Layout.margins: m
+                }
+
+
+                Label {
+                    text: "Checklist"
+                    color: "gray"
+                    Layout.margins: m2
+                }
+
+                TextArea {
+                    id: checklistArea
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    text: _loginController.getParamChecklist()
+                    Layout.margins: m
+                }
+
+                Button {
+                    text: "Save"
+                    Layout.margins: m
+                    onClicked: {
+                        _loginController.setParamSpeed(speedBox.value)
+                        _loginController.setParamAlt(altBox.value)
+                        _loginController.setParamChecklist(checklistArea.text)
+                    }
+                }
+                }
+            }
+        }
+        Button {
+            Layout.alignment: Qt.AlignRight
+            text: "Disconnect"
+            Layout.margins: 5
+            style: ButtonStyle {
+                   background: Rectangle {
+                       implicitWidth: 120
+                       implicitHeight: 35
+                       border.width: control.activeFocus ? 2 : 1
+                       border.color: "pink"
+                       radius: 20
+                       gradient: Gradient {
+                           GradientStop { position: 0 ; color: control.pressed ? "pink" : "red" }
+                           GradientStop { position: 1 ; color: control.pressed ? "purple" : "darkred" }
+                       }
+                   }
+               }
+            onClicked: {
+                adminInterface.close()
+                _loginController.onAdminClosed()
+            }
+        }
+        }
+
+    }
+
     Rectangle {
         color: "black"
         anchors.fill: parent
@@ -32,7 +376,7 @@ Item {
 
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: 30
+            Layout.preferredHeight: 45
             Layout.alignment: Qt.AlignHCenter
             Layout.rightMargin: 10
             Layout.leftMargin: 10
@@ -93,7 +437,8 @@ Item {
             {
                 if(username==="admin")
                 {
-                    console.log("ADMIN LOGIN DETECTED")
+                    console.log("ADMIN LOGIN")
+                    adminInterface.open()
                 }
                 else {
                     console.log("Logged in as user "+username)
@@ -117,5 +462,7 @@ Item {
         }
 
     }
+
+
 
 }

@@ -1,7 +1,7 @@
 #include "DataManager/DbManager.h"
 
 #ifndef PARCELLESQLMODEL_H
-#define PARCELLESQLEMODEL_H
+#define PARCELLESQLMODEL_H
 
 #include <QSqlRelationalTableModel>
 
@@ -21,6 +21,8 @@ public:
     void generateRoleNames();
 
     Q_INVOKABLE void setupForParcelle();
+    Q_INVOKABLE void setupForMission();
+    Q_INVOKABLE void setupForUser();
     QHash<int, QByteArray> roleNames() const override {	return roles;	}
 
     Q_INVOKABLE QVariant getRecordValue(int recordIndex, QString role);

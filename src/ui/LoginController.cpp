@@ -53,3 +53,29 @@ void LoginController::loadMainWindow() {
 bool LoginController::login(QString username, QString password) {
     return true;
 }
+
+void LoginController::onAdminClosed() {
+
+}
+
+void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
+    for(int i=0; i<indexes.size();i++) {
+        model->removeRow(indexes[i]);
+    }
+    model->submitAll();
+}
+
+
+void LoginController::deleteUser(SqlCustomModel *model, QList<int> indexes) {
+    for(int i=0; i<indexes.size();i++) {
+        model->removeRow(indexes[i]);
+    }
+    model->submitAll();
+}
+
+void LoginController::addUser(SqlCustomModel *model, QString username, QString password, QString nom, int prenom) {
+
+
+//TODO : ADDUSER
+}
+
