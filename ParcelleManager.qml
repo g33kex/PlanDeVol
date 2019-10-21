@@ -172,7 +172,7 @@ Item {
                 Button {
                     Layout.fillWidth: true
                     Layout.margins: margin
-                    text: "Cancel"
+                    text: "Done"
                     onClicked: {
                         parcelleManagerPopup.close()
                     }
