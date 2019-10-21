@@ -36,6 +36,7 @@ public:
     Q_PROPERTY(QGeoCoordinate       center      READ center         WRITE setCenter         NOTIFY centerChanged)
     Q_PROPERTY(bool                 centerDrag  READ centerDrag     WRITE setCenterDrag     NOTIFY centerDragChanged)
     Q_PROPERTY(bool                 interactive READ interactive    WRITE setInteractive    NOTIFY interactiveChanged)
+    Q_PROPERTY(QString              verifArea   READ verifArea)
 
     Q_INVOKABLE void clear(void);
     Q_INVOKABLE void appendVertex(const QGeoCoordinate& coordinate);
@@ -71,6 +72,7 @@ public:
 
     ///Save the polygon as KML (for Save as Parcelle)
     Q_INVOKABLE void savePolygonToKML(QString path);
+
 
     /// Saves the polygon to the json object.
     ///     @param json Json object to save to
@@ -122,6 +124,8 @@ private slots:
     void _polygonModelCountChanged(int count);
     void _polygonModelDirtyChanged(bool dirty);
     void _updateCenter(void);
+    QString verifArea(void);
+
 
 private:
     void _init(void);

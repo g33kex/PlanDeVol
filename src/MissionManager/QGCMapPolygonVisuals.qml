@@ -44,6 +44,7 @@ Item {
     property real _zorderSplitHandle:   QGroundControl.zOrderMapItems + 2
     property real _zorderCenterHandle:  QGroundControl.zOrderMapItems + 1   // Lowest such that drag or split takes precedence
 
+
     function addVisuals() {
         _polygonComponent = polygonComponent.createObject(mapControl)
         mapControl.addMapItem(_polygonComponent)
@@ -267,7 +268,8 @@ Item {
             text:           qsTr("Save as Parcelle...")
             onTriggered: {
                 if(QGroundControl.settingsManager.appSettings.nbParcelle) {
-                    saveAsParcelleDialog.openForSave()
+                    //saveAsParcelleDialog.openForSave()
+                    verif.open()
                 }
                 else {
                     messageDialog_toomuch.open()
@@ -584,6 +586,14 @@ Item {
         id: messageDialog_toomuch
         title: "Warning"
         text: "Limite de parcelles enregistrées atteintes."
+    }
+
+    Dialog {
+        id: verif
+        title: "confirmation"
+        Label {
+            text : mapPolygon.verifArea
+        }
     }
 }
 

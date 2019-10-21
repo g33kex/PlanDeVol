@@ -379,7 +379,7 @@ Item {
             }
             TextField {
                 id: a_password
-                echoMode: PasswordEchoOnEdit
+                echoMode: TextInput.PasswordEchoOnEdit
             }
 
         }

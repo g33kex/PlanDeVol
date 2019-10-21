@@ -521,3 +521,7 @@ void QGCMapPolygon::savePolygonToKML(QString path) {
     //TODO : ajouter la verif ici ! + un form pour la vitesse !
     ShapeFileHelper::savePolygonToKML(path, &_polygonModel, 0);
 }
+
+QString QGCMapPolygon::verifArea() {
+    return QString("The area is ") + QString::number(this->area() / 10000) + " hectares";
+}
