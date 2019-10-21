@@ -13,18 +13,17 @@ import QGroundControl.Controllers       1.0
 
 
 
-
-
 Item {
     id: element
 
     property int margin: 5
-
     anchors.fill: parent
 
     ParcelleManagerController {
         id: _parcelleManagerController
     }
+
+    property var _parcelles: _parcelleManagerController.parcelles
 
     function show() {
         //parcelleModel.setupForParcelle()
@@ -208,10 +207,22 @@ Item {
                 Layout.fillWidth: true
                 Layout.margins: margin
                 plugin: mapPlugin
-                center: QtPositioning.coordinate(59.91, 10.75) // Oslo
                 zoomLevel: 14
                 activeMapType: map.supportedMapTypes[1]
 
+                MapItemView {
+                    model: _parcelles
+                    delegate: MapPolygon {
+                        path: coordinates
+                    }
+
+                    MapPolygon {
+                        id: areaPolygon
+                        border.width: 1
+                        border.color: "red"
+                        color: Qt.rgba(255, 0, 0, 0.1)
+                    }
+                }
             }
 
 

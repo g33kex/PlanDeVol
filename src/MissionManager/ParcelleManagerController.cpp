@@ -11,7 +11,8 @@
 #include "Admin/List_file.h"
 #include "ShapeFileHelper.h"
 #include <QCryptographicHash>
-
+#include <QmlObjectListModel.h>
+#include <KMLFileHelper.h>
 
 extern QString username;
 extern DbManager *db;
@@ -20,6 +21,7 @@ extern List_file *speedParam;
 ParcelleManagerController::ParcelleManagerController() {
     geoportailParcelle = new GeoportailLink();
     connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
+    initParcelles();
 }
 
 ParcelleManagerController::~ParcelleManagerController()
@@ -139,5 +141,24 @@ bool ParcelleManagerController::verif(QString user, QString pass) {
             return false;
         }
 
+}
+
+QmlObjectListModel* ParcelleManagerController::parcelles() {
+    return _parcelles;
+}
+
+void ParcelleManagerController::initParcelles() {
+
+    QList<QString> listParcelle = db->getAllParcelle(username);
+    for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
+        QList<QGeoCoordinate> vertices;
+        QString error;
+        KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
+
+        QGCMapPolygon polygon = *new QGCMapPolygon();
+
+        polygon.setPath(vertices);
+        _parcelles->append(&polygon);
+    }
 }
 

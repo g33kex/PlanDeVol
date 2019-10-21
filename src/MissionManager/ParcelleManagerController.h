@@ -2,7 +2,7 @@
 #include "MissionController.h"
 #include "SqlCustomModel.hpp"
 #include "Admin/GeoportailLink.h"
-
+#include <QmlObjectListModel.h>
 #include <QSqlTableModel>
 #include <QNetworkReply>
 
@@ -18,7 +18,7 @@ public:
 
     ~ParcelleManagerController();
 
-
+    Q_PROPERTY(QmlObjectListModel* parcelles READ parcelles CONSTANT)
 
    // Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 signals:
@@ -31,14 +31,17 @@ public slots:
     void addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed);
     void requestReply(QNetworkReply *reply);
     bool verif(QString user, QString pass);
+    QmlObjectListModel* parcelles();
 
 private:
+    void initParcelles();
     void requestParcelle(QString nbIlot);
     //void closeEvent(QCloseEvent *bar);
     QList<QString> *toDel;
     MissionController *missionControler;
     GeoportailLink *geoportailParcelle;
     QString _file;
+    QmlObjectListModel* _parcelles;
 };
 
 #endif // PARCELLEMANAGERCONTROLLER_H

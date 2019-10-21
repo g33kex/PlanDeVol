@@ -130,15 +130,16 @@ bool DbManager::deleteParcelle(const int id) {
     return success;
 }
 
-QMap<QString, int>* DbManager::getAllParcelle() {
-    QMap<QString, int>* res = new QMap<QString, int>();
-    QSqlQuery query("SELECT * FROM Person");
-    int idName = query.record().indexOf("username");
-    int idId = query.record().indexOf("id");
+QList<QString> DbManager::getAllParcelle(QString username) {
+    QList<QString> res = *new QList<QString>();
+    QString foo = "SELECT parcelleFile FROM Parcelle WHERE owner = \""+ username + "\"";
+    QSqlQuery query (foo);
+    int idName = query.record().indexOf("parcelleFile");
     while (query.next()) {
-        res->insert(query.value(idName).toString(), query.value(idId).toInt());
+        qDebug() << query.value(idName).toString();
+        res.append(query.value(idName).toString());
     }
-
+    qDebug() << "size of res " + QString::number(res.size());
     return res;
 }
 
