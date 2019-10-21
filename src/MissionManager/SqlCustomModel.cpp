@@ -1,4 +1,4 @@
-#include "SqlParcelleModel.hpp"
+#include "SqlCustomModel.hpp"
 #include <QSqlRecord>
 #include <QSqlQueryModel>
 #include <QSqlRelationalTableModel>
@@ -7,12 +7,12 @@
 
 extern DbManager *db;
 
-SqlParcelleModel::SqlParcelleModel(QObject *parent)
+SqlCustomModel::SqlCustomModel(QObject *parent)
     : QSqlRelationalTableModel(parent, db->getDB()) {
 
 }
 
-QVariant SqlParcelleModel::data(const QModelIndex &index, int role) const {
+QVariant SqlCustomModel::data(const QModelIndex &index, int role) const {
 
     if(index.row() >= rowCount()) {
         return QString("");
@@ -47,7 +47,7 @@ QVariant SqlParcelleModel::data(const QModelIndex &index, int role) const {
 
 //}
 
-void SqlParcelleModel::generateRoleNames()
+void SqlCustomModel::generateRoleNames()
 {
     roles.clear();
     roles.clear();
@@ -60,7 +60,7 @@ void SqlParcelleModel::generateRoleNames()
 
 }
 
-void SqlParcelleModel::setupForParcelle() {
+void SqlCustomModel::setupForParcelle() {
 
 
     this->setTable("Parcelle");
@@ -79,7 +79,7 @@ void SqlParcelleModel::setupForParcelle() {
 
 }
 
-QVariant SqlParcelleModel::getRecordValue(int recordIndex, QString role) {
+QVariant SqlCustomModel::getRecordValue(int recordIndex, QString role) {
     qDebug() << "getting record value of record" <<recordIndex << " got value " <<  this->record(recordIndex).value(role);
     return this->record(recordIndex).value(role);
 }

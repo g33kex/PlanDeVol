@@ -394,7 +394,7 @@ HEADERS += \
     src/Admin/List_file.h \
     src/DataManager/DbManager.h \
     src/MissionManager/ParcelleManagerController.h \
-    src/MissionManager/SqlParcelleModel.hpp \
+    src/MissionManager/SqlCustomModel.hpp \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
@@ -409,7 +409,7 @@ SOURCES += \
     src/Admin/List_file.cpp \
     src/DataManager/DbManager.cpp \
     src/MissionManager/ParcelleManagerController.cpp \
-    src/MissionManager/SqlParcelleModel.cpp \
+    src/MissionManager/SqlCustomModel.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \

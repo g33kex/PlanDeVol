@@ -5,7 +5,7 @@
 
 #include <QSqlRelationalTableModel>
 
-class SqlParcelleModel : public QSqlRelationalTableModel
+class SqlCustomModel : public QSqlRelationalTableModel
 {
     Q_OBJECT
 
@@ -13,7 +13,7 @@ private:
     QHash<int, QByteArray> roles;
 
 public:
-    explicit SqlParcelleModel(QObject *parent = nullptr);
+    explicit SqlCustomModel(QObject *parent = nullptr);
 
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
 //    Q_INVOKABLE bool setData(const QModelIndex &item, const QVariant &value, int role) override;

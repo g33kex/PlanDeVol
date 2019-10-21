@@ -51,5 +51,5 @@ void LoginController::loadMainWindow() {
 
 //Returns true if login sucessful and sets global user variable
 bool LoginController::login(QString username, QString password) {
-    return false;
+    return true;
 }

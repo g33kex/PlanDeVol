@@ -533,7 +533,7 @@ void QGCApplication::_initCommon()
     qmlRegisterSingletonType<ScreenToolsController>     ("QGroundControl.ScreenToolsController",    1, 0, "ScreenToolsController",  screenToolsControllerSingletonFactory);
     qmlRegisterSingletonType<ShapeFileHelper>           ("QGroundControl.ShapeFileHelper",          1, 0, "ShapeFileHelper",        shapeFileHelperSingletonFactory);
 
-    qmlRegisterType<SqlParcelleModel>                   ("QGroundControl",                          1, 0, "SqlParcelleModel");
+    qmlRegisterType<SqlCustomModel>                   ("QGroundControl",                          1, 0, "SqlCustomModel");
 
 }
 

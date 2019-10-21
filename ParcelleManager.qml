@@ -27,7 +27,7 @@ Item {
     }
 
     function show() {
-        parcelleModel.setupForParcelle()
+        //parcelleModel.setupForParcelle()
         parcelleManagerPopup.open()
     }
 
@@ -65,8 +65,12 @@ Item {
                     color: "white"
                     id: page1
 
-                    SqlParcelleModel {
+                    SqlCustomModel {
                         id: parcelleModel
+
+                        Component.onCompleted: {
+                            setupForParcelle()
+                        }
 
                     }
 

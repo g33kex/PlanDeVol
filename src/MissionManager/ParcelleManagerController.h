@@ -1,6 +1,6 @@
 //#include "DbManager.h"
 #include "MissionController.h"
-#include "SqlParcelleModel.hpp"
+#include "SqlCustomModel.hpp"
 #include "Admin/GeoportailLink.h"
 
 #include <QSqlTableModel>
@@ -25,10 +25,10 @@ signals:
     void downloadEnded(bool);
 
 public slots:
-    void deleteParcelle(SqlParcelleModel *model, QList<int> indexes);
-    void addToMission(SqlParcelleModel *model,MissionController *missionController, QList<int> indexes);
-    void modifyParcelle(SqlParcelleModel *model, int index, QString owner, QString parcelleFile, QString type, int speed);
-    void addParcelle(SqlParcelleModel *model, QString ilotNumber, QString file, QString type, int speed);
+    void deleteParcelle(SqlCustomModel *model, QList<int> indexes);
+    void addToMission(SqlCustomModel *model,MissionController *missionController, QList<int> indexes);
+    void modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed);
+    void addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed);
     void requestReply(QNetworkReply *reply);
 
 private:

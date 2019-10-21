@@ -27,7 +27,7 @@ ParcelleManagerController::~ParcelleManagerController()
 }
 
 
-void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, QList<int> indexes) {
+void ParcelleManagerController::deleteParcelle(SqlCustomModel *model, QList<int> indexes) {
     for(int i=0; i<indexes.size();i++) {
         qDebug() << "Removing " << indexes[i];
         QFile file (model->record(i).value("parcelleFile").toString());
@@ -38,7 +38,7 @@ void ParcelleManagerController::deleteParcelle(SqlParcelleModel *model, QList<in
 }
 
 
-void ParcelleManagerController::addToMission(SqlParcelleModel *model,MissionController *missionController, QList<int> indexes) {
+void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionController *missionController, QList<int> indexes) {
     qDebug() << "in userSpace::addToMission";
 
 
@@ -55,7 +55,7 @@ void ParcelleManagerController::addToMission(SqlParcelleModel *model,MissionCont
     this->deleteLater();
 }
 
-void ParcelleManagerController::addParcelle(SqlParcelleModel *model, QString ilotNumber, QString file, QString type, int speed) {
+void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed) {
     _file = file;
 
     qDebug() << "in addParcelle";
@@ -111,7 +111,7 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
     return;
 }
 
-void ParcelleManagerController::modifyParcelle(SqlParcelleModel *model, int index, QString owner, QString parcelleFile, QString type, int speed) {
+void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed) {
 
     QSqlRecord record = model->record(index);
 
