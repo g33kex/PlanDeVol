@@ -402,7 +402,7 @@ HEADERS += \
     src/comm/MavlinkMessagesTimer.h \
     src/GPS/Drivers/src/base_station.h \
     src/ui/Admin.h \
-    src/ui/Login.h
+    src/ui/LoginController.h
 
 SOURCES += \
     src/Admin/GeoportailLink.cpp \
@@ -416,7 +416,7 @@ SOURCES += \
     src/api/QmlComponentInfo.cc \
     src/comm/MavlinkMessagesTimer.cc \
     src/ui/Admin.cpp \
-    src/ui/Login.cpp
+    src/ui/LoginController.cpp
 
 #
 # Unit Test specific configuration goes here (requires full debug build with all plugins)

@@ -155,6 +155,7 @@ public:
 
     bool _checkTelemetrySavePath(bool useMessageBox);
 
+
 private slots:
     void _missingParamsDisplay(void);
     void _currentVersionDownloadFinished(QString remoteFile, QString localFile);

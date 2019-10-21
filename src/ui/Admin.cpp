@@ -1,7 +1,7 @@
 #include "Admin.h"
 #include "ui_Admin.h"
 #include "DataManager/DbManager.h"
-#include "Login.h"
+#include "LoginController.h"
 #include <QSqlTableModel>
 #include <QMessageBox>
 
@@ -45,8 +45,8 @@ Admin::~Admin() {
 
 void Admin::disconnect() {
     qDebug() << "in admin::disconnect";
-    Login* login_widget = new Login(nullptr, db);
-    login_widget->show();
+   // LoginController* login_widget = new LoginController(db);
+    //login_widget->show();
     this->close();
 }
 

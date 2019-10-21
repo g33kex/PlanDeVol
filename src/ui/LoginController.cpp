@@ -1,31 +1,23 @@
-#include "Login.h"
-#include "ui_Login.h"
+#include "LoginController.h"
 #include <QMessageBox>
 #include <QCryptographicHash>
 #include "DataManager/DbManager.h"
 #include "Admin.h"
 
-Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login)
+
+QQmlApplicationEngine* LoginController::qmlAppEngine=nullptr;
+LoginController::LoginController()
 {
-    ui->setupUi(this);
     qDebug() << "up" ;
-    QObject::connect(ui->connectButton, SIGNAL(clicked()), this, SLOT(connection()));
 }
 
-Login::Login(QWidget *parent, DbManager *db) : QWidget(parent), ui(new Ui::Login), dbManager(db)
+/*LoginController::LoginController(DbManager *db): dbManager(db)
 {
-    ui->setupUi(this);
     qDebug() << "down" ;
-    QObject::connect(ui->connectButton, SIGNAL(clicked()), this, SLOT(connection()));
-}
+}*/
 
-Login::~Login()
-{
-    delete ui;
-}
-
-bool Login::connection() {
-    QString login = ui->input_login->text();
+bool LoginController::connection() {
+   /* QString login = ui->input_login->text();
     if (login == "") return false;
     QString mdp = QCryptographicHash::hash(ui->input_pass->text().toUtf8(), QCryptographicHash::Sha3_256);
     qDebug() << mdp;
@@ -47,5 +39,17 @@ bool Login::connection() {
         qDebug() << "false";
         QMessageBox::information(this, "login error", "Wrong combinaison of login / password");
         return false;
-    }
+    }*/
+    return false;
+}
+
+void LoginController::loadMainWindow() {
+
+   qmlAppEngine->load(QUrl(QStringLiteral("qrc:/qml/MainRootWindow.qml")));
+
+}
+
+//Returns true if login sucessful and sets global user variable
+bool LoginController::login(QString username, QString password) {
+    return false;
 }

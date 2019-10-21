@@ -96,6 +96,8 @@
 #include "GeoTagController.h"
 #include "LogReplayLink.h"
 
+#include "LoginController.h"
+
 #ifndef __mobile__
 #include "FirmwareUpgradeController.h"
 #endif
@@ -514,6 +516,8 @@ void QGCApplication::_initCommon()
     qmlRegisterType<EditPositionDialogController>   (kQGCControllers,                       1, 0, "EditPositionDialogController");
 
     qmlRegisterType<ParcelleManagerController>      (kQGCControllers,                       1, 0, "ParcelleManagerController");
+    qmlRegisterType<LoginController>                (kQGCControllers,                       1, 0, "LoginController");
+
 
 #ifndef __mobile__
 #ifndef NO_SERIAL_LINK
@@ -548,8 +552,9 @@ bool QGCApplication::_initForNormalAppBoot()
     // Exit main application when last window is closed
     connect(this, &QGCApplication::lastWindowClosed, this, QGCApplication::quit);
 
-
     _qmlAppEngine = toolbox()->corePlugin()->createRootWindow(this);
+
+    LoginController::qmlAppEngine = _qmlAppEngine;
 
     // Now that main window is up check for lost log files
     connect(this, &QGCApplication::checkForLostLogFiles, toolbox()->mavlinkProtocol(), &MAVLinkProtocol::checkForLostLogFiles);
