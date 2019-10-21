@@ -57,6 +57,8 @@ public:
     bool    readyForSave        (void) const final;
     double  additionalTimeDelay (void) const final;
     void    setCruiseSpeed      (double speed);
+    double  getCruiseSpeed () { return _cruiseSpeed; }
+    double  specifiedFlightSpeed    (void) override ;
 
     // Must match json spec for GridEntryLocation
     enum EntryLocation {

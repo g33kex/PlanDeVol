@@ -14,7 +14,7 @@ class DbManager
 
         bool addParcelle(const QString& owner, const QString& polygon, const QString& type);
         bool deleteParcelle(const int id);
-        QMap<QString, int>* getAllParcelle();
+        QList<QString> getAllParcelle(QString username);
 
         bool addMission(const QString& owner, const QString& ordre);
         bool deleteMission(const int id);
@@ -23,6 +23,9 @@ class DbManager
         QString getPassword(const QString& user);
 
         QSqlDatabase getDB();
+
+        bool getNbMission(QString username);
+        bool getNbParcelle(QString username);
     private:
         QSqlDatabase m_db;
 };

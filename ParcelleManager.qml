@@ -13,18 +13,17 @@ import QGroundControl.Controllers       1.0
 
 
 
-
-
 Item {
     id: element
 
     property int margin: 5
-
     anchors.fill: parent
 
     ParcelleManagerController {
         id: _parcelleManagerController
     }
+
+//    property var _parcelles: _parcelleManagerController.parcelles
 
     function show() {
         //parcelleModel.setupForParcelle()
@@ -110,8 +109,15 @@ Item {
                     Layout.fillWidth: true
                     Layout.margins : margin
                     text: "Add Parcelle"
+
                     onClicked: {
-                        addParcelleDialog.open()
+                        if(QGroundControl.settingsManager.appSettings.nbParcelle) {
+                            addParcelleDialog.open()
+                        }
+                        else {
+                            messageDialog_toomuch.open()
+                        }
+
                     }
                 }
                 Button {
@@ -122,8 +128,10 @@ Item {
                                 var selected=[]
                                 tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
                                 tableView.selection.clear()
-
+//                                admin.open()
+//                                if (admin.true) {
                                 _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+//                                }
                            }
                 }
                 Button {
@@ -136,6 +144,7 @@ Item {
                             tableView.selection.clear()
 
                             _parcelleManagerController.addToMission(parcelleModel,_planMasterController.missionController,selected)
+                            parcelleManagerPopup.close()
                        }
                 }
                 Button {
@@ -188,10 +197,22 @@ Item {
                 Layout.fillWidth: true
                 Layout.margins: margin
                 plugin: mapPlugin
-                center: QtPositioning.coordinate(59.91, 10.75) // Oslo
                 zoomLevel: 14
                 activeMapType: map.supportedMapTypes[1]
 
+//                MapItemView {
+//                    model: _parcelles
+//                    delegate: MapPolygon {
+//                        path: coordinates
+//                    }
+
+//                    MapPolygon {
+//                        id: areaPolygon
+//                        border.width: 1
+//                        border.color: "red"
+//                        color: Qt.rgba(255, 0, 0, 0.1)
+//                    }
+//                }
             }
 
 
@@ -332,5 +353,40 @@ Item {
         }
     }
 
+
+    MessageDialog {
+        id: messageDialog_toomuch
+        title: "Warning"
+        text: "Limite de parcelles enregistrées atteintes."
+    }
+
+    Dialog {
+        id : admin
+        title: "Admin"
+        GridLayout {
+            columns: 2
+            anchors.fill: parent
+
+            Label {
+                text: "username"
+            }
+            TextField {
+                id: a_username
+                enabled: false
+                text: "admin"
+            }
+            Label {
+                text: "password"
+            }
+            TextField {
+                id: a_password
+                echoMode: TextInput.PasswordEchoOnEdit
+            }
+
+        }
+        onAccepted: {
+            _parcelleManagerController.verif(a_username.text, a_password.text)
+        }
+    }
 
 }

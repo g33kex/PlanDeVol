@@ -775,17 +775,17 @@ double SurveyComplexItem::_turnaroundDistance(void) const
 void SurveyComplexItem::_rebuildTransectsPhase1(void)
 {
     bool split = splitConcavePolygons()->rawValue().toBool();
-	if (split) {
-		_rebuildTransectsPhase1WorkerSplitPolygons(false /* refly */);
-	} else {
-		_rebuildTransectsPhase1WorkerSinglePolygon(false /* refly */);
-	}
+    if (split) {
+        _rebuildTransectsPhase1WorkerSplitPolygons(false /* refly */);
+    } else {
+        _rebuildTransectsPhase1WorkerSinglePolygon(false /* refly */);
+    }
     if (_refly90DegreesFact.rawValue().toBool()) {
-    	if (split) {
-    		_rebuildTransectsPhase1WorkerSplitPolygons(true /* refly */);
-    	} else {
-    		_rebuildTransectsPhase1WorkerSinglePolygon(true /* refly */);
-    	}
+        if (split) {
+            _rebuildTransectsPhase1WorkerSplitPolygons(true /* refly */);
+        } else {
+            _rebuildTransectsPhase1WorkerSinglePolygon(true /* refly */);
+        }
     }
 }
 
@@ -1088,7 +1088,7 @@ void SurveyComplexItem::_rebuildTransectsPhase1WorkerSplitPolygons(bool refly)
 
 void SurveyComplexItem::_PolygonDecomposeConvex(const QPolygonF& polygon, QList<QPolygonF>& decomposedPolygons)
 {
-	// this follows "Mark Keil's Algorithm" https://mpen.ca/406/keil
+    // this follows "Mark Keil's Algorithm" https://mpen.ca/406/keil
     int decompSize = std::numeric_limits<int>::max();
     if (polygon.size() < 3) return;
     if (polygon.size() == 3) {
@@ -1558,4 +1558,9 @@ double SurveyComplexItem::additionalTimeDelay (void) const
 
 void SurveyComplexItem::setCruiseSpeed (double speed) {
     _cruiseSpeed = speed;
+}
+
+double SurveyComplexItem::specifiedFlightSpeed() {
+    if (_cruiseSpeed < 0) _cruiseSpeed = 15;
+    return _cruiseSpeed;
 }

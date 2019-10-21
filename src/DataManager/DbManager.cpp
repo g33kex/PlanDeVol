@@ -1,7 +1,8 @@
 #include "DataManager/DbManager.h"
 #include <QCryptographicHash>
+#include "Admin/List_file.h"
 
-
+extern List_file *nbParam;
 //TODO : valeur par defaut a mettre
 
 DbManager::DbManager() {
@@ -129,15 +130,16 @@ bool DbManager::deleteParcelle(const int id) {
     return success;
 }
 
-QMap<QString, int>* DbManager::getAllParcelle() {
-    QMap<QString, int>* res = new QMap<QString, int>();
-    QSqlQuery query("SELECT * FROM Person");
-    int idName = query.record().indexOf("username");
-    int idId = query.record().indexOf("id");
+QList<QString> DbManager::getAllParcelle(QString username) {
+    QList<QString> res = *new QList<QString>();
+    QString foo = "SELECT parcelleFile FROM Parcelle WHERE owner = \""+ username + "\"";
+    QSqlQuery query (foo);
+    int idName = query.record().indexOf("parcelleFile");
     while (query.next()) {
-        res->insert(query.value(idName).toString(), query.value(idId).toInt());
+        qDebug() << query.value(idName).toString();
+        res.append(query.value(idName).toString());
     }
-
+    qDebug() << "size of res " + QString::number(res.size());
     return res;
 }
 
@@ -179,7 +181,7 @@ QMap<QString, int> * DbManager::getAllMission() {
 }
 
 QString DbManager::getPassword(const QString& user) {
-    //qDebug() << "in getPassword" << user;
+    qDebug() << "in getPassword" << user;
     QSqlQuery query;
     query.prepare("SELECT * FROM Person WHERE username = (:username)");
     query.bindValue(":username", user);
@@ -199,4 +201,32 @@ QString DbManager::getPassword(const QString& user) {
 
 QSqlDatabase DbManager::getDB() {
     return m_db;
+}
+
+
+//we return false so that it block if the request come to an error
+bool DbManager::getNbMission(QString username) {
+    QSqlQuery query;
+    query.prepare("SELECT count(missionFile) FROM Mission WHERE owner = (:username)");
+    query.bindValue(":username", username);
+    if(query.exec()) {
+        query.first();
+        QString value = query.value("count(missionFile)").toString();
+        qDebug() << "query" << value;
+        return value.toInt() <= nbParam->at(1);
+    }
+    return false;
+}
+
+bool DbManager::getNbParcelle(QString username) {
+    QSqlQuery query;
+    query.prepare("SELECT count(parcelleFile) FROM Parcelle WHERE owner = (:username)");
+    query.bindValue(":username", username);
+    if(query.exec()) {
+        query.first();
+        QString value = query.value("count(parcelleFile)").toString();
+        qDebug() << "query" << value;
+        return value.toInt() <= nbParam->at(2);
+    }
+    return false;
 }

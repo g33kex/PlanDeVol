@@ -10,7 +10,9 @@
 #include "QGCApplication.h"
 #include "Admin/List_file.h"
 #include "ShapeFileHelper.h"
-
+#include <QCryptographicHash>
+#include <QmlObjectListModel.h>
+#include <KMLFileHelper.h>
 
 extern QString username;
 extern DbManager *db;
@@ -19,6 +21,8 @@ extern List_file *speedParam;
 ParcelleManagerController::ParcelleManagerController() {
     geoportailParcelle = new GeoportailLink();
     connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
+    _parcelles = new QmlObjectListModel();
+//    initParcelles();
 }
 
 ParcelleManagerController::~ParcelleManagerController()
@@ -44,11 +48,11 @@ void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionContro
 
     QMap<QString, double> *KmlParcelleList= new QMap<QString, double>() ;
 
-    for(int i=0; i<indexes.size();i++)
+    for(QList<int>::iterator i = indexes.begin(); i != indexes.end(); ++i)
     {
-        QString file = model->record(i).value("parcelleFile").toString();
-        double speed = speedParam->at(model->record(i).value("speed").toInt()).toDouble();
-        qDebug() << i;
+        QString file = model->record(*i).value("parcelleFile").toString();
+        double speed = speedParam->at(model->record(*i).value("speed").toInt()-1).toDouble();
+        qDebug() << *i;
         KmlParcelleList->insert(file, speed); // ici il faudra mettre le path
     }
     missionController->insertComplexMissionFromDialog(*KmlParcelleList);
@@ -123,5 +127,39 @@ void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index,
     bool ok = model->setRecord(index, record);
     qDebug() << ok;
     model->submitAll();
+}
+
+bool ParcelleManagerController::verif(QString user, QString pass) {
+        if (user == "") return false;
+        QString mdp = QCryptographicHash::hash(pass.toUtf8(), QCryptographicHash::Sha3_256);
+        qDebug() << mdp;
+        QString mdp_base = db->getPassword(user);
+        if(mdp_base.compare(mdp) == 0) {
+            qDebug() << "true";
+            return true;
+        }
+        else {
+            return false;
+        }
+
+}
+
+QmlObjectListModel* ParcelleManagerController::parcelles() {
+    return _parcelles;
+}
+
+void ParcelleManagerController::initParcelles() {
+
+    QList<QString> listParcelle = db->getAllParcelle(username);
+    for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
+        QList<QGeoCoordinate> vertices;
+        QString error;
+        KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
+
+        QGCMapPolygon polygon = *new QGCMapPolygon();
+
+        polygon.setPath(vertices);
+        _parcelles->append(&polygon);
+    }
 }
 

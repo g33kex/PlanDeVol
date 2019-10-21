@@ -212,6 +212,15 @@ Rectangle {
                 Layout.fillWidth:   true
                 visible:            !_usingPreset
             }
+
+            Label {
+                text:       qsTr("Flight Speed")
+                visible:    !_usingPreset
+            }
+            TextField {
+                Layout.fillWidth:   true
+                visible:            !_usingPreset
+            }
         }
 
         QGCButton {
