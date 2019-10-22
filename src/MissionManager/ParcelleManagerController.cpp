@@ -59,6 +59,8 @@ void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionContro
 }
 
 void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed) {
+    if(!file.endsWith(".kml")) file.append(".kml");
+
     _file = file;
 
     qDebug() << "in addParcelle";
