@@ -42,9 +42,10 @@ void SqlCustomModel::generateRoleNames()
 
 void SqlCustomModel::setupForParcelle() {
 
-
+    qDebug() << "---- setupForParcelle----";
     this->setTable("Parcelle");
-    if (username != "") {
+    if (!(username.compare("")==0) ) {
+        qDebug() << username;
         QString filtre = QString("owner = \'") + username + QString("\'");
         this->setFilter(filtre);
     }
