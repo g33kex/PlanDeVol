@@ -245,74 +245,78 @@ Item {
 
                         }
                    }
+                   GridLayout {
+                       columns: 4
+                       anchors.fill: parent
 
-                   Button {
-                       Layout.fillWidth: true
-                       Layout.margins : margin
-                       text: "Add User"
-                       onClicked: {
-                           addUserDialog.open()
+                       Button {
+                           Layout.fillWidth: true
+                           Layout.margins : margin
+                           text: "Add User"
+                           onClicked: {
+                               addUserDialog.open()
+                           }
                        }
+
+                       Button {
+                            Layout.fillWidth: true
+                            Layout.margins : margin
+                            text: "Remove User"
+                                onClicked: {
+                                        var selected=[]
+                                        userTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                        userTableView.selection.clear()
+
+                                        _loginController.deleteUser(userModel,selected)
+                                   }
+                        }
+
+                        Button {
+
+                            Layout.margins : margin
+                            Layout.fillWidth: true
+
+                            Layout.alignment: Qt.AlignHCenter
+                            text: "Modify User"
+
+
+                                onClicked: {
+                                if(userTableView.selection.count===1) {
+                                    var sel=0
+                                    userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                    editUserDialog.userIndex=sel
+                                    editUserDialog.refresh()
+                                    editUserDialog.open()
+                                }
+                                else {
+                                    errorModifyOnlyOneDialog.open()
+                                }
+                            }
+                        }
+
+                        Button {
+
+                            Layout.margins : margin
+                            Layout.fillWidth: true
+
+                            Layout.alignment: Qt.AlignHCenter
+                            text: "Modify Password"
+
+
+                                onClicked: {
+                                if(userTableView.selection.count===1) {
+                                    var sel=0
+                                    userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                    editPassDialog.userIndex=sel
+                                    editPassDialog.refresh()
+                                    editPassDialog.open()
+                                }
+                                else {
+                                    errorModifyOnlyOneDialog.open()
+                                }
+                            }
+                        }
                    }
-
-                   Button {
-                        Layout.fillWidth: true
-                        Layout.margins : margin
-                        text: "Remove User"
-                            onClicked: {
-                                    var selected=[]
-                                    userTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
-                                    userTableView.selection.clear()
-
-                                    _loginController.deleteUser(userModel,selected)
-                               }
-                    }
-
-                    Button {
-
-                        Layout.margins : margin
-                        Layout.fillWidth: true
-
-                        Layout.alignment: Qt.AlignHCenter
-                        text: "Modify User"
-
-
-                            onClicked: {
-                            if(userTableView.selection.count===1) {
-                                var sel=0
-                                userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
-                                editUserDialog.userIndex=sel
-                                editUserDialog.refresh()
-                                editUserDialog.open()
-                            }
-                            else {
-                                errorModifyOnlyOneDialog.open()
-                            }
-                        }
-                    }
-
-                    Button {
-
-                        Layout.margins : margin
-                        Layout.fillWidth: true
-
-                        Layout.alignment: Qt.AlignHCenter
-                        text: "Modify Password"
-
-
-                            onClicked: {
-                            if(userTableView.selection.count===1) {
-                                var sel=0
-                                userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
-                                editPassDialog.userIndex=sel
-                                editPassDialog.refresh()
-                                editPassDialog.open()
-                            }
-                            else {
-                                errorModifyOnlyOneDialog.open()
-                            }
-                        }
-                    }
                 }
             }
             Tab {

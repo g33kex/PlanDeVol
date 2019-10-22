@@ -145,13 +145,18 @@ bool ParcelleManagerController::verif(QString user, QString pass) {
 
 void ParcelleManagerController::initParcelles() {
     qDebug() << "----- init parcelle -----";
-    QList<QString> listParcelle = db->getAllParcelle(username);
+    //QList<QString> listParcelle = db->getAllParcelle(username);
+    QList<QString> listParcelle = *new QList<QString>();
+    listParcelle.append("_");
     qDebug() << "list Parcelle";
     for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
         QList<QGeoCoordinate> vertices = *new QList<QGeoCoordinate>();
         QString error;
-        KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
+//        KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
+        QString file = "C:\\Users\\landr\\Documents\\QGroundControl\\Missions\\parcelle11350.kml";
+        KMLFileHelper::loadPolygonFromFile(file, vertices, error);
         qDebug() << "error " << error;
+        qDebug() << vertices.size();
         //We need to convert that nice stuff to QVariant for QML to understand
         QVariantList tmp = *new QVariantList();
         tmp.reserve(vertices.size());
@@ -160,6 +165,8 @@ void ParcelleManagerController::initParcelles() {
             tmp.push_back(QVariant::fromValue(i));
 
         _parcelles->append(tmp);
+        qDebug() << _parcelles->size();
+        qDebug() << "------------";
     }
 
 

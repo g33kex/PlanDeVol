@@ -213,7 +213,7 @@ Item {
 
                 Component.onCompleted: {
                     var parcelles=_parcelleManagerController.getParcelleList()
-                    for(i=0; i<parcelles.length; i++) {
+                    for(var i=0; i<parcelles.length; i++) {
                      circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
                      circle.center=parcelles[i][0]
 
