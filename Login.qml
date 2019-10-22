@@ -45,7 +45,6 @@ Item {
                         color: "white"
 
 
-
                         TableView {
                             id: userTableView
                             anchors.fill: parent
@@ -125,11 +124,138 @@ Item {
                                     }
                                 }
                             }
+
+                            Dialog {
+                                id: editUserDialog
+
+                                property int userIndex: 0
+
+                                function refresh() {
+                                    userField.updateContent()
+                                    nomField.updateContent()
+                                    prenomField.updateContent()
+                                }
+
+                                onAccepted: {
+                                    _loginController.modifyUser(userModel, userIndex, userField.text, nomField.text, prenomField.text)
+                                }
+
+
+                                title: "Edit Parcelle"
+
+                                standardButtons: Dialog.Ok | Dialog.Cancel
+
+                                GridLayout {
+                                    columns: 3
+                                    anchors.fill: parent
+
+                                    Label {
+                                        text: "username"
+                                    }
+                                    Label {
+                                        text: "nom"
+                                    }
+                                    Label {
+                                        text: "prenom"
+                                    }
+                                    TextField {
+                                        id: userField
+                                        enabled: false
+                                        function updateContent() {
+                                            text=userModel.getRecordValue(editUserDialog.userIndex, "username")
+                                        }
+                                    }
+                                    TextField {
+                                        id: nomField
+                                        function updateContent() {
+                                            text=userModel.getRecordValue(editUserDialog.userIndex, "nom")
+                                        }
+                                    }
+                                    TextField {
+                                        id: prenomField
+                                        function updateContent() {
+                                            text=userModel.getRecordValue(editUserDialog.userIndex, "prenom")
+                                        }
+                                    }
+                                }
+                            }
+
+                            Dialog {
+                                id: editPassDialog
+
+                                property int userIndex: 0
+
+                                function refresh() {
+                                    userField2.updateContent()
+                                }
+
+                                onAccepted: {
+                                    if (newPassField.text == confirmationField.text) {
+                                        _loginController.modifyPassword(userModel, userIndex, userField2.text, oldPassField.text, newPassField.text)
+                                    }
+                                    else {
+                                        wrongConfirmationDialog.open()
+                                    }
+                                }
+
+
+                                title: "Edit Password"
+
+                                standardButtons: Dialog.Ok | Dialog.Cancel
+
+                                GridLayout {
+                                    columns: 4
+                                    anchors.fill: parent
+
+                                    Label {
+                                        text: "username"
+                                    }
+                                    Label {
+                                        text: "old password"
+                                    }
+                                    Label {
+                                        text: "new password"
+                                    }
+                                    Label {
+                                        text: "confirmation"
+                                    }
+
+                                    TextField {
+                                        id: userField2
+                                        enabled: false
+                                        function updateContent() {
+                                            text=userModel.getRecordValue(editPassDialog.userIndex, "username")
+                                        }
+                                    }
+                                    TextField {
+                                        id: oldPassField
+                                    }
+                                    TextField {
+                                        id: newPassField
+                                    }
+                                    TextField {
+                                        id: confirmationField
+                                    }
+
+
+                                }
+
+
+                            }
+
                         }
                    }
 
+                   Button {
+                       Layout.fillWidth: true
+                       Layout.margins : margin
+                       text: "Add User"
+                       onClicked: {
+                           addUserDialog.open()
+                       }
+                   }
 
-                    Button {
+                   Button {
                         Layout.fillWidth: true
                         Layout.margins : margin
                         text: "Remove User"
@@ -143,11 +269,48 @@ Item {
                     }
 
                     Button {
-                        Layout.fillWidth: true
+
                         Layout.margins : margin
-                        text: "Add User"
-                        onClicked: {
-                            addUserDialog.open()
+                        Layout.fillWidth: true
+
+                        Layout.alignment: Qt.AlignHCenter
+                        text: "Modify User"
+
+
+                            onClicked: {
+                            if(userTableView.selection.count===1) {
+                                var sel=0
+                                userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                editUserDialog.userIndex=sel
+                                editUserDialog.refresh()
+                                editUserDialog.open()
+                            }
+                            else {
+                                errorModifyOnlyOneDialog.open()
+                            }
+                        }
+                    }
+
+                    Button {
+
+                        Layout.margins : margin
+                        Layout.fillWidth: true
+
+                        Layout.alignment: Qt.AlignHCenter
+                        text: "Modify Password"
+
+
+                            onClicked: {
+                            if(userTableView.selection.count===1) {
+                                var sel=0
+                                userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                editPassDialog.userIndex=sel
+                                editPassDialog.refresh()
+                                editPassDialog.open()
+                            }
+                            else {
+                                errorModifyOnlyOneDialog.open()
+                            }
                         }
                     }
                 }
@@ -508,6 +671,22 @@ Item {
 
     }
 
+    Dialog {
+        id: wrongConfirmationDialog
+        title: "Error"
+        Label{
+            text: "New password and confirmation is not the same"
+        }
 
+    }
+
+    Dialog {
+        id: errorModifyOnlyOneDialog
+        title: "Error"
+        Label{
+            text: "Please select ONE line to modify."
+        }
+
+    }
 
 }

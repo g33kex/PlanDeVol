@@ -34,9 +34,11 @@ public:
     Q_INVOKABLE QString getNbParcelle();
     Q_INVOKABLE QString getNbMission();
     Q_INVOKABLE QString getParamChecklist();
+    Q_INVOKABLE bool modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass);
 
 
 public slots:
+    void modifyUser(SqlCustomModel *model, int index, QString username, QString nom, QString prenom);
 
 public slots:
     void onAdminClosed();

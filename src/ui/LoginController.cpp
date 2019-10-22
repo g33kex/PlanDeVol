@@ -20,22 +20,19 @@ LoginController::LoginController()
 void LoginController::loadMainWindow() {
 
    qmlAppEngine->load(QUrl(QStringLiteral("qrc:/qml/MainRootWindow.qml")));
-
 }
 
 //Returns true if login sucessful and sets global user variable
 bool LoginController::login(QString user, QString password) {
-//     if (user == "") return false;
-//     QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
-//     qDebug() << mdp;
-//     QString mdp_base = db->getPassword(user);
-//     if(mdp_base.compare(mdp) == 0) {
-//         username = user;
-//         return true;
-//     }
-//     return false;
-    return true;
-
+     if (user == "") return false;
+     QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
+     qDebug() << mdp;
+     QString mdp_base = db->getPassword(user);
+     if(mdp_base.compare(mdp) == 0) {
+         username = user;
+         return true;
+     }
+     return false;
 }
 
 void LoginController::onAdminClosed() {
@@ -139,6 +136,7 @@ void LoginController::addUser(SqlCustomModel *model, QString user, QString passw
 }
 
 void LoginController::setParamSpeed(QString lowSpeed, QString medSpeed, QString highSpeed) {
+    qDebug() << "----- save speed -----";
     speedParam[0] = lowSpeed;
     speedParam[1] = medSpeed;
     speedParam[2] = highSpeed;
@@ -148,14 +146,18 @@ void LoginController::setParamSpeed(QString lowSpeed, QString medSpeed, QString 
 
 
 void LoginController::setParamLimit(QString session, QString parcelles, QString missions) {
+    qDebug() << "----- save limit -----";
     nbParam[0] = session;
     nbParam[1] = parcelles;
     nbParam[2] = missions;
+
+    nbParam->save();
 }
 
 // we do not check here if the checklist respect the regexp +:+
 // we check it at the loading
 void LoginController::setParamChecklist(QString check) {
+    qDebug() << "----- save checklist -----";
     checklist->clear();
     QList<QString> tmp = check.split('\n');
     for (QList<QString>::iterator i = tmp.begin(); i != tmp.end(); ++i) {
@@ -170,7 +172,6 @@ QString LoginController::getSpeedLow() {
     return speedParam->at(0);
 }
 
-
 QString LoginController::getSpeedMed(){
     return speedParam->at(1);
 }
@@ -179,19 +180,13 @@ QString LoginController::getSpeedHigh(){
     return speedParam->at(2);
 }
 
-
-
 QString LoginController::getNbSession(){
     return nbParam->at(0);
 }
 
-
-
 QString LoginController::getNbParcelle(){
     return nbParam->at(1);
 }
-
-
 
 QString LoginController::getNbMission(){
     return nbParam->at(2);
@@ -204,6 +199,43 @@ QString LoginController::getParamChecklist() {
         res += checklist->at(i);
         res += '\n';
     }
-
     return res;
+}
+
+void LoginController::modifyUser(SqlCustomModel *model, int index, QString username, QString nom, QString prenom) {
+
+    QSqlRecord record = model->record(index);
+
+    record.setValue("username", QVariant(username));
+//    QString pass = db->getPassword(username);
+//    record.setValue("password",QVariant(pass));
+    record.setValue("nom", QVariant(nom));
+    record.setValue("prenom", QVariant(prenom));
+
+    bool ok = model->setRecord(index, record);
+    qDebug() << ok;
+    model->submitAll();
+}
+
+bool LoginController::modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass) {
+
+    QSqlRecord record = model->record(index);
+    QString pass = db->getPassword(username);
+
+    QString hashOld = QCryptographicHash::hash(oldPass.toUtf8(), QCryptographicHash::Sha3_256);
+    QString hashNew = QCryptographicHash::hash(newPass.toUtf8(), QCryptographicHash::Sha3_256);
+
+    qDebug() << pass.toUtf8();
+    qDebug() << hashOld.toUtf8();
+    if (hashOld.compare(pass) == 0) {
+        record.setValue("password", QVariant(hashNew));
+//        record.setValue("parcelleFile", QVariant(parcelleFile));
+//        record.setValue("type", QVariant(type));
+//        record.setValue("speed",QVariant(speed));
+        bool ok = model->setRecord(index, record);
+        qDebug() << ok;
+        model->submitAll();
+        return true;
+    }
+    else return false;
 }
