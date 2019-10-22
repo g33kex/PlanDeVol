@@ -207,17 +207,17 @@ Item {
                 plugin: mapPlugin
                 zoomLevel: 14
                 activeMapType: map.supportedMapTypes[1]
-                property MapCircle circle
 
 
 
                 Component.onCompleted: {
                     var parcelles=_parcelleManagerController.getParcelleList()
-                    for(i=0; i<parcelles.length; i++) {
-                     circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
+                    console.log("PARCELLE LIST LENGTH:"+parcelles.length)
+                    for(var i=0; i<parcelles.length; i++) {
+                     var circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
                      circle.center=parcelles[i][0]
 
-                     circle.radius = 900000.0
+                     circle.radius = 5000000.0
                      circle.color = 'green'
                      circle.border.width = 3
                      map.addMapItem(circle)

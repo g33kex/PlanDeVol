@@ -147,10 +147,11 @@ void ParcelleManagerController::initParcelles() {
     qDebug() << "----- init parcelle -----";
     QList<QString> listParcelle = db->getAllParcelle(username);
     qDebug() << "list Parcelle";
-    for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
-        QList<QGeoCoordinate> vertices = *new QList<QGeoCoordinate>();
+   // for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
+
+    QList<QGeoCoordinate> vertices = *new QList<QGeoCoordinate>();
         QString error;
-        KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
+        KMLFileHelper::loadPolygonFromFile(/**i*/"/home/dev/Documents/parcelle11350.kml", vertices, error);
         qDebug() << "error " << error;
 
         //We need to convert that nice stuff to QVariant for QML to understand
@@ -161,7 +162,7 @@ void ParcelleManagerController::initParcelles() {
             tmp.push_back(QVariant::fromValue(i));
 
         _parcelles->append(tmp);
-    }
+   // }
 
 
 

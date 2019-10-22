@@ -33,7 +33,6 @@ Item {
 
 
             Tab {
-                id: adminInterfaceUserTab
                 title: "User Manager"
 
 
@@ -85,7 +84,7 @@ Item {
 
 
                                 onAccepted: {
-                                    _loginController.addUser(adminInterface.userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
+                                    _loginController.addUser(userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
                                 }
 
 
