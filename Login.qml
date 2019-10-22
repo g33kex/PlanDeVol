@@ -449,6 +449,8 @@ Item {
             else {
                 errorLogin.open()
             }
+            usernameField.text=""
+            passwordField.text=""
         }
     }
     }

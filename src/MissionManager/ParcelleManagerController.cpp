@@ -56,7 +56,6 @@ void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionContro
         KmlParcelleList->insert(file, speed); // ici il faudra mettre le path
     }
     missionController->insertComplexMissionFromDialog(*KmlParcelleList);
-    this->deleteLater();
 }
 
 void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed) {

@@ -36,7 +36,7 @@ public:
     Q_PROPERTY(QGeoCoordinate       center      READ center         WRITE setCenter         NOTIFY centerChanged)
     Q_PROPERTY(bool                 centerDrag  READ centerDrag     WRITE setCenterDrag     NOTIFY centerDragChanged)
     Q_PROPERTY(bool                 interactive READ interactive    WRITE setInteractive    NOTIFY interactiveChanged)
-    Q_PROPERTY(QString              verifArea   READ verifArea)
+    Q_PROPERTY(QString              verifArea   READ verifArea CONSTANT)
 
     Q_INVOKABLE void clear(void);
     Q_INVOKABLE void appendVertex(const QGeoCoordinate& coordinate);

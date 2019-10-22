@@ -23,7 +23,6 @@ Item {
         id: _parcelleManagerController
     }
 
-//    property var _parcelles: _parcelleManagerController.parcelles
 
     function show() {
         //parcelleModel.setupForParcelle()
@@ -121,18 +120,24 @@ Item {
                     }
                 }
                 Button {
+                    id: removeParcelle
                     Layout.fillWidth: true
                     Layout.margins : margin
                     text: "Remove Parcelle"
+                    signal adminVerified()
                         onClicked: {
-                                var selected=[]
-                                tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
-                                tableView.selection.clear()
-//                                admin.open()
-//                                if (admin.true) {
-                                _parcelleManagerController.deleteParcelle(parcelleModel,selected)
-//                                }
+                                removeParcelle.adminVerified.connect(deleteParcelleOnAdminVerifed)
+                                admin.open()
                            }
+
+
+                        function deleteParcelleOnAdminVerifed() {
+                            adminVerified.disconnect(deleteParcelleOnAdminVerifed)
+                            var selected=[]
+                            tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                            tableView.selection.clear()
+                            _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+                        }
                 }
                 Button {
                     Layout.fillWidth: true
@@ -145,7 +150,9 @@ Item {
 
                             _parcelleManagerController.addToMission(parcelleModel,_planMasterController.missionController,selected)
                             parcelleManagerPopup.close()
-                       }
+                    }
+
+
                 }
                 Button {
 
@@ -155,7 +162,8 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: "Modify Parcelle"
 
-                    onClicked: {
+
+                        onClicked: {
                         if(tableView.selection.count===1) {
                             var sel=0
                             tableView.selection.forEach(function(rowIndex) {sel=rowIndex})
@@ -199,20 +207,20 @@ Item {
                 plugin: mapPlugin
                 zoomLevel: 14
                 activeMapType: map.supportedMapTypes[1]
+                property MapCircle circle
 
-//                MapItemView {
-//                    model: _parcelles
-//                    delegate: MapPolygon {
-//                        path: coordinates
-//                    }
 
-//                    MapPolygon {
-//                        id: areaPolygon
-//                        border.width: 1
-//                        border.color: "red"
-//                        color: Qt.rgba(255, 0, 0, 0.1)
-//                    }
-//                }
+
+                Component.onCompleted: {
+                     circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
+                     circle.center.latitude= -27.5
+                     circle.center.longitude = 153.0
+
+                     circle.radius = 500000.0
+                     circle.color = 'green'
+                     circle.border.width = 3
+                     map.addMapItem(circle)
+                 }
             }
 
 
@@ -363,6 +371,7 @@ Item {
     Dialog {
         id : admin
         title: "Admin"
+        property bool verif: false
         GridLayout {
             columns: 2
             anchors.fill: parent
@@ -380,12 +389,15 @@ Item {
             }
             TextField {
                 id: a_password
-                echoMode: TextInput.PasswordEchoOnEdit
+                echoMode: TextInput.Password
             }
 
         }
         onAccepted: {
-            _parcelleManagerController.verif(a_username.text, a_password.text)
+            if(_parcelleManagerController.verif("admin", a_password.text)) {
+                removeParcelle.deleteParcelleOnAdminVerifed()
+            }
+            a_password.text=""
         }
     }
 

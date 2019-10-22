@@ -5,6 +5,7 @@
 #include <QmlObjectListModel.h>
 #include <QSqlTableModel>
 #include <QNetworkReply>
+#include <QGeoCoordinate>
 
 #ifndef PARCELLEMANAGERCONTROLLER_H
 #define PARCELLEMANAGERCONTROLLER_H
@@ -18,7 +19,8 @@ public:
 
     ~ParcelleManagerController();
 
-//    Q_PROPERTY(QmlObjectListModel* parcelles READ parcelles CONSTANT)
+
+    Q_INVOKABLE QList<QList<QGeoCoordinate>> *QgetParcelleList() {return nullptr;}
 
 //    Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 signals:

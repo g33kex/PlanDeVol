@@ -269,7 +269,8 @@ Item {
             onTriggered: {
                 if(QGroundControl.settingsManager.appSettings.nbParcelle) {
                     saveAsParcelleDialog.openForSave()
-//                    verif.open()
+                    verifLabel.text= mapPolygon.verifArea
+                    verif.open()
                 }
                 else {
                     messageDialog_toomuch.open()
@@ -592,6 +593,7 @@ Item {
         id: verif
         title: "confirmation"
         Label {
+            id: verifLabel
             text : mapPolygon.verifArea
         }
     }
