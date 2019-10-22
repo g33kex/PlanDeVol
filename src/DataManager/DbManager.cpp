@@ -168,15 +168,16 @@ bool DbManager::deleteMission(const int id) {
     return success;
 }
 
-QMap<QString, int> * DbManager::getAllMission() {
-    QMap<QString, int>* res = new QMap<QString, int>();
-    QSqlQuery query("SELECT * FROM Person");
-    int idName = query.record().indexOf("username");
-    int idId = query.record().indexOf("id");
+QList<QString> DbManager::getAllMission(QString username) {
+    QList<QString> res = *new QList<QString>();
+    QString foo = "SELECT missionFile FROM Mission WHERE owner = \""+ username + "\"";
+    QSqlQuery query (foo);
+    int idName = query.record().indexOf("missionFile");
     while (query.next()) {
-        res->insert(query.value(idName).toString(), query.value(idId).toInt());
+        qDebug() << query.value(idName).toString();
+        res.append(query.value(idName).toString());
     }
-
+    qDebug() << "size of res " + QString::number(res.size());
     return res;
 }
 
@@ -205,7 +206,7 @@ QSqlDatabase DbManager::getDB() {
 
 
 //we return false so that it block if the request come to an error
-bool DbManager::getNbMission(QString username) {
+bool DbManager::verifNbMission(QString username) {
     QSqlQuery query;
     query.prepare("SELECT count(missionFile) FROM Mission WHERE owner = (:username)");
     query.bindValue(":username", username);
@@ -213,12 +214,12 @@ bool DbManager::getNbMission(QString username) {
         query.first();
         QString value = query.value("count(missionFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt() <= nbParam->at(1);
+        return value.toInt() <= nbParam->at(2);
     }
     return false;
 }
 
-bool DbManager::getNbParcelle(QString username) {
+bool DbManager::verifNbParcelle(QString username) {
     QSqlQuery query;
     query.prepare("SELECT count(parcelleFile) FROM Parcelle WHERE owner = (:username)");
     query.bindValue(":username", username);
@@ -226,7 +227,7 @@ bool DbManager::getNbParcelle(QString username) {
         query.first();
         QString value = query.value("count(parcelleFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt() <= nbParam->at(2);
+        return value.toInt() <= nbParam->at(1);
     }
     return false;
 }

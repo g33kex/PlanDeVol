@@ -22,31 +22,10 @@ QVariant SqlCustomModel::data(const QModelIndex &index, int role) const {
         return QSqlQueryModel::data(index,role);
     }
     else {
-        // search for relationships
-       /*
-        for (int i = 0; i < columnCount(); i++) {
-            if (this->relation(i).isValid()) {
-                    return record(index.row()).value(QString(roles.value(role)));
-            }
-        }*/
-      //  qDebug() << "Fetching data, role" << role-Qt::UserRole-1 << "data " << QSqlQueryModel::data(this->index(index.row(), role - Qt::UserRole -1), Qt::DisplayRole);
-       return QSqlQueryModel::data(this->index(index.row(), role - Qt::UserRole -1), Qt::DisplayRole);
+        return QSqlQueryModel::data(this->index(index.row(), role - Qt::UserRole -1), Qt::DisplayRole);
     }
 
 }
-
-//bool SqlParcelleModel::setData(const QModelIndex &item, const QVariant &value, int role)
-//{
-//    qDebug() << "Setting data with value" << value;
-//    if (item.isValid() && role == Qt::EditRole) {
-//        ((QSqlTableModel) this->parent()).setData(item,value,role);
-//       // qDebug() << "validata=" << QSqlTableModel::setData(item, value,role);
-//        emit dataChanged(item, item);
-//        return true;
-//    }
-//    return false;
-
-//}
 
 void SqlCustomModel::generateRoleNames()
 {
@@ -63,23 +42,16 @@ void SqlCustomModel::generateRoleNames()
 
 void SqlCustomModel::setupForParcelle() {
 
-
+    qDebug() << "---- setupForParcelle----";
     this->setTable("Parcelle");
-    QString filtre = QString("owner = \'") + username + QString("\'");
-    this->setFilter(filtre);
+    if (!(username.compare("")==0) ) {
+        qDebug() << username;
+        QString filtre = QString("owner = \'") + username + QString("\'");
+        this->setFilter(filtre);
+    }
     this->setEditStrategy(QSqlTableModel::OnManualSubmit);
     this->generateRoleNames();
     this->select();
-
-  // qDebug() << "in setupforparcelle:" << rowCount();
-
-
-   /* for (int i = 0; i < rowCount(); ++i) {
-        QString owner = record(i).value("owner").toString();
-        QString file = record(i).value("parcelleFile").toString();
-        qDebug() << owner << file;
-    }*/
-
 }
 
 void SqlCustomModel::setupForMission() {

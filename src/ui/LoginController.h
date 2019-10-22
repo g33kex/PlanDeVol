@@ -11,7 +11,6 @@ class LoginController : public QObject {
 
 public:
     explicit LoginController();
-  //  explicit LoginController(DbManager *db = nullptr);
 
     Q_INVOKABLE void loadMainWindow(void);
 
@@ -23,24 +22,28 @@ public:
 
     Q_INVOKABLE void deleteUser(SqlCustomModel *model, QList<int> indexes);
 
-    Q_INVOKABLE void addUser(SqlCustomModel *model, QString username, QString password, QString nom, int prenom);
+    Q_INVOKABLE void addUser(SqlCustomModel *model, QString username, QString password, QString nom, QString prenom);
 
-    //TODO : implement these
-    Q_INVOKABLE int getParamSpeed() {return 0;}
-    Q_INVOKABLE int getParamAlt() {return 0;}
-    Q_INVOKABLE QString getParamChecklist() {return "hello world";}
-    Q_INVOKABLE void setParamSpeed(int speed) {}
-    Q_INVOKABLE void setParamAlt(int alt) {}
-    Q_INVOKABLE void setParamChecklist(QString checklist) {}
+    Q_INVOKABLE void setParamSpeed(QString lowSpeed, QString medSpeed, QString HighSpeed);
+    Q_INVOKABLE void setParamLimit(QString session, QString parcelles, QString missions);
+    Q_INVOKABLE void setParamChecklist(QString checklist);
+    Q_INVOKABLE QString getSpeedLow();
+    Q_INVOKABLE QString getSpeedMed();
+    Q_INVOKABLE QString getSpeedHigh();
+    Q_INVOKABLE QString getNbSession();
+    Q_INVOKABLE QString getNbParcelle();
+    Q_INVOKABLE QString getNbMission();
+    Q_INVOKABLE QString getParamChecklist();
+    Q_INVOKABLE bool modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass);
+
 
 public slots:
-    bool connection();
+    void modifyUser(SqlCustomModel *model, int index, QString username, QString nom, QString prenom);
 
 public slots:
     void onAdminClosed();
 
 private:
-    DbManager *dbManager;
 };
 
 #endif // LOGINCONTROLLER_H

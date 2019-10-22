@@ -44,7 +44,6 @@ Item {
                         color: "white"
 
 
-
                         TableView {
                             id: userTableView
                             anchors.fill: parent
@@ -124,31 +123,199 @@ Item {
                                     }
                                 }
                             }
+
+                            Dialog {
+                                id: editUserDialog
+
+                                property int userIndex: 0
+
+                                function refresh() {
+                                    userField.updateContent()
+                                    nomField.updateContent()
+                                    prenomField.updateContent()
+                                }
+
+                                onAccepted: {
+                                    _loginController.modifyUser(userModel, userIndex, userField.text, nomField.text, prenomField.text)
+                                }
+
+
+                                title: "Edit Parcelle"
+
+                                standardButtons: Dialog.Ok | Dialog.Cancel
+
+                                GridLayout {
+                                    columns: 3
+                                    anchors.fill: parent
+
+                                    Label {
+                                        text: "username"
+                                    }
+                                    Label {
+                                        text: "nom"
+                                    }
+                                    Label {
+                                        text: "prenom"
+                                    }
+                                    TextField {
+                                        id: userField
+                                        enabled: false
+                                        function updateContent() {
+                                            text=userModel.getRecordValue(editUserDialog.userIndex, "username")
+                                        }
+                                    }
+                                    TextField {
+                                        id: nomField
+                                        function updateContent() {
+                                            text=userModel.getRecordValue(editUserDialog.userIndex, "nom")
+                                        }
+                                    }
+                                    TextField {
+                                        id: prenomField
+                                        function updateContent() {
+                                            text=userModel.getRecordValue(editUserDialog.userIndex, "prenom")
+                                        }
+                                    }
+                                }
+                            }
+
+                            Dialog {
+                                id: editPassDialog
+
+                                property int userIndex: 0
+
+                                function refresh() {
+                                    userField2.updateContent()
+                                }
+
+                                onAccepted: {
+                                    if (newPassField.text == confirmationField.text) {
+                                        _loginController.modifyPassword(userModel, userIndex, userField2.text, oldPassField.text, newPassField.text)
+                                    }
+                                    else {
+                                        wrongConfirmationDialog.open()
+                                    }
+                                }
+
+
+                                title: "Edit Password"
+
+                                standardButtons: Dialog.Ok | Dialog.Cancel
+
+                                GridLayout {
+                                    columns: 4
+                                    anchors.fill: parent
+
+                                    Label {
+                                        text: "username"
+                                    }
+                                    Label {
+                                        text: "old password"
+                                    }
+                                    Label {
+                                        text: "new password"
+                                    }
+                                    Label {
+                                        text: "confirmation"
+                                    }
+
+                                    TextField {
+                                        id: userField2
+                                        enabled: false
+                                        function updateContent() {
+                                            text=userModel.getRecordValue(editPassDialog.userIndex, "username")
+                                        }
+                                    }
+                                    TextField {
+                                        id: oldPassField
+                                    }
+                                    TextField {
+                                        id: newPassField
+                                    }
+                                    TextField {
+                                        id: confirmationField
+                                    }
+
+
+                                }
+
+
+                            }
+
                         }
                    }
+                   GridLayout {
+                       columns: 4
+                       anchors.fill: parent
 
+                       Button {
+                           Layout.fillWidth: true
+                           Layout.margins : margin
+                           text: "Add User"
+                           onClicked: {
+                               addUserDialog.open()
+                           }
+                       }
 
-                    Button {
-                        Layout.fillWidth: true
-                        Layout.margins : margin
-                        text: "Remove User"
-                            onClicked: {
-                                    var selected=[]
-                                    userTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
-                                    userTableView.selection.clear()
+                       Button {
+                            Layout.fillWidth: true
+                            Layout.margins : margin
+                            text: "Remove User"
+                                onClicked: {
+                                        var selected=[]
+                                        userTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                        userTableView.selection.clear()
 
-                                    _loginController.deleteUser(userModel,selected)
-                               }
-                    }
-
-                    Button {
-                        Layout.fillWidth: true
-                        Layout.margins : margin
-                        text: "Add User"
-                        onClicked: {
-                            addUserDialog.open()
+                                        _loginController.deleteUser(userModel,selected)
+                                   }
                         }
-                    }
+
+                        Button {
+
+                            Layout.margins : margin
+                            Layout.fillWidth: true
+
+                            Layout.alignment: Qt.AlignHCenter
+                            text: "Modify User"
+
+
+                                onClicked: {
+                                if(userTableView.selection.count===1) {
+                                    var sel=0
+                                    userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                    editUserDialog.userIndex=sel
+                                    editUserDialog.refresh()
+                                    editUserDialog.open()
+                                }
+                                else {
+                                    errorModifyOnlyOneDialog.open()
+                                }
+                            }
+                        }
+
+                        Button {
+
+                            Layout.margins : margin
+                            Layout.fillWidth: true
+
+                            Layout.alignment: Qt.AlignHCenter
+                            text: "Modify Password"
+
+
+                                onClicked: {
+                                if(userTableView.selection.count===1) {
+                                    var sel=0
+                                    userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                    editPassDialog.userIndex=sel
+                                    editPassDialog.refresh()
+                                    editPassDialog.open()
+                                }
+                                else {
+                                    errorModifyOnlyOneDialog.open()
+                                }
+                            }
+                        }
+                   }
                 }
             }
             Tab {
@@ -284,23 +451,66 @@ Item {
                     color: "gray"
                     Layout.margins: m2
                 }
+                GridLayout {
+                    columns: 3
 
-                SpinBox {
-                    id: speedBox
-                    value: _loginController.getParamSpeed()
-                    Layout.margins: m
+                    Label {
+                        text: "Low Speed"
+                    }
+                    Label {
+                        text: "Medium Speed"
+                    }
+                    Label {
+                        text: "High Speed"
+                    }
+
+
+                    TextField {
+                        id: lowspeed
+                        text: _loginController.getSpeedLow()
+                    }
+                    TextField {
+                        id: medspeed
+                        text: _loginController.getSpeedMed()
+                    }
+                    TextField {
+                        id: highspeed
+                        text: _loginController.getSpeedHigh()
+                    }
                 }
 
                 Label {
-                    text: "Altitude"
+                    text: "Limite number"
                     color: "gray"
                     Layout.margins: m2
                 }
 
-                SpinBox {
-                    id: altBox
-                    value: _loginController.getParamAlt()
-                    Layout.margins: m
+                GridLayout {
+                    columns: 3
+
+                    Label {
+                        text: "Limit of session        "
+                    }
+                    Label {
+                        text: "Limit of parcelle / user"
+                    }
+                    Label {
+                        text: "Limit of mission / user "
+                    }
+
+
+                    TextField {
+                        id: nbSession
+                        text: _loginController.getNbSession()
+                    }
+                    TextField {
+                        id: nbParcelle
+                        text: _loginController.getNbParcelle()
+                    }
+                    TextField {
+                        id: nbMission
+                        text: _loginController.getNbMission()
+                    }
                 }
 
 
@@ -322,8 +532,8 @@ Item {
                     text: "Save"
                     Layout.margins: m
                     onClicked: {
-                        _loginController.setParamSpeed(speedBox.value)
-                        _loginController.setParamAlt(altBox.value)
+                        _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
+                        _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
                     }
                 }
@@ -464,6 +674,22 @@ Item {
 
     }
 
+    Dialog {
+        id: wrongConfirmationDialog
+        title: "Error"
+        Label{
+            text: "New password and confirmation is not the same"
+        }
 
+    }
+
+    Dialog {
+        id: errorModifyOnlyOneDialog
+        title: "Error"
+        Label{
+            text: "Please select ONE line to modify."
+        }
+
+    }
 
 }

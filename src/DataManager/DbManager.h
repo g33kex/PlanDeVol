@@ -18,14 +18,14 @@ class DbManager
 
         bool addMission(const QString& owner, const QString& ordre);
         bool deleteMission(const int id);
-        QMap<QString, int> * getAllMission();
+        QList<QString> getAllMission(QString user);
 
         QString getPassword(const QString& user);
 
         QSqlDatabase getDB();
 
-        bool getNbMission(QString username);
-        bool getNbParcelle(QString username);
+        bool verifNbMission(QString username);
+        bool verifNbParcelle(QString username);
     private:
         QSqlDatabase m_db;
 };
