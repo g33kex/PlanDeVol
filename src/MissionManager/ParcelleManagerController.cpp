@@ -21,7 +21,8 @@ extern List_file *speedParam;
 ParcelleManagerController::ParcelleManagerController() {
     geoportailParcelle = new GeoportailLink();
     connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
-//    initParcelles();
+    _parcelles = new QVariantList();
+    initParcelles();
 }
 
 ParcelleManagerController::~ParcelleManagerController()
@@ -143,38 +144,24 @@ bool ParcelleManagerController::verif(QString user, QString pass) {
 }
 
 void ParcelleManagerController::initParcelles() {
-
-    /*QList<QString> listParcelle = db->getAllParcelle(username);
+    qDebug() << "----- init parcelle -----";
+    QList<QString> listParcelle = db->getAllParcelle(username);
+    qDebug() << "list Parcelle";
     for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
-        QList<QGeoCoordinate> vertices;
+        QList<QGeoCoordinate> vertices = *new QList<QGeoCoordinate>();
         QString error;
         KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
+        qDebug() << "error " << error;
 
-        QGCMapPolygon polygon = *new QGCMapPolygon();
+        //We need to convert that nice stuff to QVariant for QML to understand
+        QVariantList tmp = *new QVariantList();
+        tmp.reserve(vertices.size());
 
-        polygon.setPath(vertices);
-        _parcelles->append(&polygon);
-    }*/
+        for (const QGeoCoordinate& i: vertices)
+            tmp.push_back(QVariant::fromValue(i));
 
-    QList<QString> listParcelle = db->getAllParcelle(username);
-        this->_parcelles = new QVariantList();
-        for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
-            QList<QGeoCoordinate> vertices;
-            QString error;
-            KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
-
-            //We need to convert that nice stuff to QVariant for QML to understand
-            QVariantList tmp;
-
-
-
-            tmp.reserve(vertices.size());
-
-            for (const QGeoCoordinate& i: vertices)
-                tmp.push_back(QVariant::fromValue(i));
-
-            this->_parcelles->append(tmp);
-        }
+        _parcelles->append(tmp);
+    }
 
 
 
