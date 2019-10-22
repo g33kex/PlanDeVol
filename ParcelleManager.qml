@@ -212,14 +212,16 @@ Item {
 
 
                 Component.onCompleted: {
+                    var parcelles=_parcelleManagerController.getParcelleList()
+                    for(i=0; i<parcelles.length; i++) {
                      circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
-                     circle.center.latitude= -27.5
-                     circle.center.longitude = 153.0
+                     circle.center=parcelles[i][0]
 
-                     circle.radius = 500000.0
+                     circle.radius = 900000.0
                      circle.color = 'green'
                      circle.border.width = 3
                      map.addMapItem(circle)
+                    }
                  }
             }
 

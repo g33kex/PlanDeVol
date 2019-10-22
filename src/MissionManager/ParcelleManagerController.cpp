@@ -21,7 +21,6 @@ extern List_file *speedParam;
 ParcelleManagerController::ParcelleManagerController() {
     geoportailParcelle = new GeoportailLink();
     connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
-    _parcelles = new QmlObjectListModel();
 //    initParcelles();
 }
 
@@ -143,13 +142,9 @@ bool ParcelleManagerController::verif(QString user, QString pass) {
 
 }
 
-QmlObjectListModel* ParcelleManagerController::parcelles() {
-    return _parcelles;
-}
-
 void ParcelleManagerController::initParcelles() {
 
-    QList<QString> listParcelle = db->getAllParcelle(username);
+    /*QList<QString> listParcelle = db->getAllParcelle(username);
     for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
         QList<QGeoCoordinate> vertices;
         QString error;
@@ -159,6 +154,29 @@ void ParcelleManagerController::initParcelles() {
 
         polygon.setPath(vertices);
         _parcelles->append(&polygon);
-    }
+    }*/
+
+    QList<QString> listParcelle = db->getAllParcelle(username);
+        this->_parcelles = new QVariantList();
+        for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
+            QList<QGeoCoordinate> vertices;
+            QString error;
+            KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
+
+            //We need to convert that nice stuff to QVariant for QML to understand
+            QVariantList tmp;
+
+
+
+            tmp.reserve(vertices.size());
+
+            for (const QGeoCoordinate& i: vertices)
+                tmp.push_back(QVariant::fromValue(i));
+
+            this->_parcelles->append(tmp);
+        }
+
+
+
 }
 

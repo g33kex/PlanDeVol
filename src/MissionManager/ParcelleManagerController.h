@@ -20,7 +20,7 @@ public:
     ~ParcelleManagerController();
 
 
-    Q_INVOKABLE QList<QList<QGeoCoordinate>> *QgetParcelleList() {return nullptr;}
+    Q_INVOKABLE QVariantList getParcelleList() {return *this->_parcelles;}
 
 //    Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 signals:
@@ -33,7 +33,6 @@ public slots:
     void addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed);
     void requestReply(QNetworkReply *reply);
     bool verif(QString user, QString pass);
-    QmlObjectListModel* parcelles();
 
 private:
     void initParcelles();
@@ -42,7 +41,7 @@ private:
     MissionController *missionControler;
     GeoportailLink *geoportailParcelle;
     QString _file;
-    QmlObjectListModel* _parcelles;
+    QVariantList* _parcelles;
 };
 
 #endif // PARCELLEMANAGERCONTROLLER_H
