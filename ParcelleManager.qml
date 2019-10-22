@@ -137,6 +137,7 @@ Item {
                             tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
                             tableView.selection.clear()
                             _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+                            map.updateParcelles()
                         }
                 }
                 Button {
@@ -208,21 +209,72 @@ Item {
                 zoomLevel: 14
                 activeMapType: map.supportedMapTypes[1]
 
+                property var parcelles;
 
+                function updateParcelles() {
+                    map.clearMapItems()
+                    parcelles=_parcelleManagerController.getParcelleList()
+                    for(var i=0; i<parcelles.length; i++) {
+                        if(zoomLevel>11) {
+                            var polygon = Qt.createQmlObject('import QtLocation 5.3; MapPolygon {}', map)
+                            polygon.path = parcelles[i]
+                            polygon.color = "#50FFA500"
+                            polygon.border.width = 5
+                            polygon.border.color = "red"
+                            map.addMapItem(polygon)
+                        }
+                        else
+                        {
+                            var parcelleIndicator = Qt.createQmlObject('import QtLocation 5.3;import QtQuick 2.0; MapQuickItem {sourceItem: Rectangle {
+                                width: 25
+                                height: 25
+                                border.width: 5
+                                color: "red"
+                            }}', map)
+                           /* circle.color = "red"
+                            circle.radius = 5000.0/map.zoomLevel
+                            circle.center = parcelles[i][0]*/
+                            parcelleIndicator.coordinate = parcelles[i][0]
+                            map.addMapItem(parcelleIndicator)
+                        }
+                    }
+                }
+
+                onZoomLevelChanged: {
+                    updateParcelles()
+                }
 
                 Component.onCompleted: {
-                    var parcelles=_parcelleManagerController.getParcelleList()
-                    console.log("PARCELLE LIST LENGTH:"+parcelles.length)
-                    for(var i=0; i<parcelles.length; i++) {
-                     var circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
-                     circle.center=parcelles[i][0]
 
-                     circle.radius = 5000000.0
-                     circle.color = 'green'
-                     circle.border.width = 3
-                     map.addMapItem(circle)
+                    updateParcelles()
+                    map.center=parcelles[0][0]
+
+                  /* console.log("PARCELLE LIST LENGTH:"+parcelles.length)
+                    for(var i=0; i<parcelles.length; i++) {
+
+
+                     //  for(var j=0;j<parcelles[i].length;j++) {
+                            //console.log("Parcelle "+i+" "+j+" = "+parcelles[i][j])
+                            /* var circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
+                            circle.center=parcelles[i][j]
+
+                            circle.radius = 5.0
+                            circle.color = 'green'
+                            circle.border.width = 3
+                            map.addMapItem(circle)
+                            map.center=parcelles[i][j]
+
+                           var circle2 = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
+                           circle2.center=parcelles[i][j]
+
+                           circle2.radius = 500
+                           circle2.border.width = 20
+                           map.addMapItem(circle2)*/
+
+                       // }
+
+
                     }
-                 }
             }
 
 
@@ -243,6 +295,7 @@ Item {
 
             onAccepted: {
                 _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.value)
+                map.updateParcelles()
             }
 
 
@@ -276,7 +329,7 @@ Item {
                 }
                 TextField {
                     id: fileField
-                    enabled: false
+                    //enabled: false
                     function updateContent() {
                         text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "parcelleFile")
                     }
@@ -308,6 +361,7 @@ Item {
 
             onAccepted: {
                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, a_fileField.text, a_typeField.text, a_speedBox.value)
+                map.updateParcelles()
             }
 
 

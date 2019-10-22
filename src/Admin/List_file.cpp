@@ -3,6 +3,7 @@
 #include <QList>
 #include <QString>
 #include <QTextStream>
+#include <QDebug>
 
 
 List_file::List_file(QString file) :

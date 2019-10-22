@@ -145,6 +145,40 @@ bool ParcelleManagerController::verif(QString user, QString pass) {
 
 void ParcelleManagerController::initParcelles() {
     qDebug() << "----- init parcelle -----";
+
+    this->_parcelles = new QVariantList();
+
+    QString file1 = "/home/dev/Documents/parcelle11350.kml";
+    QString file2 = "/home/dev/Documents/parcelle11352.kml";
+    QStringList files = QStringList();
+    files.append(file1); files.append(file2);
+
+    for(QString file : files) {
+        qDebug() << "Looking at file "+file;
+
+        QString error;
+        QList<QGeoCoordinate> vertices = QList<QGeoCoordinate>();
+        KMLFileHelper::loadPolygonFromFile(file, vertices, error);
+        if(error!="") {
+            qDebug() << "Error reading parcelle "+file+". Error:" +error;
+            continue;
+        }
+        //Convert QList<QGeoCoordinate> to QVariantList
+        QVariantList variantVertices = QVariantList();
+        for(QGeoCoordinate coordinate : vertices) {
+            variantVertices.append(QVariant::fromValue(coordinate));
+        }
+        qDebug() << "varientVertices size = " << variantVertices.length();
+        qDebug() << "Number of vertices : " << vertices.size();
+        this->_parcelles->append(QVariant::fromValue(variantVertices));
+        qDebug() << "Parcelle list size: "<<this->_parcelles->length();
+    }
+
+
+
+    qDebug() << "------------";
+
+    /*
     //QList<QString> listParcelle = db->getAllParcelle(username);
     QList<QString> listParcelle = *new QList<QString>();
     listParcelle.append("_");
@@ -153,7 +187,7 @@ void ParcelleManagerController::initParcelles() {
         QList<QGeoCoordinate> vertices = *new QList<QGeoCoordinate>();
         QString error;
 //        KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
-        QString file = "C:\\Users\\landr\\Documents\\QGroundControl\\Missions\\parcelle11350.kml";
+        QString file = "/home/dev/Documents/parcelle11350.kml";
         KMLFileHelper::loadPolygonFromFile(file, vertices, error);
         qDebug() << "error " << error;
         qDebug() << vertices.size();
@@ -166,8 +200,9 @@ void ParcelleManagerController::initParcelles() {
 
         _parcelles->append(tmp);
         qDebug() << _parcelles->size();
-        qDebug() << "------------";
-    }
+
+
+    }*/
 
 }
 
