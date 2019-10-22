@@ -24,15 +24,16 @@ void LoginController::loadMainWindow() {
 
 //Returns true if login sucessful and sets global user variable
 bool LoginController::login(QString user, QString password) {
-     if (user == "") return false;
-     QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
-     qDebug() << mdp;
-     QString mdp_base = db->getPassword(user);
-     if(mdp_base.compare(mdp) == 0) {
-         username = user;
-         return true;
-     }
-     return false;
+//     if (user == "") return false;
+//     QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
+//     qDebug() << mdp;
+//     QString mdp_base = db->getPassword(user);
+//     if(mdp_base.compare(mdp) == 0) {
+//         username = user;
+//         return true;
+//     }
+//     return false;
+    return true;
 }
 
 void LoginController::onAdminClosed() {

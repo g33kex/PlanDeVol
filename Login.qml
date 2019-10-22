@@ -244,9 +244,9 @@ Item {
 
                         }
                    }
-                   GridLayout {
-                       columns: 4
-                       anchors.fill: parent
+                   RowLayout {
+//                       columns: 4
+//                       anchors.fill: parent
 
                        Button {
                            Layout.fillWidth: true

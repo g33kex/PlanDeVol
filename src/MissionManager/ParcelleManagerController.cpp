@@ -148,9 +148,9 @@ void ParcelleManagerController::initParcelles() {
     //QList<QString> listParcelle = db->getAllParcelle(username);
     QList<QString> listParcelle = *new QList<QString>();
     listParcelle.append("_");
-   for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
+    for(QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
 
-    QList<QGeoCoordinate> vertices = *new QList<QGeoCoordinate>();
+        QList<QGeoCoordinate> vertices = *new QList<QGeoCoordinate>();
         QString error;
 //        KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
         QString file = "C:\\Users\\landr\\Documents\\QGroundControl\\Missions\\parcelle11350.kml";
@@ -168,8 +168,6 @@ void ParcelleManagerController::initParcelles() {
         qDebug() << _parcelles->size();
         qDebug() << "------------";
     }
-
-
 
 }
 

@@ -44,7 +44,7 @@ void SqlCustomModel::setupForParcelle() {
 
     qDebug() << "---- setupForParcelle----";
     this->setTable("Parcelle");
-    if (!(username.compare("")==0) ) {
+    if (!(username.compare("")==0 || username.compare("admin")==0)) {
         qDebug() << username;
         QString filtre = QString("owner = \'") + username + QString("\'");
         this->setFilter(filtre);
