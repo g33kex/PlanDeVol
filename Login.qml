@@ -530,7 +530,7 @@ Item {
                     Layout.margins: m
                     onClicked: {
                         _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
-                        _loginController.setParamAlt(nbSession.text, nbParcelle.text, nbMission.text)
+                        _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
                     }
                 }

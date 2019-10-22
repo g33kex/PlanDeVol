@@ -137,19 +137,18 @@ void LoginController::addUser(SqlCustomModel *model, QString user, QString passw
 
 void LoginController::setParamSpeed(QString lowSpeed, QString medSpeed, QString highSpeed) {
     qDebug() << "----- save speed -----";
-    speedParam[0] = lowSpeed;
-    speedParam[1] = medSpeed;
-    speedParam[2] = highSpeed;
-
+    speedParam->replace(0, lowSpeed);
+    speedParam->replace(1, medSpeed);
+    speedParam->replace(2, highSpeed);
     speedParam->save();
 }
 
 
 void LoginController::setParamLimit(QString session, QString parcelles, QString missions) {
     qDebug() << "----- save limit -----";
-    nbParam[0] = session;
-    nbParam[1] = parcelles;
-    nbParam[2] = missions;
+    nbParam->replace(0, session);
+    nbParam->replace(1, parcelles);
+    nbParam->replace(2, missions);
 
     nbParam->save();
 }

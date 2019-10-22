@@ -14,9 +14,16 @@ List_file::List_file(QString file) :
 
 void List_file::save() {
     QFile file(_file);
+    qDebug() << " ---- in save ---- ";
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "error opening save file";
+        return;
+    }
+    qDebug() << "file open";
+
     file.resize(0);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
+
+    qDebug() << "file resize";
 
     QTextStream out(&file);
     for (QList<QString>::iterator i = this->begin(); i != this->end(); ++i) {
