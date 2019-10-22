@@ -219,9 +219,9 @@ MAV_TYPE AppSettings::offlineEditingVehicleTypeFromVehicleType(MAV_TYPE vehicleT
 }
 
 bool AppSettings::nbMission(void){
-    return db->getNbMission(username);
+    return db->verifNbMission(username);
 }
 
 bool AppSettings::nbParcelle(void){
-    return db->getNbParcelle(username);
+    return db->verifNbParcelle(username);
 }

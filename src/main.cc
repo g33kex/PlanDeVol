@@ -217,7 +217,7 @@ bool checkAndroidWritePermission() {
 
 
 extern QString username;
-QString username = "foo";
+QString username = "";
 
 
 extern DbManager *db;
@@ -452,9 +452,9 @@ int main(int argc, char *argv[])
         if (! nbParam->load()) {
             qDebug() << "nbParam file is empty";
             nbParam->clear();
-            nbParam->append("10");
-            nbParam->append("10");
-            nbParam->append("10");
+            nbParam->append("10"); //session
+            nbParam->append("10"); //parcelle
+            nbParam->append("10"); //mission
         }
 
         db = new DbManager();

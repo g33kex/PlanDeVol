@@ -152,7 +152,6 @@ void ParcelleManagerController::initParcelles() {
         QString error;
         KMLFileHelper::loadPolygonFromFile(*i, vertices, error);
         qDebug() << "error " << error;
-
         //We need to convert that nice stuff to QVariant for QML to understand
         QVariantList tmp = *new QVariantList();
         tmp.reserve(vertices.size());

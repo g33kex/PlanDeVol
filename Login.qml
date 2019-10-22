@@ -85,7 +85,7 @@ Item {
 
 
                                 onAccepted: {
-                                    _loginController.addUser(adminInterface.userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
+                                    _loginController.addUser(userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
                                 }
 
 
@@ -285,23 +285,66 @@ Item {
                     color: "gray"
                     Layout.margins: m2
                 }
+                GridLayout {
+                    columns: 3
 
-                SpinBox {
-                    id: speedBox
-                    value: _loginController.getParamSpeed()
-                    Layout.margins: m
+                    Label {
+                        text: "Low Speed"
+                    }
+                    Label {
+                        text: "Medium Speed"
+                    }
+                    Label {
+                        text: "High Speed"
+                    }
+
+
+                    TextField {
+                        id: lowspeed
+                        text: _loginController.getSpeedLow()
+                    }
+                    TextField {
+                        id: medspeed
+                        text: _loginController.getSpeedMed()
+                    }
+                    TextField {
+                        id: highspeed
+                        text: _loginController.getSpeedHigh()
+                    }
                 }
 
                 Label {
-                    text: "Altitude"
+                    text: "Limite number"
                     color: "gray"
                     Layout.margins: m2
                 }
 
-                SpinBox {
-                    id: altBox
-                    value: _loginController.getParamAlt()
-                    Layout.margins: m
+                GridLayout {
+                    columns: 3
+
+                    Label {
+                        text: "Limit of session        "
+                    }
+                    Label {
+                        text: "Limit of parcelle / user"
+                    }
+                    Label {
+                        text: "Limit of mission / user "
+                    }
+
+
+                    TextField {
+                        id: nbSession
+                        text: _loginController.getNbSession()
+                    }
+                    TextField {
+                        id: nbParcelle
+                        text: _loginController.getNbParcelle()
+                    }
+                    TextField {
+                        id: nbMission
+                        text: _loginController.getNbMission()
+                    }
                 }
 
 
@@ -323,8 +366,8 @@ Item {
                     text: "Save"
                     Layout.margins: m
                     onClicked: {
-                        _loginController.setParamSpeed(speedBox.value)
-                        _loginController.setParamAlt(altBox.value)
+                        _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
+                        _loginController.setParamAlt(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
                     }
                 }
