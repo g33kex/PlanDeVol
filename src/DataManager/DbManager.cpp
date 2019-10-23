@@ -182,7 +182,8 @@ QList<QString> DbManager::getAllMission(QString username) {
 }
 
 QString DbManager::getPassword(const QString& user) {
-    qDebug() << "in getPassword" << user;
+    qDebug() << "----- getPassword -----";
+    qDebug() << user;
     QSqlQuery query;
     query.prepare("SELECT * FROM Person WHERE username = (:username)");
     query.bindValue(":username", user);
@@ -191,10 +192,13 @@ QString DbManager::getPassword(const QString& user) {
         query.first();
         QString password = query.value("password").toString();
         qDebug() << "query" << password;
+
+        qDebug() << "------------";
         return password;
     }
     else {
         qDebug() << "getPassword error :" << query.lastError();
+        qDebug() << "------------";
         return "";
     }
 
@@ -230,4 +234,20 @@ bool DbManager::verifNbParcelle(QString username) {
         return value.toInt() <= nbParam->at(1);
     }
     return false;
+}
+
+void DbManager::buildDB() {
+
+    QString tablePerson = "CREATE TABLE \"Person\" ( \"username\"	TEXT NOT NULL UNIQUE, \"password\"	TEXT,  \"nom\"	TEXT, \"prenom\"	TEXT, PRIMARY KEY(\"username\") );";
+    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE,\"type\"	TEXT,\"speed\"	INTEGER NOT NULL CHECK(speed>0 and speed<4),FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
+    QString tableMission = "CREATE TABLE \"Mission\" ( \"owner\"	TEXT NOT NULL, \"missionFile\"	TEXT NOT NULL UNIQUE, PRIMARY KEY(\"missionFile\"), FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE );";
+
+    QSqlQuery queryPerson(tablePerson);
+    QSqlQuery queryParcelle(tableParcelle);
+    QSqlQuery queryMission(tableMission);
+
+    QString pass = QCryptographicHash::hash("admin", QCryptographicHash::Sha3_256);
+    QString addAdmin = "INSERT INTO \"main\".\"Person\" (\"username\", \"password\") VALUES ('admin', '" + pass + "');";
+    QSqlQuery queryAddAdmin(addAdmin);
+
 }

@@ -458,6 +458,7 @@ int main(int argc, char *argv[])
         }
 
         db = new DbManager();
+        db->buildDB();
 
         if (!app->_initForNormalAppBoot()) {
             return -1;

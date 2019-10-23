@@ -81,6 +81,7 @@ public:
     QString crashSavePath       ();
     bool    nbMission           ();
     bool    nbParcelle          ();
+    void _checkSavePathDirectories();
 
 
     static MAV_AUTOPILOT    offlineEditingFirmwareTypeFromFirmwareType  (MAV_AUTOPILOT firmwareType);
@@ -111,7 +112,7 @@ signals:
 
 private slots:
     void _indoorPaletteChanged();
-    void _checkSavePathDirectories();
+
     void _languageChanged();
 
 private:

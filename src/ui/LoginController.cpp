@@ -4,12 +4,14 @@
 #include "DataManager/DbManager.h"
 #include "Admin/List_file.h"
 #include "Admin.h"
+#include "AppSettings.h"
 
 extern DbManager *db;
 extern List_file *checklist;
 extern List_file *speedParam;
 extern List_file *nbParam;
 extern QString username;
+extern AppSettings* sett;
 
 QQmlApplicationEngine* LoginController::qmlAppEngine=nullptr;
 LoginController::LoginController()
@@ -20,20 +22,22 @@ LoginController::LoginController()
 void LoginController::loadMainWindow() {
 
    qmlAppEngine->load(QUrl(QStringLiteral("qrc:/qml/MainRootWindow.qml")));
+   sett->_checkSavePathDirectories();
 }
 
 //Returns true if login sucessful and sets global user variable
 bool LoginController::login(QString user, QString password) {
-//     if (user == "") return false;
-//     QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
-//     qDebug() << mdp;
-//     QString mdp_base = db->getPassword(user);
-//     if(mdp_base.compare(mdp) == 0) {
-//         username = user;
-//         return true;
-//     }
-//     return false;
-    return true;
+     if (user == "") return false;
+     QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
+     qDebug() << mdp;
+     QString mdp_base = db->getPassword(user);
+     if(mdp_base.compare(mdp) == 0) {
+         username = user;
+         return true;
+     }
+     return false;
+//    username = user;
+//    return true;
 }
 
 void LoginController::onAdminClosed() {

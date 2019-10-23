@@ -26,6 +26,9 @@ class DbManager
 
         bool verifNbMission(QString username);
         bool verifNbParcelle(QString username);
+
+        void buildDB();
+
     private:
         QSqlDatabase m_db;
 };

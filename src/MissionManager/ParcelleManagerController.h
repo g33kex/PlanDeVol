@@ -40,6 +40,11 @@ private:
     QList<QString> *toDel;
     MissionController *missionControler;
     GeoportailLink *geoportailParcelle;
+
+
+    SqlCustomModel* _model;
+    QString _type;
+    int _speed;
     QString _file;
     QVariantList* _parcelles;
 };

@@ -37,6 +37,8 @@ const char* AppSettings::crashDirectory =           "CrashLogs";
 
 extern DbManager *db;
 extern QString username;
+extern AppSettings * sett;
+AppSettings * sett;
 
 DECLARE_SETTINGGROUP(App, "")
 {
@@ -60,6 +62,8 @@ DECLARE_SETTINGGROUP(App, "")
 #endif
         savePathFact->setRawValue(rootDir.filePath(appName));
     }
+
+    sett = this;
 
     connect(savePathFact, &Fact::rawValueChanged, this, &AppSettings::savePathsChanged);
     connect(savePathFact, &Fact::rawValueChanged, this, &AppSettings::_checkSavePathDirectories);
@@ -116,7 +120,7 @@ void AppSettings::_languageChanged()
 
 void AppSettings::_checkSavePathDirectories(void)
 {
-    QDir savePathDir(savePath()->rawValue().toString());
+    QDir savePathDir(savePath()->rawValue().toString() + username + "/");
     if (!savePathDir.exists()) {
         QDir().mkpath(savePathDir.absolutePath());
     }
@@ -137,7 +141,7 @@ void AppSettings::_indoorPaletteChanged(void)
 
 QString AppSettings::missionSavePath(void)
 {
-    QString path = savePath()->rawValue().toString();
+    QString path = savePath()->rawValue().toString() + "/" + username + "/";
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(missionDirectory);
@@ -147,7 +151,7 @@ QString AppSettings::missionSavePath(void)
 
 QString AppSettings::parameterSavePath(void)
 {
-    QString path = savePath()->rawValue().toString();
+    QString path = savePath()->rawValue().toString() + "/" + username + "/";
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(parameterDirectory);
@@ -157,7 +161,7 @@ QString AppSettings::parameterSavePath(void)
 
 QString AppSettings::telemetrySavePath(void)
 {
-    QString path = savePath()->rawValue().toString();
+    QString path = savePath()->rawValue().toString() + "/" + username + "/";
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(telemetryDirectory);
@@ -167,7 +171,7 @@ QString AppSettings::telemetrySavePath(void)
 
 QString AppSettings::logSavePath(void)
 {
-    QString path = savePath()->rawValue().toString();
+    QString path = savePath()->rawValue().toString() + "/" + username + "/";
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(logDirectory);
@@ -177,7 +181,7 @@ QString AppSettings::logSavePath(void)
 
 QString AppSettings::videoSavePath(void)
 {
-    QString path = savePath()->rawValue().toString();
+    QString path = savePath()->rawValue().toString() + "/" + username + "/";
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(videoDirectory);
@@ -187,7 +191,7 @@ QString AppSettings::videoSavePath(void)
 
 QString AppSettings::crashSavePath(void)
 {
-    QString path = savePath()->rawValue().toString();
+    QString path = savePath()->rawValue().toString() + "/" + username + "/";
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(crashDirectory);
