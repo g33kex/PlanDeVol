@@ -358,8 +358,8 @@ Item {
                                 width: missionTableView.width/2
                             }
                             TableViewColumn {
-                                role: "missionFile"
-                                title: "MissionFile"
+                                role: "name"
+                                title: "name of the mission"
                                 movable : false
                                 width: missionTableView.width/2
                             }
@@ -412,8 +412,8 @@ Item {
                                 width: 2*parcelleTableView.width/8
                             }
                             TableViewColumn {
-                                role: "parcelleFile"
-                                title: "ParcelleFile"
+                                role: "name"
+                                title: "name of the parcelle"
                                 movable : false
                                 width: 4*parcelleTableView.width/8
                             }

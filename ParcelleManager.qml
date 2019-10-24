@@ -92,8 +92,8 @@ Item {
                             width: 2*tableView.width/8
                         }
                         TableViewColumn {
-                            role: "parcelleFile"
-                            title: "ParcelleFile"
+                            role: "name"
+                            title: "name of the Parcelle"
                             movable : false
                             width: 4*tableView.width/8
                         }
