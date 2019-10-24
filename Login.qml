@@ -667,7 +667,7 @@ Item {
     }
     Dialog {
         id: errorLogin
-        title: "Error"
+        title: "Error!!!"
         Label{
             text: "Invalid username or password!"
         }
