@@ -3,7 +3,6 @@
 #include <QCryptographicHash>
 #include "DataManager/DbManager.h"
 #include "Admin/List_file.h"
-#include "Admin.h"
 #include "AppSettings.h"
 
 extern DbManager *db;

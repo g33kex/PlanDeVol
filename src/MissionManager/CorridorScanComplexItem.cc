@@ -502,8 +502,8 @@ double CorridorScanComplexItem::timeBetweenShots(void)
 
 
 double CorridorScanComplexItem::specifiedFlightSpeed() {
-    qDebug() << "----- corridor specifiedFlightSpeed -----";
-    qDebug() << _cruiseSpeed;
+//    qDebug() << "----- corridor specifiedFlightSpeed -----";
+//    qDebug() << _cruiseSpeed;
     if (_cruiseSpeed < 0) _cruiseSpeed = 15;
     return _cruiseSpeed;
 }

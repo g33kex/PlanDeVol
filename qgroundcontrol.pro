@@ -401,7 +401,6 @@ HEADERS += \
     src/api/QmlComponentInfo.h \
     src/comm/MavlinkMessagesTimer.h \
     src/GPS/Drivers/src/base_station.h \
-    src/ui/Admin.h \
     src/ui/LoginController.h
 
 SOURCES += \
@@ -415,7 +414,6 @@ SOURCES += \
     src/api/QGCSettings.cc \
     src/api/QmlComponentInfo.cc \
     src/comm/MavlinkMessagesTimer.cc \
-    src/ui/Admin.cpp \
     src/ui/LoginController.cpp
 
 #
@@ -1265,10 +1263,7 @@ contains (CONFIG, QGC_DISABLE_INSTALLER_SETUP) {
     include(QGCInstaller.pri)
 }
 
-FORMS += \
-    src/MissionManager/ParcelleManager.ui \
-    src/ui/Admin.ui \
-    src/ui/Login.ui
+FORMS +=
 
 DISTFILES += \
     database.sqlite3

@@ -526,7 +526,6 @@ void QGCMapPolygon::saveAsParcelle(QString name, QString type, int speed) {
     ShapeFileHelper::savePolygonToKML(name, &_polygonModel, 0);
     db->addParcelle(username, name, type, speed);
 }
-
 QString QGCMapPolygon::verifArea() {
     return QString("The area is ") + QString::number(this->area() / 10000) + " hectares";
 }

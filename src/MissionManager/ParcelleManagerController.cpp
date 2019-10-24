@@ -95,6 +95,7 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
         QSqlRecord newRecord = _model->record();
         newRecord.setValue("owner", QVariant(username));
         newRecord.setValue("parcelleFile", QVariant(_file));
+        newRecord.setValue("name", QVariant(_file.split("/").last()));
         newRecord.setValue("type", QVariant(_type));
         newRecord.setValue("speed",QVariant(_speed));
 
@@ -115,8 +116,8 @@ void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index,
 
     QSqlRecord record = model->record(index);
 
-    record.setValue("owner", QVariant(owner));
-    record.setValue("parcelleFile", QVariant(parcelleFile));
+//    record.setValue("owner", QVariant(owner));
+//    record.setValue("parcelleFile", QVariant(parcelleFile));
     record.setValue("type", QVariant(type));
     record.setValue("speed",QVariant(speed));
 
