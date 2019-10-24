@@ -205,33 +205,51 @@ Item {
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
-        GridLayout {
-            columns: 3
-            anchors.fill: parent
+        Column {
+
+            id:                 parcelleColumn
+            anchors.margins:    _margin
+            anchors.left:       parent.left
+            anchors.top:        parent.top
+            spacing:            _margin
+
 
             Label {
-                text: "Name"
-            }
-            Label {
-                text: "Type"
-            }
-            Label {
-                text: "Speed"
-
-            }
-            TextField {
-                id: a_nameField
-            }
-            TextField {
-                id: a_typeField
-            }
-            SpinBox {
-                maximumValue: 3
-                minimumValue: 1
-                id: a_speedBox
+                id : verifLabel
+                text : mapPolygon.verifArea
             }
 
 
+            GridLayout {
+                columns: 3
+                anchors.fill: parent
+
+
+
+                Label {
+                    text: "Name"
+                }
+                Label {
+                    text: "Type"
+                }
+                Label {
+                    text: "Speed"
+
+                }
+                TextField {
+                    id: a_nameField
+                }
+                TextField {
+                    id: a_typeField
+                }
+                SpinBox {
+                    maximumValue: 3
+                    minimumValue: 1
+                    id: a_speedBox
+                }
+
+
+            }
         }
 
 
@@ -321,7 +339,7 @@ Item {
                 if(QGroundControl.settingsManager.appSettings.nbParcelle) {
                     saveAsParcelleDialog.open()
                     verifLabel.text= mapPolygon.verifArea
-                    verif.open()
+                    //verif.open()
                 }
                 else {
                     messageDialog_toomuch.open()
@@ -646,16 +664,16 @@ Item {
         }
     }
 
-    Dialog {
-        id: verif
-        title: "confirmation"
-        standardButtons: Dialog.Ok
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        Label {
-            id: verifLabel
-            text : mapPolygon.verifArea
-        }
-    }
+//    Dialog {
+//        id: verif
+//        title: "confirmation"
+//        standardButtons: Dialog.Ok
+//        x: (parent.width - width) / 2
+//        y: (parent.height - height) / 2
+//        Label {
+//            id: verifLabel
+//            text : mapPolygon.verifArea
+//        }
+//    }
 }
 

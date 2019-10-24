@@ -252,3 +252,10 @@ void DbManager::buildDB() {
     QSqlQuery queryAddAdmin(addAdmin);
 
 }
+
+bool DbManager::checkIfExist(QString file) {
+    QString _foo = "SELECT COUNT(1) FROM Parcelle WHERE parcelleFile = \" " + file + "\";";
+    QSqlQuery queryTest(_foo);
+    queryTest.first();
+    return queryTest.value("COUNT(1)").toInt() == 0;
+}

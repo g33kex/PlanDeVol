@@ -22,6 +22,8 @@ public:
 
     Q_INVOKABLE QVariantList getParcelleList();
 
+    bool checkIfExist(QString name);
+
 //    Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 signals:
     void downloadEnded(bool success);

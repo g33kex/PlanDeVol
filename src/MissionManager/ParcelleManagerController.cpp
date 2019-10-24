@@ -179,3 +179,8 @@ QVariantList ParcelleManagerController::getParcelleList() {
     initParcelles();
     return *this->_parcelles;
 }
+
+bool ParcelleManagerController::checkIfExist(QString name) {
+    if(! name.endsWith(".kml")) name.append(".kml");
+    return db->checkIfExist(name);
+}
