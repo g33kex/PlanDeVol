@@ -73,6 +73,8 @@ public:
     ///Save the polygon as KML (for Save as Parcelle)
     Q_INVOKABLE void savePolygonToKML(QString path);
 
+    Q_INVOKABLE void saveAsParcelle(QString name, QString type, int speed);
+
 
     /// Saves the polygon to the json object.
     ///     @param json Json object to save to

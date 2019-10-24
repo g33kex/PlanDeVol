@@ -90,6 +90,8 @@ Item {
                                 title: "Add User"
 
                                 standardButtons: Dialog.Ok | Dialog.Cancel
+                                x: (parent.width - width) / 2
+                                y: (parent.height - height) / 2
 
                                 GridLayout {
                                     columns: 4
@@ -143,6 +145,9 @@ Item {
                                 title: "Edit Parcelle"
 
                                 standardButtons: Dialog.Ok | Dialog.Cancel
+                                x: (parent.width - width) / 2
+                                y: (parent.height - height) / 2
+                                modal: true
 
                                 GridLayout {
                                     columns: 3
@@ -202,6 +207,8 @@ Item {
                                 title: "Edit Password"
 
                                 standardButtons: Dialog.Ok | Dialog.Cancel
+                                x: (parent.width - width) / 2
+                                y: (parent.height - height) / 2
 
                                 GridLayout {
                                     columns: 4
@@ -229,12 +236,15 @@ Item {
                                     }
                                     TextField {
                                         id: oldPassField
+                                         echoMode: TextInput.Password
                                     }
                                     TextField {
                                         id: newPassField
+                                         echoMode: TextInput.Password
                                     }
                                     TextField {
                                         id: confirmationField
+                                        echoMode: TextInput.Password
                                     }
 
 
@@ -673,6 +683,7 @@ Item {
         standardButtons: Dialog.Ok
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
+
         Label{
             text: "Invalid username or password!"
         }
@@ -681,6 +692,9 @@ Item {
 
     Dialog {
         id: wrongConfirmationDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
         modal: true
         title: "Error"
         Label{
@@ -692,6 +706,9 @@ Item {
     Dialog {
 
         id: errorModifyOnlyOneDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
         title: "Error"
         modal: true
 

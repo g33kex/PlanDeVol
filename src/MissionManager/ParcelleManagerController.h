@@ -24,7 +24,7 @@ public:
 
 //    Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 signals:
-    void downloadEnded(bool);
+    void downloadEnded(bool success);
 
 public slots:
     void deleteParcelle(SqlCustomModel *model, QList<int> indexes);

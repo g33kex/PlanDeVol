@@ -8,10 +8,11 @@
  ****************************************************************************/
 
 import QtQuick                      2.11
-import QtQuick.Controls             2.4
+import QtQuick.Controls 2.4
+import QtQuick.Controls 1.4
 import QtLocation                   5.3
 import QtPositioning                5.3
-import QtQuick.Dialogs              1.2
+import QtQuick.Layouts 1.0
 
 import QGroundControl                   1.0
 import QGroundControl.ScreenTools       1.0
@@ -187,7 +188,57 @@ Item {
         }
     }
 
-    QGCFileDialog {
+    Dialog {
+        id: saveAsParcelleDialog
+
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal: true
+
+
+        onAccepted: {
+            mapPolygon.saveAsParcelle(a_fileField.text, a_typeField.text, a_speedBox.value)
+        }
+
+
+        title: "Save as Parcelle"
+
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        GridLayout {
+            columns: 4
+            anchors.fill: parent
+
+            Label {
+                text: "Name"
+            }
+            Label {
+                text: "Type"
+            }
+            Label {
+                text: "Speed"
+
+            }
+            TextField {
+                id: a_nameField
+            }
+            TextField {
+                id: a_typeField
+            }
+            SpinBox {
+                maximumValue: 3
+                minimumValue: 1
+                id: a_speedBox
+            }
+
+
+        }
+
+
+    }
+
+
+   /* QGCFileDialog {
         id:             saveAsParcelleDialog
         folder:         QGroundControl.settingsManager.appSettings.missionSavePath
         title:          qsTr("Select Parcelle save file")
@@ -199,7 +250,7 @@ Item {
             mapPolygon.savePolygonToKML(file);
             close();
         }
-    }
+    }*/
 
     QGCMenu {
         id: menu
@@ -268,7 +319,7 @@ Item {
             text:           qsTr("Save as Parcelle...")
             onTriggered: {
                 if(QGroundControl.settingsManager.appSettings.nbParcelle) {
-                    saveAsParcelleDialog.openForSave()
+                    saveAsParcelleDialog.open()
                     verifLabel.text= mapPolygon.verifArea
                     verif.open()
                 }
@@ -583,15 +634,24 @@ Item {
         }
     }
 
-    MessageDialog {
+    Dialog {
         id: messageDialog_toomuch
         title: "Warning"
-        text: "Limite de parcelles enregistrées atteintes."
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        Label {
+            anchors.centerIn: parent
+            text: "Limite de parcelles enregistrées atteintes."
+        }
     }
 
     Dialog {
         id: verif
         title: "confirmation"
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
         Label {
             id: verifLabel
             text : mapPolygon.verifArea

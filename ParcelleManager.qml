@@ -1,11 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.4
 import QtQuick.Controls 1.4
 import QtGraphicalEffects 1.0
 import QtLocation 5.11
 import QtPositioning 5.11
-import QtQuick.Dialogs 1.2
 
 
 import QGroundControl                   1.0
@@ -21,6 +20,15 @@ Item {
 
     ParcelleManagerController {
         id: _parcelleManagerController
+        onDownloadEnded: {
+            map.updateParcelles()
+            if(success) {
+                downloadSuccessDialog.open()
+            }
+            else {
+                downloadFailureDialog.open()
+            }
+        }
     }
 
 
@@ -284,6 +292,10 @@ Item {
         Dialog {
             id: editParcelleDialog
 
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            modal: true
+
             property int parcelleIndex: 0
 
             function refresh() {
@@ -358,10 +370,13 @@ Item {
         Dialog {
             id: addParcelleDialog
 
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            modal: true
+
 
             onAccepted: {
                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.value)
-                map.updateParcelles()
             }
 
 
@@ -409,6 +424,10 @@ Item {
 
         Dialog {
             id: errorModifyOnlyOneParcelleDialog
+            standardButtons: Dialog.Ok
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            modal: true
             title: "Error"
             Label{
                 text: "Please select ONE Parcelle to modify."
@@ -418,15 +437,52 @@ Item {
     }
 
 
-    MessageDialog {
+    Dialog {
         id: messageDialog_toomuch
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
         title: "Warning"
-        text: "Limite de parcelles enregistrées atteintes."
+        Label {
+            anchors.centerIn: parent
+            text: "Limite de parcelles enregistrées atteintes."
+        }
+    }
+
+    Dialog {
+        id: downloadSuccessDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Success"
+        Label {
+            anchors.centerIn: parent
+            text: "Parcelle téléchargée avec succès."
+        }
+    }
+
+    Dialog {
+        id: downloadFailureDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "Impossible de télécharger la parcelle."
+        }
     }
 
     Dialog {
         id : admin
         title: "Admin"
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal: true
         property bool verif: false
         GridLayout {
             columns: 2
