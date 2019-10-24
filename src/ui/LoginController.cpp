@@ -84,7 +84,7 @@ void LoginController::onAdminClosed() {
 void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
     for(int i=0; i<indexes.size();i++) {
         qDebug() << "Removing " << indexes[i];
-        QFile file (model->record(i).value("missionFile").toString());
+        QFile file (model->record(indexes[i]).value("missionFile").toString());
         file.remove();
         model->removeRow(indexes[i]);
     }

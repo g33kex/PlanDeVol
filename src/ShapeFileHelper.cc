@@ -142,12 +142,16 @@ bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygo
         stream << "<LinearRing>" << endl;
         stream << "<coordinates>" << endl;
 
+        QString first = ((QGCQGeoCoordinate*) (_polygonModel->objectList()->first()))->toString();
+
         for (QList<QObject*>::iterator j = _polygonModel->objectList()->begin(); j != _polygonModel->objectList()->end(); j++)
         {
             qDebug() << (((QGCQGeoCoordinate*) (*j))->toString());
             stream << (((QGCQGeoCoordinate*) (*j))->toString()) << ",50" << endl; //le dernier element étant l'altitude du tracé, il n'est pas important
         }
 
+
+        stream << first << ",50" << endl;
         stream << "</coordinates>" << endl;
         stream << "</LinearRing>" << endl;
         stream << "</outerBoundaryIs>" << endl;

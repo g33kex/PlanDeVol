@@ -34,7 +34,7 @@ ParcelleManagerController::~ParcelleManagerController()
 void ParcelleManagerController::deleteParcelle(SqlCustomModel *model, QList<int> indexes) {
     for(int i=0; i<indexes.size();i++) {
         qDebug() << "Removing " << indexes[i];
-        QFile file (model->record(i).value("parcelleFile").toString());
+        QFile file (model->record(indexes[i]).value("parcelleFile").toString());
         file.remove();
         model->removeRow(indexes[i]);
     }
