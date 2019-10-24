@@ -499,3 +499,11 @@ double CorridorScanComplexItem::timeBetweenShots(void)
 {
     return _cruiseSpeed == 0 ? 0 : _cameraCalc.adjustedFootprintFrontal()->rawValue().toDouble() / _cruiseSpeed;
 }
+
+
+double CorridorScanComplexItem::specifiedFlightSpeed() {
+    qDebug() << "----- corridor specifiedFlightSpeed -----";
+    qDebug() << _cruiseSpeed;
+    if (_cruiseSpeed < 0) _cruiseSpeed = 15;
+    return _cruiseSpeed;
+}

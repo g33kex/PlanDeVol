@@ -213,13 +213,17 @@ Rectangle {
                 visible:            !_usingPreset
             }
 
-            Label {
+            QGCLabel {
                 text:       qsTr("Flight Speed")
                 visible:    !_usingPreset
             }
             TextField {
                 Layout.fillWidth:   true
-                visible:            !_usingPreset
+                visible: !_usingPreset
+                text: missionItem.getCruiseSpeed()
+                onTextChanged: {
+                 missionItem.setCruiseSpeed(parseInt(text))
+                }
             }
         }
 

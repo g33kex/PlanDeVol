@@ -56,8 +56,8 @@ public:
     QString abbreviation        (void) const final { return tr("S"); }
     bool    readyForSave        (void) const final;
     double  additionalTimeDelay (void) const final;
-    void    setCruiseSpeed      (double speed);
-    double  getCruiseSpeed () { return _cruiseSpeed; }
+    Q_INVOKABLE void    setCruiseSpeed      (double speed);
+    Q_INVOKABLE double  getCruiseSpeed () { return _cruiseSpeed; }
     double  specifiedFlightSpeed    (void) override ;
 
     // Must match json spec for GridEntryLocation

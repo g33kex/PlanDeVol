@@ -197,7 +197,11 @@ Item {
 
 
         onAccepted: {
+<<<<<<< HEAD
             mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value)
+=======
+            mapPolygon.saveAsParcelle(a_nameField.text, a_typeField.text, a_speedBox.value)
+>>>>>>> dangerous_speed
         }
 
 
@@ -218,6 +222,7 @@ Item {
                 id : verifLabel
                 text : mapPolygon.verifArea
             }
+<<<<<<< HEAD
 
 
             GridLayout {
@@ -247,6 +252,30 @@ Item {
                     minimumValue: 1
                     id: a_speedBox
                 }
+=======
+            Label {
+                text: "Speed"
+            }
+            Label {
+                text: "Surface"
+            }
+            TextField {
+                id: a_nameField
+            }
+            TextField {
+                id: a_typeField
+            }
+            TextField {
+                id: a_surfaceField
+                enabled: false
+            }
+
+            SpinBox {
+                maximumValue: 3
+                minimumValue: 1
+                id: a_speedBox
+            }
+>>>>>>> dangerous_speed
 
 
             }
@@ -337,8 +366,13 @@ Item {
             text:           qsTr("Save as Parcelle...")
             onTriggered: {
                 if(QGroundControl.settingsManager.appSettings.nbParcelle) {
+                    a_surfaceField.text=""+mapPolygon.verifArea
                     saveAsParcelleDialog.open()
+<<<<<<< HEAD
                     verifLabel.text= mapPolygon.verifArea
+=======
+                    //verifLabel.text= mapPolygon.verifArea
+>>>>>>> dangerous_speed
                     //verif.open()
                 }
                 else {
@@ -664,6 +698,7 @@ Item {
         }
     }
 
+<<<<<<< HEAD
 //    Dialog {
 //        id: verif
 //        title: "confirmation"
@@ -675,5 +710,18 @@ Item {
 //            text : mapPolygon.verifArea
 //        }
 //    }
+=======
+   /* Dialog {
+        id: verif
+        title: "confirmation"
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        Label {
+            id: verifLabel
+            text : mapPolygon.verifArea
+        }
+    }*/
+>>>>>>> dangerous_speed
 }
 
