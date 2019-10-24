@@ -197,7 +197,7 @@ Item {
 
 
         onAccepted: {
-            mapPolygon.saveAsParcelle(a_fileField.text, a_typeField.text, a_speedBox.value)
+            mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value)
         }
 
 
@@ -206,7 +206,7 @@ Item {
         standardButtons: Dialog.Ok | Dialog.Cancel
 
         GridLayout {
-            columns: 4
+            columns: 3
             anchors.fill: parent
 
             Label {

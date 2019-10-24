@@ -174,3 +174,8 @@ void ParcelleManagerController::initParcelles() {
 
 }
 
+QVariantList ParcelleManagerController::getParcelleList() {
+    _parcelles->clear();
+    initParcelles();
+    return *this->_parcelles;
+}

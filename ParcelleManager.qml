@@ -21,9 +21,9 @@ Item {
     ParcelleManagerController {
         id: _parcelleManagerController
         onDownloadEnded: {
-            map.updateParcelles()
             if(success) {
                 downloadSuccessDialog.open()
+                map.updateParcelles()
             }
             else {
                 downloadFailureDialog.open()

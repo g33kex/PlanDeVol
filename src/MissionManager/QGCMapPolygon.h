@@ -71,8 +71,6 @@ public:
     Q_INVOKABLE void verifyClockwiseWinding(void);
 
     ///Save the polygon as KML (for Save as Parcelle)
-    Q_INVOKABLE void savePolygonToKML(QString path);
-
     Q_INVOKABLE void saveAsParcelle(QString name, QString type, int speed);
 
 

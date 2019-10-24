@@ -102,15 +102,16 @@ QVector<QString> * DbManager::getAllUser() {
     return res;
 }
 
-bool DbManager::addParcelle(const QString& owner, const QString& polygon, const QString& type) {
+bool DbManager::addParcelle(const QString& owner, const QString& file, const QString& type, int speed) {
    bool success = false;
-   if (owner == "" || polygon == "") return success;
+   if (owner == "" || file == "") return success;
 
    QSqlQuery query;
-   query.prepare("INSERT INTO Parcelle (owner, parcelleFile, type) VALUES (:owner, :parcelleFile, :type)");
+   query.prepare("INSERT INTO Parcelle (owner, parcelleFile, type, speed) VALUES (:owner, :parcelleFile, :type, :speed)");
    query.bindValue(":owner", owner);
-   query.bindValue(":parcelleFile", polygon);
+   query.bindValue(":parcelleFile", file);
    query.bindValue(":type", type);
+   query.bindValue(":speed", speed);
    if(query.exec()) success = true;
    else qDebug() << "addParcelle error:  " << query.lastError();
 

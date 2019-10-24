@@ -156,12 +156,6 @@ bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygo
         stream << "</kml>" << endl;
         file.close();
 
-        // valeur par defaut : le milieu
-        if (!(speed == 0 || speed == 1 || speed == 2)) {
-            speed = 1;
-        }
-        db->addParcelle(username, path, "");        //on ajoute le fichier a la DB !
-//        sqlParcelleModel->select();
         return 0;
     }
     qDebug() << "ERROR";

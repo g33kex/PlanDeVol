@@ -20,7 +20,7 @@ public:
     ~ParcelleManagerController();
 
 
-    Q_INVOKABLE QVariantList getParcelleList() {return *this->_parcelles;}
+    Q_INVOKABLE QVariantList getParcelleList();
 
 //    Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 signals:

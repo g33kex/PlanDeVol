@@ -12,7 +12,7 @@ class DbManager
         bool modifyUser(const QString& username, const QString& nom, const QString& prenom);
         QVector<QString> * getAllUser();
 
-        bool addParcelle(const QString& owner, const QString& polygon, const QString& type);
+        bool addParcelle(const QString& owner, const QString& polygon, const QString& type, int speed);
         bool deleteParcelle(const int id);
         QList<QString> getAllParcelle(QString username);
 

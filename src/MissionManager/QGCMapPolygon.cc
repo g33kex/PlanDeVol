@@ -21,8 +21,10 @@
 #include <QFile>
 #include <QDomDocument>
 #include <QList>
+#include "DataManager/DbManager.h"
 
-
+extern DbManager *db;
+extern QString username;
 const char* QGCMapPolygon::jsonPolygonKey = "polygon";
 
 QGCMapPolygon::QGCMapPolygon(QObject* parent)
@@ -516,14 +518,13 @@ void QGCMapPolygon::verifyClockwiseWinding(void)
     }
 }
 
-void QGCMapPolygon::savePolygonToKML(QString path) {
-    qDebug() << "the area is  : " << this->area() / 10000 << "hectare";
-    //TODO : ajouter la verif ici ! + un form pour la vitesse !
-    ShapeFileHelper::savePolygonToKML(path, &_polygonModel, 0);
-}
 
 void QGCMapPolygon::saveAsParcelle(QString name, QString type, int speed) {
-
+    qDebug() << "----------";
+    qDebug() << name;
+    if (!name.endsWith(".kml")) name.append(".kml");
+    ShapeFileHelper::savePolygonToKML(name, &_polygonModel, 0);
+    db->addParcelle(username, name, type, speed);
 }
 
 QString QGCMapPolygon::verifArea() {
