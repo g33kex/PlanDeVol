@@ -197,7 +197,7 @@ Item {
 
 
         onAccepted: {
-            mapPolygon.saveAsParcelle(a_fileField.text, a_typeField.text, a_speedBox.value)
+            mapPolygon.saveAsParcelle(a_nameField.text, a_typeField.text, a_speedBox.value)
         }
 
 
@@ -217,7 +217,9 @@ Item {
             }
             Label {
                 text: "Speed"
-
+            }
+            Label {
+                text: "Surface"
             }
             TextField {
                 id: a_nameField
@@ -225,6 +227,11 @@ Item {
             TextField {
                 id: a_typeField
             }
+            TextField {
+                id: a_surfaceField
+                enabled: false
+            }
+
             SpinBox {
                 maximumValue: 3
                 minimumValue: 1
@@ -319,9 +326,10 @@ Item {
             text:           qsTr("Save as Parcelle...")
             onTriggered: {
                 if(QGroundControl.settingsManager.appSettings.nbParcelle) {
+                    a_surfaceField.text=""+mapPolygon.verifArea
                     saveAsParcelleDialog.open()
-                    verifLabel.text= mapPolygon.verifArea
-                    verif.open()
+                    //verifLabel.text= mapPolygon.verifArea
+                    //verif.open()
                 }
                 else {
                     messageDialog_toomuch.open()
@@ -646,7 +654,7 @@ Item {
         }
     }
 
-    Dialog {
+   /* Dialog {
         id: verif
         title: "confirmation"
         standardButtons: Dialog.Ok
@@ -656,6 +664,6 @@ Item {
             id: verifLabel
             text : mapPolygon.verifArea
         }
-    }
+    }*/
 }
 

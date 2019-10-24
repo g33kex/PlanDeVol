@@ -213,13 +213,19 @@ Rectangle {
                 visible:            !_usingPreset
             }
 
-            Label {
+            QGCLabel {
                 text:       qsTr("Flight Speed")
                 visible:    !_usingPreset
             }
-            TextField {
+            SpinBox {
                 Layout.fillWidth:   true
-                visible:            !_usingPreset
+                visible: !_usingPreset
+                minimumValue: 1
+                maximumValue: 3
+                value: missionItem.getCruiseSpeed()
+                onValueChanged: {
+                 missionItem.setCruiseSpeed(value)
+                }
             }
         }
 
