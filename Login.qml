@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.4
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
 import QtQuick.Controls 1.4
@@ -670,6 +670,9 @@ Item {
         id: errorLogin
         modal: true
         title: "Error"
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
         Label{
             text: "Invalid username or password!"
         }
