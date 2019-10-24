@@ -1,9 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
-import QtQuick.Dialogs 1.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
@@ -80,6 +79,7 @@ Item {
 
                             Dialog {
                                 id: addUserDialog
+                                modal: true
 
 
                                 onAccepted: {
@@ -181,6 +181,7 @@ Item {
 
                             Dialog {
                                 id: editPassDialog
+                                modal: true
 
                                 property int userIndex: 0
 
@@ -667,7 +668,8 @@ Item {
     }
     Dialog {
         id: errorLogin
-        title: "Error!!!"
+        modal: true
+        title: "Error"
         Label{
             text: "Invalid username or password!"
         }
@@ -676,6 +678,7 @@ Item {
 
     Dialog {
         id: wrongConfirmationDialog
+        modal: true
         title: "Error"
         Label{
             text: "New password and confirmation is not the same"
@@ -684,8 +687,11 @@ Item {
     }
 
     Dialog {
+
         id: errorModifyOnlyOneDialog
         title: "Error"
+        modal: true
+
         Label{
             text: "Please select ONE line to modify."
         }
