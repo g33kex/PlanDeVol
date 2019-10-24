@@ -324,7 +324,7 @@ Item {
                     text: "Owner"
                 }
                 Label {
-                    text: "ParcelleFile"
+                    text: "Name"
                 }
                 Label {
                     text: "Type"
@@ -342,9 +342,9 @@ Item {
                 }
                 TextField {
                     id: fileField
-                    //enabled: false
+                    enabled: false
                     function updateContent() {
-                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "parcelleFile")
+                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "name")
                     }
                 }
                 TextField {
