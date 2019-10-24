@@ -98,16 +98,16 @@ void LoginController::deleteUser(SqlCustomModel *model, QList<int> indexes) {
     qDebug() << "------ deleteUser -------";
 
     for(int i=0; i<indexes.size();i++) {
-        QString username = model->record(i).value("username").toString();
+        QString username = model->record(indexes[i]).value("username").toString();
         qDebug() << "remove all parcelle et mission from " << username;
         QList<QString> listParcelle = db->getAllParcelle(username);
-        for (QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
-            QFile file (*i);
+        for (QList<QString>::iterator j = listParcelle.begin(); j != listParcelle.end(); ++j) {
+            QFile file (*j);
             file.remove();
         }
         QList<QString> listMission = db->getAllMission(username);
-        for (QList<QString>::iterator i = listParcelle.begin(); i != listParcelle.end(); ++i) {
-            QFile file (*i);
+        for (QList<QString>::iterator j = listParcelle.begin(); j != listParcelle.end(); ++j) {
+            QFile file (*j);
             file.remove();
         }
         model->removeRow(indexes[i]);
