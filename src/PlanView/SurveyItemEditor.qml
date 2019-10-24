@@ -217,14 +217,12 @@ Rectangle {
                 text:       qsTr("Flight Speed")
                 visible:    !_usingPreset
             }
-            SpinBox {
+            TextField {
                 Layout.fillWidth:   true
                 visible: !_usingPreset
-                minimumValue: 1
-                maximumValue: 3
-                value: missionItem.getCruiseSpeed()
-                onValueChanged: {
-                 missionItem.setCruiseSpeed(value)
+                text: missionItem.getCruiseSpeed()
+                onTextChanged: {
+                 missionItem.setCruiseSpeed(parseInt(text))
                 }
             }
         }
