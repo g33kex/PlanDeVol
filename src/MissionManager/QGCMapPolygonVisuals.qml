@@ -191,8 +191,8 @@ Item {
     Dialog {
         id: saveAsParcelleDialog
 
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
+        x: (mainWindow.width - width) / 2
+        y: (mainWindow.height - height) / 2
         modal: true
 
 
@@ -205,25 +205,15 @@ Item {
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
-        Column {
-
-            id:                 parcelleColumn
-            anchors.margins:    _margin
-            anchors.left:       parent.left
-            anchors.top:        parent.top
-            spacing:            _margin
-
-
-            Label {
-                id : verifLabel
-                text : mapPolygon.verifArea
-            }
-
-
             GridLayout {
                 columns: 3
                 anchors.fill: parent
 
+                Label {
+                    id : verifLabel
+                    Layout.columnSpan: 3
+                    text : mapPolygon.verifArea
+                }
 
 
                 Label {
@@ -248,7 +238,6 @@ Item {
                     id: a_speedBox
                 }
 
-            }
         }
 
 
@@ -336,9 +325,8 @@ Item {
             text:           qsTr("Save as Parcelle...")
             onTriggered: {
                 if(QGroundControl.settingsManager.appSettings.nbParcelle) {
-                    a_surfaceField.text=""+mapPolygon.verifArea
+                    verifLabel.text= mapPolygon.verifArea
                     saveAsParcelleDialog.open()
-					verifLabel.text= mapPolygon.verifArea
                     //verif.open()
                 }
                 else {

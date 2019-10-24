@@ -33,7 +33,8 @@ Item {
 
 
     function show() {
-        //parcelleModel.setupForParcelle()
+        _parcelleManagerController.updateModel(parcelleModel)
+
         parcelleManagerPopup.open()
     }
 

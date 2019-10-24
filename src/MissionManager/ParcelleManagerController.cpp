@@ -184,3 +184,7 @@ bool ParcelleManagerController::checkIfExist(QString name) {
     if(! name.endsWith(".kml")) name.append(".kml");
     return db->checkIfExist(name);
 }
+
+void ParcelleManagerController::updateModel(SqlCustomModel *model) {
+    model->select();
+}
