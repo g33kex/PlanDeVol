@@ -384,7 +384,7 @@ Item {
             function reset() {
                 a_ilotField.text = ""
                 a_fileField.text = ""
-                a_typeField = ""
+                a_typeField.text = ""
             }
 
 
