@@ -223,14 +223,6 @@ QString username = "";
 extern DbManager *db;
 DbManager *db;
 
-/*
-extern QSqlTableModel *SqlParcelleModel;
-QSqlTableModel *SqlParcelleModel;
-extern QSqlTableModel *SqlUserModel;
-QSqlTableModel *SqlUserModel;
-extern QSqlTableModel *SqlMissionModel;
-QSqlTableModel *SqlMissionModel;
-*/
 extern List_file *checklist;
 List_file *checklist;
 
@@ -249,11 +241,6 @@ List_file *nbParam;
 
 int main(int argc, char *argv[])
 {
-    //ADD LOGIN CODE HERE
-  /*  QApplication apptest(argc,argv);
-    ParcelleManager* parcelle = new ParcelleManager(nullptr);
-    parcelle->show();*/
-
 
 #ifndef __mobile__
     RunGuard guard("QGroundControlRunGuardKey");

@@ -3,7 +3,6 @@
 #include "Admin/List_file.h"
 
 extern List_file *nbParam;
-//TODO : valeur par defaut a mettre
 
 DbManager::DbManager() {
     m_db = QSqlDatabase::addDatabase("QSQLITE");
@@ -38,69 +37,6 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
     else qDebug() << "addUser error:  " << query.lastError();
     return success;
 }
-
-//bool DbManager::deleteUser(const QString& username) {
-//    bool success = false;
-//    QSqlQuery query;
-//    query.prepare("DELETE FROM Person WHERE username = (:name) ");
-//    query.bindValue(":name", username);
-//    if(query.exec()) success = true;
-//    else qDebug() << "deleteUser error :" << query.lastError();
-
-//    return success;
-//}
-
-//bool DbManager::modifyUser(const QString& username, const QString& nom, const QString& prenom) {
-//    bool success = false;
-//    if (username == "") return success;
-
-//    QSqlQuery query;
-
-//    if (nom != "" && prenom != "") {
-//        query.prepare("UPDATE Person SET nom = (:nom), prenom = (:prenom) WHERE username = (:username)");
-//        query.bindValue(":nom", nom);
-//        query.bindValue(":prenom", prenom);
-//        query.bindValue(":username", username);
-//        if(query.exec()) success = true;
-//        else qDebug() << "deleteUser error :" << query.lastError();
-//        return success;
-//    }
-
-//    if (prenom != "" )
-//    {
-//        query.prepare("UPDATE Person SET prenom = (:prenom) WHERE username = (:username)");
-//        query.bindValue(":prenom", prenom);
-//        query.bindValue(":username", username);
-//        if(query.exec()) success = true;
-//        else qDebug() << "deleteUser error :" << query.lastError();
-//        return success;
-//    }
-
-//    if (nom != "" )
-//    {
-//        query.prepare("UPDATE Person SET nom = (:nom) WHERE username = (:username)");
-//        query.bindValue(":nom", prenom);
-//        query.bindValue(":username", username);
-//        if(query.exec()) success = true;
-//        else qDebug() << "deleteUser error :" << query.lastError();
-//        return success;
-//    }
-
-
-
-//    return success;
-//}
-
-//QVector<QString> * DbManager::getAllUser() {
-//    QVector<QString>* res = new QVector<QString>();
-//    QSqlQuery query("SELECT * FROM Person");
-//    int idName = query.record().indexOf("username");
-//    while (query.next()) {
-//        res->append(query.value(idName).toString());
-//    }
-
-//    return res;
-//}
 
 bool DbManager::addParcelle(const QString& owner, const QString& file, const QString& type, int speed) {
    bool success = false;
@@ -149,17 +85,6 @@ bool DbManager::addMission(const QString& owner, const QString& file) {
 
    return success;
 }
-
-//bool DbManager::deleteMission(const int id) {
-//    bool success = false;
-//    QSqlQuery query;
-//    query.prepare("DELETE FROM Mission WHERE id = (:id)");
-//    query.bindValue(":id", id);
-//    if(query.exec()) success = true;
-//    else qDebug() << "deleteUser error :" << query.lastError();
-
-//    return success;
-//}
 
 QList<QString> DbManager::getAllMission(QString username) {
     QList<QString> res = *new QList<QString>();
