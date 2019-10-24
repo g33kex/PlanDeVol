@@ -120,6 +120,7 @@ Item {
 
                     onClicked: {
                         if(QGroundControl.settingsManager.appSettings.nbParcelle) {
+                            addParcelleDialog.reset()
                             addParcelleDialog.open()
                         }
                         else {
@@ -378,6 +379,12 @@ Item {
 
             onAccepted: {
                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.value)
+            }
+
+            function reset() {
+                a_ilotField.text = ""
+                a_fileField.text = ""
+                a_typeField = ""
             }
 
 
