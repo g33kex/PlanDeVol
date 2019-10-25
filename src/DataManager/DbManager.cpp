@@ -172,8 +172,16 @@ void DbManager::buildDB() {
 
 //Returns true if file doesn't exists
 bool DbManager::checkIfExist(QString file) {
-    QString _foo = "SELECT COUNT(1) FROM Parcelle WHERE parcelleFile = \" " + file + "\";";
-    QSqlQuery queryTest(_foo);
-    queryTest.first();
-    return queryTest.value("COUNT(1)").toInt() == 0;
+    qDebug() << "--------- check if exist";
+    qDebug() << file;
+    QSqlQuery queryTest;
+    queryTest.prepare("SELECT COUNT(*) as foo FROM Parcelle WHERE parcelleFile = (:file)");
+    queryTest.bindValue(":file", file);
+    if(queryTest.exec()) {
+        queryTest.first();
+        QString value = queryTest.value("foo").toString();
+        qDebug() << "query " << value;
+        return value.toInt() == 0;
+    }
+    return false;
 }
