@@ -21,6 +21,7 @@ Item {
     ParcelleManagerController {
         id: _parcelleManagerController
         onDownloadEnded: {
+            addParcelleProgressOverlay.close()
             if(success) {
                 downloadSuccessDialog.open()
                 map.updateParcelles()
@@ -370,7 +371,7 @@ Item {
         }
 
         Dialog {
-            id: addParcelleDialog
+           id: addParcelleDialog
 
             x: (parent.width - width) / 2
             y: (parent.height - height) / 2
@@ -380,11 +381,31 @@ Item {
             onAccepted: {
                 if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
                      _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.value)
+                    addParcelleProgressOverlay.open()
                 }
                 else {
                      parcelleExistsDialog.open()
 
                 }
+            }
+
+           Popup {
+               id: addParcelleProgressOverlay
+
+               parent: Overlay.overlay
+
+               closePolicy: Popup.NoAutoClose
+               modal: true
+
+               x: Math.round((parent.width - width) / 2)
+               y: Math.round((parent.height - height) / 2)
+               width: 100
+               height: 100
+
+               BusyIndicator {
+                   anchors.fill: parent
+               }
+
            }
 
             function reset() {
