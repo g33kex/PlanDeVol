@@ -227,5 +227,6 @@ bool AppSettings::nbMission(void){
 }
 
 bool AppSettings::nbParcelle(void){
+    qDebug() << " --- nb Parcelle ---";
     return db->verifNbParcelle(username);
 }

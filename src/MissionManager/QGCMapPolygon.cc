@@ -529,3 +529,9 @@ void QGCMapPolygon::saveAsParcelle(QString name, QString type, int speed) {
 QString QGCMapPolygon::verifArea() {
     return QString("The area is ") + QString::number(this->area() / 10000) + " hectares";
 }
+
+
+bool QGCMapPolygon::checkIfExist(QString name) {
+    if(! name.endsWith(".kml")) name.append(".kml");
+    return db->checkIfExist(name);
+}

@@ -136,7 +136,7 @@ bool DbManager::verifNbMission(QString username) {
         query.first();
         QString value = query.value("count(missionFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt() <= nbParam->at(2);
+        return value.toInt() <= nbParam->at(2).toInt();
     }
     return false;
 }
@@ -149,7 +149,8 @@ bool DbManager::verifNbParcelle(QString username) {
         query.first();
         QString value = query.value("count(parcelleFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt() <= nbParam->at(1);
+        qDebug() << nbParam->at(1);
+        return value.toInt() <= nbParam->at(1).toInt();
     }
     return false;
 }

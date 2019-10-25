@@ -197,7 +197,14 @@ Item {
 
 
         onAccepted: {
-            mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value)
+            if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {
+                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value)
+
+            }
+            else {
+                 parcelleExistsDialog.open()
+
+            }
         }
 
 
@@ -652,17 +659,18 @@ Item {
         }
     }
 
-//    Dialog {
-//        id: verif
-//        title: "confirmation"
-//        standardButtons: Dialog.Ok
-//        x: (parent.width - width) / 2
-//        y: (parent.height - height) / 2
-//        Label {
-//            id: verifLabel
-//            text : mapPolygon.verifArea
-//        }
-//    }
+    Dialog {
+        id: parcelleExistsDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "La parcelle existe déja!"
+        }
+    }
 
 }
 
