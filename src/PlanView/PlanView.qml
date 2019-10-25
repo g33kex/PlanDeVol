@@ -1004,7 +1004,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               qsTr("Open...")
+                    text:               qsTr("Open Mission...")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress
                     onClicked: {
@@ -1032,7 +1032,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               qsTr("Save As...")
+                    text:               qsTr("Save As Mission...")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.containsItems
                     onClicked: {

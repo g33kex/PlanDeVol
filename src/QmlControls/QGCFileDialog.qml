@@ -24,7 +24,7 @@ Item {
 
     property bool   _openForLoad:   true
     property real   _margins:       ScreenTools.defaultFontPixelHeight / 2
-    property bool   _mobileDlg:     QGroundControl.corePlugin.options.useMobileFileDialog
+    property bool   _mobileDlg:     true //QGroundControl.corePlugin.options.useMobileFileDialog
     property var    _rgExtensions
 
     Component.onCompleted: setupFileExtensions()

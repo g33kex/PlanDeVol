@@ -120,7 +120,7 @@ void AppSettings::_languageChanged()
 
 void AppSettings::_checkSavePathDirectories(void)
 {
-    QDir savePathDir(savePath()->rawValue().toString() + username + "/");
+    QDir savePathDir(savePath()->rawValue().toString() + "/" + username + "/");
     if (!savePathDir.exists()) {
         QDir().mkpath(savePathDir.absolutePath());
     }
@@ -141,7 +141,7 @@ void AppSettings::_indoorPaletteChanged(void)
 
 QString AppSettings::missionSavePath(void)
 {
-    QString path = savePath()->rawValue().toString() + username + "/";
+    QString path = savePath()->rawValue().toString() + "/" + username + "/";
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(missionDirectory);
