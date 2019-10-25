@@ -23,7 +23,7 @@ public:
     Q_INVOKABLE QVariantList getParcelleList();
     Q_INVOKABLE void updateModel(SqlCustomModel *model);
 
-    bool checkIfExist(QString name);
+    Q_INVOKABLE bool checkIfExist(QString name);
 
 //    Q_INVOKABLE QSqlTableModel getSqlParcelleModel() {return *sqlParcelleModel;}
 signals:

@@ -378,8 +378,13 @@ Item {
 
 
             onAccepted: {
+                if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
+                    parcelleExistsDialog.open()
+                }
+                else {
                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.value)
-            }
+                }
+           }
 
             function reset() {
                 a_ilotField.text = ""
@@ -481,6 +486,19 @@ Item {
         Label {
             anchors.centerIn: parent
             text: "Impossible de télécharger la parcelle."
+        }
+    }
+
+    Dialog {
+        id: parcelleExistsDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "La parcelle existe déja!"
         }
     }
 

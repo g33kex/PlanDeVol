@@ -189,3 +189,4 @@ bool ParcelleManagerController::checkIfExist(QString name) {
 void ParcelleManagerController::updateModel(SqlCustomModel *model) {
     model->select();
 }
+
