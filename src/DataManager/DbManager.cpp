@@ -136,7 +136,7 @@ bool DbManager::verifNbMission(QString username) {
         query.first();
         QString value = query.value("count(missionFile)").toString();
         qDebug() << "query" << value;
-        return value.toInt() <= nbParam->at(2).toInt();
+        return value.toInt() < nbParam->at(2).toInt();
     }
     return false;
 }
@@ -150,9 +150,19 @@ bool DbManager::verifNbParcelle(QString username) {
         QString value = query.value("count(parcelleFile)").toString();
         qDebug() << "query" << value;
         qDebug() << nbParam->at(1);
-        return value.toInt() <= nbParam->at(1).toInt();
+        return value.toInt() < nbParam->at(1).toInt();
     }
     return false;
+}
+
+//we return false so that it block if the request come to an error
+bool DbManager::verifNbUser() {
+    QSqlQuery query("SELECT count(username) FROM Person");
+    query.first();
+    QString value = query.value("count(username)").toString();
+    qDebug() << "query" << value;
+    //here, we have a "<=" to include the admin !
+    return value.toInt() <= nbParam->at(0).toInt();
 }
 
 void DbManager::buildDB() {

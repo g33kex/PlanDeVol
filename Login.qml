@@ -19,6 +19,10 @@ Item {
         id: _parcelleManagerController
     }
 
+    ToastManager{
+        id: toast
+    }
+
     Popup {
         id: adminInterface
         width: parent.width
@@ -264,7 +268,13 @@ Item {
                            Layout.margins : margin
                            text: "Add User"
                            onClicked: {
-                               addUserDialog.open()
+                               if(QGroundControl.settingsManager.appSettings.nbUser) {
+                                   addUserDialog.reset()
+                                   addUserDialog.open()
+                               }
+                               else {
+                                   messageDialog_toomuch.open()
+                               }
                            }
                        }
 
@@ -546,6 +556,7 @@ Item {
                         _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
                         _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
+                        toast.show("Paramètres sauvegardés !")
                     }
                 }
                 }
@@ -716,6 +727,19 @@ Item {
             text: "Please select ONE line to modify."
         }
 
+    }
+
+    Dialog {
+        id: messageDialog_toomuch
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Warning"
+        Label {
+            anchors.centerIn: parent
+            text: "Limite de sessions enregistrées atteintes."
+        }
     }
 
 }

@@ -22,6 +22,7 @@ class DbManager
 
         bool verifNbMission(QString username);
         bool verifNbParcelle(QString username);
+        bool verifNbUser();
 
         bool checkIfExist(QString file);
 

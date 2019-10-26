@@ -81,6 +81,7 @@ public:
     QString crashSavePath       ();
     bool    nbMission           ();
     bool    nbParcelle          ();
+    bool    nbUser              ();
     void _checkSavePathDirectories();
 
 
