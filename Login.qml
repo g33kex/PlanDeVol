@@ -93,6 +93,13 @@ Item {
 
                                 title: "Add User"
 
+                                function reset() {
+                                    a_usernameField.text = ""
+                                    a_passwordField.text = ""
+                                    a_nomField.text = ""
+                                    a_prenomField.text = ""
+                                }
+
                                 standardButtons: Dialog.Ok | Dialog.Cancel
                                 x: (parent.width - width) / 2
                                 y: (parent.height - height) / 2
