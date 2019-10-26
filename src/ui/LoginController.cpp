@@ -242,3 +242,9 @@ bool LoginController::modifyPassword(SqlCustomModel *model, int index, QString u
     }
     else return false;
 }
+
+bool LoginController::nbUser(void){
+    qDebug() << " --- nb User ---";
+    return db->verifNbUser();
+}
+

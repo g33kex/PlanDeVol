@@ -157,6 +157,7 @@ bool DbManager::verifNbParcelle(QString username) {
 
 //we return false so that it block if the request come to an error
 bool DbManager::verifNbUser() {
+    qDebug() << "verif nb user";
     QSqlQuery query("SELECT count(username) FROM Person");
     query.first();
     QString value = query.value("count(username)").toString();

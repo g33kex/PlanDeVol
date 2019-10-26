@@ -231,8 +231,4 @@ bool AppSettings::nbParcelle(void){
     return db->verifNbParcelle(username);
 }
 
-bool AppSettings::nbUser(void){
-    qDebug() << " --- nb User ---";
-    return db->verifNbUser();
-}
 

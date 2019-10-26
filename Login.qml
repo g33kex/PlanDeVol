@@ -19,9 +19,9 @@ Item {
         id: _parcelleManagerController
     }
 
-    ToastManager{
-        id: toast
-    }
+//    ToastManager{
+//        id: toast
+//    }
 
     Popup {
         id: adminInterface
@@ -268,7 +268,7 @@ Item {
                            Layout.margins : margin
                            text: "Add User"
                            onClicked: {
-                               if(QGroundControl.settingsManager.appSettings.nbUser) {
+                               if(_loginController.nbUser()) {
                                    addUserDialog.reset()
                                    addUserDialog.open()
                                }
@@ -556,7 +556,7 @@ Item {
                         _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
                         _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
-                        toast.show("Paramètres sauvegardés !")
+//                        toast.show("Paramètres sauvegardés !")
                     }
                 }
                 }

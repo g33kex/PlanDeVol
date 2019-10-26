@@ -36,6 +36,8 @@ public:
     Q_INVOKABLE QString getParamChecklist();
     Q_INVOKABLE bool modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass);
 
+    Q_INVOKABLE bool    nbUser              ();
+
 
 public slots:
     void modifyUser(SqlCustomModel *model, int index, QString username, QString nom, QString prenom);
