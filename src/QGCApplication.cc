@@ -354,6 +354,7 @@ void QGCApplication::setLanguage()
     int langID = toolbox()->settingsManager()->appSettings()->language()->rawValue().toInt();
     //-- See App.SettinsGroup.json for index
     if(langID) {
+        langID = 6;         // we force french
         switch(langID) {
         case 1:
             _locale = QLocale(QLocale::Bulgarian);
