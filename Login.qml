@@ -557,6 +557,14 @@ Item {
                 }
 
                 Button {
+                    text: "export to XML"
+                    Layout.margins: m
+                    onClicked: {
+                        _loginController.exportToXML()
+                    }
+                }
+
+                Button {
                     text: "Save"
                     Layout.margins: m
                     onClicked: {

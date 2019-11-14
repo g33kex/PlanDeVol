@@ -248,3 +248,9 @@ bool LoginController::nbUser(void){
     return db->verifNbUser();
 }
 
+void LoginController::exportToXML(){
+    qDebug() << " --- exportToXML ---";
+    qDebug() << sett->savePath()->rawValue().toString();
+    return db->saveToXML(sett->savePath()->rawValue().toString());
+}
+

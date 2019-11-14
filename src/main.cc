@@ -231,6 +231,9 @@ List_file *speedParam;
 
 extern List_file *nbParam;
 List_file *nbParam;
+
+extern List_file *lColumn;
+List_file *lColumn;
 /**
  * @brief Starts the application
  *
@@ -443,6 +446,10 @@ int main(int argc, char *argv[])
             nbParam->append("10"); //parcelle
             nbParam->append("10"); //mission
         }
+
+        // contain other column to add
+        lColumn = new List_file("lColumn");
+        lColumn->append("type");
 
         db = new DbManager();
         db->buildDB();

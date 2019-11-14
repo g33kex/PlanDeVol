@@ -1,8 +1,12 @@
 #include "DataManager/DbManager.h"
 #include <QCryptographicHash>
 #include "Admin/List_file.h"
+#include <QtXml>
+#include <QDateTime>
+#include <QList>
 
 extern List_file *nbParam;
+extern List_file *lColumn;
 
 DbManager::DbManager() {
     m_db = QSqlDatabase::addDatabase("QSQLITE");
@@ -196,4 +200,60 @@ bool DbManager::checkIfExist(QString file) {
         return value.toInt() == 0;
     }
     return false;
+}
+
+
+void DbManager::saveToXML(QString path) {
+
+    QString filename = path + QDateTime::currentDateTime().toString("ddMMyyyy-hhmmss")+".xml";
+
+    QFile file(filename);
+    file.open(QIODevice::WriteOnly);
+
+    QXmlStreamWriter xmlWriter(&file);
+    xmlWriter.setAutoFormatting(true);
+    xmlWriter.writeStartDocument();
+
+
+    // root : Database
+    xmlWriter.writeStartElement("Database");
+    xmlWriter.writeTextElement("Date", QDateTime::currentDateTime().toString("ddMMyyyy-hhmmss") );
+
+    QString reqUser = "SELECT username FROM Person";
+    QSqlQuery UserQuery (reqUser);
+
+    while (UserQuery.next()) {
+        //list of username
+        xmlWriter.writeStartElement("User");
+        xmlWriter.writeTextElement("username", UserQuery.value(0).toString());
+
+        QString reqParcelle = "SELECT * FROM Parcelle WHERE owner = \""+ UserQuery.value(0).toString() + "\"";
+        QSqlQuery ParcelleQuery (reqParcelle);
+
+        while (ParcelleQuery.next()) {
+            //list of parcelle of the corresponding username
+            xmlWriter.writeStartElement("Parcelle");
+
+            // write main element of the parcelle
+            xmlWriter.writeTextElement("filename", ParcelleQuery.value("name").toString());
+            xmlWriter.writeTextElement("pathTo", ParcelleQuery.value("parcelleFile").toString());
+
+            //list of different value of the row (other than owner, name, file and speed)
+            for (QList<QString>::iterator i = lColumn->begin(); i!= lColumn->end(); ++i) {
+                xmlWriter.writeTextElement(*i, ParcelleQuery.value(*i).toString());
+            }
+
+            // close the Parcelle
+            xmlWriter.writeEndElement();
+        }
+
+        // close the Username
+        xmlWriter.writeEndElement();
+    }
+
+    // close the Database
+    xmlWriter.writeEndElement();
+
+    file.close();
+
 }

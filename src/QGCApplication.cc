@@ -349,11 +349,13 @@ void QGCApplication::_exitWithError(QString errorMessage)
 
 void QGCApplication::setLanguage()
 {
+    qDebug() << "----------- language ------------";
     _locale = QLocale::system();
     qDebug() << "System reported locale:" << _locale << _locale.name();
     int langID = toolbox()->settingsManager()->appSettings()->language()->rawValue().toInt();
     //-- See App.SettinsGroup.json for index
     if(langID) {
+
         langID = 6;         // we force french
         switch(langID) {
         case 1:

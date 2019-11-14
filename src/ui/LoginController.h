@@ -36,6 +36,7 @@ public:
     Q_INVOKABLE QString getParamChecklist();
     Q_INVOKABLE bool modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass);
 
+    Q_INVOKABLE void    exportToXML();
     Q_INVOKABLE bool    nbUser              ();
 
 

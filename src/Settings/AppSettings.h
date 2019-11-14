@@ -59,7 +59,7 @@ public:
     Q_PROPERTY(QString telemetrySavePath    READ telemetrySavePath  NOTIFY savePathsChanged)
     Q_PROPERTY(QString logSavePath          READ logSavePath        NOTIFY savePathsChanged)
     Q_PROPERTY(QString videoSavePath        READ videoSavePath      NOTIFY savePathsChanged)
-    Q_PROPERTY(QString crashSavePath        READ crashSavePath      NOTIFY savePathsChanged)
+    Q_PROPERTY(QString crashSavePath        READ crashSavePath       NOTIFY savePathsChanged)
     Q_PROPERTY(bool nbMission               READ nbMission          NOTIFY savePathsChanged)
     Q_PROPERTY(bool nbParcelle              READ nbParcelle         NOTIFY savePathsChanged)
 

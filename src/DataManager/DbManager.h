@@ -28,6 +28,8 @@ class DbManager
 
         void buildDB();
 
+        void saveToXML(QString);
+
     private:
         QSqlDatabase m_db;
 };
