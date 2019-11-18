@@ -19,9 +19,6 @@ Item {
         id: _parcelleManagerController
     }
 
-//    ToastManager{
-//        id: toast
-//    }
 
     Popup {
         id: adminInterface
@@ -567,6 +564,7 @@ Item {
                     Layout.margins: m
                     onClicked: {
                         _loginController.exportToXML()
+                        doneDialog.open()
                     }
                 }
 
@@ -577,7 +575,7 @@ Item {
                         _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
                         _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
-//                        toast.show("Paramètres sauvegardés !")
+                        doneDialog.open()
                     }
                 }
                 }
@@ -747,6 +745,17 @@ Item {
         Label{
             text: "Please select ONE line to modify."
         }
+
+    }
+
+    Dialog {
+
+        id: doneDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        title: "Done"
+        modal: true
 
     }
 
