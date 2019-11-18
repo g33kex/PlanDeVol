@@ -108,7 +108,13 @@ Item {
                             role: "speed"
                             title: "Speed"
                             movable: false
-                            width: tableView.width/8
+                            width: tableView.width/10
+                        }
+                        TableViewColumn {
+                            role: "surface"
+                            title: "Surface"
+                            movable: false
+                            width: tableView.width/10
                         }
 
                         model: parcelleModel

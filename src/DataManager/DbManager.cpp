@@ -42,7 +42,7 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
     return success;
 }
 
-bool DbManager::addParcelle(const QString& owner, const QString& file, const QString& type, int speed, int surface) {
+bool DbManager::addParcelle(const QString& owner, const QString& file, const QString& type, int speed, QString surface) {
    bool success = false;
    if (owner == "" || file == "") return success;
 
@@ -174,7 +174,7 @@ bool DbManager::verifNbUser() {
 void DbManager::buildDB() {
 
     QString tablePerson = "CREATE TABLE \"Person\" ( \"username\"	TEXT NOT NULL UNIQUE, \"password\"	TEXT,  \"nom\"	TEXT, \"prenom\"	TEXT, PRIMARY KEY(\"username\") );";
-    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, \"type\"	TEXT,\"speed\"	INTEGER NOT NULL CHECK(speed>0 and speed<4), \"surface\" INTEGER, FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
+    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, \"type\"	TEXT,\"speed\"	INTEGER NOT NULL CHECK(speed>0 and speed<4), \"surface\" TEXT, FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
     QString tableMission = "CREATE TABLE \"Mission\" ( \"owner\"	TEXT NOT NULL, \"missionFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, PRIMARY KEY(\"missionFile\"), FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE );";
 
     QSqlQuery queryPerson(tablePerson);

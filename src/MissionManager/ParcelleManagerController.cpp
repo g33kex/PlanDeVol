@@ -109,7 +109,7 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
         newRecord.setValue("name", QVariant(_file.split("/").last()));
         newRecord.setValue("type", QVariant(_type));
         newRecord.setValue("speed",QVariant(_speed));
-        newRecord.setValue("surface", QVariant(surface));
+        newRecord.setValue("surface", QVariant(QString::number(double(surface), 'f', 2)));
 
         /*-1 is set to indicate that it will be added to the last row*/
         if(_model->insertRecord(-1, newRecord)) {
