@@ -9,7 +9,7 @@ class DbManager
         DbManager();
         bool addUser(const QString& username, const QString& password, const QString& nom, const QString& prenom);
 
-        bool addParcelle(const QString& owner, const QString& polygon, const QString& type, int speed);
+        bool addParcelle(const QString& owner, const QString& polygon, const QString& type, int speed, int surface);
 
         QList<QString> getAllParcelle(QString username);
 

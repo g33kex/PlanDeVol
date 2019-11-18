@@ -13,6 +13,7 @@
 #include <QCryptographicHash>
 #include <QmlObjectListModel.h>
 #include <KMLFileHelper.h>
+#include <QtXmlPatterns/QXmlQuery>
 
 extern QString username;
 extern DbManager *db;
@@ -78,6 +79,16 @@ void ParcelleManagerController::requestParcelle(QString NbIlot) {
     return;
 }
 
+//void readRatesUsingXQuery_expanded(const QFileInfo file) {
+
+
+//    QStringList surface;
+//    QXmlQuery query;
+//    query.setQuery(queryUrl.arg("surface"));
+//    query.evaluateTo(&surface);
+//}
+
+
 void ParcelleManagerController::requestReply(QNetworkReply *reply) {
     qDebug() << "requestReply";
     if (reply->error()) {
@@ -87,17 +98,18 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
     }
 
     QString answer = reply->readAll();
-    qDebug() << answer;
+
 
     // dans une reponse normale, il n'y a qu'un polygon de decrit.
     if (answer.count("<Polygon>") == 1) {
-        ShapeFileHelper::savePolygonFromGeoportail(_file, answer);
+        float surface = ShapeFileHelper::savePolygonFromGeoportail(_file, answer);
         QSqlRecord newRecord = _model->record();
         newRecord.setValue("owner", QVariant(username));
         newRecord.setValue("parcelleFile", QVariant(_file));
         newRecord.setValue("name", QVariant(_file.split("/").last()));
         newRecord.setValue("type", QVariant(_type));
         newRecord.setValue("speed",QVariant(_speed));
+        newRecord.setValue("surface", QVariant(surface));
 
         /*-1 is set to indicate that it will be added to the last row*/
         if(_model->insertRecord(-1, newRecord)) {

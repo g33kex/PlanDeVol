@@ -42,12 +42,12 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
     return success;
 }
 
-bool DbManager::addParcelle(const QString& owner, const QString& file, const QString& type, int speed) {
+bool DbManager::addParcelle(const QString& owner, const QString& file, const QString& type, int speed, int surface) {
    bool success = false;
    if (owner == "" || file == "") return success;
 
    QSqlQuery query;
-   query.prepare("INSERT INTO Parcelle (owner, parcelleFile, name, type, speed) VALUES (:owner, :parcelleFile, :name, :type, :speed)");
+   query.prepare("INSERT INTO Parcelle (owner, parcelleFile, name, type, speed, surface) VALUES (:owner, :parcelleFile, :name, :type, :speed, :surface)");
    query.bindValue(":owner", owner);
    query.bindValue(":parcelleFile", file);
    qDebug() << "--------- add Parcelle";
@@ -55,6 +55,7 @@ bool DbManager::addParcelle(const QString& owner, const QString& file, const QSt
    query.bindValue(":name", file.split("/").last());
    query.bindValue(":type", type);
    query.bindValue(":speed", speed);
+   query.bindValue(":surface", surface);
    if(query.exec()) success = true;
    else qDebug() << "addParcelle error:  " << query.lastError();
 
@@ -173,7 +174,7 @@ bool DbManager::verifNbUser() {
 void DbManager::buildDB() {
 
     QString tablePerson = "CREATE TABLE \"Person\" ( \"username\"	TEXT NOT NULL UNIQUE, \"password\"	TEXT,  \"nom\"	TEXT, \"prenom\"	TEXT, PRIMARY KEY(\"username\") );";
-    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, \"type\"	TEXT,\"speed\"	INTEGER NOT NULL CHECK(speed>0 and speed<4),FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
+    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, \"type\"	TEXT,\"speed\"	INTEGER NOT NULL CHECK(speed>0 and speed<4), \"surface\" INTEGER, FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
     QString tableMission = "CREATE TABLE \"Mission\" ( \"owner\"	TEXT NOT NULL, \"missionFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, PRIMARY KEY(\"missionFile\"), FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE );";
 
     QSqlQuery queryPerson(tablePerson);

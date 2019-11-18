@@ -116,13 +116,19 @@ QStringList ShapeFileHelper::fileDialogKMLOrSHPFilters(void) const
 
 
 // ici, on ne se charge pas d'inserer le fichier dans la DB (il est deja fait)
-bool ShapeFileHelper::savePolygonFromGeoportail(QString filepath, QString content) {
+float ShapeFileHelper::savePolygonFromGeoportail(QString filepath, QString content) {
+    float surf = 0.0;
     QFile file( filepath );
+    QStringList contentV = content.split('\n');
     if ( file.open(QIODevice::WriteOnly) ) {
         QTextStream stream( &file );
-        stream << content;
+        for (int i = 0; i < contentV.size(); ++i) {
+            if (contentV[i].contains("<SimpleData name=\"surf_parc\">"))
+                surf = contentV[i].split(">")[1].split("<")[0].toFloat();
+            stream << contentV[i] << endl;
+        }
         file.close();
-        return true;
+        return surf;
     }
     qDebug() << "ERROR";
     return -1;
