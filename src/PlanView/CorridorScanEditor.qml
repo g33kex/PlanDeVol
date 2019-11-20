@@ -77,7 +77,7 @@ Rectangle {
 
         SectionHeader {
             id:     corridorHeader
-            text:   qsTr("Corridor")
+            text:   qsTr("CorridorBla")
         }
 
         GridLayout {

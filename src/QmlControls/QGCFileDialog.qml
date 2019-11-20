@@ -120,27 +120,27 @@ Item {
                                 _root.acceptedForLoad(controller.fullyQualifiedFilename(folder, modelData, fileExtension))
                             }
 
-                            onHamburgerClicked: {
-                                highlight = true
-                                hamburgerMenu.fileToDelete = controller.fullyQualifiedFilename(folder, modelData, fileExtension)
-                                hamburgerMenu.popup()
-                            }
+//                            onHamburgerClicked: {
+//                                highlight = true
+//                                hamburgerMenu.fileToDelete = controller.fullyQualifiedFilename(folder, modelData, fileExtension)
+//                                hamburgerMenu.popup()
+//                            }
 
-                            QGCMenu {
-                                id: hamburgerMenu
+//                            QGCMenu {
+//                                id: hamburgerMenu
 
-                                property string fileToDelete
+//                                property string fileToDelete
 
-                                onAboutToHide: fileButton.highlight = false
+//                                onAboutToHide: fileButton.highlight = false
 
-                                QGCMenuItem {
-                                    text:           qsTr("Delete")
-                                    onTriggered: {
-                                        controller.deleteFile(hamburgerMenu.fileToDelete)
-                                        fileRepeater.model = controller.getFiles(folder, _rgExtensions)
-                                    }
-                                }
-                            }
+//                                QGCMenuItem {
+//                                    text:           qsTr("Delete")
+//                                    onTriggered: {
+//                                        controller.deleteFile(hamburgerMenu.fileToDelete)
+//                                        fileRepeater.model = controller.getFiles(folder, _rgExtensions)
+//                                    }
+//                                }
+//                            }
                         }
                     }
 
@@ -233,27 +233,27 @@ Item {
                                 _root.acceptedForSave(controller.fullyQualifiedFilename(folder, modelData, fileExtension))
                             }
 
-                            onHamburgerClicked: {
-                                highlight = true
-                                hamburgerMenu.fileToDelete = controller.fullyQualifiedFilename(folder, modelData, fileExtension)
-                                hamburgerMenu.popup()
-                            }
+//                            onHamburgerClicked: {
+//                                highlight = true
+//                                hamburgerMenu.fileToDelete = controller.fullyQualifiedFilename(folder, modelData, fileExtension)
+//                                hamburgerMenu.popup()
+//                            }
 
-                            QGCMenu {
-                                id: hamburgerMenu
+//                            QGCMenu {
+//                                id: hamburgerMenu
 
-                                property string fileToDelete
+//                                property string fileToDelete
 
-                                onAboutToHide: fileButton.highlight = false
+//                                onAboutToHide: fileButton.highlight = false
 
-                                QGCMenuItem {
-                                    text:           qsTr("Delete")
-                                    onTriggered: {
-                                        controller.deleteFile(hamburgerMenu.fileToDelete)
-                                        fileRepeater.model = controller.getFiles(folder, [ fileExtension ])
-                                    }
-                                }
-                            }
+//                                QGCMenuItem {
+//                                    text:           qsTr("Delete")
+//                                    onTriggered: {
+//                                        controller.deleteFile(hamburgerMenu.fileToDelete)
+//                                        fileRepeater.model = controller.getFiles(folder, [ fileExtension ])
+//                                    }
+//                                }
+//                            }
                         }
                     }
                 }

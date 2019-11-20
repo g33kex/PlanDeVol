@@ -48,7 +48,7 @@
         <file alias="XDelete.svg">resources/XDelete.svg</file>
         <file alias="XDeleteBlack.svg">resources/XDeleteBlack.svg</file>
         <file alias="waypoint.svg">resources/waypoint.svg</file>
-        <file>resources/icons/qgroundcontrol.ico</file>
+        <file>resources/icons/FlightPlan.ico</file>
         <file>resources/icons/logo.jpg</file>
         <file>resources/icons/mainlogo.png</file>
     </qresource>

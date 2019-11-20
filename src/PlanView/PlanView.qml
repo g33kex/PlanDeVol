@@ -209,7 +209,7 @@ Item {
         }
 
         function loadFromSelectedFile() {
-            fileDialog.title =          qsTr("Select Plan File")
+            fileDialog.title =          qsTr("Select Mission File")
             fileDialog.planFiles =      true
             fileDialog.selectExisting = true
             fileDialog.nameFilters =    _planMasterController.loadNameFilters
@@ -553,21 +553,21 @@ Item {
                     iconSource:             "/qmlimages/PaperPlane.svg",
                 },
                 {
-                        name:                   qsTr("File"),
+                        name:                   qsTr("Mission"),
                         iconSource:             "/qmlimages/MapSync.svg",
                         alternateIconSource:    "/qmlimages/MapSyncChanged.svg",
                         dropPanelComponent:     syncDropPanel
                     },
-                    {
-                        name:                   qsTr("Waypoint"),
-                        iconSource:             "/qmlimages/MapAddMission.svg",
-                        toggle:                 true
-                    },
-                    {
-                        name:                   qsTr("ROI"),
-                        iconSource:             "/qmlimages/MapAddMission.svg",
-                        toggle:                 true
-                    },
+//                    {
+//                        name:                   qsTr("Waypoint"),
+//                        iconSource:             "/qmlimages/MapAddMission.svg",
+//                        toggle:                 true
+//                    },
+//                    {
+//                        name:                   qsTr("ROI"),
+//                        iconSource:             "/qmlimages/MapAddMission.svg",
+//                        toggle:                 true
+//                    },
                     {
                         name:               _singleComplexItem ? _missionController.complexMissionItemNames[0] : qsTr("Pattern"),
                         iconSource:         "/qmlimages/MapDrawShape.svg",
@@ -595,7 +595,7 @@ Item {
                     break;
                 case 2:
                         _addWaypointOnClick = checked
-                        _addROIOnClick = false
+                        _addOnClick = false
                         break
                 case 3:
                         _addROIOnClick = checked
@@ -742,13 +742,13 @@ Item {
                                     anchors.verticalCenter: parent.verticalCenter
                                     onClicked:      _editingLayer = _layerGeoFence
                                 }
-                                QGCRadioButton {
-                                    id:             planElementRallyPoints
-                                    text:           qsTr("Rally")
-                                    visible:        QGroundControl.corePlugin.options.enablePlanViewSelector
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    onClicked:      _editingLayer = _layerRallyPoints
-                                }
+//                                QGCRadioButton {
+//                                    id:             planElementRallyPoints
+//                                    text:           qsTr("Rally")
+//                                    visible:        QGroundControl.corePlugin.options.enablePlanViewSelector
+//                                    anchors.verticalCenter: parent.verticalCenter
+//                                    onClicked:      _editingLayer = _layerRallyPoints
+//                                }
                             }
                         }
                     }
@@ -983,7 +983,7 @@ Item {
                                      qsTr("You have unsaved changes. You should upload to your vehicle, or save to a file:") :
                                      qsTr("You have unsaved changes.")
                                 ) :
-                                qsTr("Plan File:")
+                                qsTr("Mission File:")
             }
 
             GridLayout {
