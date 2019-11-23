@@ -16,10 +16,13 @@
 #include "QGCQGeoCoordinate.h"
 #include "SettingsManager.h"
 #include "AppSettings.h"
+#include "Admin/List_file.h"
 
 #include <QPolygonF>
 
 QGC_LOGGING_CATEGORY(SurveyComplexItemLog, "SurveyComplexItemLog")
+
+extern List_file *speedParam;
 
 const char* SurveyComplexItem::jsonComplexItemTypeValue =   "survey";
 const char* SurveyComplexItem::jsonV3ComplexItemTypeValue = "survey";
@@ -1560,6 +1563,23 @@ void SurveyComplexItem::setCruiseSpeed (double speed) {
 //    qDebug() << "--------- survey setCruiseSpeed";
     _cruiseSpeed = speed;
     _recalcComplexDistance();
+}
+
+void SurveyComplexItem::setBoxSpeed (QString text) {
+    if(speedParam->contains(text)) {
+        _cruiseSpeed = speedParam->at(speedParam->indexOf(text)).toDouble();
+    }
+    else {
+        _cruiseSpeed = text.toDouble();
+    }
+    _recalcComplexDistance();
+}
+
+int SurveyComplexItem::getCruiseSpeedInd (){
+    if (speedParam->contains(QString::number(_cruiseSpeed))) {
+        return speedParam->indexOf(QString::number(_cruiseSpeed));
+    }
+    else return 4;
 }
 
 double SurveyComplexItem::specifiedFlightSpeed() {

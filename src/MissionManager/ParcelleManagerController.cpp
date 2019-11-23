@@ -69,6 +69,7 @@ void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotN
 
     qDebug() << "----- add Parcelle -----";
     qDebug() << "Requesting " << ilotNumber;
+    qDebug() << speed;
 
     this->requestParcelle(ilotNumber);
 }

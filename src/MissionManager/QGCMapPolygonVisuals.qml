@@ -198,8 +198,7 @@ Item {
 
         onAccepted: {
             if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {
-                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value)
-
+                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.currentIndex)
             }
             else {
                  parcelleExistsDialog.open()
@@ -239,10 +238,10 @@ Item {
                 TextField {
                     id: a_typeField
                 }
-                SpinBox {
-                    maximumValue: 3
-                    minimumValue: 1
+                ComboBox {
                     id: a_speedBox
+                    currentIndex: 2
+                    model: [ "low", "med", "hig" ]
                 }
 
         }

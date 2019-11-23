@@ -211,20 +211,35 @@ Rectangle {
                 fact:               missionItem.turnAroundDistance
                 Layout.fillWidth:   true
                 visible:            !_usingPreset
+                enabled:    false
             }
 
             QGCLabel {
                 text:       qsTr("Flight Speed")
                 visible:    !_usingPreset
+
             }
-            TextField {
-                Layout.fillWidth:   true
-                visible: !_usingPreset
-                text: missionItem.getCruiseSpeed()
-                onTextChanged: {
-                 missionItem.setCruiseSpeed(parseInt(text))
+
+            ComboBox {
+                id: a_speedBox
+                editable: true
+                currentIndex: missionItem.getCruiseSpeedIndex();
+                model: [ "low", "med", "high", "unspecified"]
+                onCurrentIndexChanged: {
+                    missionItem.setBoxSpeed(currentText)
                 }
             }
+
+//            TextField {
+//                Layout.fillWidth:   true
+//                visible: !_usingPreset
+//                enabled: false
+
+//                text: missionItem.getCruiseSpeed()
+//                onTextChanged: {
+//                 missionItem.setCruiseSpeed(parseInt(text))
+//                }
+//            }
         }
 
         QGCButton {

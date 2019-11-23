@@ -57,6 +57,8 @@ public:
     bool    readyForSave        (void) const final;
     double  additionalTimeDelay (void) const final;
     Q_INVOKABLE void    setCruiseSpeed      (double speed);
+    Q_INVOKABLE int    getCruiseSpeedInd      ();
+    Q_INVOKABLE void    setBoxSpeed         (QString index);
     Q_INVOKABLE double  getCruiseSpeed () { return _cruiseSpeed; }
     double  specifiedFlightSpeed    (void) override ;
 

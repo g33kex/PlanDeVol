@@ -296,174 +296,172 @@ Item {
 
 
         }
+    }
 
 
-        Dialog {
-            id: editParcelleDialog
+    Dialog {
+        id: editParcelleDialog
 
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal: true
 
-            property int parcelleIndex: 0
+        property int parcelleIndex: 0
 
-            function refresh() {
-                ownerField.updateContent()
-                fileField.updateContent()
-                typeField.updateContent()
-                speedBox.updateContent()
+        function refresh() {
+            ownerField.updateContent()
+            fileField.updateContent()
+            typeField.updateContent()
+            speedBox.updateContent()
+        }
+
+        onAccepted: {
+            _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.currentIndex)
+            map.updateParcelles()
+        }
+
+
+        title: "Edit Parcelle"
+
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        GridLayout {
+            columns: 4
+            anchors.fill: parent
+
+            Label {
+                text: "Owner"
             }
-
-            onAccepted: {
-                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.value)
-                map.updateParcelles()
+            Label {
+                text: "Name"
             }
-
-
-            title: "Edit Parcelle"
-
-            standardButtons: Dialog.Ok | Dialog.Cancel
-
-            GridLayout {
-                columns: 4
-                anchors.fill: parent
-
-                Label {
-                    text: "Owner"
-                }
-                Label {
-                    text: "Name"
-                }
-                Label {
-                    text: "Type"
-                }
-                Label {
-                    text: "Speed"
-
-                }
-                TextField {
-                    id: ownerField
-                    enabled: false
-                    function updateContent() {
-                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "owner")
-                    }
-                }
-                TextField {
-                    id: fileField
-                    enabled: false
-                    function updateContent() {
-                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "name")
-                    }
-                }
-                TextField {
-                    id: typeField
-                    function updateContent() {
-                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "type")
-                    }
-                }
-                SpinBox {
-                    id: speedBox
-                    maximumValue: 3
-                    minimumValue: 1
-                    function updateContent() {
-                        value=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed")
-                    }
-                }
-
+            Label {
+                text: "Type"
+            }
+            Label {
+                text: "Speed"
 
             }
-
+            TextField {
+                id: ownerField
+                enabled: false
+                function updateContent() {
+                    text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "owner")
+                }
+            }
+            TextField {
+                id: fileField
+                enabled: false
+                function updateContent() {
+                    text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "name")
+                }
+            }
+            TextField {
+                id: typeField
+                function updateContent() {
+                    text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "type")
+                }
+            }
+            ComboBox {
+                id: speedBox
+                model: [ "low", "med", "hig" ]
+                function updateContent() {
+                    currentIndex=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed")
+                }
+            }
 
         }
 
-        Dialog {
-           id: addParcelleDialog
 
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
+    }
+
+    Dialog {
+       id: addParcelleDialog
+
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal: true
 
 
-            onAccepted: {
-                if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                     _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.value)
-                    addParcelleProgressOverlay.open()
-                }
-                else {
-                     parcelleExistsDialog.open()
-
-                }
+        onAccepted: {
+            if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
+                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.currentIndex + 1)
+                addParcelleProgressOverlay.open()
             }
+            else {
+                 parcelleExistsDialog.open()
 
-           Popup {
-               id: addParcelleProgressOverlay
+            }
+        }
 
-               parent: Overlay.overlay
+       Popup {
+           id: addParcelleProgressOverlay
 
-               closePolicy: Popup.NoAutoClose
-               modal: true
+           parent: Overlay.overlay
 
-               x: Math.round((parent.width - width) / 2)
-               y: Math.round((parent.height - height) / 2)
-               width: 100
-               height: 100
+           closePolicy: Popup.NoAutoClose
+           modal: true
 
-               BusyIndicator {
-                   anchors.fill: parent
-               }
+           x: Math.round((parent.width - width) / 2)
+           y: Math.round((parent.height - height) / 2)
+           width: 100
+           height: 100
 
+           BusyIndicator {
+               anchors.fill: parent
            }
 
-            function reset() {
-                a_ilotField.text = ""
-                a_fileField.text = ""
-                a_typeField.text = ""
+       }
+
+        function reset() {
+            a_ilotField.text = ""
+            a_fileField.text = ""
+            a_typeField.text = ""
+        }
+
+
+        title: "Add Parcelle"
+
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        GridLayout {
+            columns: 4
+            anchors.fill: parent
+
+            Label {
+                text: "Ilot number"
             }
-
-
-            title: "Add Parcelle"
-
-            standardButtons: Dialog.Ok | Dialog.Cancel
-
-            GridLayout {
-                columns: 4
-                anchors.fill: parent
-
-                Label {
-                    text: "Ilot number"
-                }
-                Label {
-                    text: "ParcelleFile"
-                }
-                Label {
-                    text: "Type"
-                }
-                Label {
-                    text: "Speed"
-
-                }
-                TextField {
-                    id: a_ilotField
-                }
-                TextField {
-                    id: a_fileField
-                }
-                TextField {
-                    id: a_typeField
-                }
-                SpinBox {
-                    maximumValue: 3
-                    minimumValue: 1
-                    id: a_speedBox
-                }
-
+            Label {
+                text: "ParcelleFile"
+            }
+            Label {
+                text: "Type"
+            }
+            Label {
+                text: "Speed"
 
             }
-
+            TextField {
+                id: a_ilotField
+            }
+            TextField {
+                id: a_fileField
+            }
+            TextField {
+                id: a_typeField
+            }
+            ComboBox {
+                id: a_speedBox
+                currentIndex: 2
+                model: [ "low", "med", "hig" ]
+            }
 
         }
 
-        Dialog {
+
+    }
+
+    Dialog {
             id: errorModifyOnlyOneParcelleDialog
             standardButtons: Dialog.Ok
             x: (parent.width - width) / 2
@@ -475,7 +473,6 @@ Item {
             }
 
         }
-    }
 
 
     Dialog {

@@ -51,7 +51,7 @@ Item {
     property bool   _lightWidgetBorders:                editorMap.isSatelliteMap
     property bool   _addWaypointOnClick:                false
     property bool   _addROIOnClick:                     false
-    property bool   _singleComplexItem:                 _missionController.complexMissionItemNames.length === 1
+    property bool   _singleComplexItem:                 _missionController.complexMissionItemNames.length === 2
     property int    _editingLayer:                      _layerMission
     property int    _toolStripBottom:                   toolStrip.height + toolStrip.y
     property var    _appSettings:                       QGroundControl.settingsManager.appSettings
@@ -179,8 +179,6 @@ Item {
 
     ParcelleManager {
         id: _parcelleManager
-
-
     }
 
     PlanMasterController {
