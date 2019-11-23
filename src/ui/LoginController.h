@@ -25,15 +25,21 @@ public:
     Q_INVOKABLE void addUser(SqlCustomModel *model, QString username, QString password, QString nom, QString prenom);
 
     Q_INVOKABLE void setParamSpeed(QString lowSpeed, QString medSpeed, QString HighSpeed);
+    Q_INVOKABLE void setParamAlt(QString lowAlt, QString medAlt, QString HighAlt);
     Q_INVOKABLE void setParamLimit(QString session, QString parcelles, QString missions);
     Q_INVOKABLE void setParamChecklist(QString checklist);
+    Q_INVOKABLE void setParamTurn(QString turn);
     Q_INVOKABLE QString getSpeedLow();
     Q_INVOKABLE QString getSpeedMed();
     Q_INVOKABLE QString getSpeedHigh();
+    Q_INVOKABLE QString getAltLow();
+    Q_INVOKABLE QString getAltMed();
+    Q_INVOKABLE QString getAltHigh();
     Q_INVOKABLE QString getNbSession();
     Q_INVOKABLE QString getNbParcelle();
     Q_INVOKABLE QString getNbMission();
     Q_INVOKABLE QString getParamChecklist();
+    Q_INVOKABLE QString getTurn();
     Q_INVOKABLE bool modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass);
 
     Q_INVOKABLE void    exportToXML();

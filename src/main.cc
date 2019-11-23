@@ -229,6 +229,12 @@ List_file *checklist;
 extern List_file *speedParam;
 List_file *speedParam;
 
+extern List_file *altParam;
+List_file *altParam;
+
+extern List_file *flightParam;
+List_file *flightParam;
+
 extern List_file *nbParam;
 List_file *nbParam;
 
@@ -429,23 +435,44 @@ int main(int argc, char *argv[])
         speedParam = new List_file("SpeedParam");
         //param par defaut if the file is empty
         if (! speedParam->load()) {
-            qDebug() << "speedParam file is empty";
             speedParam->clear();
             speedParam->append("15");
             speedParam->append("30");
             speedParam->append("40");
+            qDebug() << "speedParam file is empty" << speedParam->size();
+        }
+
+        altParam = new List_file("AltParam");
+        //param par defaut if the file is empty
+        if (! altParam->load()) {
+            altParam->clear();
+            altParam->append("30");
+            altParam->append("50");
+            altParam->append("100");
+            qDebug() << "altParam file is empty" << altParam->size();
         }
 
         //permet de contenir le nombre de sessions, missions et parcelles
         nbParam = new List_file("nbParam");
         //param par defaut if the file is empty
         if (! nbParam->load()) {
-            qDebug() << "nbParam file is empty";
             nbParam->clear();
             nbParam->append("10"); //session
             nbParam->append("10"); //parcelle
             nbParam->append("10"); //mission
+            qDebug() << "nbParam file is empty" << nbParam->size();
         }
+
+        //permet de contenir la turnaround distance
+        flightParam = new List_file("flightParam");
+        //param par defaut if the file is empty
+        if (! flightParam->load()) {
+            flightParam->clear();
+            flightParam->append("10"); //turnaround
+            qDebug() << "flightParam file is empty" << flightParam->size();
+        }
+
+
 
         // contain other column to add
         lColumn = new List_file("lColumn");

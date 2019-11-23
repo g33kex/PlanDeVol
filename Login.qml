@@ -511,6 +511,39 @@ Item {
                 }
 
                 Label {
+                    text: "Altitude"
+                    color: "gray"
+                    Layout.margins: m2
+                }
+                GridLayout {
+                    columns: 3
+
+                    Label {
+                        text: "Low Altitude"
+                    }
+                    Label {
+                        text: "Medium Altitude"
+                    }
+                    Label {
+                        text: "High Altitude"
+                    }
+
+
+                    TextField {
+                        id: lowalt
+                        text: _loginController.getAltLow()
+                    }
+                    TextField {
+                        id: medalt
+                        text: _loginController.getAltMed()
+                    }
+                    TextField {
+                        id: highalt
+                        text: _loginController.getAltHigh()
+                    }
+                }
+
+                Label {
                     text: "Limite number"
                     color: "gray"
                     Layout.margins: m2
@@ -544,6 +577,17 @@ Item {
                     }
                 }
 
+                Label {
+                    text: "Turnaround distance"
+                    color: "gray"
+                    Layout.margins: m2
+                }
+
+                TextField {
+                    id: turn
+                    text: _loginController.getTurn()
+                }
+
 
                 Label {
                     text: "Checklist"
@@ -573,8 +617,10 @@ Item {
                     Layout.margins: m
                     onClicked: {
                         _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
+                        _loginController.setParamAlt(lowalt.text, medalt.text, highalt.text)
                         _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
+                        _loginController.setParamTurn(turn.text)
                         doneDialog.open()
                     }
                 }

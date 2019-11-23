@@ -15,7 +15,7 @@ List_file::List_file(QString file) :
 
 void List_file::save() {
     QFile file(_file);
-    qDebug() << " ---- in save ---- ";
+    qDebug() << " ---- in save ---- " << this->_file;
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qDebug() << "error opening save file";
         return;

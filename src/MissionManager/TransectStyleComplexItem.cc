@@ -19,6 +19,8 @@
 
 #include <QPolygonF>
 
+#include "Admin/List_file.h"
+
 QGC_LOGGING_CATEGORY(TransectStyleComplexItemLog, "TransectStyleComplexItemLog")
 
 const char* TransectStyleComplexItem::turnAroundDistanceName =              "TurnAroundDistance";
@@ -39,6 +41,8 @@ const char* TransectStyleComplexItem::_jsonCameraShotsKey =                 "Cam
 
 const int   TransectStyleComplexItem::_terrainQueryTimeoutMsecs =           1000;
 
+extern List_file *flightParam;
+
 TransectStyleComplexItem::TransectStyleComplexItem(Vehicle* vehicle, bool flyView, QString settingsGroup, QObject* parent)
     : ComplexMissionItem                (vehicle, flyView, parent)
     , _sequenceNumber                   (0)
@@ -58,6 +62,9 @@ TransectStyleComplexItem::TransectStyleComplexItem(Vehicle* vehicle, bool flyVie
     , _terrainAdjustMaxClimbRateFact    (settingsGroup, _metaDataMap[terrainAdjustMaxClimbRateName])
     , _terrainAdjustMaxDescentRateFact  (settingsGroup, _metaDataMap[terrainAdjustMaxDescentRateName])
 {
+    if (_turnAroundDistanceFact.rawValue().toDouble() != flightParam->at(0).toDouble()) {
+        _turnAroundDistanceFact.setRawValue(flightParam->at(0).toDouble());
+    }
     _terrainQueryTimer.setInterval(_terrainQueryTimeoutMsecs);
     _terrainQueryTimer.setSingleShot(true);
     connect(&_terrainQueryTimer, &QTimer::timeout, this, &TransectStyleComplexItem::_reallyQueryTransectsPathHeightInfo);

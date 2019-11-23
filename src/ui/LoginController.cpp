@@ -9,6 +9,8 @@ extern DbManager *db;
 extern List_file *checklist;
 extern List_file *speedParam;
 extern List_file *nbParam;
+extern List_file *altParam;
+extern List_file *flightParam;
 extern QString username;
 extern AppSettings* sett;
 
@@ -79,6 +81,23 @@ void LoginController::onAdminClosed() {
         nbParam->append("10");
         nbParam->append("10");
     }
+
+    altParam->clear();
+    if (! altParam->load()) {
+        altParam->clear();
+        altParam->append("30");
+        altParam->append("50");
+        altParam->append("100");
+        qDebug() << "altParam file is empty" << altParam->size();
+    }
+
+    flightParam->clear();
+    if (! flightParam->load()) {
+        flightParam->clear();
+        flightParam->append("10"); //turnaround
+        qDebug() << "flightParam file is empty" << flightParam->size();
+    }
+
 }
 
 void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
@@ -147,6 +166,19 @@ void LoginController::setParamSpeed(QString lowSpeed, QString medSpeed, QString 
     speedParam->save();
 }
 
+void LoginController::setParamAlt(QString lowAlt, QString medAlt, QString highAlt) {
+    qDebug() << "----- save speed -----";
+    altParam->replace(0, lowAlt);
+    altParam->replace(1, medAlt);
+    altParam->replace(2, highAlt);
+    altParam->save();
+}
+
+void LoginController::setParamTurn(QString turn) {
+    flightParam->replace(0, turn);
+    flightParam->save();
+}
+
 
 void LoginController::setParamLimit(QString session, QString parcelles, QString missions) {
     qDebug() << "----- save limit -----";
@@ -170,7 +202,6 @@ void LoginController::setParamChecklist(QString check) {
 }
 
 
-
 QString LoginController::getSpeedLow() {
     return speedParam->at(0);
 }
@@ -183,6 +214,18 @@ QString LoginController::getSpeedHigh(){
     return speedParam->at(2);
 }
 
+QString LoginController::getAltLow() {
+    return altParam->at(0);
+}
+
+QString LoginController::getAltMed(){
+    return altParam->at(1);
+}
+
+QString LoginController::getAltHigh(){
+    return altParam->at(2);
+}
+
 QString LoginController::getNbSession(){
     return nbParam->at(0);
 }
@@ -193,6 +236,10 @@ QString LoginController::getNbParcelle(){
 
 QString LoginController::getNbMission(){
     return nbParam->at(2);
+}
+
+QString LoginController::getTurn(){
+    return flightParam->at(0);
 }
 
 QString LoginController::getParamChecklist() {
