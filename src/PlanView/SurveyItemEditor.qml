@@ -222,7 +222,7 @@ Rectangle {
 
             ComboBox {
                 id: a_speedBox
-                currentIndex: missionItem.getCruiseSpeedIndex();
+                currentIndex: missionItem.speedIndex
                 model: [ "low", "med", "high"]
                 onCurrentIndexChanged: {
                     missionItem.setBoxSpeed(currentIndex)
