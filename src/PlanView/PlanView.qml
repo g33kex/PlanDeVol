@@ -571,8 +571,8 @@ Item {
                         iconSource:         "/qmlimages/MapDrawShape.svg",
                         dropPanelComponent: _singleComplexItem ? undefined : patternDropPanel
                     },
-                    {
-                        name:               qsTr("Center"),
+                    { //dummy
+                        name:               qsTr("dummy"),
                         iconSource:         "/qmlimages/MapCenter.svg",
                         dropPanelComponent: centerMapDropPanel
                     },
@@ -583,6 +583,11 @@ Item {
                     {
                         name:               qsTr("Out"),
                         iconSource:         "/qmlimages/ZoomMinus.svg"
+                    },
+                    {
+                        name:               qsTr("Center"),
+                        iconSource:         "/qmlimages/MapCenter.svg",
+                        dropPanelComponent: centerMapDropPanel
                     }
                 ]
 
@@ -604,10 +609,10 @@ Item {
                             addComplexItem(_missionController.complexMissionItemNames[0])
                         }
                         break
-                case 3:
+                case 4:
                         editorMap.zoomLevel += 0.5
                         break
-                case 4:
+                case 5:
                         editorMap.zoomLevel -= 0.5
                         break
                     }
