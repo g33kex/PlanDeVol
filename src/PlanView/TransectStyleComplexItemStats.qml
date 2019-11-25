@@ -19,6 +19,9 @@ Grid {
     QGCLabel { text: qsTr("Survey Area") }
     QGCLabel { text: QGroundControl.squareMetersToAppSettingsAreaUnits(missionItem.coveredArea).toFixed(2) + " " + QGroundControl.appSettingsAreaUnitsString }
 
+    QGCLabel { text: qsTr("Flight Time") }
+    QGCLabel { text: missionItem.timeNeedMn + " " + qsTr("mn") + " " + missionItem.timeNeedSec + " " + qsTr("secs")}
+
     QGCLabel { text: qsTr("Photo Count") }
     QGCLabel { text: missionItem.cameraShots }
 
