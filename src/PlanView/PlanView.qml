@@ -51,7 +51,7 @@ Item {
     property bool   _lightWidgetBorders:                editorMap.isSatelliteMap
     property bool   _addWaypointOnClick:                false
     property bool   _addROIOnClick:                     false
-    property bool   _singleComplexItem:                 _missionController.complexMissionItemNames.length === 2
+    property bool   _singleComplexItem:                 _missionController.complexMissionItemNames.length === 0
     property int    _editingLayer:                      _layerMission
     property int    _toolStripBottom:                   toolStrip.height + toolStrip.y
     property var    _appSettings:                       QGroundControl.settingsManager.appSettings
@@ -547,10 +547,10 @@ Item {
 
                 model: [
                     {
-                    name:                   qsTr("Fly"),
-                    iconSource:             "/qmlimages/PaperPlane.svg",
-                },
-                {
+                        name:                   qsTr("Fly"),
+                        iconSource:             "/qmlimages/PaperPlane.svg",
+                    },
+                    {
                         name:                   qsTr("Mission"),
                         iconSource:             "/qmlimages/MapSync.svg",
                         alternateIconSource:    "/qmlimages/MapSyncChanged.svg",
@@ -591,23 +591,23 @@ Item {
                 case 0:
                     mainWindow.showFlyView()
                     break;
-                case 2:
-                        _addWaypointOnClick = checked
-                        _addOnClick = false
-                        break
-                case 3:
-                        _addROIOnClick = checked
-                        _addWaypointOnClick = false
-                        break
-                case 4:
+//                case 2:
+//                        _addWaypointOnClick = checked
+//                        _addOnClick = false
+//                        break
+//                case 3:
+//                        _addROIOnClick = checked
+//                        _addWaypointOnClick = false
+//                        break
+                case 1:
                         if (_singleComplexItem) {
                             addComplexItem(_missionController.complexMissionItemNames[0])
                         }
                         break
-                    case 6:
-                    editorMap.zoomLevel += 0.5
-                    break
-                case 7:
+                case 3:
+                        editorMap.zoomLevel += 0.5
+                        break
+                case 4:
                         editorMap.zoomLevel -= 0.5
                         break
                     }
