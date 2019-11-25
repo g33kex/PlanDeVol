@@ -1565,21 +1565,15 @@ void SurveyComplexItem::setCruiseSpeed (double speed) {
     _recalcComplexDistance();
 }
 
-void SurveyComplexItem::setBoxSpeed (QString text) {
-    if(speedParam->contains(text)) {
-        _cruiseSpeed = speedParam->at(speedParam->indexOf(text)).toDouble();
-    }
-    else {
-        _cruiseSpeed = text.toDouble();
-    }
-    _recalcComplexDistance();
+void SurveyComplexItem::setBoxSpeed (int index) {
+    setCruiseSpeed(speedParam->at(index).toDouble());
 }
 
 int SurveyComplexItem::getCruiseSpeedInd (){
     if (speedParam->contains(QString::number(_cruiseSpeed))) {
         return speedParam->indexOf(QString::number(_cruiseSpeed));
     }
-    else return 4;
+    else return 2;
 }
 
 double SurveyComplexItem::specifiedFlightSpeed() {

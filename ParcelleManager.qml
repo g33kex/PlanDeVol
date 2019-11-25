@@ -366,7 +366,7 @@ Item {
                 id: speedBox
                 model: [ "low", "med", "hig" ]
                 function updateContent() {
-                    currentIndex=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed")
+                    currentIndex=parseInt(parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed"))
                 }
             }
 
@@ -385,7 +385,7 @@ Item {
 
         onAccepted: {
             if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.currentIndex + 1)
+                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.currentIndex)
                 addParcelleProgressOverlay.open()
             }
             else {
@@ -452,7 +452,7 @@ Item {
             }
             ComboBox {
                 id: a_speedBox
-                currentIndex: 2
+                currentIndex: 1
                 model: [ "low", "med", "hig" ]
             }
 

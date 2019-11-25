@@ -222,11 +222,10 @@ Rectangle {
 
             ComboBox {
                 id: a_speedBox
-                editable: true
                 currentIndex: missionItem.getCruiseSpeedIndex();
-                model: [ "low", "med", "high", "unspecified"]
+                model: [ "low", "med", "high"]
                 onCurrentIndexChanged: {
-                    missionItem.setBoxSpeed(currentText)
+                    missionItem.setBoxSpeed(currentIndex)
                 }
             }
 

@@ -240,7 +240,7 @@ Item {
                 }
                 ComboBox {
                     id: a_speedBox
-                    currentIndex: 2
+                    currentIndex: 1
                     model: [ "low", "med", "hig" ]
                 }
 
