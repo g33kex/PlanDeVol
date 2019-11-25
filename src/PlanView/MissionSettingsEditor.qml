@@ -70,18 +70,13 @@ Rectangle {
                 Layout.fillWidth:   true
             }
 
-            QGCCheckBox {
-                id:         flightSpeedCheckBox
+            QGCLabel {
                 text:       qsTr("Flight speed")
-                visible:    _showFlightSpeed
-                checked:    missionItem.speedSection.specifyFlightSpeed
-                onClicked:   missionItem.speedSection.specifyFlightSpeed = checked
             }
             FactTextField {
                 Layout.fillWidth:   true
                 fact:               missionItem.speedSection.flightSpeed
-                visible:            _showFlightSpeed
-                enabled:            flightSpeedCheckBox.checked
+                enabled:            false
             }
         }
 
