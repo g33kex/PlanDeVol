@@ -11,6 +11,7 @@
 #include "JsonHelper.h"
 #include "Vehicle.h"
 #include "CameraMetaData.h"
+#include "Admin/List_file.h"
 
 #include <QQmlEngine>
 
@@ -25,6 +26,8 @@ const char* CameraCalc::adjustedFootprintFrontalName =      "AdjustedFootprintFr
 const char* CameraCalc::adjustedFootprintSideName =         "AdjustedFootprintSide";
 
 const char* CameraCalc::_jsonCameraSpecTypeKey =            "CameraSpecType";
+
+extern List_file *altParam;
 
 CameraCalc::CameraCalc(Vehicle* vehicle, const QString& settingsGroup, QObject* parent)
     : CameraSpec                    (settingsGroup, parent)
@@ -325,4 +328,12 @@ void CameraCalc::setDistanceToSurfaceRelative(bool distanceToSurfaceRelative)
 void CameraCalc::_setDirty(void)
 {
     setDirty(true);
+}
+
+void CameraCalc::setDistanceIndex (int index) {
+    qDebug() << "--------- survey setBoxAlt" << index;
+    _distanceIndex = index;
+    _valueSetIsDistanceFact.setRawValue(1);
+    _distanceToSurfaceFact.setRawValue(altParam->at(index).toDouble());
+    _recalcTriggerDistance();
 }

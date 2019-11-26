@@ -235,30 +235,45 @@ Column {
                 columns:        2
                 visible:        !usingPreset
 
-                QGCRadioButton {
-                    id:                     fixedDistanceRadio
-                    text:                   distanceToSurfaceLabel
-                    checked:                !!cameraCalc.valueSetIsDistance.value
-                    onClicked:              cameraCalc.valueSetIsDistance.value = 1
+//                QGCRadioButton {
+//                    id:                     fixedDistanceRadio
+//                    text:                   distanceToSurfaceLabel
+//                    checked:                !!cameraCalc.valueSetIsDistance.value
+//                    onClicked:              cameraCalc.valueSetIsDistance.value = 1
+//                }
+
+//                Label {
+//                    text: "test"
+//                }
+
+//                AltitudeFactTextField {
+//                    fact:                   cameraCalc.distanceToSurface
+//                    altitudeMode:           distanceToSurfaceAltitudeMode
+//                    enabled:                fixedDistanceRadio.checked
+//                    Layout.fillWidth:       true
+//                }
+
+                Label {
+                    text: distanceToSurfaceLabel
                 }
 
-                AltitudeFactTextField {
-                    fact:                   cameraCalc.distanceToSurface
-                    altitudeMode:           distanceToSurfaceAltitudeMode
-                    enabled:                fixedDistanceRadio.checked
-                    Layout.fillWidth:       true
+                ComboBox {
+                    id : camAlt
+                    currentIndex: 1
+                    model: [ "low", "med", "high"]
+                    onCurrentIndexChanged: {
+//                        cameraCalc.setBoxAlt(currentIndex)
+                        cameraCalc.distanceIndex = camAlt.currentIndex
+                    }
                 }
 
-                QGCRadioButton {
-                    id:                     fixedImageDensityRadio
+                Label {
                     text:                   qsTr("Ground Res")
-                    checked:                !cameraCalc.valueSetIsDistance.value
-                    onClicked:              cameraCalc.valueSetIsDistance.value = 0
                 }
 
                 FactTextField {
                     fact:                   cameraCalc.imageDensity
-                    enabled:                fixedImageDensityRadio.checked
+                    enabled:                false
                     Layout.fillWidth:       true
                 }
             }
@@ -274,10 +289,15 @@ Column {
             visible:        cameraCalc.isManualCamera
 
             QGCLabel { text: distanceToSurfaceLabel }
-            AltitudeFactTextField {
-                fact:               cameraCalc.distanceToSurface
-                altitudeMode:       distanceToSurfaceAltitudeMode
-                Layout.fillWidth:   true
+
+            ComboBox {
+                id : nospecAlt
+                currentIndex: 1
+                model: [ "low", "med", "high"]
+                onCurrentIndexChanged: {
+//                    cameraCalc.setBoxAlt(currentIndex)
+                    cameraCalc.distanceIndex = nospecAlt.currentIndex
+                }
             }
 
             QGCLabel { text: frontalDistanceLabel }

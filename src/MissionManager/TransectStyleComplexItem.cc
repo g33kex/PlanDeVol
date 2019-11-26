@@ -65,6 +65,19 @@ TransectStyleComplexItem::TransectStyleComplexItem(Vehicle* vehicle, bool flyVie
     if (_turnAroundDistanceFact.rawValue().toDouble() != flightParam->at(0).toDouble()) {
         _turnAroundDistanceFact.setRawValue(flightParam->at(0).toDouble());
     }
+
+    if (_terrainAdjustToleranceFact.rawValue().toDouble() != flightParam->at(1).toDouble()) {
+        _terrainAdjustToleranceFact.setRawValue(flightParam->at(1).toDouble());
+    }
+
+    if (_terrainAdjustMaxClimbRateFact.rawValue().toDouble() != flightParam->at(2).toDouble()) {
+        _terrainAdjustMaxClimbRateFact.setRawValue(flightParam->at(2).toDouble());
+    }
+
+    if (_terrainAdjustMaxDescentRateFact.rawValue().toDouble() != flightParam->at(2).toDouble()) {
+        _terrainAdjustMaxDescentRateFact.setRawValue(flightParam->at(2).toDouble());
+    }
+
     _terrainQueryTimer.setInterval(_terrainQueryTimeoutMsecs);
     _terrainQueryTimer.setSingleShot(true);
     connect(&_terrainQueryTimer, &QTimer::timeout, this, &TransectStyleComplexItem::_reallyQueryTransectsPathHeightInfo);
@@ -107,7 +120,7 @@ TransectStyleComplexItem::TransectStyleComplexItem(Vehicle* vehicle, bool flyVie
     connect(&_surveyAreaPolygon,                        &QGCMapPolygon::pathChanged,    this, &TransectStyleComplexItem::coveredAreaChanged);
     connect(&_surveyAreaPolygon,                        &QGCMapPolygon::pathChanged,    this, &TransectStyleComplexItem::timeNeedChanged);
 
-    connect(this, &TransectStyleComplexItem::complexDistanceChanged, this, &TransectStyleComplexItem::timeNeedChanged);
+    connect(this,                                       &TransectStyleComplexItem::complexDistanceChanged, this, &TransectStyleComplexItem::timeNeedChanged);
     connect(&_cameraCalc,                               &CameraCalc::distanceToSurfaceRelativeChanged, this, &TransectStyleComplexItem::coordinateHasRelativeAltitudeChanged);
     connect(&_cameraCalc,                               &CameraCalc::distanceToSurfaceRelativeChanged, this, &TransectStyleComplexItem::exitCoordinateHasRelativeAltitudeChanged);
 

@@ -1560,18 +1560,18 @@ double SurveyComplexItem::additionalTimeDelay (void) const
 }
 
 void SurveyComplexItem::setCruiseSpeed (double speed) {
-    qDebug() << "--------- survey setCruiseSpeed" << speed;
+//    qDebug() << "--------- survey setCruiseSpeed" << speed;
     _cruiseSpeed = speed;
     _recalcComplexDistance();
 }
 
 void SurveyComplexItem::setBoxSpeed (int index) {
-    qDebug() << "--------- survey setBoxSpeed" << index;
+//    qDebug() << "--------- survey setBoxSpeed" << index;
     setCruiseSpeed(speedParam->at(index).toDouble());
 }
 
 int SurveyComplexItem::getCruiseSpeedInd () {
-    qDebug() << "--------- survey getCruiseSpeedInd" << _cruiseSpeed;
+//    qDebug() << "--------- survey getCruiseSpeedInd" << _cruiseSpeed;
     if (speedParam->contains(QString::number(_cruiseSpeed))) {
         return speedParam->indexOf(QString::number(_cruiseSpeed));
     }
@@ -1579,7 +1579,7 @@ int SurveyComplexItem::getCruiseSpeedInd () {
 }
 
 double SurveyComplexItem::specifiedFlightSpeed() {
-    qDebug() << "----- survey specifiedFlightSpeed -----" << _cruiseSpeed;
+//    qDebug() << "----- survey specifiedFlightSpeed -----" << _cruiseSpeed;
     if (_cruiseSpeed < 0) _cruiseSpeed = 15;
     return _cruiseSpeed;
 }

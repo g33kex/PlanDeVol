@@ -469,10 +469,11 @@ int main(int argc, char *argv[])
         if (! flightParam->load()) {
             flightParam->clear();
             flightParam->append("10"); //turnaround
+            flightParam->append("10"); //Tolerance
+            flightParam->append("2"); //MaxClimbRate
+            flightParam->append("2"); //MaxDescentRate
             qDebug() << "flightParam file is empty" << flightParam->size();
         }
-
-
 
         // contain other column to add
         lColumn = new List_file("lColumn");

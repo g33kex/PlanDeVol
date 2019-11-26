@@ -340,18 +340,21 @@ Rectangle {
                 FactTextField {
                     fact:               missionItem.terrainAdjustTolerance
                     Layout.fillWidth:   true
+                    enabled : false
                 }
 
                 QGCLabel { text: qsTr("Max Climb Rate") }
                 FactTextField {
                     fact:               missionItem.terrainAdjustMaxClimbRate
                     Layout.fillWidth:   true
+                    enabled : false
                 }
 
                 QGCLabel { text: qsTr("Max Descent Rate") }
                 FactTextField {
                     fact:               missionItem.terrainAdjustMaxDescentRate
                     Layout.fillWidth:   true
+                    enabled : false
                 }
             }
         }

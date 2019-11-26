@@ -95,6 +95,9 @@ void LoginController::onAdminClosed() {
     if (! flightParam->load()) {
         flightParam->clear();
         flightParam->append("10"); //turnaround
+        flightParam->append("10"); //Tolerance
+        flightParam->append("2"); //MaxClimbRate
+        flightParam->append("2"); //MaxDescentRate
         qDebug() << "flightParam file is empty" << flightParam->size();
     }
 
@@ -167,15 +170,19 @@ void LoginController::setParamSpeed(QString lowSpeed, QString medSpeed, QString 
 }
 
 void LoginController::setParamAlt(QString lowAlt, QString medAlt, QString highAlt) {
-    qDebug() << "----- save speed -----";
+    qDebug() << "----- save alt -----";
     altParam->replace(0, lowAlt);
     altParam->replace(1, medAlt);
     altParam->replace(2, highAlt);
     altParam->save();
 }
 
-void LoginController::setParamTurn(QString turn) {
+void LoginController::setParamFlight(QString turn, QString tol, QString maxClimb, QString maxDescent) {
+    qDebug() << "----- save flight -----";
     flightParam->replace(0, turn);
+    flightParam->replace(1, tol);
+    flightParam->replace(2, maxClimb);
+    flightParam->replace(3, maxDescent);
     flightParam->save();
 }
 
@@ -196,7 +203,9 @@ void LoginController::setParamChecklist(QString check) {
     checklist->clear();
     QList<QString> tmp = check.split('\n');
     for (QList<QString>::iterator i = tmp.begin(); i != tmp.end(); ++i) {
-        checklist->append(*i);
+        if(!(*i).isEmpty()) {
+            checklist->append(*i);
+        }
     }
     checklist->save();
 }
@@ -240,6 +249,18 @@ QString LoginController::getNbMission(){
 
 QString LoginController::getTurn(){
     return flightParam->at(0);
+}
+
+QString LoginController::getTolerance(){
+    return flightParam->at(1);
+}
+
+QString LoginController::getMaxClimbRate(){
+    return flightParam->at(2);
+}
+
+QString LoginController::getMaxDescentRate(){
+    return flightParam->at(3);
 }
 
 QString LoginController::getParamChecklist() {

@@ -540,10 +540,8 @@ Item {
             rotateImage:        [ false, _planMasterController.syncInProgress, false, false, false, false, false, false ]
             animateImage:       [ false, _planMasterController.dirty, false, false, false, false, false, false ]
             buttonEnabled:      [ true, !_planMasterController.syncInProgress, true, true, true, true, true, true ]
-            buttonVisible:      [ true, true, true, _waypointsOnlyMode, true, true, _showZoom, _showZoom ]
+            buttonVisible:      [ true, true, true, true, true, true, true]
                 maxHeight:          mapScale.y - toolStrip.y
-
-                property bool _showZoom: !ScreenTools.isMobile
 
                 model: [
                     {
@@ -571,8 +569,8 @@ Item {
                         iconSource:         "/qmlimages/MapDrawShape.svg",
                         dropPanelComponent: _singleComplexItem ? undefined : patternDropPanel
                     },
-                    { //dummy
-                        name:               qsTr("dummy"),
+                    {
+                        name:               qsTr("Center"),
                         iconSource:         "/qmlimages/MapCenter.svg",
                         dropPanelComponent: centerMapDropPanel
                     },
@@ -583,11 +581,6 @@ Item {
                     {
                         name:               qsTr("Out"),
                         iconSource:         "/qmlimages/ZoomMinus.svg"
-                    },
-                    {
-                        name:               qsTr("Center"),
-                        iconSource:         "/qmlimages/MapCenter.svg",
-                        dropPanelComponent: centerMapDropPanel
                     }
                 ]
 

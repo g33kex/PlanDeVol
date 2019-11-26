@@ -28,7 +28,7 @@ public:
     Q_INVOKABLE void setParamAlt(QString lowAlt, QString medAlt, QString HighAlt);
     Q_INVOKABLE void setParamLimit(QString session, QString parcelles, QString missions);
     Q_INVOKABLE void setParamChecklist(QString checklist);
-    Q_INVOKABLE void setParamTurn(QString turn);
+    Q_INVOKABLE void setParamFlight(QString turn, QString tol, QString maxClimb, QString maxDescent);
     Q_INVOKABLE QString getSpeedLow();
     Q_INVOKABLE QString getSpeedMed();
     Q_INVOKABLE QString getSpeedHigh();
@@ -40,6 +40,9 @@ public:
     Q_INVOKABLE QString getNbMission();
     Q_INVOKABLE QString getParamChecklist();
     Q_INVOKABLE QString getTurn();
+    Q_INVOKABLE QString getTolerance();
+    Q_INVOKABLE QString getMaxClimbRate();
+    Q_INVOKABLE QString getMaxDescentRate();
     Q_INVOKABLE bool modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass);
 
     Q_INVOKABLE void    exportToXML();

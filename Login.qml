@@ -578,14 +578,47 @@ Item {
                 }
 
                 Label {
-                    text: "Turnaround distance"
+                    text: "Limite number"
                     color: "gray"
                     Layout.margins: m2
                 }
 
-                TextField {
-                    id: turn
-                    text: _loginController.getTurn()
+                GridLayout {
+                    columns: 4
+
+                    Label {
+                        text: "Turnaround distance"
+                        Layout.margins: m2
+                    }
+                    Label {
+                        text: "Tolerance"
+                        Layout.margins: m2
+                    }
+                    Label {
+                        text: "Maximum Climb Rate"
+                        Layout.margins: m2
+                    }
+                    Label {
+                        text: "Maximum Descent Rate"
+                        Layout.margins: m2
+                    }
+
+                    TextField {
+                        id: turn
+                        text: _loginController.getTurn()
+                    }
+                    TextField {
+                        id: tol
+                        text: _loginController.getTolerance()
+                    }
+                    TextField {
+                        id: maxclimb
+                        text: _loginController.getMaxClimbRate()
+                    }
+                    TextField {
+                        id: maxdescent
+                        text: _loginController.getMaxDescentRate()
+                    }
                 }
 
 
@@ -620,7 +653,7 @@ Item {
                         _loginController.setParamAlt(lowalt.text, medalt.text, highalt.text)
                         _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
-                        _loginController.setParamTurn(turn.text)
+                        _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
                         doneDialog.open()
                     }
                 }

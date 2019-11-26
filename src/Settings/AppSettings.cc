@@ -12,6 +12,7 @@
 #include "QGCApplication.h"
 #include "ParameterManager.h"
 #include "DataManager/DbManager.h"
+#include "Admin/List_file.h"
 
 #include <QQmlEngine>
 #include <QtQml>
@@ -37,8 +38,10 @@ const char* AppSettings::crashDirectory =           "CrashLogs";
 
 extern DbManager *db;
 extern QString username;
+extern List_file *altParam;
 extern AppSettings * sett;
 AppSettings * sett;
+
 
 DECLARE_SETTINGGROUP(App, "")
 {
@@ -67,7 +70,6 @@ DECLARE_SETTINGGROUP(App, "")
 
     connect(savePathFact, &Fact::rawValueChanged, this, &AppSettings::savePathsChanged);
     connect(savePathFact, &Fact::rawValueChanged, this, &AppSettings::_checkSavePathDirectories);
-
     _checkSavePathDirectories();
     //-- Keep track of language changes
     SettingsFact* languageFact = qobject_cast<SettingsFact*>(language());

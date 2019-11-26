@@ -308,7 +308,7 @@ CustomBuild {
         RESOURCES += $$PWD/qgcimages.qrc
     }
 } else {
-    DEFINES += QGC_APPLICATION_NAME=\"\\\"FlightPlan\\\"\"
+    DEFINES += QGC_APPLICATION_NAME=\"\\\"PlanDeVol\\\"\"
     DEFINES += QGC_ORG_NAME=\"\\\"newdrone.org\\\"\"
     DEFINES += QGC_ORG_DOMAIN=\"\\\"org.newdrone\\\"\"
     RESOURCES += \

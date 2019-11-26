@@ -62,13 +62,14 @@ Rectangle {
             rowSpacing:     columnSpacing
             columns:        2
 
-            QGCLabel {
-                text:       qsTr("Waypoint alt")
-            }
-            FactTextField {
-                fact:               QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
-                Layout.fillWidth:   true
-            }
+//            QGCLabel {
+//                text:       qsTr("Waypoint alt")
+//            }
+//            FactTextField {
+//                fact:               QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
+//                Layout.fillWidth:   true
+//                enabled: false
+//            }
 
             QGCLabel {
                 text:       qsTr("Flight speed")
