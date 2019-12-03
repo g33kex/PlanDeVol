@@ -17,6 +17,9 @@
 #include "QGCMapPolygon.h"
 #include "CameraCalc.h"
 #include "TerrainQuery.h"
+#include "Admin/List_file.h"
+
+extern List_file *speedParam;
 
 Q_DECLARE_LOGGING_CATEGORY(TransectStyleComplexItemLog)
 
@@ -46,6 +49,9 @@ public:
     Q_PROPERTY(Fact*            terrainAdjustTolerance      READ terrainAdjustTolerance                             CONSTANT)
     Q_PROPERTY(Fact*            terrainAdjustMaxDescentRate READ terrainAdjustMaxDescentRate                        CONSTANT)
     Q_PROPERTY(Fact*            terrainAdjustMaxClimbRate   READ terrainAdjustMaxClimbRate                          CONSTANT)
+
+    Q_PROPERTY(double           timeNeedMn                  READ timeNeedMn                                         NOTIFY timeNeedChanged)
+    Q_PROPERTY(double           timeNeedSec                 READ timeNeedSec                                        NOTIFY timeNeedChanged)
 
     QGCMapPolygon*  surveyAreaPolygon   (void) { return &_surveyAreaPolygon; }
     CameraCalc*     cameraCalc          (void) { return &_cameraCalc; }
@@ -99,7 +105,7 @@ public:
     QGeoCoordinate  coordinate              (void) const final { return _coordinate; }
     QGeoCoordinate  exitCoordinate          (void) const final { return _exitCoordinate; }
     int             sequenceNumber          (void) const final { return _sequenceNumber; }
-    double          specifiedFlightSpeed    (void) { return std::numeric_limits<double>::quiet_NaN(); }
+    double          specifiedFlightSpeed    (void) { return speedParam->at(2).toDouble(); }
     double          specifiedGimbalYaw      (void) final { return std::numeric_limits<double>::quiet_NaN(); }
     double          specifiedGimbalPitch    (void) final { return std::numeric_limits<double>::quiet_NaN(); }
     void            setMissionFlightStatus  (MissionController::MissionFlightStatus_t& missionFlightStatus) final;
