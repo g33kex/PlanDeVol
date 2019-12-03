@@ -1580,6 +1580,6 @@ int SurveyComplexItem::getCruiseSpeedInd () {
 
 double SurveyComplexItem::specifiedFlightSpeed() {
     qDebug() << "----- survey specifiedFlightSpeed -----" << _cruiseSpeed;
-    if (_cruiseSpeed < 0) _cruiseSpeed = 15;
+    if (_cruiseSpeed < 0 || _cruiseSpeed > 500) _cruiseSpeed = speedParam->at(2).toDouble();
     return _cruiseSpeed;
 }

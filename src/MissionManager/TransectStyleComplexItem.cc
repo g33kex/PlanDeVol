@@ -105,6 +105,8 @@ TransectStyleComplexItem::TransectStyleComplexItem(Vehicle* vehicle, bool flyVie
     connect(&_cameraCalc,                               &CameraCalc::dirtyChanged,      this, &TransectStyleComplexItem::_setIfDirty);
 
     connect(&_surveyAreaPolygon,                        &QGCMapPolygon::pathChanged,    this, &TransectStyleComplexItem::coveredAreaChanged);
+    connect(&_surveyAreaPolygon,                        &QGCMapPolygon::pathChanged,    this, &TransectStyleComplexItem::timeNeedChanged);
+    connect(this,                                       &TransectStyleComplexItem::complexDistanceChanged, this, &TransectStyleComplexItem::timeNeedChanged);
 
     connect(&_cameraCalc,                               &CameraCalc::distanceToSurfaceRelativeChanged, this, &TransectStyleComplexItem::coordinateHasRelativeAltitudeChanged);
     connect(&_cameraCalc,                               &CameraCalc::distanceToSurfaceRelativeChanged, this, &TransectStyleComplexItem::exitCoordinateHasRelativeAltitudeChanged);
@@ -775,4 +777,14 @@ void TransectStyleComplexItem::_followTerrainChanged(bool followTerrain)
         _refly90DegreesFact.setRawValue(false);
         _hoverAndCaptureFact.setRawValue(false);
     }
+}
+
+int TransectStyleComplexItem::timeNeedMn(void) const
+{
+    return int((this->_complexDistance / this->_cruiseSpeed) / 60);
+}
+
+int TransectStyleComplexItem::timeNeedSec(void) const
+{
+    return int(_complexDistance / _cruiseSpeed) % 60;
 }
