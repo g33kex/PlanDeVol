@@ -37,31 +37,15 @@ Column {
     readonly property int _gridTypeCustomCamera:    1
     readonly property int _gridTypeCamera:          2
 
-    Component.onCompleted: _fillCameraCombo()
 
     on_CameraNameChanged: _updateSelectedCamera()
 
     function _fillCameraCombo() {
         _cameraComboFilled = true
-        _cameraList.push(cameraCalc.manualCameraName)
-        _cameraList.push(cameraCalc.customCameraName)
-        for (var i=0; i<_vehicle.staticCameraList.length; i++) {
-            _cameraList.push(_vehicle.staticCameraList[i].name)
-        }
-        gridTypeCombo.model = _cameraList
-        _updateSelectedCamera()
-    }
-
-    function _updateSelectedCamera() {
-        if (_cameraComboFilled) {
-            var knownCameraIndex = gridTypeCombo.find(_cameraName)
-            if (knownCameraIndex !== -1) {
-                gridTypeCombo.currentIndex = knownCameraIndex
-            } else {
-                console.log("Internal error: Known camera not found", _cameraName)
-                gridTypeCombo.currentIndex = _gridTypeCustomCamera
-            }
-        }
+        _cameraList.push(_vehicle.staticCameraList[0].name)
+        cameraCalc.cameraName.value = "New Drone Camera"
+//        _cameraList.push(cameraCalc.manualCameraName)
+//        _cameraList.push(cameraCalc.customCameraName)
     }
 
     QGCPalette { id: qgcPal; colorGroupEnabled: true }
@@ -82,21 +66,24 @@ Column {
         spacing:        _margin
         visible:        cameraHeader.checked
 
-        QGCComboBox {
-            id:             gridTypeCombo
-            anchors.left:   parent.left
-            anchors.right:  parent.right
-            model:          _cameraList
-            currentIndex:   -1
-            onActivated:    cameraCalc.cameraName.value = gridTypeCombo.textAt(index)
-        } // QGCComboxBox
+//        QGCComboBox {
+//            id:             gridTypeCombo
+//            anchors.left:   parent.left
+//            anchors.right:  parent.right
+//            model:          _cameraList
+//            currentIndex:   -1
+//            onActivated:    cameraCalc.cameraName.value = gridTypeCombo.textAt(index)
+//        } // QGCComboxBox
+        Label {
+            text : "New Drone Camera"
+            color: "white"
+        }
 
         // Camera based grid ui
         Column {
             anchors.left:   parent.left
             anchors.right:  parent.right
             spacing:        _margin
-            visible:        !cameraCalc.isManualCamera
 
             Row {
                 spacing:                    _margin
@@ -270,7 +257,7 @@ Column {
                 AltitudeFactTextField {
                     fact:                   cameraCalc.distanceToSurface
                     altitudeMode:           distanceToSurfaceAltitudeMode
-                    enabled:                fixedDistanceRadio.checked
+//                    enabled:                fixedDistanceRadio.checked
                     Layout.fillWidth:       true
                 }
 
@@ -286,44 +273,5 @@ Column {
             }
         } // Column - Camera spec based ui
 
-        // No camera spec ui
-        GridLayout {
-            anchors.left:   parent.left
-            anchors.right:  parent.right
-            columnSpacing:  _margin
-            rowSpacing:     _margin
-            columns:        2
-            visible:        cameraCalc.isManualCamera
-
-            QGCLabel { text: distanceToSurfaceLabel }
-
-            AltitudeFactTextField {
-                fact:                   cameraCalc.distanceToSurface
-                altitudeMode:           distanceToSurfaceAltitudeMode
-                enabled:                fixedDistanceRadio.checked
-                Layout.fillWidth:       true
-            }
-//            ComboBox {
-//                id : nospecAlt
-//                currentIndex: 1
-//                model: [ "low", "med", "high"]
-//                onCurrentIndexChanged: {
-////                    cameraCalc.setBoxAlt(currentIndex)
-//                    cameraCalc.distanceIndex = nospecAlt.currentIndex
-//                }
-//            }
-
-            QGCLabel { text: frontalDistanceLabel }
-            FactTextField {
-                Layout.fillWidth:   true
-                fact:               cameraCalc.adjustedFootprintFrontal
-            }
-
-            QGCLabel { text: sideDistanceLabel }
-            FactTextField {
-                Layout.fillWidth:   true
-                fact:               cameraCalc.adjustedFootprintSide
-            }
-        } // GridLayout
     } // Column - Camera Section
 } // Column
