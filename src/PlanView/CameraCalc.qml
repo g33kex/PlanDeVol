@@ -257,14 +257,21 @@ Column {
                     text: distanceToSurfaceLabel
                 }
 
-                ComboBox {
-                    id : camAlt
-                    currentIndex: 1
-                    model: [ "low", "med", "high"]
-                    onCurrentIndexChanged: {
-//                        cameraCalc.setBoxAlt(currentIndex)
-                        cameraCalc.distanceIndex = camAlt.currentIndex
-                    }
+//                ComboBox {
+//                    id : camAlt
+//                    currentIndex: 1
+//                    model: [ "low", "med", "high"]
+//                    onCurrentIndexChanged: {
+////                        cameraCalc.setBoxAlt(currentIndex)
+//                        cameraCalc.distanceIndex = camAlt.currentIndex
+//                    }
+//                }
+
+                AltitudeFactTextField {
+                    fact:                   cameraCalc.distanceToSurface
+                    altitudeMode:           distanceToSurfaceAltitudeMode
+                    enabled:                fixedDistanceRadio.checked
+                    Layout.fillWidth:       true
                 }
 
                 Label {
@@ -290,15 +297,21 @@ Column {
 
             QGCLabel { text: distanceToSurfaceLabel }
 
-            ComboBox {
-                id : nospecAlt
-                currentIndex: 1
-                model: [ "low", "med", "high"]
-                onCurrentIndexChanged: {
-//                    cameraCalc.setBoxAlt(currentIndex)
-                    cameraCalc.distanceIndex = nospecAlt.currentIndex
-                }
+            AltitudeFactTextField {
+                fact:                   cameraCalc.distanceToSurface
+                altitudeMode:           distanceToSurfaceAltitudeMode
+                enabled:                fixedDistanceRadio.checked
+                Layout.fillWidth:       true
             }
+//            ComboBox {
+//                id : nospecAlt
+//                currentIndex: 1
+//                model: [ "low", "med", "high"]
+//                onCurrentIndexChanged: {
+////                    cameraCalc.setBoxAlt(currentIndex)
+//                    cameraCalc.distanceIndex = nospecAlt.currentIndex
+//                }
+//            }
 
             QGCLabel { text: frontalDistanceLabel }
             FactTextField {
