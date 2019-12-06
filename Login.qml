@@ -693,7 +693,7 @@ Item {
                 else {
                     console.log("Logged in as user "+username)
                     _loginController.loadMainWindow()
-                    loginMainWindow.close()
+                    //loginMainWindow.close()
                 }
             }
             else {

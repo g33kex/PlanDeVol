@@ -1,7 +1,9 @@
-#include "DataManager/DbManager.h"
+
 
 #ifndef PARCELLESQLMODEL_H
 #define PARCELLESQLMODEL_H
+
+#include "DataManager/DbManager.h"
 
 #include <QSqlRelationalTableModel>
 

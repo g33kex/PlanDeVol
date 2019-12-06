@@ -12,6 +12,8 @@ import QGroundControl.Controllers       1.0
 
 
 
+
+
 Item {
     id: element
 
@@ -96,7 +98,7 @@ Item {
                             role: "name"
                             title: "name of the Parcelle"
                             movable : false
-                            width: 4*tableView.width/8
+                            width: 3*tableView.width/8
                         }
                         TableViewColumn {
                             role: "type"
@@ -108,18 +110,47 @@ Item {
                             role: "speed"
                             title: "Speed"
                             movable: false
-                            width: tableView.width/10
+                            width: tableView.width/8
                         }
                         TableViewColumn {
                             role: "surface"
                             title: "Surface"
                             movable: false
-                            width: tableView.width/10
+                            width: tableView.width/8
                         }
 
                         model: parcelleModel
                     }
+
                }
+
+               Rectangle {
+                    Layout.columnSpan: 3
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: page1.height/2
+                    color: "white"
+
+                    TableView {
+                        id: parcelleInfo
+                        anchors.fill: parent
+                        selectionMode: SelectionMode.MultiSelection
+                        TableViewColumn {
+                            role: "question"
+                            title: "Question"
+                            movable: false
+                            width: parcelleInfo.width/2
+                        }
+                        TableViewColumn {
+                            role: "reponse"
+                            title: "Réponse"
+                            movable : false
+                            width: parcelleInfo.width/2
+                        }
+                    }
+
+               }
+
+
                 Button {
                     Layout.fillWidth: true
                     Layout.margins : margin
@@ -455,6 +486,11 @@ Item {
                     maximumValue: 3
                     minimumValue: 1
                     id: a_speedBox
+                }
+
+                QuestionsView {
+                    id: questionsView
+                    Layout.columnSpan: 4
                 }
 
 
