@@ -410,6 +410,7 @@ Item {
         Dialog {
            id: addParcelleDialog
 
+            height: parent.height/2
             x: (parent.width - width) / 2
             y: (parent.height - height) / 2
             modal: true
