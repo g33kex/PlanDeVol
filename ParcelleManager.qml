@@ -491,6 +491,8 @@ Item {
                 QuestionsView {
                     id: questionsView
                     Layout.columnSpan: 4
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
                 }
 
 

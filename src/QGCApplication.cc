@@ -26,6 +26,7 @@
 #include <QStringListModel>
 #include <QRegularExpression>
 #include <QFontDatabase>
+#include <QuestionsViewController.h>
 
 #ifdef QGC_ENABLE_BLUETOOTH
 #include <QBluetoothLocalDevice>
@@ -520,6 +521,7 @@ void QGCApplication::_initCommon()
 
     qmlRegisterType<ParcelleManagerController>      (kQGCControllers,                       1, 0, "ParcelleManagerController");
     qmlRegisterType<LoginController>                (kQGCControllers,                       1, 0, "LoginController");
+    qmlRegisterType<QuestionsViewController>		(kQGCControllers, 						1, 0, "QuestionsViewController");
 
 
 #ifndef __mobile__

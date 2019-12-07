@@ -49,7 +49,6 @@
         <file alias="XDeleteBlack.svg">resources/XDeleteBlack.svg</file>
         <file alias="waypoint.svg">resources/waypoint.svg</file>
         <file>resources/icons/qgroundcontrol.ico</file>
-        <file>resources/icons/logo.jpg</file>
         <file>resources/icons/mainlogo.png</file>
     </qresource>
     <qresource prefix="/res/firmware">
