@@ -55,6 +55,11 @@ Rectangle {
         anchors.top:        parent.top
         spacing:            _margin
 
+        QGCButton {
+            text:                       qsTr("Optimize Angle")
+            onClicked:                  _missionController.optimize()
+        }
+
         GridLayout {
             anchors.left:   parent.left
             anchors.right:  parent.right

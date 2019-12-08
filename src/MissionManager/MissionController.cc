@@ -2206,3 +2206,30 @@ QList<ComplexMissionItem*> MissionController::sortToCW(QList<ComplexMissionItem*
 
     return (missionToAngle_L->values() + missionToAngle_R->values());
 }
+
+int MissionController::optimizeAngle(SurveyComplexItem* toOpt) {
+    double time_min = 5000000;
+    int index = 0;
+    for(int i = 0; i < 360; i=i+5) {
+        toOpt->setAngle(i);
+        if(missionTime() < time_min) {
+            index = i;
+            time_min = missionTime();
+        }
+    }
+    return index ;
+}
+
+void MissionController::optimize() {
+    if (!(_visualItems->count() == 0)) {
+        for (int i = 1; i < _visualItems->count(); i++) {
+            VisualMissionItem* item = qobject_cast<VisualMissionItem*>(_visualItems->get(i));
+            if (item->commandName() == "Survey") {
+                SurveyComplexItem* pComplexItem = qobject_cast<SurveyComplexItem*>(item);
+                int angle = optimizeAngle(pComplexItem);
+                qDebug() << i <<angle;
+                pComplexItem->setAngle(angle);
+            }
+        }
+    }
+}

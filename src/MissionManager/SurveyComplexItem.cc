@@ -1558,3 +1558,7 @@ double SurveyComplexItem::additionalTimeDelay (void) const
 
     return hoverTime;
 }
+
+void SurveyComplexItem::setAngle(int truc) {
+    gridAngle()->setRawValue(truc);
+}

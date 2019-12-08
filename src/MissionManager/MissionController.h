@@ -29,6 +29,7 @@ class AppSettings;
 class MissionManager;
 class SimpleMissionItem;
 class ComplexMissionItem;
+class SurveyComplexItem;
 class QDomDocument;
 
 Q_DECLARE_LOGGING_CATEGORY(MissionControllerLog)
@@ -136,6 +137,8 @@ public:
     ///     @param sequenceNumber - index for new item, -1 to clear current item
     Q_INVOKABLE void setCurrentPlanViewIndex(int sequenceNumber, bool force);
 
+    Q_INVOKABLE void optimize ();
+
     /// Determines if the mission has all data needed to be saved or sent to the vehicle. Currently the only case where this
     /// would return false is when it is still waiting on terrain data to determine correct altitudes.
     bool readyForSaveSend(void) const;
@@ -180,6 +183,7 @@ public:
     QString             surveyComplexItemName       (void) const { return _surveyMissionItemName; }
     QString             corridorScanComplexItemName (void) const { return patternCorridorScanName; }
     QString             structureScanComplexItemName(void) const { return patternStructureScanName; }
+
 
     int missionItemCount            (void) const { return _missionItemCount; }
     int currentMissionIndex         (void) const;
@@ -283,6 +287,7 @@ private:
     void _addTimeDistance(bool vtolInHover, double hoverTime, double cruiseTime, double extraTime, double distance, int seqNum);
     int _insertComplexMissionItemWorker(ComplexMissionItem* complexItem, int i);
     void _warnIfTerrainFrameUsed(void);
+    int optimizeAngle(SurveyComplexItem* toOpt);
 
 
 private:

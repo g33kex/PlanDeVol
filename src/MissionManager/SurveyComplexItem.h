@@ -50,6 +50,8 @@ public:
     void    applyNewAltitude    (double newAltitude) final;
     double  timeBetweenShots    (void) final;
 
+    void setAngle(int truc);
+
     // Overrides from VisualMissionionItem
     QString commandDescription  (void) const final { return tr("Survey"); }
     QString commandName         (void) const final { return tr("Survey"); }
