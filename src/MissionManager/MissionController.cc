@@ -452,7 +452,6 @@ void MissionController::insertComplexMissionFromDialog(QMap<QString, double> fil
     for (QMap<QString, double>::iterator j = fileList.begin(); j != fileList.end(); ++j) {
         qDebug() << (*j);
         SurveyComplexItem *foo = new SurveyComplexItem(_controllerVehicle, _flyView, j.key(), _visualItems);
-        foo->setCruiseSpeed(j.value());
         toInsert->append(foo);
     }
     *toInsert = sortToCW(*toInsert);

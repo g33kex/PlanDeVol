@@ -29,7 +29,6 @@ public:
     Q_PROPERTY(Fact* gridAngle              READ gridAngle              CONSTANT)
     Q_PROPERTY(Fact* flyAlternateTransects  READ flyAlternateTransects  CONSTANT)
     Q_PROPERTY(Fact* splitConcavePolygons   READ splitConcavePolygons   CONSTANT)
-    Q_PROPERTY(int   speedIndex             READ getCruiseSpeedInd      CONSTANT)
 
     Fact* gridAngle             (void) { return &_gridAngleFact; }
     Fact* flyAlternateTransects (void) { return &_flyAlternateTransectsFact; }
@@ -57,11 +56,6 @@ public:
     QString abbreviation        (void) const final { return tr("S"); }
     bool    readyForSave        (void) const final;
     double  additionalTimeDelay (void) const final;
-    Q_INVOKABLE void    setCruiseSpeed      (double speed);
-    Q_INVOKABLE int    getCruiseSpeedInd      ();
-    Q_INVOKABLE void    setBoxSpeed         (int index);
-    Q_INVOKABLE double  getCruiseSpeed () { return _cruiseSpeed; }
-    double  specifiedFlightSpeed    (void) override ;
 
     // Must match json spec for GridEntryLocation
     enum EntryLocation {

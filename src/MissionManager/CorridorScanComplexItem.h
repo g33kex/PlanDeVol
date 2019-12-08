@@ -54,8 +54,6 @@ public:
     bool    readyForSave        (void) const;
     double  additionalTimeDelay (void) const final { return 0; }
 
-    double  specifiedFlightSpeed    (void) override;
-
     static const char* jsonComplexItemTypeValue;
 
     static const char* settingsGroup;

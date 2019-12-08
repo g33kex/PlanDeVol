@@ -62,22 +62,27 @@ Rectangle {
             rowSpacing:     columnSpacing
             columns:        2
 
-//            QGCLabel {
-//                text:       qsTr("Waypoint alt")
-//            }
-//            FactTextField {
-//                fact:               QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
-//                Layout.fillWidth:   true
-//                enabled: false
-//            }
-
             QGCLabel {
-                text:       qsTr("Flight speed")
+                text: qsTr("Waypoint alt")
+            }
+            FactTextField {
+                fact:               QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
+                Layout.fillWidth:   true
+            }
+
+//            QGCCheckBox {
+//                id:         flightSpeedCheckBox
+//                text:       qsTr("Flight speed")
+//                visible:    _showFlightSpeed
+//                checked:    missionItem.speedSection.specifyFlightSpeed
+//                onClicked:   missionItem.speedSection.specifyFlightSpeed = checked
+//            }
+            QGCLabel {
+                text: qsTr("Waypoint alt")
             }
             FactTextField {
                 Layout.fillWidth:   true
                 fact:               missionItem.speedSection.flightSpeed
-                enabled:            false
             }
         }
 
