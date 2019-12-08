@@ -423,31 +423,31 @@ Item {
                                 role: "owner"
                                 title: "Owner"
                                 movable: false
-                                width: 2*parcelleTableView.width/8
+                                width: 2*parcelleTableView.width/5
                             }
                             TableViewColumn {
                                 role: "name"
                                 title: "name of the parcelle"
                                 movable : false
-                                width: 4*parcelleTableView.width/8
+                                width: 2*parcelleTableView.width/5
                             }
-                            TableViewColumn {
-                                role: "type"
-                                title: "Type"
-                                movable: false
-                                width: parcelleTableView.width/8
-                            }
-                            TableViewColumn {
-                                role: "speed"
-                                title: "Speed"
-                                movable: false
-                                width: parcelleTableView.width/10
-                            }
+//                            TableViewColumn {
+//                                role: "type"
+//                                title: "Type"
+//                                movable: false
+//                                width: parcelleTableView.width/10
+//                            }
+//                            TableViewColumn {
+//                                role: "speed"
+//                                title: "Speed"
+//                                movable: false
+//                                width: parcelleTableView.width/10
+//                            }
                             TableViewColumn {
                                 role: "surface"
                                 title: "Surface"
                                 movable: false
-                                width: parcelleTableView.width/10
+                                width: parcelleTableView.width/5
                             }
 
                             model: parcelleModel
@@ -483,16 +483,19 @@ Item {
                     Layout.margins: m2
                 }
                 GridLayout {
-                    columns: 3
+                    columns: 6
 
                     Label {
                         text: "Low Speed"
+                        Layout.columnSpan: 2
                     }
                     Label {
                         text: "Medium Speed"
+                        Layout.columnSpan: 2
                     }
                     Label {
                         text: "High Speed"
+                        Layout.columnSpan: 2
                     }
 
 
@@ -500,13 +503,22 @@ Item {
                         id: lowspeed
                         text: _loginController.getSpeedLow()
                     }
+                    Label {
+                        text: "m/s"
+                    }
                     TextField {
                         id: medspeed
                         text: _loginController.getSpeedMed()
                     }
+                    Label {
+                        text: "m/s"
+                    }
                     TextField {
                         id: highspeed
                         text: _loginController.getSpeedHigh()
+                    }
+                    Label {
+                        text: "m/s"
                     }
                 }
 
@@ -516,16 +528,19 @@ Item {
                     Layout.margins: m2
                 }
                 GridLayout {
-                    columns: 3
+                    columns: 6
 
                     Label {
                         text: "Low Altitude"
+                        Layout.columnSpan: 2
                     }
                     Label {
                         text: "Medium Altitude"
+                        Layout.columnSpan: 2
                     }
                     Label {
                         text: "High Altitude"
+                        Layout.columnSpan: 2
                     }
 
 
@@ -533,13 +548,24 @@ Item {
                         id: lowalt
                         text: _loginController.getAltLow()
                     }
+                    Label {
+                        text: "m"
+                    }
+
                     TextField {
                         id: medalt
                         text: _loginController.getAltMed()
                     }
+                    Label {
+                        text: "m"
+                    }
+
                     TextField {
                         id: highalt
                         text: _loginController.getAltHigh()
+                    }
+                    Label {
+                        text: "m"
                     }
                 }
 
@@ -584,40 +610,60 @@ Item {
                 }
 
                 GridLayout {
-                    columns: 4
+                    columns: 8
 
                     Label {
                         text: "Turnaround distance"
                         Layout.margins: m2
+                        Layout.columnSpan: 2
                     }
                     Label {
                         text: "Tolerance"
                         Layout.margins: m2
+                        Layout.columnSpan: 2
                     }
                     Label {
                         text: "Maximum Climb Rate"
                         Layout.margins: m2
+                        Layout.columnSpan: 2
                     }
                     Label {
                         text: "Maximum Descent Rate"
                         Layout.margins: m2
+                        Layout.columnSpan: 2
                     }
 
                     TextField {
                         id: turn
                         text: _loginController.getTurn()
                     }
+                    Label {
+                        text: "m"
+                        Layout.margins: m2
+                    }
                     TextField {
                         id: tol
                         text: _loginController.getTolerance()
+                    }
+                    Label {
+                        text: "m"
+                        Layout.margins: m2
                     }
                     TextField {
                         id: maxclimb
                         text: _loginController.getMaxClimbRate()
                     }
+                    Label {
+                        text: "m/s"
+                        Layout.margins: m2
+                    }
                     TextField {
                         id: maxdescent
                         text: _loginController.getMaxDescentRate()
+                    }
+                    Label {
+                        text: "m/s"
+                        Layout.margins: m2
                     }
                 }
 
@@ -659,6 +705,23 @@ Item {
                 }
                 }
             }
+
+            style: TabViewStyle {
+                    frameOverlap: 1
+                    tab: Rectangle {
+                        color: styleData.selected ? "steelblue" :"lightsteelblue"
+                        border.color:  "steelblue"
+                        implicitWidth: Math.max(text.width + 4, 80)
+                        implicitHeight: 20
+                        radius: 2
+                        Text {
+                            id: text
+                            anchors.centerIn: parent
+                            text: styleData.title
+                            color: styleData.selected ? "white" : "black"
+                        }
+                    }
+                }
         }
         Button {
             Layout.alignment: Qt.AlignRight

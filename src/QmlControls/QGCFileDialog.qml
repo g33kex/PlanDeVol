@@ -42,20 +42,22 @@ Item {
 
     function openForLoad() {
         _openForLoad = true
-        if (_mobileDlg && folder.length !== 0) {
-            mainWindow.showComponentDialog(mobileFileOpenDialog, title, mainWindow.showDialogDefaultWidth, StandardButton.Cancel)
-        } else {
-            fullFileDialog.open()
-        }
+//        if (_mobileDlg && folder.length !== 0) {
+//            mainWindow.showComponentDialog(mobileFileOpenDialog, title, mainWindow.showDialogDefaultWidth, StandardButton.Cancel)
+//        } else {
+//            fullFileDialog.open()
+//        }
+        mainWindow.showComponentDialog(mobileFileOpenDialog, title, mainWindow.showDialogDefaultWidth, StandardButton.Cancel)
     }
 
     function openForSave() {
         _openForLoad = false
-        if (_mobileDlg && folder.length !== 0) {
-            mainWindow.showComponentDialog(mobileFileSaveDialog, title, mainWindow.showDialogDefaultWidth, StandardButton.Cancel | StandardButton.Ok)
-        } else {
-            fullFileDialog.open()
-        }
+//        if (_mobileDlg && folder.length !== 0) {
+//            mainWindow.showComponentDialog(mobileFileSaveDialog, title, mainWindow.showDialogDefaultWidth, StandardButton.Cancel | StandardButton.Ok)
+//        } else {
+//            fullFileDialog.open()
+//        }
+        mainWindow.showComponentDialog(mobileFileSaveDialog, title, mainWindow.showDialogDefaultWidth, StandardButton.Cancel | StandardButton.Ok)
     }
 
     function close() {
