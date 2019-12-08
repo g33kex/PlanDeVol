@@ -65,17 +65,31 @@ Rectangle {
             QGCLabel {
                 text: qsTr("Waypoint alt")
             }
-            FactTextField {
-                fact:               QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
-                Layout.fillWidth:   true
+//            FactTextField {
+//                fact:               QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
+//                Layout.fillWidth:   true
+//            }
+            ComboBox {
+                currentIndex: QGroundControl.settingsManager.appSettings.altIndex
+                model: [ "low", "med", "high"]
+                onCurrentIndexChanged: {
+                    QGroundControl.settingsManager.appSettings.setBoxAlt(currentIndex)
+                }
             }
 
             QGCLabel {
-                text: qsTr("Waypoint alt")
+                text: qsTr("Speed")
             }
-            FactTextField {
-                Layout.fillWidth:   true
-                fact:               missionItem.speedSection.flightSpeed
+//            FactTextField {
+//                Layout.fillWidth:   true
+//                fact:               missionItem.speedSection.flightSpeed
+//            }
+            ComboBox {
+                currentIndex: missionItem.speedSection.speedIndex
+                model: [ "low", "med", "high"]
+                onCurrentIndexChanged: {
+                    missionItem.speedSection.setBoxSpeed(currentIndex)
+                }
             }
         }
 

@@ -73,6 +73,10 @@ public:
     Q_PROPERTY(QString shpFileExtension         MEMBER shpFileExtension         CONSTANT)
     Q_PROPERTY(QString logFileExtension         MEMBER logFileExtension         CONSTANT)
 
+    Q_PROPERTY(int      altIndex                READ getCruiseAltInd      CONSTANT)
+    Q_INVOKABLE int     getCruiseAltInd         ();
+    Q_INVOKABLE void    setBoxAlt               (int index);
+
     QString missionSavePath     ();
     QString parameterSavePath   ();
     QString telemetrySavePath   ();

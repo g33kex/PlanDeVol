@@ -23,6 +23,10 @@ public:
     Q_PROPERTY(bool     specifyFlightSpeed  READ specifyFlightSpeed WRITE setSpecifyFlightSpeed NOTIFY specifyFlightSpeedChanged)
     Q_PROPERTY(Fact*    flightSpeed         READ flightSpeed                                    CONSTANT)
 
+    Q_PROPERTY(int      speedIndex          READ getCruiseSpeedInd  CONSTANT)
+    Q_INVOKABLE int     getCruiseSpeedInd   ();
+    Q_INVOKABLE void    setBoxSpeed         (int index);
+
     bool    specifyFlightSpeed      (void) const { return _specifyFlightSpeed; }
     Fact*   flightSpeed             (void) { return &_flightSpeedFact; }
     void    setSpecifyFlightSpeed   (bool specifyFlightSpeed);

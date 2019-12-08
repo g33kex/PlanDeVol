@@ -11,8 +11,10 @@
 #include "JsonHelper.h"
 #include "FirmwarePlugin.h"
 #include "SimpleMissionItem.h"
+#include "Admin/List_file.h"
 
 const char* SpeedSection::_flightSpeedName = "FlightSpeed";
+extern List_file *speedParam;
 
 QMap<QString, FactMetaData*> SpeedSection::_metaDataMap;
 
@@ -153,4 +155,17 @@ void SpeedSection::_flightSpeedChanged(void)
     if (_specifyFlightSpeed) {
         setDirty(true);
     }
+}
+
+void SpeedSection::setBoxSpeed (int index) {
+//    qDebug() << "--------- survey setBoxSpeed" << index;
+    _flightSpeedFact.setRawValue(speedParam->at(index).toDouble());
+}
+
+int SpeedSection::getCruiseSpeedInd () {
+//    qDebug() << "--------- survey getCruiseSpeedInd" << _cruiseSpeed;
+    if (speedParam->contains(QString::number(_flightSpeedFact.rawValue().toDouble()))) {
+        return speedParam->indexOf(QString::number(_flightSpeedFact.rawValue().toDouble()));
+    }
+    else return 1;
 }

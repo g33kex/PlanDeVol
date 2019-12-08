@@ -39,6 +39,7 @@ const char* AppSettings::crashDirectory =           "CrashLogs";
 extern DbManager *db;
 extern QString username;
 extern List_file *altParam;
+extern List_file *speedParam;
 extern AppSettings * sett;
 AppSettings * sett;
 
@@ -231,6 +232,17 @@ bool AppSettings::nbMission(void){
 bool AppSettings::nbParcelle(void){
     qDebug() << " --- nb Parcelle ---";
     return db->verifNbParcelle(username);
+}
+
+void AppSettings::setBoxAlt (int index) {
+    defaultMissionItemAltitude()->setRawValue(altParam->at(index).toDouble());
+}
+
+int AppSettings::getCruiseAltInd () {
+    if (altParam->contains(QString::number(defaultMissionItemAltitude()->rawValue().toDouble()))) {
+        return altParam->indexOf(QString::number(defaultMissionItemAltitude()->rawValue().toDouble()));
+    }
+    else return 1;
 }
 
 
