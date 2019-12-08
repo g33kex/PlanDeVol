@@ -39,16 +39,16 @@ ColumnLayout {
         }
     }
 
-    QGCButton {
-        text:               qsTr("All items")
-        Layout.fillWidth:   true
-        visible:            showAllItems
+//    QGCButton {
+//        text:               qsTr("All items")
+//        Layout.fillWidth:   true
+//        visible:            showAllItems
 
-        onClicked: {
-            dropPanel.hide()
-            fitFunctions.fitMapViewportToAllItems()
-        }
-    }
+//        onClicked: {
+//            dropPanel.hide()
+//            fitFunctions.fitMapViewportToAllItems()
+//        }
+//    }
 
     QGCButton {
         text:               qsTr("Home")
@@ -71,24 +71,24 @@ ColumnLayout {
         }
     }
 
-    QGCButton {
-        text:               qsTr("Current Location")
-        Layout.fillWidth:   true
-        enabled:            map.gcsPosition.isValid
+//    QGCButton {
+//        text:               qsTr("Current Location")
+//        Layout.fillWidth:   true
+//        enabled:            map.gcsPosition.isValid
 
-        onClicked: {
-            dropPanel.hide()
-            map.center = map.gcsPosition
-        }
-    }
+//        onClicked: {
+//            dropPanel.hide()
+//            map.center = map.gcsPosition
+//        }
+//    }
 
-    QGCButton {
-        text:               qsTr("Specified Location")
-        Layout.fillWidth:   true
+//    QGCButton {
+//        text:               qsTr("Specified Location")
+//        Layout.fillWidth:   true
 
-        onClicked: {
-            dropPanel.hide()
-            map.centerToSpecifiedLocation()
-        }
-    }
+//        onClicked: {
+//            dropPanel.hide()
+//            map.centerToSpecifiedLocation()
+//        }
+//    }
 } // Column

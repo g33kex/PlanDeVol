@@ -572,7 +572,7 @@ Item {
                     {
                         name:               qsTr("Center"),
                         iconSource:         "/qmlimages/MapCenter.svg",
-                        dropPanelComponent: centerMapDropPanel
+//                        dropPanelComponent: centerMapDropPanel
                     },
                     {
                         name:               qsTr("In"),
@@ -601,6 +601,9 @@ Item {
                         if (_singleComplexItem) {
                             addComplexItem(_missionController.complexMissionItemNames[0])
                         }
+                        break
+                case 3:
+                        mapFitFunctions.fitMapViewportToMissionItems()
                         break
                 case 4:
                         editorMap.zoomLevel += 0.5
@@ -900,14 +903,17 @@ Item {
 
     //- ToolStrip DropPanel Components
 
-    Component {
-        id: centerMapDropPanel
+//    QGCButton {
+//        id: centerMapDropPanel
+//        onClicked: {
+////                dropPanel.hide()
+//            mapFitFunctions.fitMapViewportToMissionItems()
+//        }
+//    }
 
-        CenterMapDropPanel {
-            map:            editorMap
-            fitFunctions:   mapFitFunctions
-        }
-    }
+
+
+
 
     Component {
         id: patternDropPanel

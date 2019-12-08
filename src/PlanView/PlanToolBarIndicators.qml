@@ -112,61 +112,61 @@ Item {
         anchors.left:           parent.left
         anchors.right:          uploadButton.visible ? uploadButton.left : parent.right
         columnSpacing:          0
-        columns:                3
+        columns:                2
 
-        GridLayout {
-            columns:                8
-            rowSpacing:             _rowSpacing
-            columnSpacing:          _labelToValueSpacing
-            Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//        GridLayout {
+//            columns:                8
+//            rowSpacing:             _rowSpacing
+//            columnSpacing:          _labelToValueSpacing
+//            Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
 
-            QGCLabel {
-                text:               qsTr("Selected Waypoint")
-                Layout.columnSpan:  8
-                font.pointSize:     ScreenTools.smallFontPointSize
-            }
+//            QGCLabel {
+//                text:               qsTr("Selected Waypoint")
+//                Layout.columnSpan:  8
+//                font.pointSize:     ScreenTools.smallFontPointSize
+//            }
 
-            QGCLabel { text: qsTr("Alt diff:"); font.pointSize: _dataFontSize; }
-            QGCLabel {
-                text:                   _altDifferenceText
-                font.pointSize:         _dataFontSize
-                Layout.minimumWidth:    _mediumValueWidth
-            }
+//            QGCLabel { text: qsTr("Alt diff:"); font.pointSize: _dataFontSize; }
+//            QGCLabel {
+//                text:                   _altDifferenceText
+//                font.pointSize:         _dataFontSize
+//                Layout.minimumWidth:    _mediumValueWidth
+//            }
 
-            Item { width: 1; height: 1 }
+//            Item { width: 1; height: 1 }
 
-            QGCLabel { text: qsTr("Azimuth:"); font.pointSize: _dataFontSize; }
-            QGCLabel {
-                text:                   _azimuthText
-                font.pointSize:         _dataFontSize
-                Layout.minimumWidth:    _smallValueWidth
-            }
+//            QGCLabel { text: qsTr("Azimuth:"); font.pointSize: _dataFontSize; }
+//            QGCLabel {
+//                text:                   _azimuthText
+//                font.pointSize:         _dataFontSize
+//                Layout.minimumWidth:    _smallValueWidth
+//            }
 
-            Item { width: 1; height: 1 }
+//            Item { width: 1; height: 1 }
 
-            QGCLabel { text: qsTr("Distance:"); font.pointSize: _dataFontSize; }
-            QGCLabel {
-                text:                   _distanceText
-                font.pointSize:         _dataFontSize
-                Layout.minimumWidth:    _largeValueWidth
-            }
+//            QGCLabel { text: qsTr("Distance:"); font.pointSize: _dataFontSize; }
+//            QGCLabel {
+//                text:                   _distanceText
+//                font.pointSize:         _dataFontSize
+//                Layout.minimumWidth:    _largeValueWidth
+//            }
 
-            QGCLabel { text: qsTr("Gradient:"); font.pointSize: _dataFontSize; }
-            QGCLabel {
-                text:                   _gradientText
-                font.pointSize:         _dataFontSize
-                Layout.minimumWidth:    _mediumValueWidth
-            }
+//            QGCLabel { text: qsTr("Gradient:"); font.pointSize: _dataFontSize; }
+//            QGCLabel {
+//                text:                   _gradientText
+//                font.pointSize:         _dataFontSize
+//                Layout.minimumWidth:    _mediumValueWidth
+//            }
 
-            Item { width: 1; height: 1 }
+//            Item { width: 1; height: 1 }
 
-            QGCLabel { text: qsTr("Heading:"); font.pointSize: _dataFontSize; }
-            QGCLabel {
-                text:                   _headingText
-                font.pointSize:         _dataFontSize
-                Layout.minimumWidth:    _smallValueWidth
-            }
-        }
+//            QGCLabel { text: qsTr("Heading:"); font.pointSize: _dataFontSize; }
+//            QGCLabel {
+//                text:                   _headingText
+//                font.pointSize:         _dataFontSize
+//                Layout.minimumWidth:    _smallValueWidth
+//            }
+//        }
 
         GridLayout {
             columns:                5
