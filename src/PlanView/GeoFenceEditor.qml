@@ -88,6 +88,24 @@ QGCFlickable {
 
                 }
 
+                QGCButton {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    text: "Save Geofences"
+                    onClicked: {
+                        _geoFenceController.saveToFile(QGroundControl.settingsManager.appSettings.missionSavePath + "/geofences.json");
+                    }
+                }
+
+                QGCButton {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    text: "Load Geofences"
+                    onClicked: {
+                        _geoFenceController.loadFromFile(QGroundControl.settingsManager.appSettings.missionSavePath + "/geofences.json");
+                    }
+                }
+
 
                 Column {
                     anchors.left:       parent.left

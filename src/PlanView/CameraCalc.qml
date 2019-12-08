@@ -38,8 +38,6 @@ Column {
     readonly property int _gridTypeCamera:          2
 
 
-    on_CameraNameChanged: _updateSelectedCamera()
-
     function _fillCameraCombo() {
         _cameraComboFilled = true
         _cameraList.push(_vehicle.staticCameraList[0].name)

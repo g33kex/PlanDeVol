@@ -35,6 +35,7 @@ QMap<QString, FactMetaData*> GeoFenceController::_metaDataMap;
 const char* GeoFenceController::_jsonFileTypeValue =        "GeoFence";
 const char* GeoFenceController::_jsonBreachReturnKey =      "breachReturn";
 const char* GeoFenceController::_jsonPolygonsKey =          "polygons";
+const char* GeoFenceController::_jsonPolylinesKey =         "polylines";
 const char* GeoFenceController::_jsonCirclesKey =           "circles";
 
 const char* GeoFenceController::_breachReturnAltitudeFactName = "Altitude";
@@ -57,7 +58,6 @@ GeoFenceController::GeoFenceController(PlanMasterController* masterController, Q
 
     _breachReturnAltitudeFact.setMetaData(_metaDataMap[_breachReturnAltitudeFactName]);
     _breachReturnAltitudeFact.setRawValue(_breachReturnDefaultAltitude);
-
     connect(&_polygons, &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
     connect(&_circles,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
     connect(&_polylines,  &QmlObjectListModel::countChanged, this, &GeoFenceController::_updateContainsItems);
@@ -148,6 +148,7 @@ bool GeoFenceController::load(const QJsonObject& json, QString& errorString)
         { JsonHelper::jsonVersionKey,   QJsonValue::Double, true },
         { _jsonCirclesKey,              QJsonValue::Array,  true },
         { _jsonPolygonsKey,             QJsonValue::Array,  true },
+        { _jsonPolylinesKey,            QJsonValue::Array,  true },
         { _jsonBreachReturnKey,         QJsonValue::Array,  false },
     };
     if (!JsonHelper::validateKeys(json, keyInfoList, errorString)) {
@@ -172,6 +173,21 @@ bool GeoFenceController::load(const QJsonObject& json, QString& errorString)
         }
         _polygons.append(fencePolygon);
     }
+
+    QJsonArray jsonPolylineArray = json[_jsonPolylinesKey].toArray();
+    for (const QJsonValue jsonPolylineValue: jsonPolylineArray) {
+        if (jsonPolylineValue.type() != QJsonValue::Object) {
+            errorString = tr("GeoFence polyline not stored as object");
+            return false;
+        }
+
+        QGCMapPolyline* polylineHT = new QGCMapPolyline(nullptr);
+        if (!polylineHT->loadFromJson(jsonPolylineValue.toObject(), true /* required */, errorString)) {
+            return false;
+        }
+        _polylines.append(polylineHT);
+    }
+    qDebug() << _polylines.count();
 
     QJsonArray jsonCircleArray = json[_jsonCirclesKey].toArray();
     for (const QJsonValue jsonCircleValue: jsonCircleArray) {
@@ -262,6 +278,16 @@ void GeoFenceController::save(QJsonObject& json)
         jsonPolygonArray.append(jsonPolygon);
     }
     json[_jsonPolygonsKey] = jsonPolygonArray;
+
+    QJsonArray jsonPolylineArray;
+    for (int i=0; i<_polylines.count(); i++) {
+        QJsonObject jsonPolyline;
+        QGCMapPolyline* polylineHT = _polylines.value<QGCMapPolyline*>(i);
+        polylineHT->saveToJson(jsonPolyline);
+        jsonPolylineArray.append(jsonPolyline);
+    }
+    json[_jsonPolylinesKey] = jsonPolylineArray;
+    qDebug() << _polylines.count();
 
     QJsonArray jsonCircleArray;
     for (int i=0; i<_circles.count(); i++) {
@@ -674,4 +700,26 @@ void GeoFenceController::clearGeofences(void) {
     _polylines.clear();
 }
 
+void GeoFenceController::add1kmGeofence(void) {
+    QGCFenceCircle* fenceCircle = new QGCFenceCircle(_managerVehicle->homePosition(), 1000, true, this /* parent */);
+    _circles.append(fenceCircle);
+}
+
+void GeoFenceController::saveToFile(QString filepath) {
+    QFile jsonFile(filepath);
+    QJsonObject *foo = new QJsonObject();
+    save(*foo);
+    jsonFile.open(QFile::WriteOnly);
+    jsonFile.write(QJsonDocument(*foo).toJson());
+
+}
+
+bool GeoFenceController::loadFromFile(QString filepath) {
+    QFile jsonFile(filepath);
+    jsonFile.open(QFile::ReadOnly);
+    QJsonObject foo = QJsonDocument().fromJson(jsonFile.readAll()).object();
+    QString err;
+    bool res = load(foo, err);
+    return res;
+}
 

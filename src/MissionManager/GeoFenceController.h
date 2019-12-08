@@ -67,6 +67,9 @@ public:
     Q_INVOKABLE void clearAllInteractive(void);
 
     Q_INVOKABLE void clearGeofences(void);
+    Q_INVOKABLE void add1kmGeofence(void);
+    Q_INVOKABLE void saveToFile(QString);
+    Q_INVOKABLE bool loadFromFile(QString);
 
     double  paramCircularFence  (void);
     Fact*   breachReturnAltitude(void) { return &_breachReturnAltitudeFact; }
@@ -144,6 +147,7 @@ private:
     static const char* _jsonFileTypeValue;
     static const char* _jsonBreachReturnKey;
     static const char* _jsonPolygonsKey;
+    static const char* _jsonPolylinesKey;
     static const char* _jsonCirclesKey;
 
     static const char* _breachReturnAltitudeFactName;
