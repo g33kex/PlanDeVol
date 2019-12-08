@@ -34,14 +34,11 @@ public:
     Q_PROPERTY(Fact*            adjustedFootprintSide       READ adjustedFootprintSide                                          CONSTANT)                                   ///< Side footprint adjusted down for overlap
     Q_PROPERTY(Fact*            adjustedFootprintFrontal    READ adjustedFootprintFrontal                                       CONSTANT)                                   ///< Frontal footprint adjusted down for overlap
     Q_PROPERTY(bool             distanceToSurfaceRelative   READ distanceToSurfaceRelative  WRITE setDistanceToSurfaceRelative  NOTIFY distanceToSurfaceRelativeChanged)
-    Q_PROPERTY(int              distanceIndex               READ distanceIndex              WRITE setDistanceIndex              NOTIFY distanceIndexChanged)
-
 
     // The following values are calculated from the camera properties
     Q_PROPERTY(double imageFootprintSide    READ imageFootprintSide     NOTIFY imageFootprintSideChanged)       ///< Size of image size side in meters
     Q_PROPERTY(double imageFootprintFrontal READ imageFootprintFrontal  NOTIFY imageFootprintFrontalChanged)    ///< Size of image size frontal in meters
 
-//    Q_INVOKABLE void setBoxAlt (int index);
 
     static QString customCameraName(void);
     static QString manualCameraName(void);

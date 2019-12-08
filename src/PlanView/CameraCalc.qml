@@ -255,7 +255,7 @@ Column {
                 AltitudeFactTextField {
                     fact:                   cameraCalc.distanceToSurface
                     altitudeMode:           distanceToSurfaceAltitudeMode
-//                    enabled:                fixedDistanceRadio.checked
+                    enabled:                false
                     Layout.fillWidth:       true
                 }
 

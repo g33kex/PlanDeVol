@@ -329,11 +329,3 @@ void CameraCalc::_setDirty(void)
 {
     setDirty(true);
 }
-
-void CameraCalc::setDistanceIndex (int index) {
-    qDebug() << "--------- survey setBoxAlt" << index;
-    _distanceIndex = index;
-    _valueSetIsDistanceFact.setRawValue(1);
-    _distanceToSurfaceFact.setRawValue(altParam->at(index).toDouble());
-    _recalcTriggerDistance();
-}

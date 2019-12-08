@@ -70,13 +70,6 @@ Rectangle {
                 Layout.fillWidth:   true
             }
 
-//            QGCCheckBox {
-//                id:         flightSpeedCheckBox
-//                text:       qsTr("Flight speed")
-//                visible:    _showFlightSpeed
-//                checked:    missionItem.speedSection.specifyFlightSpeed
-//                onClicked:   missionItem.speedSection.specifyFlightSpeed = checked
-//            }
             QGCLabel {
                 text: qsTr("Waypoint alt")
             }
