@@ -198,13 +198,17 @@ Item {
 
         onAccepted: {
             if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {
-                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value)
+                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value, questionsView.getAnswers())
 
             }
             else {
                  parcelleExistsDialog.open()
 
             }
+        }
+
+        Component.onCompleted: {
+            questionsView.populateQA(null, -1);
         }
 
 
@@ -243,6 +247,16 @@ Item {
                     maximumValue: 3
                     minimumValue: 1
                     id: a_speedBox
+                }
+
+
+                QuestionsView {
+                    id: questionsView
+                    Layout.columnSpan: 3
+                   // Layout.fillHeight: true
+                   // Layout.fillWidth: true
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 100
                 }
 
         }

@@ -519,7 +519,8 @@ void QGCMapPolygon::verifyClockwiseWinding(void)
 }
 
 
-void QGCMapPolygon::saveAsParcelle(QString name, QString type, int speed) {
+//TODO : add Q&A
+void QGCMapPolygon::saveAsParcelle(QString name, QString type, int speed, QStringList answers) {
     qDebug() << "----------";
     qDebug() << name;
     if (!name.endsWith(".kml")) name.append(".kml");

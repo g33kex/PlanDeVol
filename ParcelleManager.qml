@@ -120,6 +120,16 @@ Item {
                         }
 
                         model: parcelleModel
+
+                        onClicked: {
+                            console.log("SELECTION CHANGED, COUNT="+selection.count)
+                            if(tableView.selection.count===1) {
+                                questionsView3.populateQA(parcelleModel, tableView.selection[0])
+                            }
+                            else {
+                                questionsView3.clear()
+                            }
+                        }
                     }
 
                }
@@ -130,7 +140,14 @@ Item {
                     Layout.preferredHeight: page1.height/2
                     color: "white"
 
-                    TableView {
+
+                    QuestionsView {
+                        id: questionsView3
+                        anchors.fill: parent
+                        allowAnswers: false
+                    }
+
+                   /* TableView {
                         id: parcelleInfo
                         anchors.fill: parent
                         selectionMode: SelectionMode.MultiSelection
@@ -146,7 +163,7 @@ Item {
                             movable : false
                             width: parcelleInfo.width/2
                         }
-                    }
+                    }*/
 
                }
 
@@ -343,10 +360,11 @@ Item {
                 fileField.updateContent()
                 typeField.updateContent()
                 speedBox.updateContent()
+                questionsView.populateQA(parcelleModel, parcelleIndex)
             }
 
             onAccepted: {
-                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.value)
+                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.value, questionsView.getAnswers())
                 map.updateParcelles()
             }
 
@@ -402,6 +420,14 @@ Item {
                 }
 
 
+                QuestionsView {
+                    id: questionsView
+                    Layout.columnSpan: 4
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 100
+                }
+
+
             }
 
 
@@ -410,7 +436,6 @@ Item {
         Dialog {
            id: addParcelleDialog
 
-            height: parent.height/2
             x: (parent.width - width) / 2
             y: (parent.height - height) / 2
             modal: true
@@ -418,7 +443,7 @@ Item {
 
             onAccepted: {
                 if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                     _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.value)
+                     _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.value, questionsView2.getAnswers())
                     addParcelleProgressOverlay.open()
                 }
                 else {
@@ -446,10 +471,13 @@ Item {
 
            }
 
+
             function reset() {
                 a_ilotField.text = ""
                 a_fileField.text = ""
                 a_typeField.text = ""
+
+                questionsView2.populateQA(parcelleModel, -1)
             }
 
 
@@ -490,10 +518,10 @@ Item {
                 }
 
                 QuestionsView {
-                    id: questionsView
+                    id: questionsView2
                     Layout.columnSpan: 4
-                    Layout.fillHeight: true
                     Layout.fillWidth: true
+                    Layout.minimumHeight: 100
                 }
 
 

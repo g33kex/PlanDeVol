@@ -9,50 +9,40 @@ Rectangle {
         height: 50
         id: rectangle
 
+        property var allowAnswers: true
+
         QuestionsViewController {
             id: _questionsViewController
         }
 
         function getAnswers() {
-            return "hello";
+            var res=[];
+            for(var i=0; i<repeater.model.count; i++) {
+                res.push(repeater.model.get(i).answer);
+            }
+            return res;
         }
 
-        Component.onCompleted: {
+        function clear() {
+            repeater.model.clear()
+        }
 
-            var questions = _questionsViewController.getQuestions();
+
+
+        function populateQA(parcelleModel, index) {
+            clear()
+            var questions = _questionsViewController.getQuestions(parcelleModel, index);
+            var answers = _questionsViewController.getAnswers(parcelleModel, index);
             console.log("-----QuestionView.qml-------\nquestion size:"+questions.length)
-
-           /* var obj = "
-            import QtQuick 2.0
-            import QtQuick.Controls 2.0
-            import QtQuick.Controls	1.4
-            import QtQuick.Layouts	1.0
-
-            ScrollView {
-            GridLayout {
-                columns:2
-                anchors.fill: parent
-            "
-
             for(var i=0; i<questions.length; i++) {
-                console.log(questions[i])
-            obj+="
-            Label {
-                text:\""+questions[i]+"\"
+                repeater.model.append({"question": questions[i], "answer": answers[i]});
+                console.log(questions[i]+" answer : "+answers[i]);
             }
-            TextField {
-                id:answer"+i+"
-            }
-            "
-            }
-
-            obj+="}}";
-
-            Qt.createQmlObject(obj, rectangle, "question_block"+i);*/
-
         }
 
-        property var values:  ["hello", "world", "this", "is", "a very long test", "i am done now", "actually not", "just a few more", "bla bla", "ok im bored"];
+        ListModel {
+            id: listModel
+        }
 
 
         Flickable {
@@ -74,22 +64,24 @@ Rectangle {
               anchors.right: parent.right
 
               Repeater {
+
                   id: repeater
-                  model: values
+                  model: listModel
                   width: column.width
 
                   RowLayout {
                       width: column.width
 
                         Label {
-                            text: qsTr(modelData)
+                            text: qsTr(question)
                         }
 
                         TextField {
                             id: textField
-                            text: qsTr(modelData)
+                            text: qsTr(answer)
                             Layout.alignment: Qt.AlignRight
                             Layout.preferredWidth: column.width/2
+                            enabled: allowAnswers
                         }
                       }
                 }

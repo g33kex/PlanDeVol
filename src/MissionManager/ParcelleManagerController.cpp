@@ -59,7 +59,8 @@ void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionContro
     missionController->insertComplexMissionFromDialog(*KmlParcelleList);
 }
 
-void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed) {
+//TODO : add Q&A
+void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed, QStringList answers) {
     if(!file.endsWith(".kml")) file.append(".kml");
 
     _file = file;
@@ -124,7 +125,8 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
     return;
 }
 
-void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed) {
+//TODO : add Q&A
+void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed, QStringList answers) {
 
     QSqlRecord record = model->record(index);
 

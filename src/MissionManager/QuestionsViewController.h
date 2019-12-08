@@ -1,6 +1,8 @@
 #ifndef QUESTIONSVIEWCONTROLLER_H
 #define QUESTIONSVIEWCONTROLLER_H
 
+#include "SqlCustomModel.hpp"
+
 #include <QObject>
 
 
@@ -13,7 +15,8 @@ public:
     explicit QuestionsViewController();
     ~QuestionsViewController();
 
-    Q_INVOKABLE QStringList getQuestions();
+    Q_INVOKABLE QStringList getQuestions(SqlCustomModel *model, int index);
+    Q_INVOKABLE QStringList getAnswers(SqlCustomModel *model, int index);
 
     QStringList questions;
 };
