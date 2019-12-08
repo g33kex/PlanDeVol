@@ -294,38 +294,38 @@ Item {
             visible:        removeVertexItem.visible
         }
 
-        QGCMenuItem {
-            text:           qsTr("Circle" )
-            onTriggered:    resetCircle()
-        }
+//        QGCMenuItem {
+//            text:           qsTr("Circle" )
+//            onTriggered:    resetCircle()
+//        }
 
         QGCMenuItem {
             text:           qsTr("Polygon")
             onTriggered:    resetPolygon()
         }
 
-        QGCMenuItem {
-            text:           qsTr("Set radius..." )
-            visible:        _circle
-            onTriggered:    _editCircleRadius = true
-        }
+//        QGCMenuItem {
+//            text:           qsTr("Set radius..." )
+//            visible:        _circle
+//            onTriggered:    _editCircleRadius = true
+//        }
 
-        QGCMenuItem {
-            text:           qsTr("Edit position..." )
-            visible:        _circle
-            onTriggered:    mainWindow.showComponentDialog(editCenterPositionDialog, qsTr("Edit Center Position"), mainWindow.showDialogDefaultWidth, StandardButton.Close)
-        }
+//        QGCMenuItem {
+//            text:           qsTr("Edit position..." )
+//            visible:        _circle
+//            onTriggered:    mainWindow.showComponentDialog(editCenterPositionDialog, qsTr("Edit Center Position"), mainWindow.showDialogDefaultWidth, StandardButton.Close)
+//        }
 
-        QGCMenuItem {
-            text:           qsTr("Edit position..." )
-            visible:        !_circle && menu._editingVertexIndex >= 0
-            onTriggered:    mainWindow.showComponentDialog(editVertexPositionDialog, qsTr("Edit Vertex Position"), mainWindow.showDialogDefaultWidth, StandardButton.Close)
-        }
+//        QGCMenuItem {
+//            text:           qsTr("Edit position..." )
+//            visible:        !_circle && menu._editingVertexIndex >= 0
+//            onTriggered:    mainWindow.showComponentDialog(editVertexPositionDialog, qsTr("Edit Vertex Position"), mainWindow.showDialogDefaultWidth, StandardButton.Close)
+//        }
 
-        QGCMenuItem {
-            text:           qsTr("Load KML/SHP...")
-            onTriggered:    kmlOrSHPLoadDialog.openForLoad()
-        }
+//        QGCMenuItem {
+//            text:           qsTr("Load KML/SHP...")
+//            onTriggered:    kmlOrSHPLoadDialog.openForLoad()
+//        }
 
         QGCMenuItem {
             text:           qsTr("Save as Parcelle...")
