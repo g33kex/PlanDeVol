@@ -67,11 +67,12 @@ QGCFlickable {
                 }
 
                 SectionHeader {
-                    id:     insertSection
                     text:   qsTr("API Géoportail")
                 }
 
                 GridLayout {
+                    anchors.left:       parent.left
+                    anchors.right:      parent.right
                     columns: 2
 
                     QGCButton {
@@ -108,10 +109,17 @@ QGCFlickable {
 
                 }
 
+                SectionHeader {
+                    text:   qsTr("Legende")
+                }
+
                 ColumnLayout {
+                    anchors.left:       parent.left
+                    anchors.right:      parent.right
                     Rectangle {
+                        Layout.alignment: Qt.AlignCenter
                         color : "red"
-                        width: parent.fillWidth
+                        width: 200
                         height: 40
                         border.color: "black"
                         radius: 10
@@ -123,8 +131,9 @@ QGCFlickable {
                     }
 
                     Rectangle {
+                        Layout.alignment: Qt.AlignCenter
                         color : "darkorange"
-                        width: parent.fillWidth
+                        width: 200
                         height: 40
                         border.color: "black"
                         radius: 10
@@ -137,8 +146,9 @@ QGCFlickable {
 
 
                     Rectangle {
+                        Layout.alignment: Qt.AlignCenter
                         color : "yellow"
-                        width: parent.fillWidth
+                        width: 200
                         height: 40
                         border.color: "black"
                         radius: 10
@@ -150,8 +160,9 @@ QGCFlickable {
                     }
 
                     Rectangle {
+                        Layout.alignment: Qt.AlignCenter
                         color : "turquoise"
-                        width: parent.fillWidth
+                        width: 200
                         height: 40
                         border.color: "black"
                         radius: 10
