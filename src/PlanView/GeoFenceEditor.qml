@@ -66,46 +66,103 @@ QGCFlickable {
                                             qsTr("This vehicle does not support GeoFence.")
                 }
 
-                QGCButton {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    text: "Download Geofences"
-                    onClicked: {
-                        var rect = Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height)
-                        var topRightCoord = flightMap.toCoordinate(Qt.point(rect.x  + rect.width, rect.y), false /* clipToViewPort */)
-                        var bottomLeftCoord = flightMap.toCoordinate(Qt.point(rect.x, rect.y + rect.height), false /* clipToViewPort */)
-                        _geoFenceController.downloadGeofences(topRightCoord, bottomLeftCoord);
-                    }
+                SectionHeader {
+                    id:     insertSection
+                    text:   qsTr("API Géoportail")
                 }
 
-                QGCButton {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    text: "Clear Geofences"
-                    onClicked: {
-                        _geoFenceController.clearGeofences();
+                GridLayout {
+                    columns: 2
+
+                    QGCButton {
+                        text: "Télécharger"
+                        onClicked: {
+                            var rect = Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height)
+                            var topRightCoord = flightMap.toCoordinate(Qt.point(rect.x  + rect.width, rect.y), false /* clipToViewPort */)
+                            var bottomLeftCoord = flightMap.toCoordinate(Qt.point(rect.x, rect.y + rect.height), false /* clipToViewPort */)
+                            _geoFenceController.downloadGeofences(topRightCoord, bottomLeftCoord);
+                        }
+                    }
+
+                    QGCButton {
+                        text: "Supprimer"
+                        onClicked: {
+                            _geoFenceController.clearGeofences();
+                        }
+
+                    }
+
+                    QGCButton {
+                        text: "Sauvegarder"
+                        onClicked: {
+                            _geoFenceController.saveToFile(QGroundControl.settingsManager.appSettings.missionSavePath + "/geofences.json");
+                        }
+                    }
+
+                    QGCButton {
+                        text: "Charger"
+                        onClicked: {
+                            _geoFenceController.loadFromFile(QGroundControl.settingsManager.appSettings.missionSavePath + "/geofences.json");
+                        }
                     }
 
                 }
 
-                QGCButton {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    text: "Save Geofences"
-                    onClicked: {
-                        _geoFenceController.saveToFile(QGroundControl.settingsManager.appSettings.missionSavePath + "/geofences.json");
+                ColumnLayout {
+                    Rectangle {
+                        color : "red"
+                        width: parent.fillWidth
+                        height: 40
+                        border.color: "black"
+                        radius: 10
+                        Text {
+                            text : "Vol interdit"
+                            wrapMode: Label.WordWrap
+                            anchors.centerIn: parent
+                        }
                     }
-                }
 
-                QGCButton {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    text: "Load Geofences"
-                    onClicked: {
-                        _geoFenceController.loadFromFile(QGroundControl.settingsManager.appSettings.missionSavePath + "/geofences.json");
+                    Rectangle {
+                        color : "darkorange"
+                        width: parent.fillWidth
+                        height: 40
+                        border.color: "black"
+                        radius: 10
+                        Text {
+                            text : "Hauteur maximale de vol : 30m"
+                            wrapMode: Label.WordWrap
+                            anchors.centerIn: parent
+                        }
                     }
-                }
 
+
+                    Rectangle {
+                        color : "yellow"
+                        width: parent.fillWidth
+                        height: 40
+                        border.color: "black"
+                        radius: 10
+                        Text {
+                            text : "Hauteur maximale de vol : 50m"
+                            wrapMode: Label.WordWrap
+                            anchors.centerIn: parent
+                        }
+                    }
+
+                    Rectangle {
+                        color : "turquoise"
+                        width: parent.fillWidth
+                        height: 40
+                        border.color: "black"
+                        radius: 10
+                        Text {
+                            text : "Hauteur maximale de vol : 100m"
+                            wrapMode: Label.WordWrap
+                            anchors.centerIn: parent
+                        }
+                    }
+
+                }
 
                 Column {
                     anchors.left:       parent.left

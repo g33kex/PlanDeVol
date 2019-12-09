@@ -4,13 +4,15 @@
 #include <QtXml>
 #include <QDateTime>
 #include <QList>
+#include "AppSettings.h"
 
 extern List_file *nbParam;
 extern List_file *lColumn;
+extern AppSettings* sett;
 
 DbManager::DbManager() {
     m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName("database.sqlite3");
+    m_db.setDatabaseName(sett->savePath()->rawValue().toString()+"/database.sqlite3");
 
 
 

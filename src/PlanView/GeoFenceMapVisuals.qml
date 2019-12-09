@@ -38,12 +38,12 @@ Item {
     property var    _polygons100:               myGeoFenceController.polygons100
     property var    _circles:                   myGeoFenceController.circles
     property var    _polylines:                 myGeoFenceController.polylines
-    property color  _borderColor:               "orange"
+    property color  _borderColor:               "red"
     property int    _borderWidthInclusion:      2
     property int    _borderWidthExclusion:      0
-    property color  _interiorColorExclusion:    "orange"
+    property color  _interiorColorExclusion:    "red"
     property color  _interiorColorInclusion:    "transparent"
-    property real   _interiorOpacityExclusion:  0.2
+    property real   _interiorOpacityExclusion:  0.4
     property real   _interiorOpacityInclusion:  1
 
     function addPolygon(inclusionPolygon) {
@@ -132,7 +132,7 @@ Item {
             parent:         _root
             mapControl:     map
             mapPolyline:    object
-            lineWidth:      3
+            lineWidth:      2
             lineColor:      "red"
         }
     }
@@ -144,8 +144,8 @@ Item {
             parent:         _root
             mapControl:     map
             mapPolygon:    object
-            interiorColor:  "blue"
-            interiorOpacity: 0.3
+            interiorColor:  "darkorange"
+            interiorOpacity: 0.2
         }
     }
 
@@ -156,8 +156,8 @@ Item {
             parent:         _root
             mapControl:     map
             mapPolygon:    object
-            interiorColor:  "red"
-            interiorOpacity: 0.3
+            interiorColor:  "yellow"
+            interiorOpacity: 0.2
         }
     }
 
@@ -168,8 +168,8 @@ Item {
             parent:         _root
             mapControl:     map
             mapPolygon:    object
-            interiorColor:  "green"
-            interiorOpacity: 0.3
+            interiorColor:  "turquoise"
+            interiorOpacity: 0.2
         }
     }
 
