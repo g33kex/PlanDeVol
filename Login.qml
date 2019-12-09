@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
+import QtQuick 2.1
+import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.4
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
@@ -27,15 +27,55 @@ Item {
         modal: true
         ColumnLayout {
             anchors.fill: parent
-        TabView {
+
+            TabBar {
+                id: tabBar
+                anchors.fill: parent
+
+                TabButton {
+                    height: 50
+                    text: "Utilisateurs"
+                    background: Rectangle {
+                        color: tabBar.currentIndex == 0 ? "steelblue" : "lightsteelblue"
+                        radius: 3
+                    }
+                }
+                TabButton {
+                    height: 50
+                    text: "Missions"
+                    background: Rectangle {
+                        color: tabBar.currentIndex == 1 ? "coral" : "lightcoral"
+                        radius: 3
+                    }
+                }
+                TabButton {
+                    height: 50
+                    text: "Parcelles"
+                    background: Rectangle {
+                        color: tabBar.currentIndex == 2 ? "mediumseagreen" : "lightgreen"
+                        radius: 3
+                    }
+                }
+                TabButton {
+                    height: 50
+                    text: "Paramètres de vol"
+                    background: Rectangle {
+                        color: tabBar.currentIndex == 3 ? "silver" : "lightgrey"
+                        radius: 3
+                    }
+                }
+            }
+
+        StackLayout {
+            id : tabV
+            currentIndex: tabBar.currentIndex
             Layout.fillWidth: true
             Layout.fillHeight: true
 
 
-            Tab {
-                title: "User Manager"
 
 
+            Item {
                 ColumnLayout {
                     anchors.fill: parent
                    Rectangle {
@@ -343,8 +383,7 @@ Item {
                    }
                 }
             }
-            Tab {
-                title: "Mission Manager"
+            Item {
                 ColumnLayout {
                     anchors.fill: parent
                    Rectangle {
@@ -397,8 +436,7 @@ Item {
                     }
                 }
             }
-            Tab {
-                title: "Parcelle Manager"
+            Item {
                 ColumnLayout {
                     anchors.fill: parent
                    Rectangle {
@@ -431,18 +469,6 @@ Item {
                                 movable : false
                                 width: 2*parcelleTableView.width/5
                             }
-//                            TableViewColumn {
-//                                role: "type"
-//                                title: "Type"
-//                                movable: false
-//                                width: parcelleTableView.width/10
-//                            }
-//                            TableViewColumn {
-//                                role: "speed"
-//                                title: "Speed"
-//                                movable: false
-//                                width: parcelleTableView.width/10
-//                            }
                             TableViewColumn {
                                 role: "surface"
                                 title: "Surface"
@@ -469,8 +495,7 @@ Item {
                     }
                 }
             }
-            Tab {
-                title: "Flight Parameters"
+            Item {
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -706,22 +731,6 @@ Item {
                 }
             }
 
-            style: TabViewStyle {
-                    frameOverlap: 1
-                    tab: Rectangle {
-                        color: styleData.selected ? "steelblue" :"lightsteelblue"
-                        border.color:  "steelblue"
-                        implicitWidth: Math.max(text.width + 4, 80)
-                        implicitHeight: 20
-                        radius: 2
-                        Text {
-                            id: text
-                            anchors.centerIn: parent
-                            text: styleData.title
-                            color: styleData.selected ? "white" : "black"
-                        }
-                    }
-                }
         }
         Button {
             Layout.alignment: Qt.AlignRight

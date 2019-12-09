@@ -181,42 +181,42 @@ bool GeoFenceController::load(const QJsonObject& json, QString& errorString)
     }
 
     QJsonArray jsonPolygon30Array = json[_jsonPolygons30Key].toArray();
-    for (const QJsonValue jsonPolygon30Array: jsonPolygon30Array) {
-        if (jsonPolygon30Array.type() != QJsonValue::Object) {
+    for (const QJsonValue jsonPolygon30Value: jsonPolygon30Array) {
+        if (jsonPolygon30Value.type() != QJsonValue::Object) {
             errorString = tr("GeoFence polygon not stored as object");
             return false;
         }
 
         QGCMapPolygon* poly30 = new QGCMapPolygon();
-        if (!poly30->loadFromJson(jsonPolygon30Array.toObject(), true /* required */, errorString)) {
+        if (!poly30->loadFromJson(jsonPolygon30Value.toObject(), true /* required */, errorString)) {
             return false;
         }
         _polygons30.append(poly30);
     }
 
     QJsonArray jsonPolygon50Array = json[_jsonPolygons50Key].toArray();
-    for (const QJsonValue jsonPolygon50Array: jsonPolygon50Array) {
-        if (jsonPolygon50Array.type() != QJsonValue::Object) {
+    for (const QJsonValue jsonPolygon50Value: jsonPolygon50Array) {
+        if (jsonPolygon50Value.type() != QJsonValue::Object) {
             errorString = tr("GeoFence polygon not stored as object");
             return false;
         }
 
         QGCMapPolygon* poly50 = new QGCMapPolygon();
-        if (!poly50->loadFromJson(jsonPolygon50Array.toObject(), true /* required */, errorString)) {
+        if (!poly50->loadFromJson(jsonPolygon50Value.toObject(), true /* required */, errorString)) {
             return false;
         }
         _polygons50.append(poly50);
     }
 
     QJsonArray jsonPolygon100Array = json[_jsonPolygons100Key].toArray();
-    for (const QJsonValue jsonPolygon100Array: jsonPolygon100Array) {
-        if (jsonPolygon100Array.type() != QJsonValue::Object) {
+    for (const QJsonValue jsonPolygon100Value: jsonPolygon100Array) {
+        if (jsonPolygon100Value.type() != QJsonValue::Object) {
             errorString = tr("GeoFence polygon not stored as object");
             return false;
         }
 
         QGCMapPolygon* poly100 = new QGCMapPolygon();
-        if (!poly100->loadFromJson(jsonPolygon100Array.toObject(), true /* required */, errorString)) {
+        if (!poly100->loadFromJson(jsonPolygon100Value.toObject(), true /* required */, errorString)) {
             return false;
         }
         _polygons100.append(poly100);
