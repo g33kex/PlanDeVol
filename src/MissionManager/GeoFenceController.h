@@ -32,6 +32,9 @@ public:
     ~GeoFenceController();
 
     Q_PROPERTY(QmlObjectListModel*  polygons                READ polygons                                           CONSTANT)
+    Q_PROPERTY(QmlObjectListModel*  polygons30                READ polygons30                                           CONSTANT)
+    Q_PROPERTY(QmlObjectListModel*  polygons50                READ polygons50                                           CONSTANT)
+    Q_PROPERTY(QmlObjectListModel*  polygons100                READ polygons100                                           CONSTANT)
     Q_PROPERTY(QmlObjectListModel*  circles                 READ circles                                            CONSTANT)
     Q_PROPERTY(QmlObjectListModel*  polylines               READ polylines                                          CONSTANT)
     Q_PROPERTY(QGeoCoordinate       breachReturnPoint       READ breachReturnPoint      WRITE setBreachReturnPoint  NOTIFY breachReturnPointChanged)
@@ -94,6 +97,10 @@ public:
     QmlObjectListModel* circles                 (void) { return &_circles; }
     QGeoCoordinate      breachReturnPoint       (void) const { return _breachReturnPoint; }
     QmlObjectListModel* polylines               (void)  { return &_polylines;}
+    QmlObjectListModel* polygons30              (void)  { return &_polygons30;}
+    QmlObjectListModel* polygons50              (void)  { return &_polygons50;}
+    QmlObjectListModel* polygons100             (void)  { return &_polygons100;}
+
 
     void setBreachReturnPoint(const QGeoCoordinate& breachReturnPoint);
 
@@ -127,6 +134,9 @@ private:
     GeoFenceManager*    _geoFenceManager;
     bool                _dirty;
     QmlObjectListModel  _polygons;
+    QmlObjectListModel  _polygons30;
+    QmlObjectListModel  _polygons50;
+    QmlObjectListModel  _polygons100;
     QmlObjectListModel  _circles;
     QmlObjectListModel  _polylines;
     QGeoCoordinate      _breachReturnPoint;
@@ -147,6 +157,9 @@ private:
     static const char* _jsonFileTypeValue;
     static const char* _jsonBreachReturnKey;
     static const char* _jsonPolygonsKey;
+    static const char* _jsonPolygons30Key;
+    static const char* _jsonPolygons50Key;
+    static const char* _jsonPolygons100Key;
     static const char* _jsonPolylinesKey;
     static const char* _jsonCirclesKey;
 

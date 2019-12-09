@@ -35,6 +35,9 @@ QMap<QString, FactMetaData*> GeoFenceController::_metaDataMap;
 const char* GeoFenceController::_jsonFileTypeValue =        "GeoFence";
 const char* GeoFenceController::_jsonBreachReturnKey =      "breachReturn";
 const char* GeoFenceController::_jsonPolygonsKey =          "polygons";
+const char* GeoFenceController::_jsonPolygons30Key =          "polygons30";
+const char* GeoFenceController::_jsonPolygons50Key =          "polygons50";
+const char* GeoFenceController::_jsonPolygons100Key =          "polygons100";
 const char* GeoFenceController::_jsonPolylinesKey =         "polylines";
 const char* GeoFenceController::_jsonCirclesKey =           "circles";
 
@@ -148,6 +151,9 @@ bool GeoFenceController::load(const QJsonObject& json, QString& errorString)
         { JsonHelper::jsonVersionKey,   QJsonValue::Double, true },
         { _jsonCirclesKey,              QJsonValue::Array,  true },
         { _jsonPolygonsKey,             QJsonValue::Array,  true },
+        { _jsonPolygons30Key,           QJsonValue::Array,  true },
+        { _jsonPolygons50Key,           QJsonValue::Array,  true },
+        { _jsonPolygons100Key,          QJsonValue::Array,  true },
         { _jsonPolylinesKey,            QJsonValue::Array,  true },
         { _jsonBreachReturnKey,         QJsonValue::Array,  false },
     };
@@ -172,6 +178,48 @@ bool GeoFenceController::load(const QJsonObject& json, QString& errorString)
             return false;
         }
         _polygons.append(fencePolygon);
+    }
+
+    QJsonArray jsonPolygon30Array = json[_jsonPolygons30Key].toArray();
+    for (const QJsonValue jsonPolygon30Array: jsonPolygon30Array) {
+        if (jsonPolygon30Array.type() != QJsonValue::Object) {
+            errorString = tr("GeoFence polygon not stored as object");
+            return false;
+        }
+
+        QGCMapPolygon* poly30 = new QGCMapPolygon();
+        if (!poly30->loadFromJson(jsonPolygon30Array.toObject(), true /* required */, errorString)) {
+            return false;
+        }
+        _polygons30.append(poly30);
+    }
+
+    QJsonArray jsonPolygon50Array = json[_jsonPolygons50Key].toArray();
+    for (const QJsonValue jsonPolygon50Array: jsonPolygon50Array) {
+        if (jsonPolygon50Array.type() != QJsonValue::Object) {
+            errorString = tr("GeoFence polygon not stored as object");
+            return false;
+        }
+
+        QGCMapPolygon* poly50 = new QGCMapPolygon();
+        if (!poly50->loadFromJson(jsonPolygon50Array.toObject(), true /* required */, errorString)) {
+            return false;
+        }
+        _polygons50.append(poly50);
+    }
+
+    QJsonArray jsonPolygon100Array = json[_jsonPolygons100Key].toArray();
+    for (const QJsonValue jsonPolygon100Array: jsonPolygon100Array) {
+        if (jsonPolygon100Array.type() != QJsonValue::Object) {
+            errorString = tr("GeoFence polygon not stored as object");
+            return false;
+        }
+
+        QGCMapPolygon* poly100 = new QGCMapPolygon();
+        if (!poly100->loadFromJson(jsonPolygon100Array.toObject(), true /* required */, errorString)) {
+            return false;
+        }
+        _polygons100.append(poly100);
     }
 
     QJsonArray jsonPolylineArray = json[_jsonPolylinesKey].toArray();
@@ -278,6 +326,33 @@ void GeoFenceController::save(QJsonObject& json)
         jsonPolygonArray.append(jsonPolygon);
     }
     json[_jsonPolygonsKey] = jsonPolygonArray;
+
+    QJsonArray jsonPolygon30Array;
+    for (int i=0; i<_polygons30.count(); i++) {
+        QJsonObject jsonPolygon30;
+        QGCMapPolygon* poly30 = _polygons30.value<QGCMapPolygon*>(i);
+        poly30->saveToJson(jsonPolygon30);
+        jsonPolygon30Array.append(jsonPolygon30);
+    }
+    json[_jsonPolygons30Key] = jsonPolygon30Array;
+
+    QJsonArray jsonPolygon50Array;
+    for (int i=0; i<_polygons50.count(); i++) {
+        QJsonObject jsonPolygon50;
+        QGCMapPolygon* poly50 = _polygons50.value<QGCMapPolygon*>(i);
+        poly50->saveToJson(jsonPolygon50);
+        jsonPolygon50Array.append(jsonPolygon50);
+    }
+    json[_jsonPolygons50Key] = jsonPolygon50Array;
+
+    QJsonArray jsonPolygon100Array;
+    for (int i=0; i<_polygons100.count(); i++) {
+        QJsonObject jsonPolygon100;
+        QGCMapPolygon* poly100 = _polygons100.value<QGCMapPolygon*>(i);
+        poly100->saveToJson(jsonPolygon100);
+        jsonPolygon100Array.append(jsonPolygon100);
+    }
+    json[_jsonPolygons100Key] = jsonPolygon100Array;
 
     QJsonArray jsonPolylineArray;
     for (int i=0; i<_polylines.count(); i++) {
@@ -624,24 +699,77 @@ void GeoFenceController::parsesMultiplePolygon(QString source) {
     //for each feature
     foreach (const QJsonValue & v, array) {
 
-        if ( !v.toObject()["properties"].toObject()["limite"].toString().contains("Vol interdit")) {
-            continue;
+        // vol a 30m
+        if (v.toObject()["properties"].toObject()["limite"].toString().contains("30")) {
+            qDebug() << v.toObject()["properties"].toObject()["limite"].toString();
+
+            QGCMapPolygon* polygon30 = new QGCMapPolygon();
+            QList<QGeoCoordinate> *path = new QList<QGeoCoordinate>();
+            //features->geometry->coordiantes ([0]..[0] -> array in a array in a array
+            QJsonArray array_geom = v.toObject()["geometry"].toObject()["coordinates"].toArray()[0].toArray()[0].toArray();
+            //for each coord
+            for(int i = 0; i < array_geom.count(); i++) {
+                QGeoCoordinate *coord = new QGeoCoordinate(array_geom.at(i).toArray()[1].toDouble(), array_geom.at(i).toArray()[0].toDouble(), 50);
+                path->append(*coord);
+            }
+
+            polygon30->setPath(*path);
+            _polygons30.append(polygon30);
         }
 
-        qDebug() << v.toObject()["properties"].toObject()["limite"].toString();
+        // vol a 50m
+        else if (v.toObject()["properties"].toObject()["limite"].toString().contains("50")) {
+            qDebug() << v.toObject()["properties"].toObject()["limite"].toString();
 
-        QGCFencePolygon* fencePolygon = new QGCFencePolygon(false /* inclusion */, this /* parent */);
-        QList<QGeoCoordinate> *path = new QList<QGeoCoordinate>();
-        //features->geometry->coordiantes ([0]..[0] -> array in a array in a array
-        QJsonArray array_geom = v.toObject()["geometry"].toObject()["coordinates"].toArray()[0].toArray()[0].toArray();
-        //for each coord
-        for(int i = 0; i < array_geom.count(); i++) {
-            QGeoCoordinate *coord = new QGeoCoordinate(array_geom.at(i).toArray()[1].toDouble(), array_geom.at(i).toArray()[0].toDouble(), 50);
-            path->append(*coord);
+            QGCMapPolygon* polygon50 = new QGCMapPolygon();
+            QList<QGeoCoordinate> *path = new QList<QGeoCoordinate>();
+            //features->geometry->coordiantes ([0]..[0] -> array in a array in a array
+            QJsonArray array_geom = v.toObject()["geometry"].toObject()["coordinates"].toArray()[0].toArray()[0].toArray();
+            //for each coord
+            for(int i = 0; i < array_geom.count(); i++) {
+                QGeoCoordinate *coord = new QGeoCoordinate(array_geom.at(i).toArray()[1].toDouble(), array_geom.at(i).toArray()[0].toDouble(), 50);
+                path->append(*coord);
+            }
+
+            polygon50->setPath(*path);
+            _polygons50.append(polygon50);
         }
 
-        fencePolygon->setPath(*path);
-        _polygons.append(fencePolygon);
+        // vol a 100m
+        if (v.toObject()["properties"].toObject()["limite"].toString().contains("100")) {
+            qDebug() << v.toObject()["properties"].toObject()["limite"].toString();
+
+            QGCMapPolygon* polygon100 = new QGCMapPolygon();
+            QList<QGeoCoordinate> *path = new QList<QGeoCoordinate>();
+            //features->geometry->coordiantes ([0]..[0] -> array in a array in a array
+            QJsonArray array_geom = v.toObject()["geometry"].toObject()["coordinates"].toArray()[0].toArray()[0].toArray();
+            //for each coord
+            for(int i = 0; i < array_geom.count(); i++) {
+                QGeoCoordinate *coord = new QGeoCoordinate(array_geom.at(i).toArray()[1].toDouble(), array_geom.at(i).toArray()[0].toDouble(), 50);
+                path->append(*coord);
+            }
+
+            polygon100->setPath(*path);
+            _polygons100.append(polygon100);
+        }
+
+        // Vol interdit
+        if (v.toObject()["properties"].toObject()["limite"].toString().contains("Vol interdit")) {
+            qDebug() << v.toObject()["properties"].toObject()["limite"].toString();
+
+            QGCFencePolygon* fencePolygon = new QGCFencePolygon(false /* inclusion */, this /* parent */);
+            QList<QGeoCoordinate> *path = new QList<QGeoCoordinate>();
+            //features->geometry->coordiantes ([0]..[0] -> array in a array in a array
+            QJsonArray array_geom = v.toObject()["geometry"].toObject()["coordinates"].toArray()[0].toArray()[0].toArray();
+            //for each coord
+            for(int i = 0; i < array_geom.count(); i++) {
+                QGeoCoordinate *coord = new QGeoCoordinate(array_geom.at(i).toArray()[1].toDouble(), array_geom.at(i).toArray()[0].toDouble(), 50);
+                path->append(*coord);
+            }
+
+            fencePolygon->setPath(*path);
+            _polygons.append(fencePolygon);
+        }
     }
 }
 
@@ -697,6 +825,9 @@ void GeoFenceController::downloadGeofences(QGeoCoordinate NE, QGeoCoordinate SW)
 
 void GeoFenceController::clearGeofences(void) {
     _polygons.clear();
+    _polygons30.clear();
+    _polygons50.clear();
+    _polygons100.clear();
     _polylines.clear();
 }
 

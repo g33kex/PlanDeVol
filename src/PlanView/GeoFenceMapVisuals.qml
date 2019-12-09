@@ -33,6 +33,9 @@ Item {
     property var    _breachReturnDragComponent
     property var    _paramCircleFenceComponent
     property var    _polygons:                  myGeoFenceController.polygons
+    property var    _polygons30:                myGeoFenceController.polygons30
+    property var    _polygons50:                myGeoFenceController.polygons50
+    property var    _polygons100:               myGeoFenceController.polygons100
     property var    _circles:                   myGeoFenceController.circles
     property var    _polylines:                 myGeoFenceController.polylines
     property color  _borderColor:               "orange"
@@ -131,6 +134,42 @@ Item {
             mapPolyline:    object
             lineWidth:      3
             lineColor:      "red"
+        }
+    }
+
+    Instantiator {
+        model: _polygons30
+
+        delegate : QGCMapPolygonVisuals {
+            parent:         _root
+            mapControl:     map
+            mapPolygon:    object
+            interiorColor:  "blue"
+            interiorOpacity: 0.3
+        }
+    }
+
+    Instantiator {
+        model: _polygons50
+
+        delegate : QGCMapPolygonVisuals {
+            parent:         _root
+            mapControl:     map
+            mapPolygon:    object
+            interiorColor:  "red"
+            interiorOpacity: 0.3
+        }
+    }
+
+    Instantiator {
+        model: _polygons100
+
+        delegate : QGCMapPolygonVisuals {
+            parent:         _root
+            mapControl:     map
+            mapPolygon:    object
+            interiorColor:  "green"
+            interiorOpacity: 0.3
         }
     }
 
