@@ -60,7 +60,7 @@ void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionContro
 }
 
 //TODO : add Q&A
-void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed, QStringList answers) {
+void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
     if(!file.endsWith(".kml")) file.append(".kml");
 
     _file = file;
@@ -126,7 +126,7 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
 }
 
 //TODO : add Q&A
-void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed, QStringList answers) {
+void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
 
     QSqlRecord record = model->record(index);
 

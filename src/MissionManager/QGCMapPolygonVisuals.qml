@@ -198,7 +198,7 @@ Item {
 
         onAccepted: {
             if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {
-                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value, questionsView.getAnswers())
+                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
 
             }
             else {

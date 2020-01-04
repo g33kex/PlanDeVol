@@ -23,6 +23,14 @@ Rectangle {
             return res;
         }
 
+        function getComboAnswers() {
+            var res=[]
+            for(var i=0; i<repeater.model.count; i++) {
+                res.push(repeater.itemAt(i).children[1].currentIndex)
+            }
+            return res;
+        }
+
         function clear() {
             repeater.model.clear()
         }
@@ -38,10 +46,27 @@ Rectangle {
                 repeater.model.append({"question": questions[i], "answer": answers[i]});
                 console.log(questions[i]+" answer : "+answers[i]);
             }
+
+            var comboQuestions = _questionsViewController.getComboQuestions(parcelleModel, index);
+            var possibleAnswers = _questionsViewController.getPossibleAnswers(parcelleModel, index);
+            var selectedAnswers = _questionsViewController.getSelectedAnswers(parcelleModel, index);
+            for(i=0; i<questions.length; i++) {
+                var array =possibleAnswers[i];
+
+                console.log(comboQuestions[i]+" answer : "+possibleAnswers[i]+ " selected : "+selectedAnswers[i]);
+                repeater2.model.append({"question": comboQuestions[i], "answer": array});
+                repeater2.itemAt(i).children[1].model=array;
+                repeater2.itemAt(i).children[1].currentIndex=selectedAnswers[i];
+            }
+            //Answer as a list doens't seem to fill the model...
         }
 
         ListModel {
             id: listModel
+        }
+
+        ListModel {
+            id: listModel2
         }
 
 
@@ -85,7 +110,34 @@ Rectangle {
                         }
                       }
                 }
-              }
+
+
+            Repeater {
+
+              id: repeater2
+              model: listModel2
+              width: column.width
+
+              RowLayout {
+                  width: column.width
+
+                    Label {
+                        text: qsTr(question)
+                    }
+
+                    ComboBox {
+                        id: comboBox
+                        //text: qsTr(answer)
+
+
+                        model: ["hello", "world"]
+                        Layout.alignment: Qt.AlignRight
+                        Layout.preferredWidth: column.width/2
+                        enabled: allowAnswers
+                    }
+                  }
+            }
+          }
         }
 
 }

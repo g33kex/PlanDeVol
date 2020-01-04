@@ -3,9 +3,16 @@
 
 QuestionsViewController::QuestionsViewController() {
     this->questions=QStringList();
+    possibleAnswers=QVariantList();
 
     for(int i=0;i<10;i++) {
         this->questions.append("Hello world "+QString::number(i));
+        this->selectedAnswers.append(1);
+        QStringList s = QStringList();
+        for(int j=0; j<5; j++) {
+            s.append("This is a test "+QString::number(j)+ " from line "+QString::number(i));
+        }
+        this->possibleAnswers.append(QVariant::fromValue(s));
     }
 
 
@@ -30,4 +37,18 @@ QStringList QuestionsViewController::getQuestions(SqlCustomModel *model, int ind
 //if index=-1, just return the default answers for the questions.
 QStringList QuestionsViewController::getAnswers(SqlCustomModel *model, int index) {
    return this->questions;
+}
+
+//TODO : add Q&A
+//Get questions for combobox questions
+QStringList QuestionsViewController::getComboQuestions(SqlCustomModel *model, int index) {
+    return this->questions;
+}
+
+QVariantList QuestionsViewController::getPossibleAnswers(SqlCustomModel *model, int index) {
+    return this->possibleAnswers;
+}
+
+QList<int> QuestionsViewController::getSelectedAnswers(SqlCustomModel *model, int index) {
+    return this->selectedAnswers;
 }

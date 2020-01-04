@@ -520,7 +520,8 @@ void QGCMapPolygon::verifyClockwiseWinding(void)
 
 
 //TODO : add Q&A
-void QGCMapPolygon::saveAsParcelle(QString name, QString type, int speed, QStringList answers) {
+//comboAnswers is a list of the id of the selected value on combobox (same order as values returned by getPossibleAnswers)
+void QGCMapPolygon::saveAsParcelle(QString name, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
     qDebug() << "----------";
     qDebug() << name;
     if (!name.endsWith(".kml")) name.append(".kml");
