@@ -19,8 +19,7 @@ LoginController::LoginController()
 }
 
 void LoginController::loadMainWindow() {
-
-   qmlAppEngine->load(QUrl(QStringLiteral("qrc:/qml/MainRootWindow.qml")));
+   //qmlAppEngine->load(QUrl(QStringLiteral("qrc:/qml/MainRootWindow.qml")));
    sett->_checkSavePathDirectories();
 }
 

@@ -693,6 +693,7 @@ Item {
                 else {
                     console.log("Logged in as user "+username)
                     _loginController.loadMainWindow()
+                    rootWindowLoader.source="MainRootWindow.qml"
                     //loginMainWindow.close()
                 }
             }
@@ -731,6 +732,12 @@ Item {
             text: "New password and confirmation is not the same"
         }
 
+    }
+
+    Loader {
+        id:             rootWindowLoader
+        anchors.fill:   parent
+        visible:        true
     }
 
     Dialog {
