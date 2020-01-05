@@ -52,3 +52,15 @@ QVariantList QuestionsViewController::getPossibleAnswers(SqlCustomModel *model, 
 QList<int> QuestionsViewController::getSelectedAnswers(SqlCustomModel *model, int index) {
     return this->selectedAnswers;
 }
+
+//TODO : add Q&A
+//For admin part : delete a question, i is the number of the question, questions are ordered as returned by getQuestions and then getComboQuestions for index=-1
+void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {
+
+}
+
+//TODO : add Q&A
+//For admin part : add a new question
+void QuestionsViewController::addQuestion(SqlCustomModel *model, QString question, bool isMultipleChoices, QString choices) {
+
+}

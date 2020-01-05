@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Layouts 1.0
+import QtQuick.Layouts 1.4
 import QtQuick.Controls 2.4
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
@@ -470,6 +470,125 @@ Item {
                 }
             }
             Tab {
+                title: "Questions"
+                property int margin: 6
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    id: column
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            Layout.topMargin: margin
+                            Layout.leftMargin: margin
+                            Layout.bottomMargin: 0
+                            Layout.preferredWidth: column.width/2-2*margin
+                            text: "Question"
+                        }
+                        Label {
+                            Layout.topMargin: margin
+                            Layout.fillWidth: true
+                            text: "Default answer"
+                        }
+                        Label {
+                            text: "Selection"
+                            Layout.topMargin: margin
+                            Layout.rightMargin: margin
+                        }
+                    }
+
+                QuestionsView {
+                    id: questionView
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    selectable: true
+
+                    SqlCustomModel {
+                        id: parcelleModel2
+
+                        Component.onCompleted: {
+                            setupForParcelle()
+                        }
+
+                    }
+
+                    Component.onCompleted: {
+                        populateQA(parcelleModel2, -1);
+                    }
+                }
+
+                RowLayout {
+                    Layout.alignment: Qt.AlignRight
+                    Layout.fillWidth: true
+                    Button {
+                        text: "+"
+                        Layout.margins: margin
+                        Layout.topMargin: 0
+                        onClicked: {
+                            addQuestionDialog.open()
+                        }
+                    }
+                    Button {
+                        text: "-"
+                        Layout.margins: margin
+                        Layout.topMargin: 0
+                        onClicked: {
+                            questionView.deleteChecked(parcelleModel2)
+                        }
+                    }
+
+                }
+
+                Dialog {
+                    id: addQuestionDialog
+                    modal: true
+
+                    onAccepted: {
+                        questionView.addQuestion(question_textField.text, combo_checkbox.checked, possibleChoiceArea.text, parcelleModel2)
+                        reset()
+                    }
+
+
+                    title: "Add Question"
+
+                    function reset() {
+                        possibleChoiceArea.text="";
+                        question_textField.text="";
+                    }
+
+                    standardButtons: Dialog.Ok | Dialog.Cancel
+                    x: (parent.width - width) / 2
+                    y: (parent.height - height) / 2
+
+                    ColumnLayout {
+                        anchors.fill: parent
+
+                        Label {
+                            text: "Question"
+                        }
+                        TextField {
+                            id: question_textField
+                            Layout.fillWidth: true
+                        }
+                        CheckBox {
+                            text: "Multiple choice question"
+                            id: combo_checkbox
+                        }
+                        TextArea {
+                            id: possibleChoiceArea
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            visible: combo_checkbox.checked
+                        }
+
+                    }
+                }
+
+
+                }
+            }
+
+            Tab {
                 title: "Flight Parameters"
 
                 ColumnLayout {
@@ -606,6 +725,8 @@ Item {
         }
 
     }
+
+
 
     Rectangle {
         color: "black"

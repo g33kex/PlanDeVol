@@ -10,6 +10,7 @@ Rectangle {
         id: rectangle
 
         property var allowAnswers: true
+        property var selectable: false
 
         QuestionsViewController {
             id: _questionsViewController
@@ -33,8 +34,35 @@ Rectangle {
 
         function clear() {
             repeater.model.clear()
+            repeater2.model.clear()
         }
 
+        function getChecked() {
+            var index=0;
+            for(var i=0; i<repeater.model.count; i++) {
+                if(repeater.itemAt(i).children[2].checked) {
+                    return index;
+                }
+                index++;
+            }
+            for(i=0; i<repeater2.model.count; i++) {
+                if(repeater2.itemAt(i).children[2].checked) {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+        }
+
+        function deleteChecked(parcelleModel) {
+            _questionsViewController.deleteQuestion(parcelleModel, getChecked())
+            populateQA(parcelleModel, -1);
+        }
+
+        function addQuestion(question, isMultipleChoices, choices, parcelleModel) {
+            _questionsViewController.addQuestion(parcelleModel, question, isMultipleChoices, choices);
+            populateQA(parcelleModel, -1)
+        }
 
 
         function populateQA(parcelleModel, index) {
@@ -58,6 +86,10 @@ Rectangle {
                 repeater2.itemAt(i).children[1].model=array;
                 repeater2.itemAt(i).children[1].currentIndex=selectedAnswers[i];
             }
+            if(questions.length>0) {
+                repeater.itemAt(0).children[2].checked=true;
+            }
+
             //Answer as a list doens't seem to fill the model...
         }
 
@@ -82,11 +114,17 @@ Rectangle {
                      anchors.bottom: flickable.bottom
             }
 
+           property int margin: 6
+
 
           Column {
               id: column
               anchors.left: parent.left
               anchors.right: parent.right
+
+              ButtonGroup {
+                  id: selectionGroup
+              }
 
               Repeater {
 
@@ -99,6 +137,7 @@ Rectangle {
 
                         Label {
                             text: qsTr(question)
+                            Layout.margins: margin
                         }
 
                         TextField {
@@ -106,9 +145,17 @@ Rectangle {
                             text: qsTr(answer)
                             Layout.alignment: Qt.AlignRight
                             Layout.preferredWidth: column.width/2
+                            Layout.margins : margin
                             enabled: allowAnswers
                         }
-                      }
+
+                  RadioButton {
+                      Layout.alignment: Qt.AlignRight
+                      Layout.margins: margin
+                      enabled: selectable
+                      ButtonGroup.group: selectionGroup
+                  }
+                  }
                 }
 
 
@@ -123,6 +170,7 @@ Rectangle {
 
                     Label {
                         text: qsTr(question)
+                        Layout.margins: margin
                     }
 
                     ComboBox {
@@ -133,8 +181,18 @@ Rectangle {
                         model: ["hello", "world"]
                         Layout.alignment: Qt.AlignRight
                         Layout.preferredWidth: column.width/2
+                        Layout.margins : margin
                         enabled: allowAnswers
                     }
+
+                    RadioButton {
+                        Layout.alignment: Qt.AlignRight
+                        Layout.margins: margin
+                        enabled: selectable
+                        ButtonGroup.group: selectionGroup
+                    }
+
+
                   }
             }
           }
