@@ -10,6 +10,7 @@ Item {
 
 
     property var margin: 5
+    property var m2: 3
 
     LoginController {
         id: _loginController
@@ -30,10 +31,10 @@ Item {
 
             TabBar {
                 id: tabBar
-                anchors.fill: parent
 
                 TabButton {
-                    height: 50
+                    height: 40
+                    width: 150
                     text: "Utilisateurs"
                     background: Rectangle {
                         color: tabBar.currentIndex == 0 ? "steelblue" : "lightsteelblue"
@@ -41,7 +42,8 @@ Item {
                     }
                 }
                 TabButton {
-                    height: 50
+                    height: 40
+                    width: 150
                     text: "Missions"
                     background: Rectangle {
                         color: tabBar.currentIndex == 1 ? "coral" : "lightcoral"
@@ -49,7 +51,8 @@ Item {
                     }
                 }
                 TabButton {
-                    height: 50
+                    height: 40
+                    width: 150
                     text: "Parcelles"
                     background: Rectangle {
                         color: tabBar.currentIndex == 2 ? "mediumseagreen" : "lightgreen"
@@ -57,7 +60,8 @@ Item {
                     }
                 }
                 TabButton {
-                    height: 50
+                    height: 40
+                    width: 150
                     text: "Paramètres de vol"
                     background: Rectangle {
                         color: tabBar.currentIndex == 3 ? "silver" : "lightgrey"
@@ -71,9 +75,6 @@ Item {
             currentIndex: tabBar.currentIndex
             Layout.fillWidth: true
             Layout.fillHeight: true
-
-
-
 
             Item {
                 ColumnLayout {
@@ -499,8 +500,6 @@ Item {
 
                 ColumnLayout {
                     anchors.fill: parent
-                    property var m: 5
-                    property var m2: 2
 
                 Label {
                     text: "Speed"
@@ -704,12 +703,12 @@ Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     text: _loginController.getParamChecklist()
-                    Layout.margins: m
+                    Layout.margins: m2
                 }
 
                 Button {
                     text: "export to XML"
-                    Layout.margins: m
+                    Layout.margins: m2
                     onClicked: {
                         _loginController.exportToXML()
                         doneDialog.open()
@@ -718,7 +717,7 @@ Item {
 
                 Button {
                     text: "Save"
-                    Layout.margins: m
+                    Layout.margins: m2
                     onClicked: {
                         _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
                         _loginController.setParamAlt(lowalt.text, medalt.text, highalt.text)
