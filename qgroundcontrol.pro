@@ -57,6 +57,12 @@ WindowsBuild {
 # Branding
 #
 
+QGC_APP_NAME        = "Plan de Vol"
+QGC_ORG_NAME        = "newdrone.org"
+QGC_ORG_DOMAIN      = "org.newdrone"
+QGC_APP_DESCRIPTION = "Open source ground control app provided by QGroundControl dev team"
+QGC_APP_COPYRIGHT   = "Copyright (C) 2019 QGroundControl Development Team. All rights reserved."
+
 WindowsBuild {
     QGC_INSTALLER_ICON          = "WindowsQGC.ico"
     QGC_INSTALLER_HEADER_BITMAP = "installheader.bmp"
@@ -317,7 +323,6 @@ CustomBuild {
         $$PWD/qgcimages.qrc
 }
 
-
 # On Qt 5.9 android versions there is the following bug: https://bugreports.qt.io/browse/QTBUG-61424
 # This prevents FileDialog from being used. So we have a temp hack workaround for it which just no-ops
 # the FileDialog fallback mechanism on android 5.9 builds.
@@ -389,6 +394,7 @@ HEADERS += \
     src/Admin/List_file.h \
     src/DataManager/DbManager.h \
     src/MissionManager/ParcelleManagerController.h \
+    src/MissionManager/QuestionsViewController.h \
     src/MissionManager/SqlCustomModel.hpp \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
@@ -403,6 +409,7 @@ SOURCES += \
     src/Admin/List_file.cpp \
     src/DataManager/DbManager.cpp \
     src/MissionManager/ParcelleManagerController.cpp \
+    src/MissionManager/QuestionsViewController.cpp \
     src/MissionManager/SqlCustomModel.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \

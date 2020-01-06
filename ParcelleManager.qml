@@ -12,6 +12,8 @@ import QGroundControl.Controllers       1.0
 
 
 
+
+
 Item {
     id: element
 
@@ -96,7 +98,7 @@ Item {
                             role: "name"
                             title: "name of the Parcelle"
                             movable : false
-                            width: 4*tableView.width/8
+                            width: 3*tableView.width/8
                         }
                         TableViewColumn {
                             role: "type"
@@ -108,18 +110,64 @@ Item {
                             role: "speed"
                             title: "Speed"
                             movable: false
-                            width: tableView.width/10
+                            width: tableView.width/8
                         }
                         TableViewColumn {
                             role: "surface"
                             title: "Surface"
                             movable: false
-                            width: tableView.width/10
+                            width: tableView.width/8
                         }
 
                         model: parcelleModel
+
+                        onClicked: {
+                            console.log("SELECTION CHANGED, COUNT="+selection.count)
+                            if(tableView.selection.count===1) {
+                                questionsView3.populateQA(parcelleModel, tableView.selection[0])
+                            }
+                            else {
+                                questionsView3.clear()
+                            }
+                        }
                     }
+
                }
+
+               Rectangle {
+                    Layout.columnSpan: 3
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: page1.height/2
+                    color: "white"
+
+
+                    QuestionsView {
+                        id: questionsView3
+                        anchors.fill: parent
+                        allowAnswers: false
+                    }
+
+                   /* TableView {
+                        id: parcelleInfo
+                        anchors.fill: parent
+                        selectionMode: SelectionMode.MultiSelection
+                        TableViewColumn {
+                            role: "question"
+                            title: "Question"
+                            movable: false
+                            width: parcelleInfo.width/2
+                        }
+                        TableViewColumn {
+                            role: "reponse"
+                            title: "Réponse"
+                            movable : false
+                            width: parcelleInfo.width/2
+                        }
+                    }*/
+
+               }
+
+
                 Button {
                     Layout.fillWidth: true
                     Layout.margins : margin
@@ -296,29 +344,29 @@ Item {
 
 
         }
-    }
 
 
-    Dialog {
-        id: editParcelleDialog
+        Dialog {
+            id: editParcelleDialog
 
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            modal: true
 
-        property int parcelleIndex: 0
+            property int parcelleIndex: 0
 
-        function refresh() {
-            ownerField.updateContent()
-            fileField.updateContent()
-            typeField.updateContent()
-            speedBox.updateContent()
-        }
+            function refresh() {
+                ownerField.updateContent()
+                fileField.updateContent()
+                typeField.updateContent()
+                speedBox.updateContent()
+                questionsView.populateQA(parcelleModel, parcelleIndex)
+            }
 
-        onAccepted: {
-            _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.currentIndex)
-            map.updateParcelles()
-        }
+            onAccepted: {
+                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
+                map.updateParcelles()
+            }
 
 
         title: "Edit Parcelle"
@@ -370,6 +418,13 @@ Item {
                 }
             }
 
+			QuestionsView {
+                id: questionsView
+                Layout.columnSpan: 4
+                Layout.fillWidth: true
+                Layout.minimumHeight: 100
+            }
+
         }
 
 
@@ -417,6 +472,8 @@ Item {
             a_ilotField.text = ""
             a_fileField.text = ""
             a_typeField.text = ""
+			questionsView2.populateQA(parcelleModel, -1)
+            
         }
 
 
@@ -454,6 +511,12 @@ Item {
                 id: a_speedBox
                 currentIndex: 1
                 model: [ "low", "med", "hig" ]
+            }
+			QuestionsView {
+                id: questionsView2
+                Layout.columnSpan: 4
+                Layout.fillWidth: true
+                Layout.minimumHeight: 100
             }
 
         }

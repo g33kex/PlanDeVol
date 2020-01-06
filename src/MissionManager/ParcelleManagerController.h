@@ -32,8 +32,8 @@ signals:
 public slots:
     void deleteParcelle(SqlCustomModel *model, QList<int> indexes);
     void addToMission(SqlCustomModel *model,MissionController *missionController, QList<int> indexes);
-    void modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed);
-    void addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed);
+    void modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed, QStringList answers, QList<int> comboAnswers);
+    void addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed, QStringList answers, QList<int> comboAnswers);
     void requestReply(QNetworkReply *reply);
     bool verif(QString user, QString pass);
 

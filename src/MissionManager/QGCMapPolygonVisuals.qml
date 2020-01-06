@@ -198,12 +198,17 @@ Item {
 
         onAccepted: {
             if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {
-                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.currentIndex)
+                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
+
             }
             else {
                  parcelleExistsDialog.open()
 
             }
+        }
+
+        Component.onCompleted: {
+            questionsView.populateQA(null, -1);
         }
 
 
@@ -242,6 +247,16 @@ Item {
                     id: a_speedBox
                     currentIndex: 1
                     model: [ "low", "med", "hig" ]
+                }
+
+
+                QuestionsView {
+                    id: questionsView
+                    Layout.columnSpan: 3
+                   // Layout.fillHeight: true
+                   // Layout.fillWidth: true
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 100
                 }
 
         }
