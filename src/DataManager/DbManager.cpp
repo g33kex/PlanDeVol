@@ -7,6 +7,7 @@
 #include "AppSettings.h"
 
 extern List_file *nbParam;
+//extern List_file *lColumn;
 extern AppSettings* sett;
 
 DbManager::DbManager() {
@@ -43,18 +44,17 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
     return success;
 }
 
-bool DbManager::addParcelle(const QString& owner, const QString& file, const QString& type, int speed, QString surface) {
+bool DbManager::addParcelle(const QString& owner, const QString& file, int speed, QString surface) {
    bool success = false;
    if (owner == "" || file == "") return success;
 
    QSqlQuery query;
-   query.prepare("INSERT INTO Parcelle (owner, parcelleFile, name, type, speed, surface) VALUES (:owner, :parcelleFile, :name, :type, :speed, :surface)");
+   query.prepare("INSERT INTO Parcelle (owner, parcelleFile, name, speed, surface) VALUES (:owner, :parcelleFile, :name, :speed, :surface)");
    query.bindValue(":owner", owner);
    query.bindValue(":parcelleFile", file);
    qDebug() << "--------- add Parcelle";
    qDebug() << file.split("/").last();
    query.bindValue(":name", file.split("/").last());
-   query.bindValue(":type", type);
    query.bindValue(":speed", speed);
    query.bindValue(":surface", surface);
    if(query.exec()) success = true;
@@ -175,7 +175,7 @@ bool DbManager::verifNbUser() {
 void DbManager::buildDB() {
 
     QString tablePerson = "CREATE TABLE \"Person\" ( \"username\"	TEXT NOT NULL UNIQUE, \"password\"	TEXT,  \"nom\"	TEXT, \"prenom\"	TEXT, PRIMARY KEY(\"username\") );";
-    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, \"type\"	TEXT,\"speed\"	INTEGER NOT NULL CHECK(speed>=0 and speed<3), \"surface\" TEXT, FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
+    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE,\"speed\"	INTEGER NOT NULL CHECK(speed>=0 and speed<3), \"surface\" TEXT, FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
     QString tableMission = "CREATE TABLE \"Mission\" ( \"owner\"	TEXT NOT NULL, \"missionFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, PRIMARY KEY(\"missionFile\"), FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE );";
 
     QSqlQuery queryPerson(tablePerson);
@@ -268,6 +268,45 @@ bool DbManager::addQuestion(QString name) {
 }
 
 
-bool DbManager::deleteQuestion(QString name) {
+bool DbManager::deleteQuestion(QList<QString> names) {
+    QSqlDatabase::database().transaction();
+    QSqlQuery query;
+
+    QString prep = "CREATE TABLE IF NOT EXISTS parcelle2 ("\
+                   "\"owner\" TEXT NOT NULL,"\
+                   "\"parcelleFile\" TEXT NOT NULL UNIQUE,"\
+                   "\"name\" TEXT NOT NULL UNIQUE,"\
+                   "\"speed\" INTEGER NOT NULL CHECK(speed>=0 and speed<3),";
+
+    for (int i = 0; i < names.length(); i++) {
+        prep = prep + "\"" + names[i] + "\"	TEXT,";
+    }
+    prep = prep + "FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
+    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
+    qDebug() << prep;
+
+    prep = "INSERT INTO parcelle2(owner, parcelleFile, name, speed";
+    for (int i = 0; i < names.length(); i++) {
+        prep = prep + "," + names[i];
+    }
+
+    prep = prep + ")"
+                  "SELECT owner, parcelleFile, name, speed";
+    for (int i = 0; i < names.length(); i++) {
+        prep = prep + "," + names[i];
+    }
+    prep = prep + " FROM Parcelle;";
+    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
+    qDebug() << prep;
+
+    prep = "DROP TABLE Parcelle;";
+    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
+    qDebug() << prep;
+
+    prep = "ALTER TABLE parcelle2 RENAME TO Parcelle;";
+    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
+    qDebug() << prep;
+
+    QSqlDatabase::database().commit();
     return true;
 }

@@ -9,7 +9,7 @@ class DbManager
         DbManager();
         bool addUser(const QString& username, const QString& password, const QString& nom, const QString& prenom);
 
-        bool addParcelle(const QString& owner, const QString& polygon, const QString& type, int speed, QString surface);
+        bool addParcelle(const QString& owner, const QString& polygon, int speed, QString surface);
 
         QList<QString> getAllParcelle(QString username);
 
@@ -21,7 +21,7 @@ class DbManager
         QSqlDatabase getDB();
 
         bool addQuestion(QString name);
-        bool deleteQuestion(QString name);
+        bool deleteQuestion(QList<QString> names);
 
         bool verifNbMission(QString username);
         bool verifNbParcelle(QString username);

@@ -62,7 +62,18 @@ QList<int> QuestionsViewController::getSelectedAnswers(SqlCustomModel *model, in
 //TODO : add Q&A
 //For admin part : delete a question, i is the number of the question, questions are ordered as returned by getQuestions and then getComboQuestions for index=-1
 void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {
-//    db->removeQuestion()
+    if (i < questions.length()) {
+        questions.removeAt(i);
+        names.removeAt(i);
+    }
+    else {
+        i = i - questions.length();
+        questionsCombo.removeAt(i);
+        namesCombo.removeAt(i);
+        possibleAnswers.removeAt(i);
+    }
+
+    db->deleteQuestion(names + namesCombo);
 }
 
 //TODO : add check if good or not
