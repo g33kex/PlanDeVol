@@ -392,6 +392,7 @@ INCLUDEPATH += \
 HEADERS += \
     src/Admin/GeoportailLink.h \
     src/Admin/List_file.h \
+    src/Admin/QuestionFile.h \
     src/DataManager/DbManager.h \
     src/MissionManager/ParcelleManagerController.h \
     src/MissionManager/QuestionsViewController.h \
@@ -407,6 +408,7 @@ HEADERS += \
 SOURCES += \
     src/Admin/GeoportailLink.cpp \
     src/Admin/List_file.cpp \
+    src/Admin/QuestionFile.cpp \
     src/DataManager/DbManager.cpp \
     src/MissionManager/ParcelleManagerController.cpp \
     src/MissionManager/QuestionsViewController.cpp \

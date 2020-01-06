@@ -1,21 +1,24 @@
 #include "QuestionsViewController.h"
 #include <QVariant>
 
+#include "Admin/List_file.h"
+#include "DataManager/DbManager.h"
+
+extern DbManager *db;
+
 QuestionsViewController::QuestionsViewController() {
     this->questions=QStringList();
-    possibleAnswers=QVariantList();
+    this->possibleAnswers=QVariantList();
 
-    for(int i=0;i<10;i++) {
-        this->questions.append("Hello world "+QString::number(i));
-        this->selectedAnswers.append(1);
-        QStringList s = QStringList();
-        for(int j=0; j<5; j++) {
-            s.append("This is a test "+QString::number(j)+ " from line "+QString::number(i));
-        }
-        this->possibleAnswers.append(QVariant::fromValue(s));
-    }
-
-
+//    for(int i=0;i<10;i++) {
+//        this->questions.append("Hello world "+QString::number(i));
+//        this->selectedAnswers.append(1);
+//        QStringList s = QStringList();
+//        for(int j=0; j<5; j++) {
+//            s.append("This is a test "+QString::number(j)+ " from line "+QString::number(i));
+//        }
+//        this->possibleAnswers.append(QVariant::fromValue(s));
+//    }
 
 }
 

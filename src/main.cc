@@ -240,6 +240,12 @@ List_file *nbParam;
 
 extern List_file *lColumn;
 List_file *lColumn;
+
+extern List_file *lQuestion;
+List_file *lQuestion;
+
+extern List_file *lPossibleAnswer;
+List_file *lPossibleAnswer;
 /**
  * @brief Starts the application
  *
@@ -477,7 +483,27 @@ int main(int argc, char *argv[])
 
         // contain other column to add
         lColumn = new List_file("lColumn");
-        lColumn->append("type");
+        if (! flightParam->load()) {
+            lColumn->append("type");
+            qDebug() << "lColumn file is empty" << flightParam->size();
+        }
+
+
+        // contain question to the corresponding column
+        lQuestion = new List_file("lQuestion");
+        if (! flightParam->load()) {
+            lQuestion->append("type");
+            qDebug() << "lQuestion file is empty" << flightParam->size();
+        }
+
+
+        // contain other column to add
+        lPossibleAnswer = new List_file("lPossibleAnswer");
+        if (! flightParam->load()) {
+            lPossibleAnswer->append("type");
+            qDebug() << "lPossibleAnswer file is empty" << flightParam->size();
+        }
+
 
         db = new DbManager();
         db->buildDB();
