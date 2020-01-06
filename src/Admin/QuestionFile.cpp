@@ -8,8 +8,6 @@ QuestionFile::QuestionFile(QString file)
     questionsCombo = *new QList<QString>();
     namesCombo = *new QList<QString>();
     answers = *new QList<QList<QString>>();
-
-    load();
 }
 
 QList<QString> QuestionFile::getQuestions() {
@@ -81,13 +79,14 @@ void QuestionFile::save() {
 void QuestionFile::load() {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "fifkjkshj<duhqijskdfdhduqsjKSD";
         qDebug() << file.errorString();
         return;
     }
 
     while (!file.atEnd()) {
         QByteArray line = file.readLine();
-        QList<QByteArray> lineParse = line.split(',');
+        QList<QByteArray> lineParse = line.split(';');
         if (QString(lineParse[2]) == '1') {
             namesCombo.append(lineParse[0]);
             questionsCombo.append(lineParse[1]);

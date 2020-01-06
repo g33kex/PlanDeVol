@@ -7,7 +7,6 @@
 #include "AppSettings.h"
 
 extern List_file *nbParam;
-extern List_file *lColumn;
 extern AppSettings* sett;
 
 DbManager::DbManager() {
@@ -241,10 +240,10 @@ void DbManager::saveToXML(QString path) {
             xmlWriter.writeTextElement("filename", ParcelleQuery.value("name").toString());
             xmlWriter.writeTextElement("pathTo", ParcelleQuery.value("parcelleFile").toString());
 
-            //list of different value of the row (other than owner, name, file and speed)
-            for (QList<QString>::iterator i = lColumn->begin(); i!= lColumn->end(); ++i) {
-                xmlWriter.writeTextElement(*i, ParcelleQuery.value(*i).toString());
-            }
+//            //list of different value of the row (other than owner, name, file and speed)
+//            for (QList<QString>::iterator i = lColumn->begin(); i!= lColumn->end(); ++i) {
+//                xmlWriter.writeTextElement(*i, ParcelleQuery.value(*i).toString());
+//            }
 
             // close the Parcelle
             xmlWriter.writeEndElement();
@@ -262,15 +261,13 @@ void DbManager::saveToXML(QString path) {
 }
 
 bool DbManager::addQuestion(QString name) {
-
-    QSqlQuery queryTest;
-    queryTest.prepare("ALTER TABLE Parcelle ADD (:name) string;");
-    queryTest.bindValue(":name", name);
-    return queryTest.exec();
-
+    QSqlQuery query;
+    query.prepare("ALTER TABLE Parcelle ADD (:name) string;");
+    query.bindValue(":name", name);
+    return query.exec();
 }
 
 
 bool DbManager::deleteQuestion(QString name) {
-
+    return true;
 }

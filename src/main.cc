@@ -477,6 +477,7 @@ int main(int argc, char *argv[])
         }
 
         questionFile = new QuestionFile("QUESTIONFILE");
+        questionFile->load();
 
 
         db = new DbManager();

@@ -60,7 +60,7 @@ Rectangle {
         }
 
         function addQuestion(question, isMultipleChoices, choices, parcelleModel) {
-            _questionsViewController.addQuestion(parcelleModel, question, isMultipleChoices, choices);
+            _questionsViewController.addQuestion(parcelleModel, "truc", question, isMultipleChoices, choices);
             populateQA(parcelleModel, -1)
         }
 
