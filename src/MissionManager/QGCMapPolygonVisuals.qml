@@ -198,7 +198,7 @@ Item {
 
         onAccepted: {
             if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {
-                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_typeField.text, a_speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
+                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
 
             }
             else {
@@ -231,17 +231,11 @@ Item {
                     text: "Name"
                 }
                 Label {
-                    text: "Type"
-                }
-                Label {
                     text: "Speed"
 
                 }
                 TextField {
                     id: a_nameField
-                }
-                TextField {
-                    id: a_typeField
                 }
                 ComboBox {
                     id: a_speedBox

@@ -358,13 +358,12 @@ Item {
             function refresh() {
                 ownerField.updateContent()
                 fileField.updateContent()
-                typeField.updateContent()
                 speedBox.updateContent()
                 questionsView.populateQA(parcelleModel, parcelleIndex)
             }
 
             onAccepted: {
-                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, typeField.text, speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
+                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
                 map.updateParcelles()
             }
 
@@ -384,9 +383,6 @@ Item {
                 text: "Name"
             }
             Label {
-                text: "Type"
-            }
-            Label {
                 text: "Speed"
 
             }
@@ -402,12 +398,6 @@ Item {
                 enabled: false
                 function updateContent() {
                     text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "name")
-                }
-            }
-            TextField {
-                id: typeField
-                function updateContent() {
-                    text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "type")
                 }
             }
             ComboBox {
@@ -440,7 +430,7 @@ Item {
 
             onAccepted: {
                 if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                     _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.currentIndex)
+                     _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_speedBox.currentIndex)
                     addParcelleProgressOverlay.open()
                 }
                 else {
@@ -492,9 +482,6 @@ Item {
                     text: "ParcelleFile"
                 }
                 Label {
-                    text: "Type"
-                }
-                Label {
                     text: "Speed"
 
                 }
@@ -503,9 +490,6 @@ Item {
                 }
                 TextField {
                     id: a_fileField
-                }
-                TextField {
-                    id: a_typeField
                 }
                 ComboBox {
                     id: a_speedBox
