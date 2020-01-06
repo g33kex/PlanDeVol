@@ -26,6 +26,8 @@ public:
     void save();
     void load();
 
+    void setTest();
+
 private:
     QList<QString> questions;
     QList<QString> names;

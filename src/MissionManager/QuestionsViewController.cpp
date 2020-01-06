@@ -67,12 +67,14 @@ void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {
     if (i < questions.length()) {
         questions.removeAt(i);
         names.removeAt(i);
+        defaultAnswers.removeAt(i);
     }
     else {
         i = i - questions.length();
         questionsCombo.removeAt(i);
         namesCombo.removeAt(i);
         possibleAnswers.removeAt(i);
+        selectedAnswers.removeAt(i);
     }
 
     db->deleteQuestion(names + namesCombo);

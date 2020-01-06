@@ -10,6 +10,7 @@ QuestionFile::QuestionFile(QString file)
     selected = *new QList<int>();
     answers = *new QList<QList<QString>>();
     defaultAnswer = *new QList<QString>();
+
 }
 
 QList<QString> QuestionFile::getQuestions() {
@@ -125,3 +126,25 @@ void QuestionFile::load() {
         }
     }
 }
+
+
+void QuestionFile::setTest() {
+    questions.append("truc");
+    names.append("trucN");
+    questionsCombo.append("trucC");
+    namesCombo.append("trucNC");
+    selected.append(0);
+    defaultAnswer.append("trucD");
+    answers.append({"truc1", "truc2"});
+
+
+    questions.append("trucB");
+    names.append("trucBN");
+    questionsCombo.append("trucBC");
+    namesCombo.append("trucBNC");
+    selected.append(1);
+    answers.append({"truc3", "truc4", "truc5"});
+    defaultAnswer.append("trucD2");
+}
+
+

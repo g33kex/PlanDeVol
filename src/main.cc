@@ -478,7 +478,7 @@ int main(int argc, char *argv[])
 
         questionFile = new QuestionFile("QUESTIONFILE.csv");
 //        questionFile->load();
-        questionFile->save();
+        questionFile->setTest();
 
 
         db = new DbManager();
