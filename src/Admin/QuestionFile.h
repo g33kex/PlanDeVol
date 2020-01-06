@@ -11,11 +11,13 @@ public:
     QList<QString> getNames();
     QList<QString> getQuestionsCombo();
     QList<QString> getNamesCombo();
+    QList<QString> getDefaultAnswer();
     QList<QList<QString>> getAnswers();
     QList<int> getSelected();
 
     void setQuestions(QList<QString>);
     void setSelected(QList<int>);
+    void setDefaultAnswer(QList<QString>);
     void setNames(QList<QString>);
     void setQuestionsCombo(QList<QString>);
     void setNamesCombo(QList<QString>);
@@ -30,6 +32,7 @@ private:
     QList<QString> questionsCombo;
     QList<QString> namesCombo;
     QList<int> selected;
+    QList<QString> defaultAnswer;
     QList<QList<QString>> answers;
     QString filename;
 };

@@ -29,6 +29,7 @@ public:
     QStringList namesCombo;
     QVariantList possibleAnswers;
     QList<int> selectedAnswers;
+    QList<QString> defaultAnswers;
 };
 
 #endif // QUESTIONSVIEWCONTROLLER_H

@@ -476,8 +476,9 @@ int main(int argc, char *argv[])
             qDebug() << "flightParam file is empty" << flightParam->size();
         }
 
-        questionFile = new QuestionFile("QUESTIONFILE");
-        questionFile->load();
+        questionFile = new QuestionFile("QUESTIONFILE.csv");
+//        questionFile->load();
+        questionFile->save();
 
 
         db = new DbManager();

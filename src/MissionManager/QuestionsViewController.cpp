@@ -13,6 +13,7 @@ QuestionsViewController::QuestionsViewController() {
     this->names = questionFile->getNames();
     this->namesCombo = questionFile->getNamesCombo();
     this->selectedAnswers = questionFile->getSelected();
+    this->defaultAnswers = questionFile->getDefaultAnswer();
 
     QList<QList<QString>> lQuest = questionFile->getAnswers();
     this->possibleAnswers = QVariantList();
@@ -43,7 +44,7 @@ QStringList QuestionsViewController::getQuestions(SqlCustomModel *model, int ind
 //There should always be the same number of questions as answers and they should be in the same order
 //if index=-1, just return the default answers for the questions.
 QStringList QuestionsViewController::getAnswers(SqlCustomModel *model, int index) {
-   return this->questions;
+   return defaultAnswers;
 }
 
 //TODO : add Q&A

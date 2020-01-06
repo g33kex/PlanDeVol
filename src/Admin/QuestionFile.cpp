@@ -9,6 +9,7 @@ QuestionFile::QuestionFile(QString file)
     namesCombo = *new QList<QString>();
     selected = *new QList<int>();
     answers = *new QList<QList<QString>>();
+    defaultAnswer = *new QList<QString>();
 }
 
 QList<QString> QuestionFile::getQuestions() {
@@ -36,9 +37,18 @@ QList<QString> QuestionFile::getNamesCombo(){
     return namesCombo;
 }
 
+QList<QString> QuestionFile::getDefaultAnswer(){
+    return defaultAnswer;
+}
+
 void QuestionFile::setQuestions(QList<QString> quest) {
     questions.clear();
     questions.append(quest);
+}
+
+void QuestionFile::setDefaultAnswer(QList<QString> ans) {
+    defaultAnswer.clear();
+    defaultAnswer.append(ans);
 }
 
 void QuestionFile::setNames(QList<QString> newNames){
@@ -97,11 +107,11 @@ void QuestionFile::load() {
     while (!file.atEnd()) {
         QByteArray line = file.readLine();
         QList<QByteArray> lineParse = line.split(';');
-        int bar = lineParse[2].toInt();
-        selected.append(bar);
         if (QString(lineParse[3]) == '1') {
             namesCombo.append(lineParse[0]);
             questionsCombo.append(lineParse[1]);
+            int bar = lineParse[2].toInt();
+            selected.append(bar);
             QList<QString> foo = *new QList<QString>();
             for(int i = 4; i < lineParse.length(); i++) {
                 foo.append(lineParse[i]);
@@ -111,6 +121,7 @@ void QuestionFile::load() {
         else {
             names.append(lineParse[0]);
             questions.append(lineParse[1]);
+            defaultAnswer.append(lineParse[2]);
         }
     }
 }
