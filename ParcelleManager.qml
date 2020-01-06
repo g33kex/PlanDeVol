@@ -430,98 +430,96 @@ Item {
 
     }
 
-    Dialog {
-       id: addParcelleDialog
+        Dialog {
+           id: addParcelleDialog
 
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            modal: true
 
 
-        onAccepted: {
-            if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                 _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.currentIndex)
-                addParcelleProgressOverlay.open()
+            onAccepted: {
+                if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
+                     _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_typeField.text, a_speedBox.currentIndex)
+                    addParcelleProgressOverlay.open()
+                }
+                else {
+                     parcelleExistsDialog.open()
+
+                }
             }
-            else {
-                 parcelleExistsDialog.open()
 
-            }
-        }
+           Popup {
+               id: addParcelleProgressOverlay
 
-       Popup {
-           id: addParcelleProgressOverlay
+               parent: Overlay.overlay
 
-           parent: Overlay.overlay
+               closePolicy: Popup.NoAutoClose
+               modal: true
 
-           closePolicy: Popup.NoAutoClose
-           modal: true
+               x: Math.round((parent.width - width) / 2)
+               y: Math.round((parent.height - height) / 2)
+               width: 100
+               height: 100
 
-           x: Math.round((parent.width - width) / 2)
-           y: Math.round((parent.height - height) / 2)
-           width: 100
-           height: 100
+               BusyIndicator {
+                   anchors.fill: parent
+               }
 
-           BusyIndicator {
-               anchors.fill: parent
            }
 
-       }
+            function reset() {
+                a_ilotField.text = ""
+                a_fileField.text = ""
+                a_typeField.text = ""
+                questionsView2.populateQA(parcelleModel, -1)
 
-        function reset() {
-            a_ilotField.text = ""
-            a_fileField.text = ""
-            a_typeField.text = ""
-			questionsView2.populateQA(parcelleModel, -1)
-            
+            }
+
+
+            title: "Add Parcelle"
+
+            standardButtons: Dialog.Ok | Dialog.Cancel
+
+            GridLayout {
+                columns: 4
+                anchors.fill: parent
+
+                Label {
+                    text: "Ilot number"
+                }
+                Label {
+                    text: "ParcelleFile"
+                }
+                Label {
+                    text: "Type"
+                }
+                Label {
+                    text: "Speed"
+
+                }
+                TextField {
+                    id: a_ilotField
+                }
+                TextField {
+                    id: a_fileField
+                }
+                TextField {
+                    id: a_typeField
+                }
+                ComboBox {
+                    id: a_speedBox
+                    currentIndex: 1
+                    model: [ "low", "med", "hig" ]
+                }
+                QuestionsView {
+                    id: questionsView2
+                    Layout.columnSpan: 4
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 100
+                }
+            }
         }
-
-
-        title: "Add Parcelle"
-
-        standardButtons: Dialog.Ok | Dialog.Cancel
-
-        GridLayout {
-            columns: 4
-            anchors.fill: parent
-
-            Label {
-                text: "Ilot number"
-            }
-            Label {
-                text: "ParcelleFile"
-            }
-            Label {
-                text: "Type"
-            }
-            Label {
-                text: "Speed"
-
-            }
-            TextField {
-                id: a_ilotField
-            }
-            TextField {
-                id: a_fileField
-            }
-            TextField {
-                id: a_typeField
-            }
-            ComboBox {
-                id: a_speedBox
-                currentIndex: 1
-                model: [ "low", "med", "hig" ]
-            }
-			QuestionsView {
-                id: questionsView2
-                Layout.columnSpan: 4
-                Layout.fillWidth: true
-                Layout.minimumHeight: 100
-            }
-
-        }
-
-
     }
 
     Dialog {
