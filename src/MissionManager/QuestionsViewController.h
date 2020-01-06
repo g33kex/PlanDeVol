@@ -21,9 +21,12 @@ public:
     Q_INVOKABLE QVariantList getPossibleAnswers(SqlCustomModel *model, int index);
     Q_INVOKABLE QList<int>    getSelectedAnswers(SqlCustomModel *model, int index);
     Q_INVOKABLE void        deleteQuestion(SqlCustomModel *model, int i);
-    Q_INVOKABLE void        addQuestion(SqlCustomModel *model, QString question, bool isMultipleChoices, QString choices);
+    Q_INVOKABLE void        addQuestion(SqlCustomModel *model, QString name, QString question, bool isMultipleChoices, QString choices);
 
     QStringList questions;
+    QStringList questionsCombo;
+    QStringList names;
+    QStringList namesCombo;
     QVariantList possibleAnswers;
     QList<int> selectedAnswers;
 };

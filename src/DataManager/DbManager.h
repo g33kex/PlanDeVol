@@ -20,6 +20,9 @@ class DbManager
 
         QSqlDatabase getDB();
 
+        bool addQuestion(QString name);
+        bool deleteQuestion(QString name);
+
         bool verifNbMission(QString username);
         bool verifNbParcelle(QString username);
         bool verifNbUser();

@@ -260,3 +260,17 @@ void DbManager::saveToXML(QString path) {
     file.close();
 
 }
+
+bool DbManager::addQuestion(QString name) {
+
+    QSqlQuery queryTest;
+    queryTest.prepare("ALTER TABLE Parcelle ADD (:name) string;");
+    queryTest.bindValue(":name", name);
+    return queryTest.exec();
+
+}
+
+
+bool DbManager::deleteQuestion(QString name) {
+
+}

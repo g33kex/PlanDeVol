@@ -9,7 +9,15 @@ public:
 
     QList<QString> getQuestions();
     QList<QString> getNames();
-    QMap<QString, QList<QString>> getAnswers();
+    QList<QString> getQuestionsCombo();
+    QList<QString> getNamesCombo();
+    QList<QList<QString>> getAnswers();
+
+    void setQuestions(QList<QString>);
+    void setNames(QList<QString>);
+    void setQuestionsCombo(QList<QString>);
+    void setNamesCombo(QList<QString>);
+    void setAnswers(QList<QList<QString>>);
 
     void save();
     void load();
@@ -17,7 +25,9 @@ public:
 private:
     QList<QString> questions;
     QList<QString> names;
-    QMap<QString, QList<QString>> answers;
+    QList<QString> questionsCombo;
+    QList<QString> namesCombo;
+    QList<QList<QString>> answers;
     QString filename;
 };
 

@@ -29,6 +29,7 @@
 #include "AppMessages.h"
 #include "DataManager/DbManager.h"
 #include "Admin/List_file.h"
+#include "Admin/QuestionFile.h"
 
 #include "ParcelleManagerController.h"
 
@@ -238,14 +239,8 @@ List_file *flightParam;
 extern List_file *nbParam;
 List_file *nbParam;
 
-extern List_file *lColumn;
-List_file *lColumn;
-
-extern List_file *lQuestion;
-List_file *lQuestion;
-
-extern List_file *lPossibleAnswer;
-List_file *lPossibleAnswer;
+extern QuestionFile *questionFile;
+QuestionFile *questionFile;
 /**
  * @brief Starts the application
  *
@@ -481,28 +476,7 @@ int main(int argc, char *argv[])
             qDebug() << "flightParam file is empty" << flightParam->size();
         }
 
-        // contain other column to add
-        lColumn = new List_file("lColumn");
-        if (! flightParam->load()) {
-            lColumn->append("type");
-            qDebug() << "lColumn file is empty" << flightParam->size();
-        }
-
-
-        // contain question to the corresponding column
-        lQuestion = new List_file("lQuestion");
-        if (! flightParam->load()) {
-            lQuestion->append("type");
-            qDebug() << "lQuestion file is empty" << flightParam->size();
-        }
-
-
-        // contain other column to add
-        lPossibleAnswer = new List_file("lPossibleAnswer");
-        if (! flightParam->load()) {
-            lPossibleAnswer->append("type");
-            qDebug() << "lPossibleAnswer file is empty" << flightParam->size();
-        }
+        questionFile = new QuestionFile("QUESTIONFILE");
 
 
         db = new DbManager();

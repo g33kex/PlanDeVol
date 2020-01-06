@@ -1,25 +1,28 @@
 #include "QuestionsViewController.h"
 #include <QVariant>
 
-#include "Admin/List_file.h"
+#include "Admin/QuestionFile.h"
 #include "DataManager/DbManager.h"
 
 extern DbManager *db;
+extern QuestionFile *questionFile;
 
 QuestionsViewController::QuestionsViewController() {
-    this->questions=QStringList();
-    this->possibleAnswers=QVariantList();
+    this->questions=questionFile->getQuestions();
+    this->questionsCombo=questionFile->getQuestionsCombo();
+    this->names=questionFile->getNames();
+    this->namesCombo=questionFile->getNamesCombo();
 
-//    for(int i=0;i<10;i++) {
-//        this->questions.append("Hello world "+QString::number(i));
-//        this->selectedAnswers.append(1);
-//        QStringList s = QStringList();
-//        for(int j=0; j<5; j++) {
-//            s.append("This is a test "+QString::number(j)+ " from line "+QString::number(i));
-//        }
-//        this->possibleAnswers.append(QVariant::fromValue(s));
-//    }
-
+    QList<QList<QString>> lQuest = questionFile->getAnswers();
+    this->possibleAnswers = QVariantList();
+    // Conversion QList<QList>> in QList<QVarient>>
+    for(QList<QString> foo : lQuest) {
+        QStringList s = QStringList();
+        for(QString str : foo) {
+            s.append(str);
+        }
+        this->possibleAnswers.append(QVariant::fromValue(s));
+    }
 }
 
 QuestionsViewController::~QuestionsViewController() {
@@ -45,7 +48,7 @@ QStringList QuestionsViewController::getAnswers(SqlCustomModel *model, int index
 //TODO : add Q&A
 //Get questions for combobox questions
 QStringList QuestionsViewController::getComboQuestions(SqlCustomModel *model, int index) {
-    return this->questions;
+    return this->questionsCombo;
 }
 
 QVariantList QuestionsViewController::getPossibleAnswers(SqlCustomModel *model, int index) {
@@ -59,11 +62,22 @@ QList<int> QuestionsViewController::getSelectedAnswers(SqlCustomModel *model, in
 //TODO : add Q&A
 //For admin part : delete a question, i is the number of the question, questions are ordered as returned by getQuestions and then getComboQuestions for index=-1
 void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {
-
+//    db->removeQuestion()
 }
 
-//TODO : add Q&A
+//TODO : add check if good or not
 //For admin part : add a new question
-void QuestionsViewController::addQuestion(SqlCustomModel *model, QString question, bool isMultipleChoices, QString choices) {
-
+void QuestionsViewController::addQuestion(SqlCustomModel *model, QString name, QString question, bool isMultipleChoices, QString choices) {
+    if(isMultipleChoices) {
+        db->addQuestion(name);
+        namesCombo.append(name);
+        questionsCombo.append(question);
+        possibleAnswers.append(choices);
+    }
+    else {
+        db->addQuestion(name);
+        namesCombo.append(name);
+        questionsCombo.append(question);
+        possibleAnswers.append(choices);
+    }
 }
