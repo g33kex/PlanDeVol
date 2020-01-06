@@ -8,10 +8,11 @@ extern DbManager *db;
 extern QuestionFile *questionFile;
 
 QuestionsViewController::QuestionsViewController() {
-    this->questions=questionFile->getQuestions();
-    this->questionsCombo=questionFile->getQuestionsCombo();
-    this->names=questionFile->getNames();
-    this->namesCombo=questionFile->getNamesCombo();
+    this->questions = questionFile->getQuestions();
+    this->questionsCombo = questionFile->getQuestionsCombo();
+    this->names = questionFile->getNames();
+    this->namesCombo = questionFile->getNamesCombo();
+    this->selectedAnswers = questionFile->getSelected();
 
     QList<QList<QString>> lQuest = questionFile->getAnswers();
     this->possibleAnswers = QVariantList();

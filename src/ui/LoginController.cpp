@@ -299,9 +299,6 @@ bool LoginController::modifyPassword(SqlCustomModel *model, int index, QString u
     qDebug() << hashOld.toUtf8();
     if (hashOld.compare(pass) == 0) {
         record.setValue("password", QVariant(hashNew));
-//        record.setValue("parcelleFile", QVariant(parcelleFile));
-//        record.setValue("type", QVariant(type));
-//        record.setValue("speed",QVariant(speed));
         bool ok = model->setRecord(index, record);
         qDebug() << ok;
         model->submitAll();
