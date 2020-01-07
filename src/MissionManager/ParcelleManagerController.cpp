@@ -138,7 +138,8 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
     return;
 }
 
-//TODO : add Q&A
+
+
 void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
 
     QSqlRecord record = model->record(index);
@@ -147,6 +148,17 @@ void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index,
 //    record.setValue("parcelleFile", QVariant(parcelleFile));
     record.setValue("type", QVariant(type));
     record.setValue("speed",QVariant(speed));
+
+    QList<QString> names = questionFile->getNames();
+    for(int i = 0; i < answers.length(); i++){
+        record.setValue(names[i], answers[i]);
+    }
+
+    QList<QString> namesCombo = questionFile->getNamesCombo();
+    for(int i = 0; i < comboAnswers.length(); i++){
+        QList<QString> repPossible = questionFile->getAnswers().at(i);
+        record.setValue(names[i], repPossible.at(comboAnswers[i]));
+    }
 
     bool ok = model->setRecord(index, record);
     qDebug() << ok;

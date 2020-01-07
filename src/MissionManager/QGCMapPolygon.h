@@ -72,7 +72,7 @@ public:
     Q_INVOKABLE void verifyClockwiseWinding(void);
 
     ///Save the polygon as KML (for Save as Parcelle)
-    Q_INVOKABLE void saveAsParcelle(QString name, QString type, int speed, QStringList answers, QList<int> comboAnswers);
+    Q_INVOKABLE void saveAsParcelle(QString name, int speed, QStringList answers, QList<int> comboAnswers);
 
 
     /// Saves the polygon to the json object.

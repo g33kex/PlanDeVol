@@ -26,8 +26,8 @@ Rectangle {
 
         function getComboAnswers() {
             var res=[]
-            for(var i=0; i<repeater.model.count; i++) {
-                res.push(repeater.itemAt(i).children[1].currentIndex)
+            for(var i=0; i<repeater2.model.count; i++) {
+                res.push(repeater2.itemAt(i).children[1].currentIndex)
             }
             return res;
         }

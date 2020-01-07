@@ -22,10 +22,12 @@
 #include <QDomDocument>
 #include <QList>
 #include "DataManager/DbManager.h"
+#include "Admin/QuestionFile.h"
 
 extern DbManager *db;
 extern QString username;
 const char* QGCMapPolygon::jsonPolygonKey = "polygon";
+extern QuestionFile *questionFile;
 
 QGCMapPolygon::QGCMapPolygon(QObject* parent)
     : QObject               (parent)
@@ -518,15 +520,10 @@ void QGCMapPolygon::verifyClockwiseWinding(void)
     }
 }
 
-
-//TODO : add Q&A
-//comboAnswers is a list of the id of the selected value on combobox (same order as values returned by getPossibleAnswers)
-void QGCMapPolygon::saveAsParcelle(QString name, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
-    qDebug() << "----------";
-    qDebug() << name;
+void QGCMapPolygon::saveAsParcelle(QString name, int speed, QStringList answers, QList<int> comboAnswers) {
     if (!name.endsWith(".kml")) name.append(".kml");
     ShapeFileHelper::savePolygonToKML(name, &_polygonModel, 0);
-    db->addParcelle(username, name, speed, QString::number(double(this->area() / 10000), 'f', 2));
+    db->addParcelle(username, name, speed, QString::number(double(this->area() / 10000), 'f', 2), answers, comboAnswers);
 }
 QString QGCMapPolygon::verifArea() {
     return QString("The area is ") + QString::number(this->area() / 10000) + " hectares";

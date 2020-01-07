@@ -222,7 +222,7 @@ Item {
 
                 Label {
                     id : verifLabel
-                    Layout.columnSpan: 3
+                    Layout.columnSpan: 2
                     text : mapPolygon.verifArea
                 }
 
@@ -243,10 +243,9 @@ Item {
                     model: [ "low", "med", "hig" ]
                 }
 
-
                 QuestionsView {
                     id: questionsView
-                    Layout.columnSpan: 3
+                    Layout.columnSpan: 2
                    // Layout.fillHeight: true
                    // Layout.fillWidth: true
                     Layout.fillWidth: true

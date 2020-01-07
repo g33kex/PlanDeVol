@@ -1,6 +1,7 @@
 #include "DataManager/DbManager.h"
 #include <QCryptographicHash>
 #include "Admin/List_file.h"
+#include "Admin/QuestionFile.h"
 #include <QtXml>
 #include <QDateTime>
 #include <QList>
@@ -9,6 +10,7 @@
 extern List_file *nbParam;
 //extern List_file *lColumn;
 extern AppSettings* sett;
+extern QuestionFile *questionFile;
 
 DbManager::DbManager() {
     m_db = QSqlDatabase::addDatabase("QSQLITE");
@@ -44,21 +46,53 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
     return success;
 }
 
-bool DbManager::addParcelle(const QString& owner, const QString& file, int speed, QString surface) {
+bool DbManager::addParcelle(const QString& owner, const QString& file, int speed, QString surface, QStringList answers, QList<int> comboAnswers) {
    bool success = false;
    if (owner == "" || file == "") return success;
 
+   QString prep = "INSERT INTO Parcelle (owner, parcelleFile, name, speed, surface";
    QSqlQuery query;
-   query.prepare("INSERT INTO Parcelle (owner, parcelleFile, name, speed, surface) VALUES (:owner, :parcelleFile, :name, :speed, :surface)");
-   query.bindValue(":owner", owner);
-   query.bindValue(":parcelleFile", file);
-   qDebug() << "--------- add Parcelle";
-   qDebug() << file.split("/").last();
-   query.bindValue(":name", file.split("/").last());
-   query.bindValue(":speed", speed);
-   query.bindValue(":surface", surface);
+   QString posVal = "(?,?,?,?,?";
+
+   qDebug() << answers.length() << "  " << comboAnswers.length();
+
+   QList<QString> names = questionFile->getNames();
+   for(int i = 0; i < names.length(); i++){
+       prep = prep + "," + names[i];
+       posVal = posVal + ",?";
+   }
+
+   QList<QString> namesCombo = questionFile->getNamesCombo();
+   for(int i = 0; i < namesCombo.length(); i++){
+       prep = prep + "," + namesCombo.at(i);
+       posVal = posVal + ",?";
+   }
+
+   prep = prep + ") VALUES " + posVal +")";
+
+   query.prepare(prep);
+   query.addBindValue(owner);
+   query.addBindValue(file);
+   query.addBindValue(file.split("/").last());
+   query.addBindValue(speed);
+   query.addBindValue(surface);
+
+   for(int i = 0; i < answers.length(); i++){
+       query.addBindValue(answers[i]);
+   }
+
+   for(int i = 0; i < comboAnswers.length(); i++){
+       QList<QString> repPossible = questionFile->getAnswers().at(i);
+       query.addBindValue(repPossible.at(comboAnswers[i]));
+   }
+
+   qDebug() << prep;
+
+
    if(query.exec()) success = true;
    else qDebug() << "addParcelle error:  " << query.lastError();
+
+   qDebug() << query.lastQuery();
 
    return success;
 }
