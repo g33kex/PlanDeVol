@@ -62,7 +62,7 @@ Item {
 				TabButton {
                     height: 40
                     width: 150
-                    text: "Parcelles"
+                    text: "Questions"
                     background: Rectangle {
                         color: tabBar.currentIndex == 2 ? "mediumseagreen" : "lightgreen"
                         radius: 3
@@ -568,6 +568,14 @@ Item {
                         Layout.margins: margin
                         Layout.topMargin: 0
                         onClicked: {
+                            questionView.save(parcelleModel2)
+                        }
+                    }
+                    Button {
+                        text: "save"
+                        Layout.margins: margin
+                        Layout.topMargin: 0
+                        onClicked: {
                             questionView.deleteChecked(parcelleModel2)
                         }
                     }
@@ -579,7 +587,12 @@ Item {
                     modal: true
 
                     onAccepted: {
-                        questionView.addQuestion(question_textField.text, combo_checkbox.checked, possibleChoiceArea.text, parcelleModel2)
+                        if(combo_checkbox.checked) {
+                            questionView.addQuestionCombo(question_textField.text, possibleChoiceArea.text, parcelleModel2, name_textField.text)
+                        }
+                        else {
+                            questionView.addQuestion(question_textField.text, parcelleModel2, name_textField.text)
+                        }
                         reset()
                     }
 
@@ -599,6 +612,13 @@ Item {
                         anchors.fill: parent
 
                         Label {
+                            text: "Nom du champ"
+                        }
+                        TextField {
+                            id: name_textField
+                            Layout.fillWidth: true
+                        }
+                        Label {
                             text: "Question"
                         }
                         TextField {
@@ -615,12 +635,13 @@ Item {
                             Layout.fillHeight: true
                             visible: combo_checkbox.checked
                         }
-
                     }
                 }
 
 
                 }
+
+
             }
             Item {
 

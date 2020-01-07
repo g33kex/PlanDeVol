@@ -9,12 +9,12 @@ extern QuestionFile *questionFile;
 
 QuestionsViewController::QuestionsViewController() {
     this->questions = questionFile->getQuestions();
-    this->questionsCombo = questionFile->getQuestionsCombo();
     this->names = questionFile->getNames();
-    this->namesCombo = questionFile->getNamesCombo();
-    this->selectedAnswers = questionFile->getSelected();
     this->defaultAnswers = questionFile->getDefaultAnswer();
 
+    this->questionsCombo = questionFile->getQuestionsCombo();
+    this->namesCombo = questionFile->getNamesCombo();
+    this->selectedAnswers = questionFile->getSelected();
     QList<QList<QString>> lQuest = questionFile->getAnswers();
     this->possibleAnswers = QVariantList();
     // Conversion QList<QList>> in QList<QVarient>>
@@ -33,36 +33,31 @@ QuestionsViewController::~QuestionsViewController() {
 
 //Warning : Model might be null if index=-1
 
-//TODO : add Q&A
-//Gets the questions for the parcel at index of the model. (Index = -1 when adding a new parcelle)
+//get non combo question
 QStringList QuestionsViewController::getQuestions(SqlCustomModel *model, int index) {
    return this->questions;
 }
 
-//TODO : add Q&A
-//Gets the answers for the parcel at index of the model. (Index = -1 when adding a new parcelle)
-//There should always be the same number of questions as answers and they should be in the same order
-//if index=-1, just return the default answers for the questions.
+//get non combo default anwser
 QStringList QuestionsViewController::getAnswers(SqlCustomModel *model, int index) {
    return defaultAnswers;
 }
 
-//TODO : add Q&A
-//Get questions for combobox questions
+//get combo question
 QStringList QuestionsViewController::getComboQuestions(SqlCustomModel *model, int index) {
     return this->questionsCombo;
 }
 
+//get possible combo answer
 QVariantList QuestionsViewController::getPossibleAnswers(SqlCustomModel *model, int index) {
     return this->possibleAnswers;
 }
 
+//get default combo answer
 QList<int> QuestionsViewController::getSelectedAnswers(SqlCustomModel *model, int index) {
     return this->selectedAnswers;
 }
 
-//TODO : add Q&A
-//For admin part : delete a question, i is the number of the question, questions are ordered as returned by getQuestions and then getComboQuestions for index=-1
 void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {
     if (i < questions.length()) {
         questions.removeAt(i);
@@ -80,19 +75,33 @@ void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {
     db->deleteQuestion(names + namesCombo);
 }
 
-//TODO : add check if good or not
-//For admin part : add a new question
-void QuestionsViewController::addQuestion(SqlCustomModel *model, QString name, QString question, bool isMultipleChoices, QString choices) {
-    if(isMultipleChoices) {
+
+void QuestionsViewController::addQuestion(SqlCustomModel *model, QString name, QString question) {
+    db->addQuestion(name);
+    names.append(name);
+    questions.append(question);
+    defaultAnswers.append("");
+}
+
+void QuestionsViewController::addQuestionCombo(SqlCustomModel *model, QString name, QString question, QString answers) {
         db->addQuestion(name);
         namesCombo.append(name);
         questionsCombo.append(question);
-        possibleAnswers.append(choices);
+        possibleAnswers.append(answers.split('\n'));
+        selectedAnswers.append(0);
+}
+
+void QuestionsViewController::save() {
+    QList<QList<QString>> foo = *new QList<QList<QString>>();
+    for(QVariant bar : possibleAnswers) {
+        foo.append(bar.toStringList());
     }
-    else {
-        db->addQuestion(name);
-        namesCombo.append(name);
-        questionsCombo.append(question);
-        possibleAnswers.append(choices);
-    }
+    questionFile->setAnswers(foo);
+    questionFile->setNames(names);
+    questionFile->setSelected(selectedAnswers);
+    questionFile->setQuestions(questions);
+    questionFile->setNamesCombo(namesCombo);
+    questionFile->setDefaultAnswer(defaultAnswers);
+    questionFile->setQuestionsCombo(questionsCombo);
+    questionFile->save();
 }

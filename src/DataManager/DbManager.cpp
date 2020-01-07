@@ -262,9 +262,11 @@ void DbManager::saveToXML(QString path) {
 
 bool DbManager::addQuestion(QString name) {
     QSqlQuery query;
-    query.prepare("ALTER TABLE Parcelle ADD (:name) string;");
+    query.prepare("ALTER TABLE Parcelle ADD (:name) TEXT;");
     query.bindValue(":name", name);
-    return query.exec();
+    if(!query.exec())  qDebug() << "add question error: " << query.lastError();
+    qDebug() << query.lastQuery();
+    return true;
 }
 
 

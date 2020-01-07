@@ -59,11 +59,20 @@ Rectangle {
             populateQA(parcelleModel, -1);
         }
 
-        function addQuestion(question, isMultipleChoices, choices, parcelleModel) {
-            _questionsViewController.addQuestion(parcelleModel, "truc", question, isMultipleChoices, choices);
+        function addQuestion(question, parcelleModel, name) {
+            _questionsViewController.addQuestion(parcelleModel, name, question);
             populateQA(parcelleModel, -1)
         }
 
+        function addQuestionCombo(question, answers, parcelleModel, name) {
+            _questionsViewController.addQuestionCombo(parcelleModel, name, question, answers);
+            populateQA(parcelleModel, -1)
+        }
+
+
+        function save(parcelleModel) {
+            _questionsViewController.save()
+        }
 
         function populateQA(parcelleModel, index) {
             clear()
@@ -78,7 +87,7 @@ Rectangle {
             var comboQuestions = _questionsViewController.getComboQuestions(parcelleModel, index);
             var possibleAnswers = _questionsViewController.getPossibleAnswers(parcelleModel, index);
             var selectedAnswers = _questionsViewController.getSelectedAnswers(parcelleModel, index);
-            for(i=0; i<questions.length; i++) {
+            for(i=0; i<comboQuestions.length; i++) {
                 var array =possibleAnswers[i];
 
                 console.log(comboQuestions[i]+" answer : "+possibleAnswers[i]+ " selected : "+selectedAnswers[i]);
@@ -149,14 +158,14 @@ Rectangle {
                             enabled: allowAnswers
                         }
 
-                  RadioButton {
-                      Layout.alignment: Qt.AlignRight
-                      Layout.margins: margin
-                      enabled: selectable
-                      ButtonGroup.group: selectionGroup
+                      RadioButton {
+                          Layout.alignment: Qt.AlignRight
+                          Layout.margins: margin
+                          enabled: selectable
+                          ButtonGroup.group: selectionGroup
+                      }
                   }
-                  }
-                }
+            }
 
 
             Repeater {
