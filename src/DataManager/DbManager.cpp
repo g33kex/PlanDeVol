@@ -262,9 +262,8 @@ void DbManager::saveToXML(QString path) {
 
 bool DbManager::addQuestion(QString name) {
     QSqlQuery query;
-    query.prepare("ALTER TABLE Parcelle ADD (:name) TEXT;");
-    query.bindValue(":name", name);
-    if(!query.exec())  qDebug() << "add question error: " << query.lastError();
+    QString prep = "ALTER TABLE Parcelle ADD \"" + name + "\" TEXT;";
+    if(!query.exec(prep))  qDebug() << "add question error: " << query.lastError();
     qDebug() << query.lastQuery();
     return true;
 }
@@ -278,7 +277,8 @@ bool DbManager::deleteQuestion(QList<QString> names) {
                    "\"owner\" TEXT NOT NULL,"\
                    "\"parcelleFile\" TEXT NOT NULL UNIQUE,"\
                    "\"name\" TEXT NOT NULL UNIQUE,"\
-                   "\"speed\" INTEGER NOT NULL CHECK(speed>=0 and speed<3),";
+                   "\"speed\" INTEGER NOT NULL CHECK(speed>=0 and speed<3),"\
+                   "\"surface\" TEXT,";
 
     for (int i = 0; i < names.length(); i++) {
         prep = prep + "\"" + names[i] + "\"	TEXT,";
@@ -287,13 +287,13 @@ bool DbManager::deleteQuestion(QList<QString> names) {
     if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
     qDebug() << prep;
 
-    prep = "INSERT INTO parcelle2(owner, parcelleFile, name, speed";
+    prep = "INSERT INTO parcelle2(owner, parcelleFile, name, speed, surface";
     for (int i = 0; i < names.length(); i++) {
         prep = prep + "," + names[i];
     }
 
     prep = prep + ")"
-                  "SELECT owner, parcelleFile, name, speed";
+                  "SELECT owner, parcelleFile, name, speed, surface";
     for (int i = 0; i < names.length(); i++) {
         prep = prep + "," + names[i];
     }

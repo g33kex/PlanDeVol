@@ -64,7 +64,7 @@ Item {
                     width: 150
                     text: "Questions"
                     background: Rectangle {
-                        color: tabBar.currentIndex == 2 ? "mediumseagreen" : "lightgreen"
+                        color: tabBar.currentIndex == 3 ? "orange" : "gold"
                         radius: 3
                     }
                 }
@@ -73,7 +73,7 @@ Item {
                     width: 150
                     text: "Paramètres de vol"
                     background: Rectangle {
-                        color: tabBar.currentIndex == 3 ? "silver" : "lightgrey"
+                        color: tabBar.currentIndex == 4 ? "silver" : "lightgrey"
                         radius: 3
                     }
                 }
@@ -568,7 +568,7 @@ Item {
                         Layout.margins: margin
                         Layout.topMargin: 0
                         onClicked: {
-                            questionView.save(parcelleModel2)
+                            questionView.deleteChecked(parcelleModel2)
                         }
                     }
                     Button {
@@ -576,7 +576,8 @@ Item {
                         Layout.margins: margin
                         Layout.topMargin: 0
                         onClicked: {
-                            questionView.deleteChecked(parcelleModel2)
+                            questionView.save(parcelleModel2)
+                            doneDialog.open()
                         }
                     }
 
@@ -602,6 +603,8 @@ Item {
                     function reset() {
                         possibleChoiceArea.text="";
                         question_textField.text="";
+                        name_textField.text="";
+                        combo_checkbox.checked = false
                     }
 
                     standardButtons: Dialog.Ok | Dialog.Cancel

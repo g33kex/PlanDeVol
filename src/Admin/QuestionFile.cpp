@@ -86,7 +86,7 @@ void QuestionFile::save() {
     QTextStream outStream(&file);
 
     for(int i = 0; i < names.length(); i++) {
-        outStream << names[i] << ';' << questions[i] << ';' << selected[i] << ';' << '0' << endl;
+        outStream << names[i] << ';' << questions[i] << ';' << defaultAnswer[i] << ';' << '0' << endl;
     }
     for(int i = 0; i < namesCombo.length(); i++) {
         outStream << namesCombo[i] << ';' << questionsCombo[i] << ';' << selected[i] << ';' << '1';
