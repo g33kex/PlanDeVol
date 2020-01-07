@@ -2,6 +2,7 @@
 
 #include "DataManager/DbManager.h"
 #include "Admin/GeoportailLink.h"
+#include "Admin/QuestionFile.h"
 #include "ComplexMissionItem.h"
 #include "SurveyComplexItem.h"
 #include <QSqlTableModel>
@@ -18,6 +19,7 @@
 extern QString username;
 extern DbManager *db;
 extern List_file *speedParam;
+extern QuestionFile *questionFile;
 
 ParcelleManagerController::ParcelleManagerController() {
     geoportailParcelle = new GeoportailLink();
@@ -67,10 +69,8 @@ void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotN
     _model = model;
     _type = type;
     _speed = speed;
-
-    qDebug() << "----- add Parcelle -----";
-    qDebug() << "Requesting " << ilotNumber;
-    qDebug() << speed;
+    _answers = answers;
+    _comboAnswers = comboAnswers;
 
     this->requestParcelle(ilotNumber);
 }
@@ -112,6 +112,18 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
         newRecord.setValue("type", QVariant(_type));
         newRecord.setValue("speed",QVariant(_speed));
         newRecord.setValue("surface", QVariant(QString::number(double(surface), 'f', 2)));
+
+
+        QList<QString> names = questionFile->getNames();
+        for(int i = 0; i < _answers.length(); i++){
+            newRecord.setValue(names[i], _answers[i]);
+        }
+
+        QList<QString> namesCombo = questionFile->getNamesCombo();
+        for(int i = 0; i < _comboAnswers.length(); i++){
+            QList<QString> repPossible = questionFile->getAnswers().at(i);
+            newRecord.setValue(names[i], repPossible.at(_comboAnswers[i]));
+        }
 
         /*-1 is set to indicate that it will be added to the last row*/
         if(_model->insertRecord(-1, newRecord)) {

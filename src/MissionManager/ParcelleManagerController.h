@@ -50,6 +50,8 @@ private:
     int _speed;
     QString _file;
     QVariantList* _parcelles;
+    QStringList _answers;
+    QList<int> _comboAnswers;
 };
 
 #endif // PARCELLEMANAGERCONTROLLER_H

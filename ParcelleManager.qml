@@ -11,9 +11,6 @@ import QGroundControl                   1.0
 import QGroundControl.Controllers       1.0
 
 
-
-
-
 Item {
     id: element
 
@@ -430,7 +427,7 @@ Item {
 
             onAccepted: {
                 if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                     _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_speedBox.currentIndex)
+                    _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_speedBox.currentIndex)
                     addParcelleProgressOverlay.open()
                 }
                 else {
@@ -461,9 +458,7 @@ Item {
             function reset() {
                 a_ilotField.text = ""
                 a_fileField.text = ""
-                a_typeField.text = ""
                 questionsView2.populateQA(parcelleModel, -1)
-
             }
 
 

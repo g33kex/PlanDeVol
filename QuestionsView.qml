@@ -78,10 +78,10 @@ Rectangle {
             clear()
             var questions = _questionsViewController.getQuestions(parcelleModel, index);
             var answers = _questionsViewController.getAnswers(parcelleModel, index);
-            console.log("-----QuestionView.qml-------\nquestion size:"+questions.length)
+//            console.log("-----QuestionView.qml-------\nquestion size:"+questions.length)
             for(var i=0; i<questions.length; i++) {
                 repeater.model.append({"question": questions[i], "answer": answers[i]});
-                console.log(questions[i]+" answer : "+answers[i]);
+//                console.log(questions[i]+" answer : "+answers[i]);
             }
 
             var comboQuestions = _questionsViewController.getComboQuestions(parcelleModel, index);
@@ -90,7 +90,7 @@ Rectangle {
             for(i=0; i<comboQuestions.length; i++) {
                 var array =possibleAnswers[i];
 
-                console.log(comboQuestions[i]+" answer : "+possibleAnswers[i]+ " selected : "+selectedAnswers[i]);
+//                console.log(comboQuestions[i]+" answer : "+possibleAnswers[i]+ " selected : "+selectedAnswers[i]);
                 repeater2.model.append({"question": comboQuestions[i], "answer": array});
                 repeater2.itemAt(i).children[1].model=array;
                 repeater2.itemAt(i).children[1].currentIndex=selectedAnswers[i];
