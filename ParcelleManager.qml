@@ -128,7 +128,7 @@ Item {
                     Rectangle {
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
-                        Layout.preferredHeight: page1.height/2
+                        Layout.fillHeight: true
                         color: "white"
 
 
