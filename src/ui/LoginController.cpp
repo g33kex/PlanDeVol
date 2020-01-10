@@ -50,6 +50,10 @@ void LoginController::onAdminClosed() {
 
     // verifier qu'il n'y a qu'une occurence de :
     for(QList<QString>::iterator i = checklist->begin(); i != checklist->end(); ++i) {
+        //we jump the empty line
+        if((*i).length() < 2) {
+            continue;
+        }
         if((*i).count(":") < 1) {
             (*i).append(":foo");
         }
@@ -58,6 +62,10 @@ void LoginController::onAdminClosed() {
             (*i) = (*i).replace(":", ";");
             (*i) = (*i).replace(index, 1, ":");
         }
+    }
+    //if the checklist is empty
+    if(checklist->length() == 0) {
+        checklist->append("RAS:RAS");
     }
 
     speedParam->clear();
