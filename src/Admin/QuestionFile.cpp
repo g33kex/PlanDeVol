@@ -111,6 +111,10 @@ void QuestionFile::load() {
 
     while (!file.atEnd()) {
         QByteArray line = file.readLine();
+        //if there is a \n, then we jump it
+        if(line.length() < 2) {
+            continue;
+        }
         QList<QByteArray> lineParse = line.split(';');
         if (QString(lineParse[4]) == '1') {
             namesCombo.append(lineParse[0]);

@@ -194,6 +194,8 @@ Item {
         x: (mainWindow.width - width) / 2
         y: (mainWindow.height - height) / 2
         modal: true
+        width: parent.width / 2
+        height: parent.height / 2
 
 
         onAccepted: {
