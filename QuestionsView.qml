@@ -18,7 +18,10 @@ Rectangle {
 
         function getAnswers() {
             var res=[];
+            console.log("-----QuestionView.qml-------")
             for(var i=0; i<repeater.model.count; i++) {
+                console.log(repeater.itemAt(i).children[1].text)
+                console.log(i)
                 res.push(repeater.model.get(i).answer);
             }
             return res;

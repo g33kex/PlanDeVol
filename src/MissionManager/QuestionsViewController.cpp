@@ -15,6 +15,7 @@ QuestionsViewController::QuestionsViewController() {
     this->questionsCombo = questionFile->getQuestionsCombo();
     this->namesCombo = questionFile->getNamesCombo();
     this->selectedAnswers = questionFile->getSelected();
+
     QList<QList<QString>> lQuest = questionFile->getAnswers();
     this->possibleAnswers = QVariantList();
     // Conversion QList<QList>> in QList<QVarient>>
@@ -31,31 +32,55 @@ QuestionsViewController::~QuestionsViewController() {
 
 }
 
-//Warning : Model might be null if index=-1
-
 //get non combo question
+//We do not need to distinguate the index with question
 QStringList QuestionsViewController::getQuestions(SqlCustomModel *model, int index) {
-   return this->questions;
+    return this->questions;
 }
 
 //get non combo default anwser
 QStringList QuestionsViewController::getAnswers(SqlCustomModel *model, int index) {
-   return defaultAnswers;
+    if(index == -1) {
+        return defaultAnswers;
+    }
+    else {
+        QStringList res = *new QStringList();
+        for(QString role : names) {
+            res.append(model->getRecordValue(index, role).toString());
+        }
+        return res;
+    }
 }
 
 //get combo question
+//We do not need to distinguate the index with question
 QStringList QuestionsViewController::getComboQuestions(SqlCustomModel *model, int index) {
     return this->questionsCombo;
 }
 
 //get possible combo answer
+//We do not need to distinguate the index with possible Answers
 QVariantList QuestionsViewController::getPossibleAnswers(SqlCustomModel *model, int index) {
     return this->possibleAnswers;
 }
 
 //get default combo answer
 QList<int> QuestionsViewController::getSelectedAnswers(SqlCustomModel *model, int index) {
-    return this->selectedAnswers;
+    if(index == -1) {
+        return this->selectedAnswers;
+    }
+    else {
+        QList<int> res = *new QList<int>();
+        QList<QList<QString>> foo = *new QList<QList<QString>>();
+        for(QVariant bar : possibleAnswers) {
+            foo.append(bar.toStringList());
+        }
+        for(int i = 0; i < namesCombo.length(); i++) {
+            int ind = foo.at(i).indexOf(model->getRecordValue(index, namesCombo[i]).toString());
+            res.append(ind);
+        }
+        return res;
+    }
 }
 
 void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {

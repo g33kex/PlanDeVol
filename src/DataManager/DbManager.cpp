@@ -77,7 +77,9 @@ bool DbManager::addParcelle(const QString& owner, const QString& file, int speed
    query.addBindValue(speed);
    query.addBindValue(surface);
 
+   qDebug() << answers.length();
    for(int i = 0; i < answers.length(); i++){
+       qDebug() << answers[i];
        query.addBindValue(answers[i]);
    }
 

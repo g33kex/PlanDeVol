@@ -115,7 +115,9 @@ Item {
                             onClicked: {
                                 console.log("SELECTION CHANGED, COUNT="+selection.count)
                                 if(tableView.selection.count===1) {
-                                    questionsView3.populateQA(parcelleModel, tableView.selection[0])
+                                    var sel=0
+                                    tableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                    questionsView3.populateQA(parcelleModel, sel)
                                 }
                                 else {
                                     questionsView3.clear()
