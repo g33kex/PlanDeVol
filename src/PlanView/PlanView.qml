@@ -34,6 +34,8 @@ Item {
 
     property bool planControlColapsed: false
 
+    property bool isFirstOpen: true
+
     readonly property int   _decimalPlaces:             8
     readonly property real  _horizontalMargin:          ScreenTools.defaultFontPixelWidth  * 0.5
     readonly property real  _margin:                    ScreenTools.defaultFontPixelHeight * 0.5
@@ -87,6 +89,16 @@ Item {
                 QGroundControl.airspaceManager.setROI(coordinateNW, coordinateSE, true /*planView*/, reset)
             }
         }
+    }
+
+    function test() {
+        isFirstOpen = false
+        if (_planMasterController.dirty) {
+            mainWindow.showComponentDialog(syncLoadFromFileOverwrite, columnHolder._overwriteText, mainWindow.showDialogDefaultWidth, StandardButton.Yes | StandardButton.Cancel)
+        } else {
+            _planMasterController.loadFromSelectedFile()
+        }
+
     }
 
     property bool _firstMissionLoadComplete:    false
@@ -188,6 +200,9 @@ Item {
             _planMasterController.start(false /* flyView */)
             _missionController.setCurrentPlanViewIndex(0, true)
             mainWindow.planMasterControllerPlan = _planMasterController
+            if(isFirstOpen) {
+                test()
+            }
         }
 
         function waitingOnDataMessage() {
