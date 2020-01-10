@@ -62,15 +62,16 @@ void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionContro
 }
 
 //TODO : add Q&A
-void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
+void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, int speed, QStringList answers, QList<int> comboAnswers) {
     if(!file.endsWith(".kml")) file.append(".kml");
 
     _file = file;
     _model = model;
-    _type = type;
     _speed = speed;
-    _answers = answers;
-    _comboAnswers = comboAnswers;
+    _answers.clear();
+    _answers.append(answers);
+    _comboAnswers.clear();
+    _comboAnswers.append(comboAnswers);
 
     this->requestParcelle(ilotNumber);
 }
@@ -109,7 +110,6 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
         newRecord.setValue("owner", QVariant(username));
         newRecord.setValue("parcelleFile", QVariant(_file));
         newRecord.setValue("name", QVariant(_file.split("/").last()));
-        newRecord.setValue("type", QVariant(_type));
         newRecord.setValue("speed",QVariant(_speed));
         newRecord.setValue("surface", QVariant(QString::number(double(surface), 'f', 2)));
 
@@ -122,7 +122,7 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
         QList<QString> namesCombo = questionFile->getNamesCombo();
         for(int i = 0; i < _comboAnswers.length(); i++){
             QList<QString> repPossible = questionFile->getAnswers().at(i);
-            newRecord.setValue(names[i], repPossible.at(_comboAnswers[i]));
+            newRecord.setValue(namesCombo[i], repPossible.at(_comboAnswers[i]));
         }
 
         /*-1 is set to indicate that it will be added to the last row*/
@@ -140,13 +140,12 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
 
 
 
-void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
+void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, int speed, QStringList answers, QList<int> comboAnswers) {
 
     QSqlRecord record = model->record(index);
 
 //    record.setValue("owner", QVariant(owner));
 //    record.setValue("parcelleFile", QVariant(parcelleFile));
-    record.setValue("type", QVariant(type));
     record.setValue("speed",QVariant(speed));
 
     QList<QString> names = questionFile->getNames();
@@ -157,7 +156,7 @@ void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index,
     QList<QString> namesCombo = questionFile->getNamesCombo();
     for(int i = 0; i < comboAnswers.length(); i++){
         QList<QString> repPossible = questionFile->getAnswers().at(i);
-        record.setValue(names[i], repPossible.at(comboAnswers[i]));
+        record.setValue(namesCombo[i], repPossible.at(comboAnswers[i]));
     }
 
     bool ok = model->setRecord(index, record);

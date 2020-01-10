@@ -306,6 +306,7 @@ Item {
             onAccepted: {
                 _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
                 map.updateParcelles()
+                questionsView3.clear()
             }
 
 
@@ -371,7 +372,7 @@ Item {
 
             onAccepted: {
                 if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                    _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_speedBox.currentIndex)
+                    _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_speedBox.currentIndex, questionsView2.getAnswers(), questionsView2.getComboAnswers())
                     addParcelleProgressOverlay.open()
                 }
                 else {
