@@ -243,7 +243,7 @@ bool DbManager::checkIfExist(QString file) {
 
 void DbManager::saveToXML(QString path) {
 
-    QString filename = path + QDateTime::currentDateTime().toString("ddMMyyyy-hhmmss")+".xml";
+    QString filename = sett->savePath()->rawValue().toString() + "/" + QDateTime::currentDateTime().toString("ddMMyyyy-hhmmss")+".xml";
 
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
@@ -276,10 +276,19 @@ void DbManager::saveToXML(QString path) {
             xmlWriter.writeTextElement("filename", ParcelleQuery.value("name").toString());
             xmlWriter.writeTextElement("pathTo", ParcelleQuery.value("parcelleFile").toString());
 
-//            //list of different value of the row (other than owner, name, file and speed)
-//            for (QList<QString>::iterator i = lColumn->begin(); i!= lColumn->end(); ++i) {
-//                xmlWriter.writeTextElement(*i, ParcelleQuery.value(*i).toString());
-//            }
+            xmlWriter.writeStartElement("Info");
+            QList<QString> names = questionFile->getNames();
+            //list of different value of the row (other than owner, name, file and speed)
+            for (int i = 0; i < names.length(); i++) {
+                xmlWriter.writeTextElement(names[i], ParcelleQuery.value(names[i]).toString());
+            }
+
+            QList<QString> namesCombo = questionFile->getNamesCombo();
+            //list of different value of the row (other than owner, name, file and speed)
+            for (int i = 0; i < namesCombo.length(); i++) {
+                xmlWriter.writeTextElement(namesCombo[i], ParcelleQuery.value(namesCombo[i]).toString());
+            }
+            xmlWriter.writeEndElement();
 
             // close the Parcelle
             xmlWriter.writeEndElement();
