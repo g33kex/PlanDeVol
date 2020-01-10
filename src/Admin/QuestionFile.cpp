@@ -1,7 +1,9 @@
 #include "QuestionFile.h"
 #include "AppSettings.h"
+#include "DataManager/DbManager.h"
 
 extern AppSettings* sett;
+extern DbManager* db;
 
 QuestionFile::QuestionFile(QString file)
 {
@@ -89,10 +91,10 @@ void QuestionFile::save() {
     QTextStream outStream(&file);
 
     for(int i = 0; i < names.length(); i++) {
-        outStream << names[i] << ';' << questions[i] << ';' << defaultAnswer[i] << ';' << '0' << endl;
+        outStream << names[i] << ';' << questions[i] << ";0;" << defaultAnswer[i] << ';' << '0' << endl;
     }
     for(int i = 0; i < namesCombo.length(); i++) {
-        outStream << namesCombo[i] << ';' << questionsCombo[i] << ';' << selected[i] << ';' << '1';
+        outStream << namesCombo[i] << ';' << questionsCombo[i] << ";0;" << selected[i] << ';' << '1';
         for(QString foo : answers.at(i)) {
             outStream << ';' << foo;
         }
@@ -103,7 +105,6 @@ void QuestionFile::save() {
 void QuestionFile::load() {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "fifkjkshj<duhqijskdfdhduqsjKSD";
         qDebug() << file.errorString();
         return;
     }
@@ -111,13 +112,13 @@ void QuestionFile::load() {
     while (!file.atEnd()) {
         QByteArray line = file.readLine();
         QList<QByteArray> lineParse = line.split(';');
-        if (QString(lineParse[3]) == '1') {
+        if (QString(lineParse[4]) == '1') {
             namesCombo.append(lineParse[0]);
             questionsCombo.append(lineParse[1]);
-            int bar = lineParse[2].toInt();
+            int bar = lineParse[3].toInt();
             selected.append(bar);
             QList<QString> foo = *new QList<QString>();
-            for(int i = 4; i < lineParse.length(); i++) {
+            for(int i = 5; i < lineParse.length(); i++) {
                 foo.append(lineParse[i]);
             }
             answers.append(foo);
@@ -125,7 +126,10 @@ void QuestionFile::load() {
         else {
             names.append(lineParse[0]);
             questions.append(lineParse[1]);
-            defaultAnswer.append(lineParse[2]);
+            defaultAnswer.append(lineParse[3]);
+        }
+        if(QString(lineParse[2]) == '1'){
+            db->addQuestion(lineParse[0]);
         }
     }
 }

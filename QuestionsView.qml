@@ -72,8 +72,13 @@ Rectangle {
             populateQA(parcelleModel, -1)
         }
 
+        function checkIfValid(name) {
+            return _questionsViewController.checkIfValid(name)
+        }
 
         function save(parcelleModel) {
+            _questionsViewController.setDefaultAnswers(getAnswers())
+            _questionsViewController.setComboAnswers(getComboAnswers())
             _questionsViewController.save()
         }
 

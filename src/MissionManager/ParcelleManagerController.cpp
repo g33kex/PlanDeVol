@@ -49,25 +49,23 @@ void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionContro
     qDebug() << "in userSpace::addToMission";
 
 
-    QMap<QString, double> *KmlParcelleList= new QMap<QString, double>() ;
+    QList<QString> *KmlParcelleList= new QList<QString>() ;
 
     for(QList<int>::iterator i = indexes.begin(); i != indexes.end(); ++i)
     {
         QString file = model->record(*i).value("parcelleFile").toString();
-        double speed = speedParam->at(model->record(*i).value("speed").toInt()).toDouble();
         qDebug() << *i;
-        KmlParcelleList->insert(file, speed);
+        KmlParcelleList->append(file);
     }
     missionController->insertComplexMissionFromDialog(*KmlParcelleList);
 }
 
 //TODO : add Q&A
-void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, int speed, QStringList answers, QList<int> comboAnswers) {
+void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QStringList answers, QList<int> comboAnswers) {
     if(!file.endsWith(".kml")) file.append(".kml");
 
     _file = file;
     _model = model;
-    _speed = speed;
     _answers.clear();
     _answers.append(answers);
     _comboAnswers.clear();
@@ -110,7 +108,6 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
         newRecord.setValue("owner", QVariant(username));
         newRecord.setValue("parcelleFile", QVariant(_file));
         newRecord.setValue("name", QVariant(_file.split("/").last()));
-        newRecord.setValue("speed",QVariant(_speed));
         newRecord.setValue("surface", QVariant(QString::number(double(surface), 'f', 2)));
 
 
@@ -140,14 +137,9 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
 
 
 
-void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, int speed, QStringList answers, QList<int> comboAnswers) {
+void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QStringList answers, QList<int> comboAnswers) {
 
     QSqlRecord record = model->record(index);
-
-//    record.setValue("owner", QVariant(owner));
-//    record.setValue("parcelleFile", QVariant(parcelleFile));
-    record.setValue("speed",QVariant(speed));
-
     QList<QString> names = questionFile->getNames();
     for(int i = 0; i < answers.length(); i++){
         record.setValue(names[i], answers[i]);

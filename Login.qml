@@ -588,13 +588,18 @@ Item {
                     modal: true
 
                     onAccepted: {
-                        if(combo_checkbox.checked) {
-                            questionView.addQuestionCombo(question_textField.text, possibleChoiceArea.text, parcelleModel2, name_textField.text)
+                        if(questionView.checkIfValid(name_textField.text)) {
+                            if(combo_checkbox.checked) {
+                                questionView.addQuestionCombo(question_textField.text, possibleChoiceArea.text, parcelleModel2, name_textField.text)
+                            }
+                            else {
+                                questionView.addQuestion(question_textField.text, parcelleModel2, name_textField.text)
+                            }
+                            reset()
                         }
                         else {
-                            questionView.addQuestion(question_textField.text, parcelleModel2, name_textField.text)
+                             idExistsDialog.open()
                         }
-                        reset()
                     }
 
 
@@ -1078,6 +1083,19 @@ Item {
         Label {
             anchors.centerIn: parent
             text: "Limite de sessions enregistrées atteintes."
+        }
+    }
+
+    Dialog {
+        id: idExistsDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "L'identifiant est deja utilisé"
         }
     }
 

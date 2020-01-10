@@ -98,16 +98,10 @@ Item {
                                 width: 3*tableView.width/8
                             }
                             TableViewColumn {
-                                role: "speed"
-                                title: "Speed (m/s)"
-                                movable: false
-                                width: tableView.width/8
-                            }
-                            TableViewColumn {
                                 role: "surface"
                                 title: "Surface (ha)"
                                 movable: false
-                                width: tableView.width/8
+                                width: 3*tableView.width/8
                             }
 
                             model: parcelleModel
@@ -299,12 +293,11 @@ Item {
             function refresh() {
                 ownerField.updateContent()
                 fileField.updateContent()
-                speedBox.updateContent()
                 questionsView.populateQA(parcelleModel, parcelleIndex)
             }
 
             onAccepted: {
-                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
+                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, questionsView.getAnswers(), questionsView.getComboAnswers())
                 map.updateParcelles()
                 questionsView3.clear()
             }
@@ -315,7 +308,7 @@ Item {
             standardButtons: Dialog.Ok | Dialog.Cancel
 
             GridLayout {
-                columns: 3
+                columns: 2
                 anchors.fill: parent
 
                 Label {
@@ -323,10 +316,6 @@ Item {
                 }
                 Label {
                     text: "Name"
-                }
-                Label {
-                    text: "Speed"
-
                 }
                 TextField {
                     id: ownerField
@@ -342,17 +331,10 @@ Item {
                         text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "name")
                     }
                 }
-                ComboBox {
-                    id: speedBox
-                    model: [ "low", "med", "hig" ]
-                    function updateContent() {
-                        currentIndex=parseInt(parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed"))
-                    }
-                }
 
                 QuestionsView {
                     id: questionsView
-                    Layout.columnSpan: 3
+                    Layout.columnSpan: 2
                     Layout.fillWidth: true
                     Layout.minimumHeight: 100
                 }
@@ -372,12 +354,11 @@ Item {
 
             onAccepted: {
                 if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                    _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_speedBox.currentIndex, questionsView2.getAnswers(), questionsView2.getComboAnswers())
+                    _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, questionsView2.getAnswers(), questionsView2.getComboAnswers())
                     addParcelleProgressOverlay.open()
                 }
                 else {
                      parcelleExistsDialog.open()
-
                 }
             }
 
@@ -412,7 +393,7 @@ Item {
             standardButtons: Dialog.Ok | Dialog.Cancel
 
             GridLayout {
-                columns: 3
+                columns: 2
                 anchors.fill: parent
 
                 Label {
@@ -421,24 +402,15 @@ Item {
                 Label {
                     text: "ParcelleFile"
                 }
-                Label {
-                    text: "Speed"
-
-                }
                 TextField {
                     id: a_ilotField
                 }
                 TextField {
                     id: a_fileField
                 }
-                ComboBox {
-                    id: a_speedBox
-                    currentIndex: 1
-                    model: [ "low", "med", "hig" ]
-                }
                 QuestionsView {
                     id: questionsView2
-                    Layout.columnSpan: 3
+                    Layout.columnSpan: 2
                     Layout.fillWidth: true
                     Layout.minimumHeight: 100
                 }

@@ -1,6 +1,8 @@
 #ifndef QUESTIONFILE_H
 #define QUESTIONFILE_H
 
+#include <QString>
+#include <QList>
 
 class QuestionFile
 {

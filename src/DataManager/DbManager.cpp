@@ -46,13 +46,13 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
     return success;
 }
 
-bool DbManager::addParcelle(const QString& owner, const QString& file, int speed, QString surface, QStringList answers, QList<int> comboAnswers) {
+bool DbManager::addParcelle(const QString& owner, const QString& file,QString surface, QStringList answers, QList<int> comboAnswers) {
    bool success = false;
    if (owner == "" || file == "") return success;
 
-   QString prep = "INSERT INTO Parcelle (owner, parcelleFile, name, speed, surface";
+   QString prep = "INSERT INTO Parcelle (owner, parcelleFile, name, surface";
    QSqlQuery query;
-   QString posVal = "(?,?,?,?,?";
+   QString posVal = "(?,?,?,?";
 
    qDebug() << answers.length() << "  " << comboAnswers.length();
 
@@ -74,7 +74,6 @@ bool DbManager::addParcelle(const QString& owner, const QString& file, int speed
    query.addBindValue(owner);
    query.addBindValue(file);
    query.addBindValue(file.split("/").last());
-   query.addBindValue(speed);
    query.addBindValue(surface);
 
    qDebug() << answers.length();
@@ -211,7 +210,7 @@ bool DbManager::verifNbUser() {
 void DbManager::buildDB() {
 
     QString tablePerson = "CREATE TABLE \"Person\" ( \"username\"	TEXT NOT NULL UNIQUE, \"password\"	TEXT,  \"nom\"	TEXT, \"prenom\"	TEXT, PRIMARY KEY(\"username\") );";
-    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE,\"speed\"	INTEGER NOT NULL CHECK(speed>=0 and speed<3), \"surface\" TEXT, FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
+    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE,\"surface\" TEXT, FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
     QString tableMission = "CREATE TABLE \"Mission\" ( \"owner\"	TEXT NOT NULL, \"missionFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, PRIMARY KEY(\"missionFile\"), FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE );";
 
     QSqlQuery queryPerson(tablePerson);
@@ -278,13 +277,13 @@ void DbManager::saveToXML(QString path) {
 
             xmlWriter.writeStartElement("Info");
             QList<QString> names = questionFile->getNames();
-            //list of different value of the row (other than owner, name, file and speed)
+            //list of different value of the row (other than owner, name, file)
             for (int i = 0; i < names.length(); i++) {
                 xmlWriter.writeTextElement(names[i], ParcelleQuery.value(names[i]).toString());
             }
 
             QList<QString> namesCombo = questionFile->getNamesCombo();
-            //list of different value of the row (other than owner, name, file and speed)
+            //list of different value of the row (other than owner, name, file)
             for (int i = 0; i < namesCombo.length(); i++) {
                 xmlWriter.writeTextElement(namesCombo[i], ParcelleQuery.value(namesCombo[i]).toString());
             }
@@ -322,7 +321,6 @@ bool DbManager::deleteQuestion(QList<QString> names) {
                    "\"owner\" TEXT NOT NULL,"\
                    "\"parcelleFile\" TEXT NOT NULL UNIQUE,"\
                    "\"name\" TEXT NOT NULL UNIQUE,"\
-                   "\"speed\" INTEGER NOT NULL CHECK(speed>=0 and speed<3),"\
                    "\"surface\" TEXT,";
 
     for (int i = 0; i < names.length(); i++) {
@@ -332,13 +330,13 @@ bool DbManager::deleteQuestion(QList<QString> names) {
     if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
     qDebug() << prep;
 
-    prep = "INSERT INTO parcelle2(owner, parcelleFile, name, speed, surface";
+    prep = "INSERT INTO parcelle2(owner, parcelleFile, name, surface";
     for (int i = 0; i < names.length(); i++) {
         prep = prep + "," + names[i];
     }
 
     prep = prep + ")"
-                  "SELECT owner, parcelleFile, name, speed, surface";
+                  "SELECT owner, parcelleFile, name, surface";
     for (int i = 0; i < names.length(); i++) {
         prep = prep + "," + names[i];
     }

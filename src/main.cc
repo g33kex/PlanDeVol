@@ -30,6 +30,7 @@
 #include "DataManager/DbManager.h"
 #include "Admin/List_file.h"
 #include "Admin/QuestionFile.h"
+#include "Admin/TestDir.h"
 
 #include "ParcelleManagerController.h"
 
@@ -477,12 +478,14 @@ int main(int argc, char *argv[])
             qDebug() << "flightParam file is empty" << flightParam->size();
         }
 
-        questionFile = new QuestionFile("questionFile.csv");
-        questionFile->load();
-
+        TestDir t = *new TestDir();
+        t.test();
 
         db = new DbManager();
         db->buildDB();
+
+        questionFile = new QuestionFile("questionFile.csv");
+        questionFile->load();
 
         if (!app->_initForNormalAppBoot()) {
             return -1;

@@ -130,3 +130,17 @@ void QuestionsViewController::save() {
     questionFile->setQuestionsCombo(questionsCombo);
     questionFile->save();
 }
+
+bool QuestionsViewController::checkIfValid(QString name) {
+    return !(names.contains(name) || namesCombo.contains(name));
+}
+
+void QuestionsViewController::setDefaultAnswers(QStringList def) {
+    defaultAnswers.clear();
+    defaultAnswers.append(def);
+}
+
+void QuestionsViewController::setComboAnswers(QList<int> def) {
+    selectedAnswers.clear();
+    selectedAnswers.append(def);
+}
