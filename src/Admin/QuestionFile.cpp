@@ -1,8 +1,11 @@
 #include "QuestionFile.h"
+#include "AppSettings.h"
+
+extern AppSettings* sett;
 
 QuestionFile::QuestionFile(QString file)
 {
-    filename = file;
+    filename = sett->savePath()->rawValue().toString() + "/" + file;
     questions = *new QList<QString>();
     names = *new QList<QString>();
     questionsCombo = *new QList<QString>();

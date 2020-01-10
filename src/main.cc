@@ -241,6 +241,7 @@ List_file *nbParam;
 
 extern QuestionFile *questionFile;
 QuestionFile *questionFile;
+
 /**
  * @brief Starts the application
  *

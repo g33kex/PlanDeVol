@@ -99,13 +99,13 @@ Item {
                             }
                             TableViewColumn {
                                 role: "speed"
-                                title: "Speed"
+                                title: "Speed (m/s)"
                                 movable: false
                                 width: tableView.width/8
                             }
                             TableViewColumn {
                                 role: "surface"
-                                title: "Surface"
+                                title: "Surface (ha)"
                                 movable: false
                                 width: tableView.width/8
                             }
@@ -315,7 +315,7 @@ Item {
             standardButtons: Dialog.Ok | Dialog.Cancel
 
             GridLayout {
-                columns: 4
+                columns: 3
                 anchors.fill: parent
 
                 Label {
@@ -352,7 +352,7 @@ Item {
 
                 QuestionsView {
                     id: questionsView
-                    Layout.columnSpan: 4
+                    Layout.columnSpan: 3
                     Layout.fillWidth: true
                     Layout.minimumHeight: 100
                 }
@@ -412,7 +412,7 @@ Item {
             standardButtons: Dialog.Ok | Dialog.Cancel
 
             GridLayout {
-                columns: 4
+                columns: 3
                 anchors.fill: parent
 
                 Label {
@@ -438,7 +438,7 @@ Item {
                 }
                 QuestionsView {
                     id: questionsView2
-                    Layout.columnSpan: 4
+                    Layout.columnSpan: 3
                     Layout.fillWidth: true
                     Layout.minimumHeight: 100
                 }

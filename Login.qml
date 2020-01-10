@@ -481,7 +481,7 @@ Item {
                             }
                             TableViewColumn {
                                 role: "surface"
-                                title: "Surface"
+                                title: "Surface (ha)"
                                 movable: false
                                 width: parcelleTableView.width/5
                             }

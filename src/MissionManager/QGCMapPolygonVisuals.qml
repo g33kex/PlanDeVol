@@ -217,7 +217,7 @@ Item {
         standardButtons: Dialog.Ok | Dialog.Cancel
 
             GridLayout {
-                columns: 3
+                columns: 2
                 anchors.fill: parent
 
                 Label {

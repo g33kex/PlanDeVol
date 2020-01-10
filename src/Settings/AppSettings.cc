@@ -71,6 +71,7 @@ DECLARE_SETTINGGROUP(App, "")
 
     connect(savePathFact, &Fact::rawValueChanged, this, &AppSettings::savePathsChanged);
     connect(savePathFact, &Fact::rawValueChanged, this, &AppSettings::_checkSavePathDirectories);
+    qDebug() << "checking save Path Dir";
     _checkSavePathDirectories();
     //-- Keep track of language changes
     SettingsFact* languageFact = qobject_cast<SettingsFact*>(language());
