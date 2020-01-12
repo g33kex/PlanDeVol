@@ -193,10 +193,9 @@ Item {
 
         x: (mainWindow.width - width) / 2
         y: (mainWindow.height - height) / 2
+        height: 600
+        width : 800
         modal: true
-        width: parent.width / 2
-        height: parent.height / 2
-
 
         onAccepted: {
             if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {

@@ -286,6 +286,9 @@ Item {
 
             x: (parent.width - width) / 2
             y: (parent.height - height) / 2
+            width: 3 *  parent.width / 4
+            height: 3 * parent.height / 4
+
             modal: true
 
             property int parcelleIndex: 0
@@ -336,6 +339,7 @@ Item {
                     id: questionsView
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
                     Layout.minimumHeight: 100
                 }
 
@@ -349,8 +353,8 @@ Item {
 
             x: (parent.width - width) / 2
             y: (parent.height - height) / 2
-            width: parent.width / 2
-            height: parent.height / 2
+            width: 3 *  parent.width / 4
+            height: 3 * parent.height / 4
             modal: true
 
 
@@ -414,6 +418,7 @@ Item {
                     id: questionsView2
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
                     Layout.minimumHeight: 100
                 }
             }

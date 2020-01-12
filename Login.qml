@@ -586,8 +586,8 @@ Item {
                 Dialog {
                     id: addQuestionDialog
                     modal: true
-                    width: parent.width / 2
-                    height: parent.height / 2
+                    width: 3 * parent.width / 4
+                    height: 3* parent.height / 4
 
                     onAccepted: {
                         if(questionView.checkIfValid(name_textField.text)) {
