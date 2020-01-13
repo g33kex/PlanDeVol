@@ -198,7 +198,7 @@ Item {
         modal: true
 
         onAccepted: {
-            if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {
+            if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text) && a_nameField.length > 0) {
                 mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text,questionsView.getAnswers(), questionsView.getComboAnswers())
 
             }

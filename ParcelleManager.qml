@@ -359,12 +359,14 @@ Item {
 
 
             onAccepted: {
-                if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                    _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, questionsView2.getAnswers(), questionsView2.getComboAnswers())
-                    addParcelleProgressOverlay.open()
-                }
-                else {
-                     parcelleExistsDialog.open()
+                if(a_ilotField.length > 0 && a_fileField.length > 0) {
+                    if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
+                        _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, questionsView2.getAnswers(), questionsView2.getComboAnswers())
+                        addParcelleProgressOverlay.open()
+                    }
+                    else {
+                         parcelleExistsDialog.open()
+                    }
                 }
             }
 

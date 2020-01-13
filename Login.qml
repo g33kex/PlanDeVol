@@ -134,7 +134,9 @@ Item {
 
 
                                 onAccepted: {
-                                    _loginController.addUser(userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
+                                    if(a_usernameField.length > 0) {
+                                        _loginController.addUser(userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
+                                    }
                                 }
 
 
@@ -591,7 +593,7 @@ Item {
                     height: 3* parent.height / 4
 
                     onAccepted: {
-                        if(questionView.checkIfValid(name_textField.text)) {
+                        if(questionView.checkIfValid(name_textField.text) && question_textField.length > 0 && name_textField.length > 0) {
                             if(combo_checkbox.checked) {
                                 questionView.addQuestionCombo(question_textField.text, possibleChoiceArea.text, parcelleModel2, name_textField.text)
                             }

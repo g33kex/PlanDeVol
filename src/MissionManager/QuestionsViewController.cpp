@@ -105,6 +105,7 @@ void QuestionsViewController::addQuestion(SqlCustomModel *model, QString name, Q
     //formatage de l'identifiant
     name.replace(" ", "-");
     name.replace(";", "-");
+    question.replace(";", "-");
     db->addQuestion(name);
     names.append(name);
     questions.append(question);
@@ -115,6 +116,8 @@ void QuestionsViewController::addQuestionCombo(SqlCustomModel *model, QString na
     //formatage de l'identifiant
     name.replace(" ", "-");
     name.replace(";", "-");
+    question.replace(";", "-");
+    answers.replace(";", "-");
     db->addQuestion(name);
     namesCombo.append(name);
     questionsCombo.append(question);
