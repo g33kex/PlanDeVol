@@ -666,7 +666,7 @@ Item {
         title: "Error"
         Label {
             anchors.centerIn: parent
-            text: "La parcelle existe déja!"
+            text: "Nom vide ou la parcelle existe déja!"
         }
     }
 

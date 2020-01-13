@@ -24,7 +24,6 @@ DbManager::DbManager() {
     else {
         QSqlQuery pragma("PRAGMA foreign_keys = ON");
         pragma.exec();
-        qDebug() << "Database: connection ok";
     }
 }
 
@@ -54,8 +53,6 @@ bool DbManager::addParcelle(const QString& owner, const QString& file,QString su
    QSqlQuery query;
    QString posVal = "(?,?,?,?";
 
-   qDebug() << answers.length() << "  " << comboAnswers.length();
-
    QList<QString> names = questionFile->getNames();
    for(int i = 0; i < names.length(); i++){
        prep = prep + "," + names[i];
@@ -76,9 +73,7 @@ bool DbManager::addParcelle(const QString& owner, const QString& file,QString su
    query.addBindValue(file.split("/").last());
    query.addBindValue(surface);
 
-   qDebug() << answers.length();
    for(int i = 0; i < answers.length(); i++){
-       qDebug() << answers[i];
        query.addBindValue(answers[i]);
    }
 
@@ -87,13 +82,8 @@ bool DbManager::addParcelle(const QString& owner, const QString& file,QString su
        query.addBindValue(repPossible.at(comboAnswers[i]));
    }
 
-   qDebug() << prep;
-
-
    if(query.exec()) success = true;
-   else qDebug() << "addParcelle error:  " << query.lastError();
-
-   qDebug() << query.lastQuery();
+   else qDebug() << "addParcelle error:  " << query.lastError() << query.lastQuery();
 
    return success;
 }
@@ -105,10 +95,8 @@ QList<QString> DbManager::getAllParcelle(QString username) {
     QSqlQuery query (foo);
     int idName = query.record().indexOf("parcelleFile");
     while (query.next()) {
-        qDebug() << query.value(idName).toString();
         res.append(query.value(idName).toString());
     }
-    qDebug() << "size of res " + QString::number(res.size());
     return res;
 }
 
@@ -133,7 +121,6 @@ QList<QString> DbManager::getAllMission(QString username) {
     QSqlQuery query (foo);
     int idName = query.record().indexOf("missionFile");
     while (query.next()) {
-        qDebug() << query.value(idName).toString();
         res.append(query.value(idName).toString());
     }
     qDebug() << "size of res " + QString::number(res.size());
@@ -141,23 +128,16 @@ QList<QString> DbManager::getAllMission(QString username) {
 }
 
 QString DbManager::getPassword(const QString& user) {
-    qDebug() << "----- getPassword -----";
-    qDebug() << user;
     QSqlQuery query;
     query.prepare("SELECT * FROM Person WHERE username = (:username)");
     query.bindValue(":username", user);
     if(query.exec()) {
-        //qDebug() << "status" << query.size() << query.lastError();
         query.first();
         QString password = query.value("password").toString();
-        qDebug() << "query" << password;
-
-        qDebug() << "------------";
         return password;
     }
     else {
         qDebug() << "getPassword error :" << query.lastError();
-        qDebug() << "------------";
         return "";
     }
 
@@ -176,7 +156,6 @@ bool DbManager::verifNbMission(QString username) {
     if(query.exec()) {
         query.first();
         QString value = query.value("count(missionFile)").toString();
-        qDebug() << "query" << value;
         return value.toInt() < nbParam->at(2).toInt();
     }
     return false;
@@ -189,8 +168,6 @@ bool DbManager::verifNbParcelle(QString username) {
     if(query.exec()) {
         query.first();
         QString value = query.value("count(parcelleFile)").toString();
-        qDebug() << "query" << value;
-        qDebug() << nbParam->at(1);
         return value.toInt() < nbParam->at(1).toInt();
     }
     return false;
@@ -198,11 +175,9 @@ bool DbManager::verifNbParcelle(QString username) {
 
 //we return false so that it block if the request come to an error
 bool DbManager::verifNbUser() {
-    qDebug() << "verif nb user";
     QSqlQuery query("SELECT count(username) FROM Person");
     query.first();
     QString value = query.value("count(username)").toString();
-    qDebug() << "query" << value;
     //here, we have a "<=" to include the admin !
     return value.toInt() <= nbParam->at(0).toInt();
 }
@@ -225,15 +200,12 @@ void DbManager::buildDB() {
 
 //Returns true if file doesn't exists
 bool DbManager::checkIfExist(QString file) {
-    qDebug() << "--------- check if exist";
-    qDebug() << file;
     QSqlQuery queryTest;
     queryTest.prepare("SELECT COUNT(*) as foo FROM Parcelle WHERE parcelleFile = (:file)");
     queryTest.bindValue(":file", file);
     if(queryTest.exec()) {
         queryTest.first();
         QString value = queryTest.value("foo").toString();
-        qDebug() << "query " << value;
         return value.toInt() == 0;
     }
     return false;
@@ -307,8 +279,7 @@ void DbManager::saveToXML(QString path) {
 bool DbManager::addQuestion(QString name) {
     QSqlQuery query;
     QString prep = "ALTER TABLE Parcelle ADD \"" + name + "\" TEXT;";
-    if(!query.exec(prep))  qDebug() << "add question error: " << query.lastError();
-    qDebug() << query.lastQuery();
+    if(!query.exec(prep))  qDebug() << "add question error: " << query.lastError() << query.lastQuery();
     return true;
 }
 
@@ -327,8 +298,7 @@ bool DbManager::deleteQuestion(QList<QString> names) {
         prep = prep + "\"" + names[i] + "\"	TEXT,";
     }
     prep = prep + "FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
-    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
-    qDebug() << prep;
+    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError() << prep;
 
     prep = "INSERT INTO parcelle2(owner, parcelleFile, name, surface";
     for (int i = 0; i < names.length(); i++) {
@@ -341,17 +311,26 @@ bool DbManager::deleteQuestion(QList<QString> names) {
         prep = prep + "," + names[i];
     }
     prep = prep + " FROM Parcelle;";
-    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
-    qDebug() << prep;
+    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError() << prep;
 
     prep = "DROP TABLE Parcelle;";
-    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
-    qDebug() << prep;
+    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError() << prep;
 
     prep = "ALTER TABLE parcelle2 RENAME TO Parcelle;";
-    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError();
-    qDebug() << prep;
+    if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError() << prep;
 
     QSqlDatabase::database().commit();
     return true;
+}
+
+
+QList<QString> DbManager::getAllColumn() {
+    QList<QString> res = *new QList<QString>();
+    QString foo = "select name from PRAGMA_TABLE_INFO(\"Parcelle\");";
+    QSqlQuery query (foo);
+    int idName = query.record().indexOf("name");
+    while (query.next()) {
+        res.append(query.value(idName).toString());
+    }
+    return res;
 }

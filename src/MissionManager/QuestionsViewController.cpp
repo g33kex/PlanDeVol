@@ -103,9 +103,10 @@ void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {
 
 void QuestionsViewController::addQuestion(SqlCustomModel *model, QString name, QString question) {
     //formatage de l'identifiant
-    name.replace(" ", "-");
-    name.replace(";", "-");
-    question.replace(";", "-");
+    name.replace(" ", "_");
+    name.replace(";", "_");
+    name.replace("-", "_");
+    question.replace(";", "_");
     db->addQuestion(name);
     names.append(name);
     questions.append(question);
@@ -114,10 +115,11 @@ void QuestionsViewController::addQuestion(SqlCustomModel *model, QString name, Q
 
 void QuestionsViewController::addQuestionCombo(SqlCustomModel *model, QString name, QString question, QString answers) {
     //formatage de l'identifiant
-    name.replace(" ", "-");
-    name.replace(";", "-");
-    question.replace(";", "-");
-    answers.replace(";", "-");
+    name.replace(" ", "_");
+    name.replace(";", "_");
+    name.replace("-", "_");
+    question.replace(";", "_");
+    answers.replace(";", "_");
     db->addQuestion(name);
     namesCombo.append(name);
     questionsCombo.append(question);
@@ -141,8 +143,9 @@ void QuestionsViewController::save() {
 }
 
 bool QuestionsViewController::checkIfValid(QString name) {
-    name.replace(" ", "-");
-    name.replace(";", "-");
+    name.replace(" ", "_");
+    name.replace(";", "_");
+    name.replace("-", "_");
     return !(names.contains(name) || namesCombo.contains(name));
 }
 

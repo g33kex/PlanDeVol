@@ -29,6 +29,8 @@ class DbManager
 
         bool checkIfExist(QString file);
 
+        QList<QString> getAllColumn();
+
         void buildDB();
 
         void saveToXML(QString);

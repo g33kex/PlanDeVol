@@ -28,6 +28,7 @@ public:
     void save();
     void load();
     void clear();
+    void synchro();
 
     void setTest();
 

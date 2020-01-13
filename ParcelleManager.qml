@@ -368,6 +368,9 @@ Item {
                          parcelleExistsDialog.open()
                     }
                 }
+                else {
+                    champVideDialog.open()
+                }
             }
 
             Popup {
@@ -490,6 +493,19 @@ Item {
         Label {
             anchors.centerIn: parent
             text: "La parcelle existe déja!"
+        }
+    }
+
+    Dialog {
+        id: champVideDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "Le champs numero d'ilot ou nom est vide"
         }
     }
 

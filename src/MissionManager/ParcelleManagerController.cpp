@@ -36,7 +36,6 @@ ParcelleManagerController::~ParcelleManagerController()
 
 void ParcelleManagerController::deleteParcelle(SqlCustomModel *model, QList<int> indexes) {
     for(int i=0; i<indexes.size();i++) {
-        qDebug() << "Removing " << indexes[i];
         QFile file (model->record(indexes[i]).value("parcelleFile").toString());
         file.remove();
         model->removeRow(indexes[i]);
@@ -46,15 +45,11 @@ void ParcelleManagerController::deleteParcelle(SqlCustomModel *model, QList<int>
 
 
 void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionController *missionController, QList<int> indexes) {
-    qDebug() << "in userSpace::addToMission";
-
-
     QList<QString> *KmlParcelleList= new QList<QString>() ;
 
     for(QList<int>::iterator i = indexes.begin(); i != indexes.end(); ++i)
     {
         QString file = model->record(*i).value("parcelleFile").toString();
-        qDebug() << *i;
         KmlParcelleList->append(file);
     }
     missionController->insertComplexMissionFromDialog(*KmlParcelleList);
@@ -91,7 +86,6 @@ void ParcelleManagerController::requestParcelle(QString NbIlot) {
 
 
 void ParcelleManagerController::requestReply(QNetworkReply *reply) {
-    qDebug() << "requestReply";
     if (reply->error()) {
         qDebug() << reply->errorString();
         emit downloadEnded(false);
@@ -124,7 +118,6 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
 
         /*-1 is set to indicate that it will be added to the last row*/
         if(_model->insertRecord(-1, newRecord)) {
-            qDebug()<<"successful insertion" << newRecord.value("owner") << "was its owner";
             _model->submitAll();
         }
         emit downloadEnded(true);
@@ -159,10 +152,8 @@ void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index,
 bool ParcelleManagerController::verif(QString user, QString pass) {
         if (user == "") return false;
         QString mdp = QCryptographicHash::hash(pass.toUtf8(), QCryptographicHash::Sha3_256);
-        qDebug() << mdp;
         QString mdp_base = db->getPassword(user);
         if(mdp_base.compare(mdp) == 0) {
-            qDebug() << "true";
             return true;
         }
         else {
@@ -172,8 +163,6 @@ bool ParcelleManagerController::verif(QString user, QString pass) {
 }
 
 void ParcelleManagerController::initParcelles() {
-    qDebug() << "----- init parcelle -----";
-
     this->_parcelles = new QVariantList();
 
     QStringList files = QStringList();
@@ -181,8 +170,6 @@ void ParcelleManagerController::initParcelles() {
 
 
     for(QString file : files) {
-        qDebug() << "Looking at file "+file;
-
         QString error;
         QList<QGeoCoordinate> vertices = QList<QGeoCoordinate>();
         KMLFileHelper::loadPolygonFromFile(file, vertices, error);
@@ -195,13 +182,8 @@ void ParcelleManagerController::initParcelles() {
         for(QGeoCoordinate coordinate : vertices) {
             variantVertices.append(QVariant::fromValue(coordinate));
         }
-        qDebug() << "varientVertices size = " << variantVertices.length();
-        qDebug() << "Number of vertices : " << vertices.size();
         this->_parcelles->append(QVariant::fromValue(variantVertices));
-        qDebug() << "Parcelle list size: "<<this->_parcelles->length();
     }
-
-    qDebug() << "------------";
 
 }
 
