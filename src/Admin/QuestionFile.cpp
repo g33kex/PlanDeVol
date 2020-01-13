@@ -108,6 +108,7 @@ void QuestionFile::load() {
         qDebug() << file.errorString();
         return;
     }
+    bool flag = false;
 
     while (!file.atEnd()) {
         QByteArray line = file.readLine();
@@ -134,10 +135,25 @@ void QuestionFile::load() {
         }
         if(QString(lineParse[2]) == '1'){
             db->addQuestion(lineParse[0]);
+            flag  = true;
         }
+    }
+
+    if(flag) {
+        save();
     }
 }
 
+
+void QuestionFile::clear() {
+    questions.clear();
+    names.clear();
+    questionsCombo.clear();
+    namesCombo.clear();
+    selected.clear();
+    defaultAnswer.clear();
+    answers.clear();
+}
 
 void QuestionFile::setTest() {
     questions.append("truc");

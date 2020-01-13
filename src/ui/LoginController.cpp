@@ -3,6 +3,7 @@
 #include <QCryptographicHash>
 #include "DataManager/DbManager.h"
 #include "Admin/List_file.h"
+#include "Admin/QuestionFile.h"
 #include "AppSettings.h"
 
 extern DbManager *db;
@@ -13,6 +14,7 @@ extern List_file *altParam;
 extern List_file *flightParam;
 extern QString username;
 extern AppSettings* sett;
+extern QuestionFile* questionFile;
 
 QQmlApplicationEngine* LoginController::qmlAppEngine=nullptr;
 LoginController::LoginController()
@@ -41,6 +43,9 @@ bool LoginController::login(QString user, QString password) {
 }
 
 void LoginController::onAdminClosed() {
+
+
+    //Reload the checklist
     checklist->clear();
     //param par defaut if the file is empty
     if (! checklist->load()) {
@@ -68,6 +73,7 @@ void LoginController::onAdminClosed() {
         checklist->append("RAS:RAS");
     }
 
+    //Reload the flight param
     speedParam->clear();
     //param par defaut if the file is empty
     if (! speedParam->load()) {
@@ -108,6 +114,9 @@ void LoginController::onAdminClosed() {
         qDebug() << "flightParam file is empty" << flightParam->size();
     }
 
+
+    questionFile->clear();
+    questionFile->load();
 }
 
 void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {

@@ -237,7 +237,7 @@ Item {
                 QuestionsView {
                     id: questionsView
                     Layout.columnSpan: 2
-                   // Layout.fillHeight: true
+                    Layout.fillHeight: true
                    // Layout.fillWidth: true
                     Layout.fillWidth: true
                     Layout.minimumHeight: 100

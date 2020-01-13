@@ -145,9 +145,11 @@ void CameraCalc::_cameraNameChanged(void)
 
 void CameraCalc::_recalcTriggerDistance(void)
 {
-    if (_disableRecalc || isManualCamera()) {
+    qDebug() << "----------------- recalcTriggerDistance";
+    if (_disableRecalc) {
         return;
     }
+    qDebug() << "----------------- recalcTriggerDistance After";
 
     _disableRecalc = true;
 

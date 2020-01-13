@@ -27,6 +27,7 @@ public:
 
     void save();
     void load();
+    void clear();
 
     void setTest();
 

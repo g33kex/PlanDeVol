@@ -569,6 +569,7 @@ Item {
                         Layout.topMargin: 0
                         onClicked: {
                             questionView.deleteChecked(parcelleModel2)
+                            questionView.save(parcelleModel2)
                         }
                     }
                     Button {
@@ -597,6 +598,7 @@ Item {
                             else {
                                 questionView.addQuestion(question_textField.text, parcelleModel2, name_textField.text)
                             }
+                            questionView.save(parcelleModel2)
                             reset()
                         }
                         else {
@@ -906,6 +908,17 @@ Item {
                    }
                }
             onClicked: {
+
+                //we save the flight param
+                _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
+                _loginController.setParamAlt(lowalt.text, medalt.text, highalt.text)
+                _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
+                _loginController.setParamChecklist(checklistArea.text)
+                _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
+
+                //we save the questions
+                questionView.save(parcelleModel2)
+
                 adminInterface.close()
                 _loginController.onAdminClosed()
             }
@@ -1003,7 +1016,7 @@ Item {
                     console.log("Logged in as user "+username)
                     _loginController.loadMainWindow()
                     rootWindowLoader.source="MainRootWindow.qml"
-                    //loginMainWindow.close()
+                    loginMainWindow.hide()
                 }
             }
             else {
