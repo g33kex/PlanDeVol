@@ -558,6 +558,20 @@ Item {
                     Layout.alignment: Qt.AlignRight
                     Layout.fillWidth: true
                     Button {
+                        text: "Echange"
+                        Layout.margins: margin
+                        Layout.topMargin: 0
+                        onClicked: {
+                            if(questionView.getNbChecked() === 2 && questionView.isCheckedValid()) {
+                                questionView.exchangeQuestion()
+                            }
+                            else {
+                                tooMuchExDialog.open()
+                            }
+
+                        }
+                    }
+                    Button {
                         text: "+"
                         Layout.margins: margin
                         Layout.topMargin: 0
@@ -570,8 +584,13 @@ Item {
                         Layout.margins: margin
                         Layout.topMargin: 0
                         onClicked: {
-                            questionView.deleteChecked(parcelleModel2)
-                            questionView.save(parcelleModel2)
+                            if(questionView.getNbChecked() === 1) {
+                                questionView.deleteChecked(parcelleModel2)
+                                questionView.save(parcelleModel2)
+                            }
+                            else {
+                                tooMuchDelDialog.open()
+                            }
                         }
                     }
                     Button {
@@ -1113,6 +1132,32 @@ Item {
         Label {
             anchors.centerIn: parent
             text: "L'identifiant est deja utilisé"
+        }
+    }
+
+    Dialog {
+        id: tooMuchExDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "Séléctionner que 2 questions de la même catégorie à échanger"
+        }
+    }
+
+    Dialog {
+        id: tooMuchDelDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "Séléctionner qu'une question a supprimer"
         }
     }
 

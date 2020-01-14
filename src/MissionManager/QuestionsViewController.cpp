@@ -100,6 +100,40 @@ void QuestionsViewController::deleteQuestion(SqlCustomModel *model, int i) {
     db->deleteQuestion(names + namesCombo);
 }
 
+QList<QString> QuestionsViewController::swapItemsAt(QList<QString> inp, int i, int j){
+    QString buf;
+    buf = inp[i];
+    inp[i] = inp[j];
+    inp[j] = buf;
+    return inp;
+}
+
+void QuestionsViewController::exchangeQuestion(QList<int> index) {
+    //here we assume that we only have index.length == 2 and in the same categories
+    int i0 = index[0];
+    int i1 = index[1];
+    qDebug() << i0;
+    qDebug() << i1;
+    if (index[0] < questions.length()) {
+        names = swapItemsAt(names, i0, i1);
+        questions = swapItemsAt(questions, i0, i1);
+        defaultAnswers = swapItemsAt(defaultAnswers, i0, i1);
+    }
+    else {
+        i0 = i0 - questions.length();
+        i1 = i1 - questions.length();
+        questionsCombo = swapItemsAt(questionsCombo, i0, i1);
+        namesCombo = swapItemsAt(namesCombo, i0, i1);
+        int buf = selectedAnswers[i0];
+        selectedAnswers[i0] = selectedAnswers[i1];
+        selectedAnswers[i1] = buf;
+
+        QVariant buf2 = possibleAnswers[i0];
+        possibleAnswers[i0] = possibleAnswers[i1];
+        possibleAnswers[i1] = buf2;
+    }
+}
+
 
 void QuestionsViewController::addQuestion(SqlCustomModel *model, QString name, QString question) {
     //formatage de l'identifiant
