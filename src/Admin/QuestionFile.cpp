@@ -1,5 +1,8 @@
 #include "QuestionFile.h"
 
+#include <QFile>
+#include <QDebug>
+
 QuestionFile::QuestionFile(QString file)
 {
     filename = file;

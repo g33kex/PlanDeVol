@@ -1,9 +1,13 @@
 #ifndef QUESTIONFILE_H
 #define QUESTIONFILE_H
 
+#include <QObject>
 
-class QuestionFile
+
+
+class QuestionFile : public QObject
 {
+    Q_OBJECT
 public:
     QuestionFile(QString);
 
