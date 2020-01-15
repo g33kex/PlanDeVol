@@ -18,8 +18,11 @@ Rectangle {
 
         function getAnswers() {
             var res=[];
+//            console.log("-----QuestionView.qml-------")
             for(var i=0; i<repeater.model.count; i++) {
-                res.push(repeater.model.get(i).answer);
+//                console.log(repeater.itemAt(i).children[1].text)
+//                console.log(i)
+                res.push(repeater.itemAt(i).children[1].text);
             }
             return res;
         }
@@ -54,8 +57,69 @@ Rectangle {
             return -1;
         }
 
+        function getCheckedMult() {
+            var index=0;
+            var ret = []
+            for(var i=0; i<repeater.model.count; i++) {
+                if(repeater.itemAt(i).children[2].checked) {
+                    ret.push(index)
+                }
+                index++;
+            }
+            for(i=0; i<repeater2.model.count; i++) {
+                if(repeater2.itemAt(i).children[2].checked) {
+                    ret.push(index);
+                }
+                index++;
+            }
+            return ret;
+        }
+
+        function getNbChecked() {
+            var index=0;
+            var ret = []
+            for(var i=0; i<repeater.model.count; i++) {
+                if(repeater.itemAt(i).children[2].checked) {
+                    ret.push(index)
+                }
+                index++;
+            }
+            for(i=0; i<repeater2.model.count; i++) {
+                if(repeater2.itemAt(i).children[2].checked) {
+                    ret.push(index);
+                }
+                index++;
+            }
+            return ret.length;
+        }
+
+        function isCheckedValid() {
+            var res1 = false;
+            var res2 = false;
+            for(var i=0; i<repeater.model.count; i++) {
+                if(repeater.itemAt(i).children[2].checked) {
+                    res1 = true;
+                    break;
+                }
+            }
+            for(i=0; i<repeater2.model.count; i++) {
+                if(repeater2.itemAt(i).children[2].checked) {
+                    if(res1 === true) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         function deleteChecked(parcelleModel) {
             _questionsViewController.deleteQuestion(parcelleModel, getChecked())
+            populateQA(parcelleModel, -1);
+        }
+
+        function exchangeQuestion() {
+            _questionsViewController.exchangeQuestion(getCheckedMult())
+            clear()
             populateQA(parcelleModel, -1);
         }
 
@@ -69,8 +133,13 @@ Rectangle {
             populateQA(parcelleModel, -1)
         }
 
+        function checkIfValid(name) {
+            return _questionsViewController.checkIfValid(name)
+        }
 
         function save(parcelleModel) {
+            _questionsViewController.setDefaultAnswers(getAnswers())
+            _questionsViewController.setComboAnswers(getComboAnswers())
             _questionsViewController.save()
         }
 
@@ -95,11 +164,6 @@ Rectangle {
                 repeater2.itemAt(i).children[1].model=array;
                 repeater2.itemAt(i).children[1].currentIndex=selectedAnswers[i];
             }
-            if(questions.length>0) {
-                repeater.itemAt(0).children[2].checked=true;
-            }
-
-            //Answer as a list doens't seem to fill the model...
         }
 
         ListModel {
@@ -131,9 +195,43 @@ Rectangle {
               anchors.left: parent.left
               anchors.right: parent.right
 
-              ButtonGroup {
-                  id: selectionGroup
+              Repeater {
+
+                id: repeater2
+                model: listModel2
+                width: column.width
+
+                RowLayout {
+                    width: column.width
+
+                      Label {
+                          text: qsTr(question)
+                          Layout.margins: margin
+                      }
+
+                      ComboBox {
+                          id: comboBox
+                          //text: qsTr(answer)
+
+
+                          model: ["hello", "world"]
+                          Layout.alignment: Qt.AlignRight
+                          Layout.preferredWidth: column.width/2
+                          Layout.margins : margin
+                          enabled: allowAnswers
+                      }
+
+                      CheckBox {
+                          Layout.alignment: Qt.AlignRight
+                          Layout.margins: margin
+                          checked: false
+                          enabled: selectable
+                      }
+
+
+                    }
               }
+
 
               Repeater {
 
@@ -158,50 +256,12 @@ Rectangle {
                             enabled: allowAnswers
                         }
 
-                      RadioButton {
+                      CheckBox {
                           Layout.alignment: Qt.AlignRight
                           Layout.margins: margin
+                          checked: false
                           enabled: selectable
-                          ButtonGroup.group: selectionGroup
                       }
-                  }
-            }
-
-
-            Repeater {
-
-              id: repeater2
-              model: listModel2
-              width: column.width
-
-              RowLayout {
-                  width: column.width
-
-                    Label {
-                        text: qsTr(question)
-                        Layout.margins: margin
-                    }
-
-                    ComboBox {
-                        id: comboBox
-                        //text: qsTr(answer)
-
-
-                        model: ["hello", "world"]
-                        Layout.alignment: Qt.AlignRight
-                        Layout.preferredWidth: column.width/2
-                        Layout.margins : margin
-                        enabled: allowAnswers
-                    }
-
-                    RadioButton {
-                        Layout.alignment: Qt.AlignRight
-                        Layout.margins: margin
-                        enabled: selectable
-                        ButtonGroup.group: selectionGroup
-                    }
-
-
                   }
             }
           }

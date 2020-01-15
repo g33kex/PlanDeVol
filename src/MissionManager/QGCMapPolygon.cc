@@ -520,10 +520,10 @@ void QGCMapPolygon::verifyClockwiseWinding(void)
     }
 }
 
-void QGCMapPolygon::saveAsParcelle(QString name, int speed, QStringList answers, QList<int> comboAnswers) {
+void QGCMapPolygon::saveAsParcelle(QString name, QStringList answers, QList<int> comboAnswers) {
     if (!name.endsWith(".kml")) name.append(".kml");
     ShapeFileHelper::savePolygonToKML(name, &_polygonModel, 0);
-    db->addParcelle(username, name, speed, QString::number(double(this->area() / 10000), 'f', 2), answers, comboAnswers);
+    db->addParcelle(username, name, QString::number(double(this->area() / 10000), 'f', 2), answers, comboAnswers);
 }
 QString QGCMapPolygon::verifArea() {
     return QString("The area is ") + QString::number(this->area() / 10000) + " hectares";

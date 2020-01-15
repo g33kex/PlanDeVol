@@ -60,206 +60,171 @@ Item {
                 Layout.fillWidth: true
                 Layout.margins: margin
 
-            GridLayout {
-                id: rowLayout
-                columns: 3
-                rows: 3
-                anchors.fill: parent
-               Rectangle {
-                    Layout.columnSpan: 3
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    color: "white"
-                    id: page1
+                GridLayout {
+                    id: rowLayout
+                    columns: 3
+                    rows: 3
+                    anchors.fill: parent
+                    Rectangle {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "white"
+                        id: page1
 
-                    SqlCustomModel {
-                        id: parcelleModel
+                        SqlCustomModel {
+                            id: parcelleModel
 
-                        Component.onCompleted: {
-                            setupForParcelle()
+                            Component.onCompleted: {
+                                setupForParcelle()
+                            }
+
+                        }
+
+                        TableView {
+                            id: tableView
+                            anchors.fill: parent
+                            selectionMode: SelectionMode.MultiSelection
+                            TableViewColumn {
+                                role: "owner"
+                                title: "Owner"
+                                movable: false
+                                width: 2*tableView.width/8
+                            }
+                            TableViewColumn {
+                                role: "name"
+                                title: "name of the Parcelle"
+                                movable : false
+                                width: 3*tableView.width/8
+                            }
+                            TableViewColumn {
+                                role: "surface"
+                                title: "Surface (ha)"
+                                movable: false
+                                width: 3*tableView.width/8
+                            }
+
+                            model: parcelleModel
+
+                            onClicked: {
+                                console.log("SELECTION CHANGED, COUNT="+selection.count)
+                                if(tableView.selection.count===1) {
+                                    var sel=0
+                                    tableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                    questionsView3.populateQA(parcelleModel, sel)
+                                }
+                                else {
+                                    questionsView3.clear()
+                                }
+                            }
                         }
 
                     }
 
-                    TableView {
-                        id: tableView
-                        anchors.fill: parent
-                        selectionMode: SelectionMode.MultiSelection
-                        TableViewColumn {
-                            role: "owner"
-                            title: "Owner"
-                            movable: false
-                            width: 2*tableView.width/8
-                        }
-                        TableViewColumn {
-                            role: "name"
-                            title: "name of the Parcelle"
-                            movable : false
-                            width: 3*tableView.width/8
-                        }
-                        TableViewColumn {
-                            role: "type"
-                            title: "Type"
-                            movable: false
-                            width: tableView.width/8
-                        }
-                        TableViewColumn {
-                            role: "speed"
-                            title: "Speed"
-                            movable: false
-                            width: tableView.width/8
-                        }
-                        TableViewColumn {
-                            role: "surface"
-                            title: "Surface"
-                            movable: false
-                            width: tableView.width/8
+                    Rectangle {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "white"
+
+
+                        QuestionsView {
+                            id: questionsView3
+                            anchors.fill: parent
+                            allowAnswers: false
                         }
 
-                        model: parcelleModel
+                    }
+
+
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.margins : margin
+                        text: "Add Parcelle"
 
                         onClicked: {
-                            console.log("SELECTION CHANGED, COUNT="+selection.count)
-                            if(tableView.selection.count===1) {
-                                questionsView3.populateQA(parcelleModel, tableView.selection[0])
+                            if(QGroundControl.settingsManager.appSettings.nbParcelle) {
+                                addParcelleDialog.reset()
+                                addParcelleDialog.open()
                             }
                             else {
-                                questionsView3.clear()
+                                messageDialog_toomuch.open()
+                            }
+
+                        }
+                    }
+                    Button {
+                        id: removeParcelle
+                        Layout.fillWidth: true
+                        Layout.margins : margin
+                        text: "Remove Parcelle"
+                        signal adminVerified()
+                            onClicked: {
+                                    removeParcelle.adminVerified.connect(deleteParcelleOnAdminVerifed)
+                                    admin.open()
+                               }
+
+
+                            function deleteParcelleOnAdminVerifed() {
+                                adminVerified.disconnect(deleteParcelleOnAdminVerifed)
+                                var selected=[]
+                                tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                tableView.selection.clear()
+                                _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+                                map.updateParcelles()
+                            }
+                    }
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.margins : margin
+                        text: "Insert Parcelle to Mission"
+                        onClicked: {
+                                var selected = []
+                                tableView.selection.forEach( function(rowIndex) {selected.push(rowIndex)} )
+                                tableView.selection.clear()
+
+                                _parcelleManagerController.addToMission(parcelleModel,_planMasterController.missionController,selected)
+                                parcelleManagerPopup.close()
+                        }
+
+
+                    }
+                    Button {
+
+                        Layout.margins : margin
+                        Layout.fillWidth: true
+
+                        Layout.alignment: Qt.AlignHCenter
+                        text: "Modify Parcelle"
+
+
+                            onClicked: {
+                            if(tableView.selection.count===1) {
+                                var sel=0
+                                tableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                editParcelleDialog.parcelleIndex=sel
+                                editParcelleDialog.refresh()
+                                editParcelleDialog.open()
+                            }
+                            else {
+                                errorModifyOnlyOneParcelleDialog.open()
                             }
                         }
-                    }
-
-               }
-
-               Rectangle {
-                    Layout.columnSpan: 3
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: page1.height/2
-                    color: "white"
-
-
-                    QuestionsView {
-                        id: questionsView3
-                        anchors.fill: parent
-                        allowAnswers: false
-                    }
-
-                   /* TableView {
-                        id: parcelleInfo
-                        anchors.fill: parent
-                        selectionMode: SelectionMode.MultiSelection
-                        TableViewColumn {
-                            role: "question"
-                            title: "Question"
-                            movable: false
-                            width: parcelleInfo.width/2
-                        }
-                        TableViewColumn {
-                            role: "reponse"
-                            title: "Réponse"
-                            movable : false
-                            width: parcelleInfo.width/2
-                        }
-                    }*/
-
-               }
-
-
-                Button {
-                    Layout.fillWidth: true
-                    Layout.margins : margin
-                    text: "Add Parcelle"
-
-                    onClicked: {
-                        if(QGroundControl.settingsManager.appSettings.nbParcelle) {
-                            addParcelleDialog.reset()
-                            addParcelleDialog.open()
-                        }
-                        else {
-                            messageDialog_toomuch.open()
-                        }
 
                     }
-                }
-                Button {
-                    id: removeParcelle
-                    Layout.fillWidth: true
-                    Layout.margins : margin
-                    text: "Remove Parcelle"
-                    signal adminVerified()
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.margins: margin
+                        text: "Done"
                         onClicked: {
-                                removeParcelle.adminVerified.connect(deleteParcelleOnAdminVerifed)
-                                admin.open()
-                           }
-
-
-                        function deleteParcelleOnAdminVerifed() {
-                            adminVerified.disconnect(deleteParcelleOnAdminVerifed)
-                            var selected=[]
-                            tableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
-                            tableView.selection.clear()
-                            _parcelleManagerController.deleteParcelle(parcelleModel,selected)
-                            map.updateParcelles()
-                        }
-                }
-                Button {
-                    Layout.fillWidth: true
-                    Layout.margins : margin
-                    text: "Insert Parcelle to Mission"
-                    onClicked: {
-                            var selected = []
-                            tableView.selection.forEach( function(rowIndex) {selected.push(rowIndex)} )
-                            tableView.selection.clear()
-
-                            _parcelleManagerController.addToMission(parcelleModel,_planMasterController.missionController,selected)
                             parcelleManagerPopup.close()
-                    }
-
-
-                }
-                Button {
-
-                    Layout.margins : margin
-                    Layout.fillWidth: true
-
-                    Layout.alignment: Qt.AlignHCenter
-                    text: "Modify Parcelle"
-
-
-                        onClicked: {
-                        if(tableView.selection.count===1) {
-                            var sel=0
-                            tableView.selection.forEach(function(rowIndex) {sel=rowIndex})
-                            editParcelleDialog.parcelleIndex=sel
-                            editParcelleDialog.refresh()
-                            editParcelleDialog.open()
                         }
-                        else {
-                            errorModifyOnlyOneParcelleDialog.open()
-                        }
-                    }
-
+                     }
                 }
-                Button {
-                    Layout.fillWidth: true
-                    Layout.margins: margin
-                    text: "Done"
-                    onClicked: {
-                        parcelleManagerPopup.close()
-                    }
-                 }
-            }
             }
             Plugin {
                    id: mapPlugin
-                   //name: "osm" // "mapboxgl", "esri", ...
-                   //name: "mapboxgl"
                    name: "esri"
-                   // specify plugin parameters if necessary
-                   // PluginParameter {
-                   //     name:
-                   //     value:
-                   // }
             }
 
             Map {
@@ -310,35 +275,8 @@ Item {
 
                     updateParcelles()
                     map.center=parcelles[0][0]
-
-                  /* console.log("PARCELLE LIST LENGTH:"+parcelles.length)
-                    for(var i=0; i<parcelles.length; i++) {
-
-
-                     //  for(var j=0;j<parcelles[i].length;j++) {
-                            //console.log("Parcelle "+i+" "+j+" = "+parcelles[i][j])
-                            /* var circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
-                            circle.center=parcelles[i][j]
-
-                            circle.radius = 5.0
-                            circle.color = 'green'
-                            circle.border.width = 3
-                            map.addMapItem(circle)
-                            map.center=parcelles[i][j]
-
-                           var circle2 = Qt.createQmlObject('import QtLocation 5.3; MapCircle {}', map)
-                           circle2.center=parcelles[i][j]
-
-                           circle2.radius = 500
-                           circle2.border.width = 20
-                           map.addMapItem(circle2)*/
-
-                       // }
-
-
-                    }
+                }
             }
-
 
         }
 
@@ -348,6 +286,9 @@ Item {
 
             x: (parent.width - width) / 2
             y: (parent.height - height) / 2
+            width: 3 *  parent.width / 4
+            height: 3 * parent.height / 4
+
             modal: true
 
             property int parcelleIndex: 0
@@ -355,105 +296,101 @@ Item {
             function refresh() {
                 ownerField.updateContent()
                 fileField.updateContent()
-                speedBox.updateContent()
                 questionsView.populateQA(parcelleModel, parcelleIndex)
             }
 
             onAccepted: {
-                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
+                _parcelleManagerController.modifyParcelle(parcelleModel, parcelleIndex, ownerField.text, fileField.text, questionsView.getAnswers(), questionsView.getComboAnswers())
                 map.updateParcelles()
+                questionsView3.clear()
             }
 
 
-        title: "Edit Parcelle"
+            title: "Edit Parcelle"
 
-        standardButtons: Dialog.Ok | Dialog.Cancel
+            standardButtons: Dialog.Ok | Dialog.Cancel
 
-        GridLayout {
-            columns: 4
-            anchors.fill: parent
+            GridLayout {
+                columns: 2
+                anchors.fill: parent
 
-            Label {
-                text: "Owner"
-            }
-            Label {
-                text: "Name"
-            }
-            Label {
-                text: "Speed"
-
-            }
-            TextField {
-                id: ownerField
-                enabled: false
-                function updateContent() {
-                    text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "owner")
+                Label {
+                    text: "Owner"
                 }
-            }
-            TextField {
-                id: fileField
-                enabled: false
-                function updateContent() {
-                    text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "name")
+                Label {
+                    text: "Name"
                 }
-            }
-            ComboBox {
-                id: speedBox
-                model: [ "low", "med", "hig" ]
-                function updateContent() {
-                    currentIndex=parseInt(parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "speed"))
+                TextField {
+                    id: ownerField
+                    enabled: false
+                    function updateContent() {
+                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "owner")
+                    }
                 }
+                TextField {
+                    id: fileField
+                    enabled: false
+                    function updateContent() {
+                        text=parcelleModel.getRecordValue(editParcelleDialog.parcelleIndex, "name")
+                    }
+                }
+
+                QuestionsView {
+                    id: questionsView
+                    Layout.columnSpan: 2
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.minimumHeight: 100
+                }
+
             }
 
-			QuestionsView {
-                id: questionsView
-                Layout.columnSpan: 4
-                Layout.fillWidth: true
-                Layout.minimumHeight: 100
-            }
 
         }
-
-
-    }
 
         Dialog {
            id: addParcelleDialog
 
             x: (parent.width - width) / 2
             y: (parent.height - height) / 2
+            width: 3 *  parent.width / 4
+            height: 3 * parent.height / 4
             modal: true
 
 
             onAccepted: {
-                if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
-                    _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, a_speedBox.currentIndex)
-                    addParcelleProgressOverlay.open()
+                if(a_ilotField.length > 0 && a_fileField.length > 0) {
+                    if(_parcelleManagerController.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text)) {
+                        _parcelleManagerController.addParcelle(parcelleModel, a_ilotField.text, QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_fileField.text, questionsView2.getAnswers(), questionsView2.getComboAnswers())
+                        addParcelleProgressOverlay.open()
+                    }
+                    else {
+                         parcelleExistsDialog.open()
+                    }
                 }
                 else {
-                     parcelleExistsDialog.open()
-
+                    champVideDialog.open()
                 }
             }
 
-           Popup {
-               id: addParcelleProgressOverlay
+            Popup {
+                id: addParcelleProgressOverlay
 
-               parent: Overlay.overlay
+                parent: Overlay.overlay
 
-               closePolicy: Popup.NoAutoClose
-               modal: true
+                closePolicy: Popup.NoAutoClose
+                modal: true
 
-               x: Math.round((parent.width - width) / 2)
-               y: Math.round((parent.height - height) / 2)
-               width: 100
-               height: 100
+                x: Math.round((parent.width - width) / 2)
+                y: Math.round((parent.height - height) / 2)
+                width: 100
+                height: 100
 
-               BusyIndicator {
-                   anchors.fill: parent
-               }
+                BusyIndicator {
+                    anchors.fill: parent
+                }
 
-           }
+            }
 
             function reset() {
                 a_ilotField.text = ""
@@ -467,7 +404,7 @@ Item {
             standardButtons: Dialog.Ok | Dialog.Cancel
 
             GridLayout {
-                columns: 4
+                columns: 2
                 anchors.fill: parent
 
                 Label {
@@ -476,25 +413,17 @@ Item {
                 Label {
                     text: "ParcelleFile"
                 }
-                Label {
-                    text: "Speed"
-
-                }
                 TextField {
                     id: a_ilotField
                 }
                 TextField {
                     id: a_fileField
                 }
-                ComboBox {
-                    id: a_speedBox
-                    currentIndex: 1
-                    model: [ "low", "med", "hig" ]
-                }
                 QuestionsView {
                     id: questionsView2
-                    Layout.columnSpan: 4
+                    Layout.columnSpan: 2
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
                     Layout.minimumHeight: 100
                 }
             }
@@ -502,17 +431,17 @@ Item {
     }
 
     Dialog {
-            id: errorModifyOnlyOneParcelleDialog
-            standardButtons: Dialog.Ok
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
-            title: "Error"
-            Label{
-                text: "Please select ONE Parcelle to modify."
-            }
-
+        id: errorModifyOnlyOneParcelleDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal: true
+        title: "Error"
+        Label{
+            text: "Please select ONE Parcelle to modify."
         }
+
+    }
 
 
     Dialog {
@@ -564,6 +493,19 @@ Item {
         Label {
             anchors.centerIn: parent
             text: "La parcelle existe déja!"
+        }
+    }
+
+    Dialog {
+        id: champVideDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "Le champs numero d'ilot ou nom est vide"
         }
     }
 

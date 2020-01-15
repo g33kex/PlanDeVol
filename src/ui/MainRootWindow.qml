@@ -35,6 +35,7 @@ ApplicationWindow {
             width   = ScreenTools.isMobile ? Screen.width  : Math.min(250 * Screen.pixelDensity, Screen.width)
             height  = ScreenTools.isMobile ? Screen.height : Math.min(150 * Screen.pixelDensity, Screen.height)
         }
+        firstView()
     }
 
     readonly property real      _topBottomMargins:          ScreenTools.defaultFontPixelHeight * 0.5
@@ -93,6 +94,12 @@ ApplicationWindow {
         viewSwitch(true)
         planViewLoader.visible = true
     }
+
+    function firstView() {
+        viewSwitch(true)
+        planViewLoader.visible = true
+    }
+
 
     function showAnalyzeView() {
         viewSwitch(false)

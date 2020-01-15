@@ -1,11 +1,16 @@
 #include "QuestionFile.h"
+#include "AppSettings.h"
+#include "DataManager/DbManager.h"
+
+extern AppSettings* sett;
+extern DbManager* db;
 
 #include <QFile>
 #include <QDebug>
 
 QuestionFile::QuestionFile(QString file)
 {
-    filename = file;
+    filename = sett->savePath()->rawValue().toString() + "/" + file;
     questions = *new QList<QString>();
     names = *new QList<QString>();
     questionsCombo = *new QList<QString>();
@@ -89,10 +94,10 @@ void QuestionFile::save() {
     QTextStream outStream(&file);
 
     for(int i = 0; i < names.length(); i++) {
-        outStream << names[i] << ';' << questions[i] << ';' << defaultAnswer[i] << ';' << '0' << endl;
+        outStream << names[i] << ';' << questions[i] << ";" << defaultAnswer[i] << ';' << '0' << endl;
     }
     for(int i = 0; i < namesCombo.length(); i++) {
-        outStream << namesCombo[i] << ';' << questionsCombo[i] << ';' << selected[i] << ';' << '1';
+        outStream << namesCombo[i] << ';' << questionsCombo[i] << ";" << selected[i] << ';' << '1';
         for(QString foo : answers.at(i)) {
             outStream << ';' << foo;
         }
@@ -102,14 +107,19 @@ void QuestionFile::save() {
 
 void QuestionFile::load() {
     QFile file(filename);
+    QList<QString> dbcolumn = db->getAllColumn();
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "fifkjkshj<duhqijskdfdhduqsjKSD";
         qDebug() << file.errorString();
         return;
     }
+    bool flag = false;
 
     while (!file.atEnd()) {
         QByteArray line = file.readLine();
+        //if there is a \n, then we jump it
+        if(line.length() < 2) {
+            continue;
+        }
         QList<QByteArray> lineParse = line.split(';');
         if (QString(lineParse[3]) == '1') {
             namesCombo.append(lineParse[0]);
@@ -127,9 +137,28 @@ void QuestionFile::load() {
             questions.append(lineParse[1]);
             defaultAnswer.append(lineParse[2]);
         }
+        if(!dbcolumn.contains(QString(lineParse[0]))){
+            db->addQuestion(lineParse[0]);
+            flag  = true;
+        }
     }
+
+    if(flag) {
+        save();
+    }
+    synchro();
 }
 
+
+void QuestionFile::clear() {
+    questions.clear();
+    names.clear();
+    questionsCombo.clear();
+    namesCombo.clear();
+    selected.clear();
+    defaultAnswer.clear();
+    answers.clear();
+}
 
 void QuestionFile::setTest() {
     questions.append("truc");
@@ -148,6 +177,24 @@ void QuestionFile::setTest() {
     selected.append(1);
     answers.append({"truc3", "truc4", "truc5"});
     defaultAnswer.append("trucD2");
+}
+
+void QuestionFile::synchro() {
+    QList<QString> dbcolumn = db->getAllColumn();
+    //element par defaut dans la database.
+    dbcolumn.removeOne("owner");
+    dbcolumn.removeOne("parcelleFile");
+    dbcolumn.removeOne("name");
+    dbcolumn.removeOne("surface");
+    for (QString str : dbcolumn) {
+        if(names.contains(str) || namesCombo.contains(str)) {
+            dbcolumn.removeOne(str);
+        }
+    }
+    if(!dbcolumn.empty()){
+        qDebug() << "error : database and csv file are not synchronized" << dbcolumn.length();
+        db->deleteQuestion(names + namesCombo);
+    }
 }
 
 

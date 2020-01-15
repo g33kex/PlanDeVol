@@ -37,7 +37,7 @@
     "min":              0,
     "max":              85,
     "units":            "%",
-    "defaultValue":     70
+    "defaultValue":     20
 },
 {
     "name":             "SideOverlap",
@@ -47,7 +47,7 @@
     "min":              0,
     "max":              85,
     "units":            "%",
-    "defaultValue":     70
+    "defaultValue":     20
 },
 {
     "name":             "AdjustedFootprintFrontal",

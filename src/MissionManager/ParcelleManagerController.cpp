@@ -36,7 +36,6 @@ ParcelleManagerController::~ParcelleManagerController()
 
 void ParcelleManagerController::deleteParcelle(SqlCustomModel *model, QList<int> indexes) {
     for(int i=0; i<indexes.size();i++) {
-        qDebug() << "Removing " << indexes[i];
         QFile file (model->record(indexes[i]).value("parcelleFile").toString());
         file.remove();
         model->removeRow(indexes[i]);
@@ -46,31 +45,26 @@ void ParcelleManagerController::deleteParcelle(SqlCustomModel *model, QList<int>
 
 
 void ParcelleManagerController::addToMission(SqlCustomModel *model,MissionController *missionController, QList<int> indexes) {
-    qDebug() << "in userSpace::addToMission";
-
-
-    QMap<QString, double> *KmlParcelleList= new QMap<QString, double>() ;
+    QList<QString> *KmlParcelleList= new QList<QString>() ;
 
     for(QList<int>::iterator i = indexes.begin(); i != indexes.end(); ++i)
     {
         QString file = model->record(*i).value("parcelleFile").toString();
-        double speed = speedParam->at(model->record(*i).value("speed").toInt()).toDouble();
-        qDebug() << *i;
-        KmlParcelleList->insert(file, speed);
+        KmlParcelleList->append(file);
     }
     missionController->insertComplexMissionFromDialog(*KmlParcelleList);
 }
 
 //TODO : add Q&A
-void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
+void ParcelleManagerController::addParcelle(SqlCustomModel *model, QString ilotNumber, QString file, QStringList answers, QList<int> comboAnswers) {
     if(!file.endsWith(".kml")) file.append(".kml");
 
     _file = file;
     _model = model;
-    _type = type;
-    _speed = speed;
-    _answers = answers;
-    _comboAnswers = comboAnswers;
+    _answers.clear();
+    _answers.append(answers);
+    _comboAnswers.clear();
+    _comboAnswers.append(comboAnswers);
 
     this->requestParcelle(ilotNumber);
 }
@@ -92,7 +86,6 @@ void ParcelleManagerController::requestParcelle(QString NbIlot) {
 
 
 void ParcelleManagerController::requestReply(QNetworkReply *reply) {
-    qDebug() << "requestReply";
     if (reply->error()) {
         qDebug() << reply->errorString();
         emit downloadEnded(false);
@@ -109,8 +102,6 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
         newRecord.setValue("owner", QVariant(username));
         newRecord.setValue("parcelleFile", QVariant(_file));
         newRecord.setValue("name", QVariant(_file.split("/").last()));
-        newRecord.setValue("type", QVariant(_type));
-        newRecord.setValue("speed",QVariant(_speed));
         newRecord.setValue("surface", QVariant(QString::number(double(surface), 'f', 2)));
 
 
@@ -122,12 +113,11 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
         QList<QString> namesCombo = questionFile->getNamesCombo();
         for(int i = 0; i < _comboAnswers.length(); i++){
             QList<QString> repPossible = questionFile->getAnswers().at(i);
-            newRecord.setValue(names[i], repPossible.at(_comboAnswers[i]));
+            newRecord.setValue(namesCombo[i], repPossible.at(_comboAnswers[i]));
         }
 
         /*-1 is set to indicate that it will be added to the last row*/
         if(_model->insertRecord(-1, newRecord)) {
-            qDebug()<<"successful insertion" << newRecord.value("owner") << "was its owner";
             _model->submitAll();
         }
         emit downloadEnded(true);
@@ -140,15 +130,9 @@ void ParcelleManagerController::requestReply(QNetworkReply *reply) {
 
 
 
-void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QString type, int speed, QStringList answers, QList<int> comboAnswers) {
+void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index, QString owner, QString parcelleFile, QStringList answers, QList<int> comboAnswers) {
 
     QSqlRecord record = model->record(index);
-
-//    record.setValue("owner", QVariant(owner));
-//    record.setValue("parcelleFile", QVariant(parcelleFile));
-    record.setValue("type", QVariant(type));
-    record.setValue("speed",QVariant(speed));
-
     QList<QString> names = questionFile->getNames();
     for(int i = 0; i < answers.length(); i++){
         record.setValue(names[i], answers[i]);
@@ -157,7 +141,7 @@ void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index,
     QList<QString> namesCombo = questionFile->getNamesCombo();
     for(int i = 0; i < comboAnswers.length(); i++){
         QList<QString> repPossible = questionFile->getAnswers().at(i);
-        record.setValue(names[i], repPossible.at(comboAnswers[i]));
+        record.setValue(namesCombo[i], repPossible.at(comboAnswers[i]));
     }
 
     bool ok = model->setRecord(index, record);
@@ -168,10 +152,8 @@ void ParcelleManagerController::modifyParcelle(SqlCustomModel *model, int index,
 bool ParcelleManagerController::verif(QString user, QString pass) {
         if (user == "") return false;
         QString mdp = QCryptographicHash::hash(pass.toUtf8(), QCryptographicHash::Sha3_256);
-        qDebug() << mdp;
         QString mdp_base = db->getPassword(user);
         if(mdp_base.compare(mdp) == 0) {
-            qDebug() << "true";
             return true;
         }
         else {
@@ -181,8 +163,6 @@ bool ParcelleManagerController::verif(QString user, QString pass) {
 }
 
 void ParcelleManagerController::initParcelles() {
-    qDebug() << "----- init parcelle -----";
-
     this->_parcelles = new QVariantList();
 
     QStringList files = QStringList();
@@ -190,8 +170,6 @@ void ParcelleManagerController::initParcelles() {
 
 
     for(QString file : files) {
-        qDebug() << "Looking at file "+file;
-
         QString error;
         QList<QGeoCoordinate> vertices = QList<QGeoCoordinate>();
         KMLFileHelper::loadPolygonFromFile(file, vertices, error);
@@ -204,13 +182,8 @@ void ParcelleManagerController::initParcelles() {
         for(QGeoCoordinate coordinate : vertices) {
             variantVertices.append(QVariant::fromValue(coordinate));
         }
-        qDebug() << "varientVertices size = " << variantVertices.length();
-        qDebug() << "Number of vertices : " << vertices.size();
         this->_parcelles->append(QVariant::fromValue(variantVertices));
-        qDebug() << "Parcelle list size: "<<this->_parcelles->length();
     }
-
-    qDebug() << "------------";
 
 }
 

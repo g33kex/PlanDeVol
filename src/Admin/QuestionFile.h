@@ -1,7 +1,8 @@
 #ifndef QUESTIONFILE_H
 #define QUESTIONFILE_H
 
-#include <QObject>
+#include <QString>
+#include <QList>
 
 
 
@@ -29,6 +30,8 @@ public:
 
     void save();
     void load();
+    void clear();
+    void synchro();
 
     void setTest();
 

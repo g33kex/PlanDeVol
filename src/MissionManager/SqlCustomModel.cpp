@@ -69,6 +69,6 @@ void SqlCustomModel::setupForUser() {
 }
 
 QVariant SqlCustomModel::getRecordValue(int recordIndex, QString role) {
-    qDebug() << "getting record value of record" <<recordIndex << " got value " <<  this->record(recordIndex).value(role);
+//    qDebug() << "getting record value of record" <<recordIndex << " got value " <<  this->record(recordIndex).value(role);
     return this->record(recordIndex).value(role);
 }

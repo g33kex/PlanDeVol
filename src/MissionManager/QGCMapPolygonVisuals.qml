@@ -193,12 +193,13 @@ Item {
 
         x: (mainWindow.width - width) / 2
         y: (mainWindow.height - height) / 2
+        height: 600
+        width : 800
         modal: true
 
-
         onAccepted: {
-            if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text)) {
-                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text, a_speedBox.value, questionsView.getAnswers(), questionsView.getComboAnswers())
+            if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text) && a_nameField.length > 0) {
+                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text,questionsView.getAnswers(), questionsView.getComboAnswers())
 
             }
             else {
@@ -217,7 +218,7 @@ Item {
         standardButtons: Dialog.Ok | Dialog.Cancel
 
             GridLayout {
-                columns: 3
+                columns: 2
                 anchors.fill: parent
 
                 Label {
@@ -226,27 +227,17 @@ Item {
                     text : mapPolygon.verifArea
                 }
 
-
                 Label {
                     text: "Name"
                 }
-                Label {
-                    text: "Speed"
-
-                }
                 TextField {
                     id: a_nameField
-                }
-                ComboBox {
-                    id: a_speedBox
-                    currentIndex: 1
-                    model: [ "low", "med", "hig" ]
                 }
 
                 QuestionsView {
                     id: questionsView
                     Layout.columnSpan: 2
-                   // Layout.fillHeight: true
+                    Layout.fillHeight: true
                    // Layout.fillWidth: true
                     Layout.fillWidth: true
                     Layout.minimumHeight: 100
@@ -675,7 +666,7 @@ Item {
         title: "Error"
         Label {
             anchors.centerIn: parent
-            text: "La parcelle existe déja!"
+            text: "Nom vide ou la parcelle existe déja!"
         }
     }
 

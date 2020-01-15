@@ -126,7 +126,7 @@ public:
     /// @return Sequence number for new item
     Q_INVOKABLE int insertComplexMissionItemFromKMLOrSHP(QString itemName, QString file, int i);
 
-    Q_INVOKABLE void insertComplexMissionFromDialog(QMap<QString, double> fileList);
+    Q_INVOKABLE void insertComplexMissionFromDialog(QList<QString> fileList);
 
     Q_INVOKABLE void resumeMission(int resumeIndex);
 

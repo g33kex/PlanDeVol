@@ -3,6 +3,7 @@
 #include <QCryptographicHash>
 #include "DataManager/DbManager.h"
 #include "Admin/List_file.h"
+#include "Admin/QuestionFile.h"
 #include "AppSettings.h"
 
 extern DbManager *db;
@@ -13,11 +14,11 @@ extern List_file *altParam;
 extern List_file *flightParam;
 extern QString username;
 extern AppSettings* sett;
+extern QuestionFile* questionFile;
 
 QQmlApplicationEngine* LoginController::qmlAppEngine=nullptr;
 LoginController::LoginController()
 {
-    qDebug() << "up" ;
 }
 
 void LoginController::loadMainWindow() {
@@ -29,18 +30,18 @@ void LoginController::loadMainWindow() {
 bool LoginController::login(QString user, QString password) {
      if (user == "") return false;
      QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
-     qDebug() << mdp;
      QString mdp_base = db->getPassword(user);
      if(mdp_base.compare(mdp) == 0) {
          username = user;
          return true;
      }
      return false;
-//    username = user;
-//    return true;
 }
 
 void LoginController::onAdminClosed() {
+
+
+    //Reload the checklist
     checklist->clear();
     //param par defaut if the file is empty
     if (! checklist->load()) {
@@ -50,6 +51,10 @@ void LoginController::onAdminClosed() {
 
     // verifier qu'il n'y a qu'une occurence de :
     for(QList<QString>::iterator i = checklist->begin(); i != checklist->end(); ++i) {
+        //we jump the empty line
+        if((*i).length() < 2) {
+            continue;
+        }
         if((*i).count(":") < 1) {
             (*i).append(":foo");
         }
@@ -59,7 +64,12 @@ void LoginController::onAdminClosed() {
             (*i) = (*i).replace(index, 1, ":");
         }
     }
+    //if the checklist is empty
+    if(checklist->length() == 0) {
+        checklist->append("RAS:RAS");
+    }
 
+    //Reload the flight param
     speedParam->clear();
     //param par defaut if the file is empty
     if (! speedParam->load()) {
@@ -100,6 +110,9 @@ void LoginController::onAdminClosed() {
         qDebug() << "flightParam file is empty" << flightParam->size();
     }
 
+
+    questionFile->clear();
+    questionFile->load();
 }
 
 void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
@@ -114,10 +127,6 @@ void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
 
 
 void LoginController::deleteUser(SqlCustomModel *model, QList<int> indexes) {
-    qDebug() << model;
-
-    qDebug() << "------ deleteUser -------";
-
     for(int i=0; i<indexes.size();i++) {
         QString username = model->record(indexes[i]).value("username").toString();
         qDebug() << "remove all parcelle et mission from " << username;
@@ -138,30 +147,20 @@ void LoginController::deleteUser(SqlCustomModel *model, QList<int> indexes) {
 
 
 void LoginController::addUser(SqlCustomModel *model, QString user, QString password, QString nom, QString prenom) {
-    qDebug() << "------ addUser -------";
-
-    qDebug() << user << "-" << password << "-" << nom << "-" << prenom;
-    qDebug() << model;
     QSqlRecord newRecord = model->record();
-    qDebug() << "bla";
     newRecord.setValue("username", QVariant(user));
-    qDebug() << "blabla";
     QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
-    qDebug() << mdp;
     newRecord.setValue("password", QVariant(mdp));
     newRecord.setValue("nom", QVariant(nom));
     newRecord.setValue("prenom",QVariant(prenom));
 
     /*-1 is set to indicate that it will be added to the last row*/
     if(model->insertRecord(-1, newRecord)) {
-        qDebug()<<"successful insertion" << newRecord.value("owner") << "was its owner";
         model->submitAll();
     }
-    qDebug() << "addUser";
 }
 
 void LoginController::setParamSpeed(QString lowSpeed, QString medSpeed, QString highSpeed) {
-    qDebug() << "----- save speed -----";
     speedParam->replace(0, lowSpeed);
     speedParam->replace(1, medSpeed);
     speedParam->replace(2, highSpeed);
@@ -169,7 +168,6 @@ void LoginController::setParamSpeed(QString lowSpeed, QString medSpeed, QString 
 }
 
 void LoginController::setParamAlt(QString lowAlt, QString medAlt, QString highAlt) {
-    qDebug() << "----- save alt -----";
     altParam->replace(0, lowAlt);
     altParam->replace(1, medAlt);
     altParam->replace(2, highAlt);
@@ -177,7 +175,6 @@ void LoginController::setParamAlt(QString lowAlt, QString medAlt, QString highAl
 }
 
 void LoginController::setParamFlight(QString turn, QString tol, QString maxClimb, QString maxDescent) {
-    qDebug() << "----- save flight -----";
     flightParam->replace(0, turn);
     flightParam->replace(1, tol);
     flightParam->replace(2, maxClimb);
@@ -187,7 +184,6 @@ void LoginController::setParamFlight(QString turn, QString tol, QString maxClimb
 
 
 void LoginController::setParamLimit(QString session, QString parcelles, QString missions) {
-    qDebug() << "----- save limit -----";
     nbParam->replace(0, session);
     nbParam->replace(1, parcelles);
     nbParam->replace(2, missions);
@@ -198,7 +194,6 @@ void LoginController::setParamLimit(QString session, QString parcelles, QString 
 // we do not check here if the checklist respect the regexp +:+
 // we check it at the loading
 void LoginController::setParamChecklist(QString check) {
-    qDebug() << "----- save checklist -----";
     checklist->clear();
     QList<QString> tmp = check.split('\n');
     for (QList<QString>::iterator i = tmp.begin(); i != tmp.end(); ++i) {
@@ -294,13 +289,9 @@ bool LoginController::modifyPassword(SqlCustomModel *model, int index, QString u
 
     QString hashOld = QCryptographicHash::hash(oldPass.toUtf8(), QCryptographicHash::Sha3_256);
     QString hashNew = QCryptographicHash::hash(newPass.toUtf8(), QCryptographicHash::Sha3_256);
-
-    qDebug() << pass.toUtf8();
-    qDebug() << hashOld.toUtf8();
     if (hashOld.compare(pass) == 0) {
         record.setValue("password", QVariant(hashNew));
         bool ok = model->setRecord(index, record);
-        qDebug() << ok;
         model->submitAll();
         return true;
     }
@@ -308,13 +299,10 @@ bool LoginController::modifyPassword(SqlCustomModel *model, int index, QString u
 }
 
 bool LoginController::nbUser(void){
-    qDebug() << " --- nb User ---";
     return db->verifNbUser();
 }
 
-void LoginController::exportToXML(){
-    qDebug() << " --- exportToXML ---";
-    qDebug() << sett->savePath()->rawValue().toString();
+void LoginController::exportToXML() {
     return db->saveToXML(sett->savePath()->rawValue().toString());
 }
 

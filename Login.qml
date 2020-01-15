@@ -134,7 +134,9 @@ Item {
 
 
                                 onAccepted: {
-                                    _loginController.addUser(userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
+                                    if(a_usernameField.length > 0) {
+                                        _loginController.addUser(userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
+                                    }
                                 }
 
 
@@ -481,7 +483,7 @@ Item {
                             }
                             TableViewColumn {
                                 role: "surface"
-                                title: "Surface"
+                                title: "Surface (ha)"
                                 movable: false
                                 width: parcelleTableView.width/5
                             }
@@ -556,6 +558,20 @@ Item {
                     Layout.alignment: Qt.AlignRight
                     Layout.fillWidth: true
                     Button {
+                        text: "Echange"
+                        Layout.margins: margin
+                        Layout.topMargin: 0
+                        onClicked: {
+                            if(questionView.getNbChecked() === 2 && questionView.isCheckedValid()) {
+                                questionView.exchangeQuestion()
+                            }
+                            else {
+                                tooMuchExDialog.open()
+                            }
+
+                        }
+                    }
+                    Button {
                         text: "+"
                         Layout.margins: margin
                         Layout.topMargin: 0
@@ -568,7 +584,13 @@ Item {
                         Layout.margins: margin
                         Layout.topMargin: 0
                         onClicked: {
-                            questionView.deleteChecked(parcelleModel2)
+                            if(questionView.getNbChecked() === 1) {
+                                questionView.deleteChecked(parcelleModel2)
+                                questionView.save(parcelleModel2)
+                            }
+                            else {
+                                tooMuchDelDialog.open()
+                            }
                         }
                     }
                     Button {
@@ -586,15 +608,23 @@ Item {
                 Dialog {
                     id: addQuestionDialog
                     modal: true
+                    width: 3 * parent.width / 4
+                    height: 3* parent.height / 4
 
                     onAccepted: {
-                        if(combo_checkbox.checked) {
-                            questionView.addQuestionCombo(question_textField.text, possibleChoiceArea.text, parcelleModel2, name_textField.text)
+                        if(questionView.checkIfValid(name_textField.text) && question_textField.length > 0 && name_textField.length > 0) {
+                            if(combo_checkbox.checked) {
+                                questionView.addQuestionCombo(question_textField.text, possibleChoiceArea.text, parcelleModel2, name_textField.text)
+                            }
+                            else {
+                                questionView.addQuestion(question_textField.text, parcelleModel2, name_textField.text)
+                            }
+                            questionView.save(parcelleModel2)
+                            reset()
                         }
                         else {
-                            questionView.addQuestion(question_textField.text, parcelleModel2, name_textField.text)
+                             idExistsDialog.open()
                         }
-                        reset()
                     }
 
 
@@ -899,6 +929,17 @@ Item {
                    }
                }
             onClicked: {
+
+                //we save the flight param
+                _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
+                _loginController.setParamAlt(lowalt.text, medalt.text, highalt.text)
+                _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
+                _loginController.setParamChecklist(checklistArea.text)
+                _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
+
+                //we save the questions
+                questionView.save(parcelleModel2)
+
                 adminInterface.close()
                 _loginController.onAdminClosed()
             }
@@ -996,7 +1037,7 @@ Item {
                     console.log("Logged in as user "+username)
                     _loginController.loadMainWindow()
                     rootWindowLoader.source="MainRootWindow.qml"
-                    //loginMainWindow.close()
+                    loginMainWindow.hide()
                 }
             }
             else {
@@ -1078,6 +1119,45 @@ Item {
         Label {
             anchors.centerIn: parent
             text: "Limite de sessions enregistrées atteintes."
+        }
+    }
+
+    Dialog {
+        id: idExistsDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "L'identifiant est deja utilisé"
+        }
+    }
+
+    Dialog {
+        id: tooMuchExDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "Séléctionner que 2 questions de la même catégorie à échanger"
+        }
+    }
+
+    Dialog {
+        id: tooMuchDelDialog
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal:true
+        title: "Error"
+        Label {
+            anchors.centerIn: parent
+            text: "Séléctionner qu'une question a supprimer"
         }
     }
 
