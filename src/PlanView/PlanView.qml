@@ -210,6 +210,7 @@ Item {
         }
 
         function upload() {
+            _missionController.optimize()
             if (!readyForSaveSend()) {
                 waitingOnDataMessage()
                 return
@@ -1053,6 +1054,7 @@ Item {
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.containsItems
                     onClicked: {
+                        _missionController.optimize()
                         if(_appSettings.nbMission) {
                             dropPanel.hide()
                             _planMasterController.saveToSelectedFile()
