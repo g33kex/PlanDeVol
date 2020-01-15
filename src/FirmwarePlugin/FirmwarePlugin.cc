@@ -346,13 +346,13 @@ const QVariantList& FirmwarePlugin::cameraList(const Vehicle* vehicle)
 
         metaData = new CameraMetaData(
             "New Drone Camera",
-            5.76,                 // sensorWidth
-            4.29,                 // sensorHeight
+            6.26,                // sensorWidth
+            3.56,                // sensorHeight
             3864,                // imageWidth
             2196,                // imageHeight
-            6,                   // focalLength
+            5.2,                 // focalLength
             true,                // true: landscape orientation
-            true,               // true: camera is fixed orientation
+            true,                // true: camera is fixed orientation
             0,                   // minimum trigger interval
             this);               // parent
         _cameraList.append(QVariant::fromValue(metaData));
