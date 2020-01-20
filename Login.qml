@@ -1083,7 +1083,7 @@ Item {
                     rootWindowLoader.setSource("")
                     rootWindowLoader.setSource("MainRootWindow.qml")
                     rootWindowLoader.focus=true
-                    //loginMainWindow.hide()
+                    loginMainWindow.hide()
                 }
             }
             else {
