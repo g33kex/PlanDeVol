@@ -237,10 +237,13 @@ Item {
                 activeMapType: map.supportedMapTypes[1]
 
                 property var parcelles;
+                property var names;
+
 
                 function updateParcelles() {
                     map.clearMapItems()
                     parcelles=_parcelleManagerController.getParcelleList()
+                    names=_parcelleManagerController.getParcelleNames()
                     for(var i=0; i<parcelles.length; i++) {
                         if(zoomLevel>11) {
                             var polygon = Qt.createQmlObject('import QtLocation 5.3; MapPolygon {}', map)
@@ -258,12 +261,23 @@ Item {
                                 border.width: 5
                                 color: "red"
                             }}', map)
-                           /* circle.color = "red"
-                            circle.radius = 5000.0/map.zoomLevel
-                            circle.center = parcelles[i][0]*/
+
                             parcelleIndicator.coordinate = parcelles[i][0]
                             map.addMapItem(parcelleIndicator)
                         }
+
+
+                        var label = Qt.createQmlObject('import QtLocation 5.3; import QtQuick.Controls 2.4; MapQuickItem {
+                            anchorPoint.x: -30
+                            anchorPoint.y: 0
+
+                            sourceItem: Label {
+                            id: source
+                            color: "pink"
+                            text: "'+names[i]+'"
+                         }}', map)
+                        label.coordinate = parcelles[i][0];
+                        map.addMapItem(label);
                     }
                 }
 
@@ -274,7 +288,9 @@ Item {
                 Component.onCompleted: {
 
                     updateParcelles()
-                    map.center=parcelles[0][0]
+                    if(parcelles.length>0) {
+                        map.center=parcelles[0][0]
+                    }
                 }
             }
 

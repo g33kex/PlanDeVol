@@ -979,6 +979,28 @@ Rectangle {
                                     _userBrandImageOutdoor.rawValue = ""
                                 }
                             }
+                            Button {
+                                Layout.alignment: Qt.AlignCenter
+                                Layout.columnSpan: 3
+                                text: "Disconnect"
+                                Layout.margins: 5
+                                style: ButtonStyle {
+                                       background: Rectangle {
+                                           implicitWidth: 120
+                                           implicitHeight: 35
+                                           border.width: control.activeFocus ? 2 : 1
+                                           border.color: "pink"
+                                           radius: 20
+                                           gradient: Gradient {
+                                               GradientStop { position: 0 ; color: control.pressed ? "pink" : "red" }
+                                               GradientStop { position: 1 ; color: control.pressed ? "purple" : "darkred" }
+                                           }
+                                       }
+                                   }
+                                onClicked: {
+                                    _root.parent.parent.parent.close();
+                                }
+                            }
                         }
                     }
 

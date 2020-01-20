@@ -1061,8 +1061,9 @@ Item {
                 else {
                     console.log("Logged in as user "+username)
                     _loginController.loadMainWindow()
-                    rootWindowLoader.source="MainRootWindow.qml"
-                    loginMainWindow.hide()
+                    rootWindowLoader.setSource("")
+                    rootWindowLoader.setSource("MainRootWindow.qml")
+                    //loginMainWindow.hide()
                 }
             }
             else {

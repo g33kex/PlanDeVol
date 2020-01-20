@@ -4,8 +4,11 @@
 #include <QString>
 #include <QList>
 
-class QuestionFile
+
+
+class QuestionFile : public QObject
 {
+    Q_OBJECT
 public:
     QuestionFile(QString);
 

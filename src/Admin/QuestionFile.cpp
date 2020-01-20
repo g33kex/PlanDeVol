@@ -5,6 +5,9 @@
 extern AppSettings* sett;
 extern DbManager* db;
 
+#include <QFile>
+#include <QDebug>
+
 QuestionFile::QuestionFile(QString file)
 {
     filename = sett->savePath()->rawValue().toString() + "/" + file;

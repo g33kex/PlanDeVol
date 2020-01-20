@@ -103,6 +103,7 @@ Rectangle {
         color:                  qgcPal.windowShade
     }
 
+
     //-- Panel Contents
     Loader {
         id:                     __rightPanel

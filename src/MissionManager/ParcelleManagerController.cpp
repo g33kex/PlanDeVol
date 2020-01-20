@@ -193,6 +193,11 @@ QVariantList ParcelleManagerController::getParcelleList() {
     return *this->_parcelles;
 }
 
+//TODO : return name of parcelles in the same order as coordinate in getParcelleList
+QVariantList ParcelleManagerController::getParcelleNames() {
+    return *this->_parcelles;
+}
+
 bool ParcelleManagerController::checkIfExist(QString name) {
     if(! name.endsWith(".kml")) name.append(".kml");
     return db->checkIfExist(name);
