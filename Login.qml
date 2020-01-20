@@ -974,6 +974,24 @@ Item {
     }
 
 
+    Popup {
+        id: progressOverlay
+
+        parent: Overlay.overlay
+
+        closePolicy: Popup.NoAutoClose
+        modal: true
+
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+        width: 100
+        height: 100
+
+        BusyIndicator {
+            anchors.fill: parent
+        }
+
+    }
 
     Rectangle {
         color: "black"
@@ -1059,10 +1077,12 @@ Item {
                     adminInterface.open()
                 }
                 else {
+                    progressOverlay.open()
                     console.log("Logged in as user "+username)
                     _loginController.loadMainWindow()
                     rootWindowLoader.setSource("")
                     rootWindowLoader.setSource("MainRootWindow.qml")
+                    rootWindowLoader.focus=true
                     //loginMainWindow.hide()
                 }
             }
@@ -1105,8 +1125,12 @@ Item {
 
     Loader {
         id:             rootWindowLoader
+        asynchronous: true
         anchors.fill:   parent
-        visible:        true
+        visible:        false
+        onLoaded: {
+            progressOverlay.close()
+        }
     }
 
     Dialog {
