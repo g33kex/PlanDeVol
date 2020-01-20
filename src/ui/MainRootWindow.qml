@@ -190,7 +190,7 @@ ApplicationWindow {
 
     function reallyClose() {
         _forceClose = true
-        mainWindow.close()
+        mainWindow.close();
     }
 
     function finishCloseProcess() {
@@ -322,6 +322,10 @@ ApplicationWindow {
         id:             settingsWindow
         anchors.fill:   parent
         visible:        false
+        function close() {
+            mainWindow.close();
+        }
+
         source:         "AppSettings.qml"
     }
 
