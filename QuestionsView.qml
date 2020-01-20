@@ -225,7 +225,7 @@ Rectangle {
                           Layout.alignment: Qt.AlignRight
                           Layout.margins: margin
                           checked: false
-                          enabled: selectable
+                          visible: selectable
                       }
 
 
@@ -260,7 +260,7 @@ Rectangle {
                           Layout.alignment: Qt.AlignRight
                           Layout.margins: margin
                           checked: false
-                          enabled: selectable
+                          visible: selectable
                       }
                   }
             }

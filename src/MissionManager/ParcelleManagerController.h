@@ -21,6 +21,7 @@ public:
 
 
     Q_INVOKABLE QVariantList getParcelleList();
+    Q_INVOKABLE QVariantList getParcelleNames();
     Q_INVOKABLE void updateModel(SqlCustomModel *model);
 
     Q_INVOKABLE bool checkIfExist(QString name);
