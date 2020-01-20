@@ -28,6 +28,7 @@ const char* CameraCalc::adjustedFootprintSideName =         "AdjustedFootprintSi
 const char* CameraCalc::_jsonCameraSpecTypeKey =            "CameraSpecType";
 
 extern List_file *altParam;
+extern List_file *cameraParam;
 
 CameraCalc::CameraCalc(Vehicle* vehicle, const QString& settingsGroup, QObject* parent)
     : CameraSpec                    (settingsGroup, parent)
@@ -76,6 +77,8 @@ CameraCalc::CameraCalc(Vehicle* vehicle, const QString& settingsGroup, QObject* 
     connect(landscape(),                &Fact::rawValueChanged, this, &CameraCalc::_recalcTriggerDistance);
 
     _cameraNameChanged();
+
+    focalLength()->setRawValue(cameraParam->at(0).toFloat());
 
     setDirty(false);
 }

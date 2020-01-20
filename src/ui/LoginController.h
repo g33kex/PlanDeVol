@@ -29,6 +29,7 @@ public:
     Q_INVOKABLE void setParamLimit(QString session, QString parcelles, QString missions);
     Q_INVOKABLE void setParamChecklist(QString checklist);
     Q_INVOKABLE void setParamFlight(QString turn, QString tol, QString maxClimb, QString maxDescent);
+    Q_INVOKABLE void setParamCamera(QString focale);
     Q_INVOKABLE QString getSpeedLow();
     Q_INVOKABLE QString getSpeedMed();
     Q_INVOKABLE QString getSpeedHigh();
@@ -43,6 +44,7 @@ public:
     Q_INVOKABLE QString getTolerance();
     Q_INVOKABLE QString getMaxClimbRate();
     Q_INVOKABLE QString getMaxDescentRate();
+    Q_INVOKABLE QString getCameraFocale();
     Q_INVOKABLE bool modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass);
 
     Q_INVOKABLE void    exportToXML();

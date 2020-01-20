@@ -240,6 +240,9 @@ List_file *flightParam;
 extern List_file *nbParam;
 List_file *nbParam;
 
+extern List_file *cameraParam;
+List_file *cameraParam;
+
 extern QuestionFile *questionFile;
 QuestionFile *questionFile;
 
@@ -486,6 +489,13 @@ int main(int argc, char *argv[])
 
         questionFile = new QuestionFile("questionFile.csv");
         questionFile->load();
+
+        cameraParam = new List_file("cameraParam");
+        if (! cameraParam->load()) {
+            cameraParam->clear();
+            cameraParam->append("5.2");
+            qDebug() << "cameraParam file is empty" << cameraParam->size();
+        }
 
         if (!app->_initForNormalAppBoot()) {
             return -1;

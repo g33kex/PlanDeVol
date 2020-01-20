@@ -109,7 +109,7 @@ Column {
                 anchors.left:   parent.left
                 anchors.right:  parent.right
                 spacing:        _margin
-                visible:        cameraCalc.isCustomCamera
+                visible:        true
 
                 RowLayout {
                     anchors.left:   parent.left
@@ -132,10 +132,12 @@ Column {
                     spacing:        _margin
                     QGCLabel { text: qsTr("Sensor"); Layout.fillWidth: true }
                     FactTextField {
+                        enabled:        false
                         Layout.preferredWidth:  _root._fieldWidth
                         fact:                   cameraCalc.sensorWidth
                     }
                     FactTextField {
+                        enabled:        false
                         Layout.preferredWidth:  _root._fieldWidth
                         fact:                   cameraCalc.sensorHeight
                     }
@@ -147,10 +149,12 @@ Column {
                     spacing:        _margin
                     QGCLabel { text: qsTr("Image"); Layout.fillWidth: true }
                     FactTextField {
+                        enabled:        false
                         Layout.preferredWidth:  _root._fieldWidth
                         fact:                   cameraCalc.imageWidth
                     }
                     FactTextField {
+                        enabled:        false
                         Layout.preferredWidth:  _root._fieldWidth
                         fact:                   cameraCalc.imageHeight
                     }
@@ -165,6 +169,7 @@ Column {
                         Layout.fillWidth:       true
                     }
                     FactTextField {
+                        enabled:        false
                         Layout.preferredWidth:  _root._fieldWidth
                         fact:                   cameraCalc.focalLength
                     }

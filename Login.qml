@@ -871,6 +871,29 @@ Item {
                     }
                 }
 
+                Label {
+                    text: "Camera Param"
+                    color: "gray"
+                    Layout.margins: m2
+                }
+
+                GridLayout {
+                    columns: 2
+
+                    Label {
+                        text: "Focale"
+                        Layout.margins: m2
+                        Layout.columnSpan: 2
+                    }
+                    TextField {
+                        id: focale
+                        text: _loginController.getCameraFocale()
+                    }
+                    Label {
+                        text: "mm"
+                        Layout.margins: m2
+                    }
+                }
 
                 Label {
                     text: "Checklist"
@@ -904,6 +927,7 @@ Item {
                         _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
                         _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
+                        _loginController.setParamCamera(focale.text)
                         doneDialog.open()
                     }
                 }
@@ -936,6 +960,7 @@ Item {
                 _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                 _loginController.setParamChecklist(checklistArea.text)
                 _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
+                _loginController.setParamCamera(focale.text)
 
                 //we save the questions
                 questionView.save(parcelleModel2)

@@ -12,6 +12,7 @@ extern List_file *speedParam;
 extern List_file *nbParam;
 extern List_file *altParam;
 extern List_file *flightParam;
+extern List_file *cameraParam;
 extern QString username;
 extern AppSettings* sett;
 extern QuestionFile* questionFile;
@@ -113,6 +114,13 @@ void LoginController::onAdminClosed() {
 
     questionFile->clear();
     questionFile->load();
+
+    cameraParam->clear();
+    if (! cameraParam->load()) {
+        cameraParam->clear();
+        cameraParam->append("5.2");
+        qDebug() << "cameraParam file is empty" << cameraParam->size();
+    }
 }
 
 void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
@@ -191,6 +199,11 @@ void LoginController::setParamLimit(QString session, QString parcelles, QString 
     nbParam->save();
 }
 
+void LoginController::setParamCamera(QString focale) {
+    cameraParam->replace(0, focale);
+    cameraParam->save();
+}
+
 // we do not check here if the checklist respect the regexp +:+
 // we check it at the loading
 void LoginController::setParamChecklist(QString check) {
@@ -255,6 +268,10 @@ QString LoginController::getMaxClimbRate(){
 
 QString LoginController::getMaxDescentRate(){
     return flightParam->at(3);
+}
+
+QString LoginController::getCameraFocale(){
+    return cameraParam->at(0);
 }
 
 QString LoginController::getParamChecklist() {
