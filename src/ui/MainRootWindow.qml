@@ -323,6 +323,7 @@ ApplicationWindow {
         anchors.fill:   parent
         visible:        false
         function close() {
+            loginMainWindow.show();
             mainWindow.close();
         }
 
