@@ -1058,7 +1058,6 @@ Item {
                     rootWindowLoader.setSource("")
                     rootWindowLoader.setSource("MainRootWindow.qml")
                     rootWindowLoader.focus=true
-                    //loginMainWindow.hide()
                 }
             }
             else {
@@ -1105,6 +1104,7 @@ Item {
         visible:        false
         onLoaded: {
             progressOverlay.close()
+            loginMainWindow.hide()
         }
     }
 
