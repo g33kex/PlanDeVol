@@ -878,10 +878,20 @@ Item {
                 }
 
                 GridLayout {
-                    columns: 2
+                    columns: 6
 
                     Label {
                         text: "Focale"
+                        Layout.margins: m2
+                        Layout.columnSpan: 2
+                    }
+                    Label {
+                        text: "sensor Width"
+                        Layout.margins: m2
+                        Layout.columnSpan: 2
+                    }
+                    Label {
+                        text: "Sensor Height"
                         Layout.margins: m2
                         Layout.columnSpan: 2
                     }
@@ -892,6 +902,59 @@ Item {
                     Label {
                         text: "mm"
                         Layout.margins: m2
+                    }
+                    TextField {
+                        id: sensorW
+                        text: _loginController.getCameraSensorW()
+                    }
+                    Label {
+                        text: "mm"
+                        Layout.margins: m2
+                    }
+                    TextField {
+                        id: sensorH
+                        text: _loginController.getCameraSensorH()
+                    }
+                    Label {
+                        text: "mm"
+                        Layout.margins: m2
+                    }
+                    Label {
+                        text: "Image Width"
+                        Layout.margins: m2
+                        Layout.columnSpan: 2
+                    }
+                    Label {
+                        text: "Image Height"
+                        Layout.margins: m2
+                        Layout.columnSpan: 2
+                    }
+                    Label {
+                        text: "Orientation"
+                        Layout.margins: m2
+                        Layout.columnSpan: 2
+                    }
+                    TextField {
+                        id: imageW
+                        text: _loginController.getCameraImageW()
+                    }
+                    Label {
+                        text: "px"
+                        Layout.margins: m2
+                    }
+                    TextField {
+                        id: imageH
+                        text: _loginController.getCameraImageH()
+                    }
+                    Label {
+                        text: "px"
+                        Layout.margins: m2
+                    }
+                    ComboBox {
+                        id: land
+                        model : ["Portrait", "Landscape"]
+                        currentIndex: _loginController.getCameraLand()
+                        Layout.columnSpan: 2
                     }
                 }
 
@@ -927,7 +990,7 @@ Item {
                         _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
                         _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
-                        _loginController.setParamCamera(focale.text)
+                        _loginController.setParamCamera(focale.text, sensorW.text, sensorH.text, imageW.text , imageH.text, land.currentIndex)
                         doneDialog.open()
                     }
                 }
@@ -960,7 +1023,7 @@ Item {
                 _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                 _loginController.setParamChecklist(checklistArea.text)
                 _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
-                _loginController.setParamCamera(focale.text)
+                _loginController.setParamCamera(focale.text, sensorW.text, sensorH.text, imageW.text , imageH.text, land.currentIndex)
 
                 //we save the questions
                 questionView.save(parcelleModel2)

@@ -494,6 +494,11 @@ int main(int argc, char *argv[])
         if (! cameraParam->load()) {
             cameraParam->clear();
             cameraParam->append("5.2");
+            cameraParam->append("6.26");
+            cameraParam->append("3.56");
+            cameraParam->append("3864");
+            cameraParam->append("2196");
+            cameraParam->append("true");
             qDebug() << "cameraParam file is empty" << cameraParam->size();
         }
 

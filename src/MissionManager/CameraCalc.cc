@@ -79,7 +79,13 @@ CameraCalc::CameraCalc(Vehicle* vehicle, const QString& settingsGroup, QObject* 
     _cameraNameChanged();
 
     focalLength()->setRawValue(cameraParam->at(0).toFloat());
-
+    sensorWidth()->setRawValue(cameraParam->at(1).toFloat());
+    sensorHeight()->setRawValue(cameraParam->at(2).toFloat());
+    imageWidth()->setRawValue(cameraParam->at(3).toFloat());
+    imageHeight()->setRawValue(cameraParam->at(4).toFloat());
+    landscape()->setRawValue(cameraParam->at(5));
+    qDebug() << "-----------" << landscape()->rawValue().toBool();
+    qDebug() << "-----------" << landscape()->rawValue().toString();
     setDirty(false);
 }
 

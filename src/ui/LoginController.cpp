@@ -118,7 +118,12 @@ void LoginController::onAdminClosed() {
     cameraParam->clear();
     if (! cameraParam->load()) {
         cameraParam->clear();
-        cameraParam->append("5.2");
+        cameraParam->append("5.2"); // focale
+        cameraParam->replace(1, "6.26"); // sensorW
+        cameraParam->replace(2, "3.56"); // sensorH
+        cameraParam->replace(3, "3864"); // imageW
+        cameraParam->replace(4, "2196"); // imageH
+        cameraParam->replace(5, "true"); //land
         qDebug() << "cameraParam file is empty" << cameraParam->size();
     }
 }
@@ -199,8 +204,19 @@ void LoginController::setParamLimit(QString session, QString parcelles, QString 
     nbParam->save();
 }
 
-void LoginController::setParamCamera(QString focale) {
+void LoginController::setParamCamera(QString focale, QString sensorW, QString sensorH, QString imageW, QString imageH, int land) {
     cameraParam->replace(0, focale);
+    cameraParam->replace(1, sensorW);
+    cameraParam->replace(2, sensorH);
+    cameraParam->replace(3, imageW);
+    cameraParam->replace(4, imageH);
+    if (land == 0) {
+        cameraParam->replace(5, "false");
+    }
+    else {
+        cameraParam->replace(5, "true");
+    }
+
     cameraParam->save();
 }
 
@@ -272,6 +288,26 @@ QString LoginController::getMaxDescentRate(){
 
 QString LoginController::getCameraFocale(){
     return cameraParam->at(0);
+}
+
+QString LoginController::getCameraSensorW(){
+    return cameraParam->at(1);
+}
+
+QString LoginController::getCameraSensorH(){
+    return cameraParam->at(2);
+}
+
+QString LoginController::getCameraImageW(){
+    return cameraParam->at(3);
+}
+
+QString LoginController::getCameraImageH(){
+    return cameraParam->at(4);
+}
+
+int LoginController::getCameraLand(){
+    return cameraParam->at(5) == "true";
 }
 
 QString LoginController::getParamChecklist() {
