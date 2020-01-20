@@ -64,217 +64,80 @@ Column {
         spacing:        _margin
         visible:        cameraHeader.checked
 
-//        QGCComboBox {
-//            id:             gridTypeCombo
-//            anchors.left:   parent.left
-//            anchors.right:  parent.right
-//            model:          _cameraList
-//            currentIndex:   -1
-//            onActivated:    cameraCalc.cameraName.value = gridTypeCombo.textAt(index)
-//        } // QGCComboxBox
         Label {
             text : "New Drone Camera"
             color: "white"
         }
 
-        // Camera based grid ui
-        Column {
+        RowLayout {
             anchors.left:   parent.left
             anchors.right:  parent.right
             spacing:        _margin
-
-            Row {
-                spacing:                    _margin
-                anchors.horizontalCenter:   parent.horizontalCenter
-                visible:                    !cameraCalc.fixedOrientation.value
-
-                QGCRadioButton {
-                    width:          _editFieldWidth
-                    text:           "Landscape"
-                    checked:        !!cameraCalc.landscape.value
-                    onClicked:      cameraCalc.landscape.value = 1
-                }
-
-                QGCRadioButton {
-                    id:             cameraOrientationPortrait
-                    text:           "Portrait"
-                    checked:        !cameraCalc.landscape.value
-                    onClicked:      cameraCalc.landscape.value = 0
-                }
-            }
-
-            // Custom camera specs
-            Column {
-                id:             custCameraCol
-                anchors.left:   parent.left
-                anchors.right:  parent.right
-                spacing:        _margin
-                visible:        true
-
-                RowLayout {
-                    anchors.left:   parent.left
-                    anchors.right:  parent.right
-                    spacing:        _margin
-                    Item { Layout.fillWidth: true }
-                    QGCLabel {
-                        Layout.preferredWidth:  _root._fieldWidth
-                        text:                   qsTr("Width")
-                    }
-                    QGCLabel {
-                        Layout.preferredWidth:  _root._fieldWidth
-                        text:                   qsTr("Height")
-                    }
-                }
-
-                RowLayout {
-                    anchors.left:   parent.left
-                    anchors.right:  parent.right
-                    spacing:        _margin
-                    QGCLabel { text: qsTr("Sensor"); Layout.fillWidth: true }
-                    FactTextField {
-                        enabled:        false
-                        Layout.preferredWidth:  _root._fieldWidth
-                        fact:                   cameraCalc.sensorWidth
-                    }
-                    FactTextField {
-                        enabled:        false
-                        Layout.preferredWidth:  _root._fieldWidth
-                        fact:                   cameraCalc.sensorHeight
-                    }
-                }
-
-                RowLayout {
-                    anchors.left:   parent.left
-                    anchors.right:  parent.right
-                    spacing:        _margin
-                    QGCLabel { text: qsTr("Image"); Layout.fillWidth: true }
-                    FactTextField {
-                        enabled:        false
-                        Layout.preferredWidth:  _root._fieldWidth
-                        fact:                   cameraCalc.imageWidth
-                    }
-                    FactTextField {
-                        enabled:        false
-                        Layout.preferredWidth:  _root._fieldWidth
-                        fact:                   cameraCalc.imageHeight
-                    }
-                }
-
-                RowLayout {
-                    anchors.left:   parent.left
-                    anchors.right:  parent.right
-                    spacing:        _margin
-                    QGCLabel {
-                        text:                   qsTr("Focal length")
-                        Layout.fillWidth:       true
-                    }
-                    FactTextField {
-                        enabled:        false
-                        Layout.preferredWidth:  _root._fieldWidth
-                        fact:                   cameraCalc.focalLength
-                    }
-                }
-
-            } // Column - custom camera specs
-
-            RowLayout {
-                anchors.left:   parent.left
-                anchors.right:  parent.right
-                spacing:        _margin
-                visible:        !usingPreset
-                Item { Layout.fillWidth: true }
-                QGCLabel {
-                    Layout.preferredWidth:  _root._fieldWidth
-                    text:                   qsTr("Front Lap")
-                }
-                QGCLabel {
-                    Layout.preferredWidth:  _root._fieldWidth
-                    text:                   qsTr("Side Lap")
-                }
-            }
-
-            RowLayout {
-                anchors.left:   parent.left
-                anchors.right:  parent.right
-                spacing:        _margin
-                visible:        !usingPreset
-                QGCLabel { text: qsTr("Overlap"); Layout.fillWidth: true }
-                FactTextField {
-                    Layout.preferredWidth:  _root._fieldWidth
-                    fact:                   cameraCalc.frontalOverlap
-                }
-                FactTextField {
-                    Layout.preferredWidth:  _root._fieldWidth
-                    fact:                   cameraCalc.sideOverlap
-                }
-            }
-
+            visible:        !usingPreset
+            Item { Layout.fillWidth: true }
             QGCLabel {
-                wrapMode:               Text.WordWrap
-                text:                   qsTr("Select one:")
-                Layout.preferredWidth:  parent.width
-                Layout.columnSpan:      2
-                visible:                !usingPreset
+                Layout.preferredWidth:  _root._fieldWidth
+                text:                   qsTr("Front Lap")
+            }
+            QGCLabel {
+                Layout.preferredWidth:  _root._fieldWidth
+                text:                   qsTr("Side Lap")
+            }
+        }
+
+        RowLayout {
+            anchors.left:   parent.left
+            anchors.right:  parent.right
+            spacing:        _margin
+            visible:        !usingPreset
+            QGCLabel { text: qsTr("Overlap"); Layout.fillWidth: true }
+            FactTextField {
+                Layout.preferredWidth:  _root._fieldWidth
+                fact:                   cameraCalc.frontalOverlap
+            }
+            FactTextField {
+                Layout.preferredWidth:  _root._fieldWidth
+                fact:                   cameraCalc.sideOverlap
+            }
+        }
+
+        QGCLabel {
+            wrapMode:               Text.WordWrap
+            text:                   qsTr("Select one:")
+            Layout.preferredWidth:  parent.width
+            Layout.columnSpan:      2
+            visible:                !usingPreset
+        }
+
+        GridLayout {
+            anchors.left:   parent.left
+            anchors.right:  parent.right
+            columnSpacing:  _margin
+            rowSpacing:     _margin
+            columns:        2
+            visible:        !usingPreset
+
+            Label {
+                text: distanceToSurfaceLabel
             }
 
-            GridLayout {
-                anchors.left:   parent.left
-                anchors.right:  parent.right
-                columnSpacing:  _margin
-                rowSpacing:     _margin
-                columns:        2
-                visible:        !usingPreset
-
-//                QGCRadioButton {
-//                    id:                     fixedDistanceRadio
-//                    text:                   distanceToSurfaceLabel
-//                    checked:                !!cameraCalc.valueSetIsDistance.value
-//                    onClicked:              cameraCalc.valueSetIsDistance.value = 1
-//                }
-
-//                Label {
-//                    text: "test"
-//                }
-
-//                AltitudeFactTextField {
-//                    fact:                   cameraCalc.distanceToSurface
-//                    altitudeMode:           distanceToSurfaceAltitudeMode
-//                    enabled:                fixedDistanceRadio.checked
-//                    Layout.fillWidth:       true
-//                }
-
-                Label {
-                    text: distanceToSurfaceLabel
-                }
-
-//                ComboBox {
-//                    id : camAlt
-//                    currentIndex: 1
-//                    model: [ "low", "med", "high"]
-//                    onCurrentIndexChanged: {
-////                        cameraCalc.setBoxAlt(currentIndex)
-//                        cameraCalc.distanceIndex = camAlt.currentIndex
-//                    }
-//                }
-
-                AltitudeFactTextField {
-                    fact:                   cameraCalc.distanceToSurface
-                    altitudeMode:           distanceToSurfaceAltitudeMode
-                    enabled:                false
-                    Layout.fillWidth:       true
-                }
-
-                Label {
-                    text:                   qsTr("Ground Res")
-                }
-
-                FactTextField {
-                    fact:                   cameraCalc.imageDensity
-                    enabled:                false
-                    Layout.fillWidth:       true
-                }
+            AltitudeFactTextField {
+                fact:                   cameraCalc.distanceToSurface
+                altitudeMode:           distanceToSurfaceAltitudeMode
+                enabled:                false
+                Layout.fillWidth:       true
             }
-        } // Column - Camera spec based ui
+
+            Label {
+                text:                   qsTr("Ground Res")
+            }
+
+            FactTextField {
+                fact:                   cameraCalc.imageDensity
+                enabled:                false
+                Layout.fillWidth:       true
+            }
+        }
 
     } // Column - Camera Section
 } // Column

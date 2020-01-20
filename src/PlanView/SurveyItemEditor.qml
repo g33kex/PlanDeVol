@@ -261,12 +261,6 @@ Rectangle {
             }
 
             FactCheckBox {
-                text:               qsTr("Refly at 90 deg offset")
-                fact:               missionItem.refly90Degrees
-                enabled:            !missionItem.followTerrain
-            }
-
-            FactCheckBox {
                 text:               qsTr("Images in turnarounds")
                 fact:               missionItem.cameraTriggerInTurnAround
                 enabled:            missionItem.hoverAndCaptureAllowed ? !missionItem.hoverAndCapture.rawValue : true
