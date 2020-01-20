@@ -12,6 +12,7 @@ class DbManager
         bool addParcelle(const QString& owner, const QString& polygon, QString surface, QStringList answers, QList<int> comboAnswers);
 
         QList<QString> getAllParcelle(QString username);
+        QList<QString> getAllParcelleNames(QString username);
 
         bool addMission(const QString& owner, const QString& ordre);
         QList<QString> getAllMission(QString user);

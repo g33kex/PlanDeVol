@@ -24,8 +24,10 @@ extern QuestionFile *questionFile;
 ParcelleManagerController::ParcelleManagerController() {
     geoportailParcelle = new GeoportailLink();
     connect(geoportailParcelle, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestReply(QNetworkReply*)));
-    _parcelles = new QVariantList();
-    initParcelles();
+    _parcellesPolygons = new QVariantList();
+    _parcellesNames = new QVariantList();
+    initParcellesPolygons();
+    initParcellesNames();
 }
 
 ParcelleManagerController::~ParcelleManagerController()
@@ -162,8 +164,8 @@ bool ParcelleManagerController::verif(QString user, QString pass) {
 
 }
 
-void ParcelleManagerController::initParcelles() {
-    this->_parcelles = new QVariantList();
+void ParcelleManagerController::initParcellesPolygons() {
+    this->_parcellesPolygons = new QVariantList();
 
     QStringList files = QStringList();
     files = db->getAllParcelle(username);
@@ -182,20 +184,36 @@ void ParcelleManagerController::initParcelles() {
         for(QGeoCoordinate coordinate : vertices) {
             variantVertices.append(QVariant::fromValue(coordinate));
         }
-        this->_parcelles->append(QVariant::fromValue(variantVertices));
+        this->_parcellesPolygons->append(QVariant::fromValue(variantVertices));
+    }
+
+}
+
+void ParcelleManagerController::initParcellesNames() {
+    this->_parcellesNames = new QVariantList();
+
+    QStringList names = QStringList();
+    names = db->getAllParcelle(username);
+
+
+    for(QString name : names) {
+        name = name.split('/').last();
+        this->_parcellesNames->append(QVariant::fromValue(name));
     }
 
 }
 
 QVariantList ParcelleManagerController::getParcelleList() {
-    _parcelles->clear();
-    initParcelles();
-    return *this->_parcelles;
+    _parcellesPolygons->clear();
+    initParcellesPolygons();
+    return *this->_parcellesPolygons;
 }
 
 //TODO : return name of parcelles in the same order as coordinate in getParcelleList
 QVariantList ParcelleManagerController::getParcelleNames() {
-    return *this->_parcelles;
+    _parcellesNames->clear();
+    initParcellesNames();
+    return *this->_parcellesNames;
 }
 
 bool ParcelleManagerController::checkIfExist(QString name) {

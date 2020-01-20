@@ -100,6 +100,17 @@ QList<QString> DbManager::getAllParcelle(QString username) {
     return res;
 }
 
+QList<QString> DbManager::getAllParcelleNames(QString username) {
+    QList<QString> res = *new QList<QString>();
+    QString foo = "SELECT name FROM Parcelle WHERE owner = \""+ username + "\"";
+    QSqlQuery query (foo);
+    int idName = query.record().indexOf("name");
+    while (query.next()) {
+        res.append(query.value(idName).toString());
+    }
+    return res;
+}
+
 bool DbManager::addMission(const QString& owner, const QString& file) {
    bool success = false;
    if (owner == "" || file == "") return success;

@@ -274,6 +274,8 @@ Item {
                             sourceItem: Label {
                             id: source
                             color: "pink"
+                            font.pixelSize : 22
+                            font.bold : true
                             text: "'+names[i]+'"
                          }}', map)
                         label.coordinate = parcelles[i][0];

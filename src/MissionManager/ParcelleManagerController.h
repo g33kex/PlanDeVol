@@ -39,7 +39,8 @@ public slots:
     bool verif(QString user, QString pass);
 
 private:
-    void initParcelles();
+    void initParcellesPolygons();
+    void initParcellesNames();
     void requestParcelle(QString nbIlot);
     QList<QString> *toDel;
     MissionController *missionControler;
@@ -49,7 +50,8 @@ private:
     SqlCustomModel* _model;
     QString _type;
     QString _file;
-    QVariantList* _parcelles;
+    QVariantList* _parcellesPolygons;
+    QVariantList* _parcellesNames;
     QStringList _answers;
     QList<int> _comboAnswers;
 };
