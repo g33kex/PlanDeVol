@@ -450,7 +450,6 @@ void MissionController::insertComplexMissionFromDialog(QList<QString> fileList) 
     int i = _missionItemCount+1;    // +1 because 0 is the start !!
     QList<ComplexMissionItem*> *toInsert = new QList<ComplexMissionItem*>();
     for (QList<QString>::iterator j = fileList.begin(); j != fileList.end(); ++j) {
-        qDebug() << (*j);
         SurveyComplexItem *foo = new SurveyComplexItem(_controllerVehicle, _flyView, *j, _visualItems);
         toInsert->append(foo);
     }
@@ -2227,7 +2226,6 @@ void MissionController::optimize() {
             if (item->commandName() == "Survey") {
                 SurveyComplexItem* pComplexItem = qobject_cast<SurveyComplexItem*>(item);
                 int angle = optimizeAngle(pComplexItem);
-                qDebug() << i <<angle;
                 pComplexItem->setAngle(angle);
             }
         }

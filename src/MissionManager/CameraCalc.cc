@@ -84,8 +84,6 @@ CameraCalc::CameraCalc(Vehicle* vehicle, const QString& settingsGroup, QObject* 
     imageWidth()->setRawValue(cameraParam->at(3).toFloat());
     imageHeight()->setRawValue(cameraParam->at(4).toFloat());
     landscape()->setRawValue(cameraParam->at(5));
-    qDebug() << "-----------" << landscape()->rawValue().toBool();
-    qDebug() << "-----------" << landscape()->rawValue().toString();
     setDirty(false);
 }
 
@@ -154,11 +152,9 @@ void CameraCalc::_cameraNameChanged(void)
 
 void CameraCalc::_recalcTriggerDistance(void)
 {
-    qDebug() << "----------------- recalcTriggerDistance";
     if (_disableRecalc) {
         return;
     }
-    qDebug() << "----------------- recalcTriggerDistance After";
 
     _disableRecalc = true;
 

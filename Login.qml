@@ -77,387 +77,481 @@ Item {
                         radius: 3
                     }
                 }
-            }
-
-        StackLayout {
-            id : tabV
-            currentIndex: tabBar.currentIndex
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            Item {
-                ColumnLayout {
-                    anchors.fill: parent
-                   Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        color: "white"
-
-
-                        TableView {
-                            id: userTableView
-                            anchors.fill: parent
-                            selectionMode: SelectionMode.MultiSelection
-                            TableViewColumn {
-                                role: "username"
-                                title: "Username"
-                                movable: false
-                                width: userTableView.width/3
-                            }
-                            TableViewColumn {
-                                role: "nom"
-                                title: "Nom"
-                                movable : false
-                                width: userTableView.width/3
-                            }
-                            TableViewColumn {
-                                role: "prenom"
-                                title: "Prenom"
-                                movable : false
-                                width: userTableView.width/3
-                            }
-
-                            SqlCustomModel {
-                                id: userModel
-
-                                Component.onCompleted: {
-                                    setupForUser()
-                                }
-
-                            }
-
-                            model: userModel
-
-                            Dialog {
-                                id: addUserDialog
-                                modal: true
-
-
-                                onAccepted: {
-                                    if(a_usernameField.length > 0) {
-                                        _loginController.addUser(userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
-                                    }
-                                }
-
-
-                                title: "Add User"
-
-                                function reset() {
-                                    a_usernameField.text = ""
-                                    a_passwordField.text = ""
-                                    a_nomField.text = ""
-                                    a_prenomField.text = ""
-                                }
-
-                                standardButtons: Dialog.Ok | Dialog.Cancel
-                                x: (parent.width - width) / 2
-                                y: (parent.height - height) / 2
-
-                                GridLayout {
-                                    columns: 4
-                                    anchors.fill: parent
-
-                                    Label {
-                                        text: "Username"
-                                    }
-                                    Label {
-                                        text: "Password"
-                                    }
-                                    Label {
-                                        text: "Nom"
-                                    }
-                                    Label {
-                                        text: "Prenom"
-
-                                    }
-                                    TextField {
-                                        id: a_usernameField
-                                    }
-                                    TextField {
-                                        id: a_passwordField
-                                        echoMode: TextInput.Password
-                                    }
-                                    TextField {
-                                        id: a_nomField
-                                    }
-                                    TextField {
-                                        id: a_prenomField
-                                    }
-                                }
-                            }
-
-                            Dialog {
-                                id: editUserDialog
-
-                                property int userIndex: 0
-
-                                function refresh() {
-                                    userField.updateContent()
-                                    nomField.updateContent()
-                                    prenomField.updateContent()
-                                }
-
-                                onAccepted: {
-                                    _loginController.modifyUser(userModel, userIndex, userField.text, nomField.text, prenomField.text)
-                                }
-
-
-                                title: "Edit Parcelle"
-
-                                standardButtons: Dialog.Ok | Dialog.Cancel
-                                x: (parent.width - width) / 2
-                                y: (parent.height - height) / 2
-                                modal: true
-
-                                GridLayout {
-                                    columns: 3
-                                    anchors.fill: parent
-
-                                    Label {
-                                        text: "username"
-                                    }
-                                    Label {
-                                        text: "nom"
-                                    }
-                                    Label {
-                                        text: "prenom"
-                                    }
-                                    TextField {
-                                        id: userField
-                                        enabled: false
-                                        function updateContent() {
-                                            text=userModel.getRecordValue(editUserDialog.userIndex, "username")
-                                        }
-                                    }
-                                    TextField {
-                                        id: nomField
-                                        function updateContent() {
-                                            text=userModel.getRecordValue(editUserDialog.userIndex, "nom")
-                                        }
-                                    }
-                                    TextField {
-                                        id: prenomField
-                                        function updateContent() {
-                                            text=userModel.getRecordValue(editUserDialog.userIndex, "prenom")
-                                        }
-                                    }
-                                }
-                            }
-
-                            Dialog {
-                                id: editPassDialog
-                                modal: true
-
-                                property int userIndex: 0
-
-                                function refresh() {
-                                    userField2.updateContent()
-                                }
-
-                                onAccepted: {
-                                    if (newPassField.text == confirmationField.text) {
-                                        _loginController.modifyPassword(userModel, userIndex, userField2.text, oldPassField.text, newPassField.text)
-                                    }
-                                    else {
-                                        wrongConfirmationDialog.open()
-                                    }
-                                }
-
-
-                                title: "Edit Password"
-
-                                standardButtons: Dialog.Ok | Dialog.Cancel
-                                x: (parent.width - width) / 2
-                                y: (parent.height - height) / 2
-
-                                GridLayout {
-                                    columns: 4
-                                    anchors.fill: parent
-
-                                    Label {
-                                        text: "username"
-                                    }
-                                    Label {
-                                        text: "old password"
-                                    }
-                                    Label {
-                                        text: "new password"
-                                    }
-                                    Label {
-                                        text: "confirmation"
-                                    }
-
-                                    TextField {
-                                        id: userField2
-                                        enabled: false
-                                        function updateContent() {
-                                            text=userModel.getRecordValue(editPassDialog.userIndex, "username")
-                                        }
-                                    }
-                                    TextField {
-                                        id: oldPassField
-                                         echoMode: TextInput.Password
-                                    }
-                                    TextField {
-                                        id: newPassField
-                                         echoMode: TextInput.Password
-                                    }
-                                    TextField {
-                                        id: confirmationField
-                                        echoMode: TextInput.Password
-                                    }
-
-
-                                }
-
-
-                            }
-
-                        }
-                   }
-                   RowLayout {
-//                       columns: 4
-//                       anchors.fill: parent
-
-                       Button {
-                           Layout.fillWidth: true
-                           Layout.margins : margin
-                           text: "Add User"
-                           onClicked: {
-                               if(_loginController.nbUser()) {
-                                   addUserDialog.reset()
-                                   addUserDialog.open()
-                               }
-                               else {
-                                   messageDialog_toomuch.open()
-                               }
-                           }
-                       }
-
-                       Button {
-                            Layout.fillWidth: true
-                            Layout.margins : margin
-                            text: "Remove User"
-                                onClicked: {
-                                        var selected=[]
-                                        userTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
-                                        userTableView.selection.clear()
-
-                                        _loginController.deleteUser(userModel,selected)
-                                   }
-                        }
-
-                        Button {
-
-                            Layout.margins : margin
-                            Layout.fillWidth: true
-
-                            Layout.alignment: Qt.AlignHCenter
-                            text: "Modify User"
-
-
-                                onClicked: {
-                                if(userTableView.selection.count===1) {
-                                    var sel=0
-                                    userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
-                                    editUserDialog.userIndex=sel
-                                    editUserDialog.refresh()
-                                    editUserDialog.open()
-                                }
-                                else {
-                                    errorModifyOnlyOneDialog.open()
-                                }
-                            }
-                        }
-
-                        Button {
-
-                            Layout.margins : margin
-                            Layout.fillWidth: true
-
-                            Layout.alignment: Qt.AlignHCenter
-                            text: "Modify Password"
-
-
-                                onClicked: {
-                                if(userTableView.selection.count===1) {
-                                    var sel=0
-                                    userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
-                                    editPassDialog.userIndex=sel
-                                    editPassDialog.refresh()
-                                    editPassDialog.open()
-                                }
-                                else {
-                                    errorModifyOnlyOneDialog.open()
-                                }
-                            }
-                        }
-                   }
-                }
-            }
-            Item {
-                ColumnLayout {
-                    anchors.fill: parent
-                   Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        color: "white"
-
-                        SqlCustomModel {
-                            id: missionModel
-
-                            Component.onCompleted: {
-                                setupForMission()
-                            }
-
-                        }
-
-                        TableView {
-                            id: missionTableView
-                            anchors.fill: parent
-                            selectionMode: SelectionMode.MultiSelection
-                            TableViewColumn {
-                                role: "owner"
-                                title: "Owner"
-                                movable: false
-                                width: missionTableView.width/2
-                            }
-                            TableViewColumn {
-                                role: "name"
-                                title: "name of the mission"
-                                movable : false
-                                width: missionTableView.width/2
-                            }
-
-                            model: missionModel
-                        }
-                   }
-
-
-                    Button {
-                        Layout.fillWidth: true
-                        Layout.margins : margin
-                        text: "Remove Mission"
-                            onClicked: {
-                                    var selected=[]
-                                    missionTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
-                                    missionTableView.selection.clear()
-
-                                    _loginController.deleteMission(missionModel,selected)
-                               }
+                TabButton {
+                    height: 40
+                    width: 150
+                    text: "Checklist"
+                    background: Rectangle {
+                        color: tabBar.currentIndex == 5 ? "orchid" : "plum"
+                        radius: 3
                     }
                 }
+
             }
-            Item {
-                ColumnLayout {
-                    anchors.fill: parent
-                   Rectangle {
-                        Layout.fillWidth: true
+
+            StackLayout {
+                id : tabV
+                currentIndex: tabBar.currentIndex
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                Item {
+                    ColumnLayout {
+                        anchors.fill: parent
+                       Rectangle {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            color: "white"
+
+
+                            TableView {
+                                id: userTableView
+                                anchors.fill: parent
+                                selectionMode: SelectionMode.MultiSelection
+                                TableViewColumn {
+                                    role: "username"
+                                    title: "Username"
+                                    movable: false
+                                    width: userTableView.width/3
+                                }
+                                TableViewColumn {
+                                    role: "nom"
+                                    title: "Nom"
+                                    movable : false
+                                    width: userTableView.width/3
+                                }
+                                TableViewColumn {
+                                    role: "prenom"
+                                    title: "Prenom"
+                                    movable : false
+                                    width: userTableView.width/3
+                                }
+
+                                SqlCustomModel {
+                                    id: userModel
+
+                                    Component.onCompleted: {
+                                        setupForUser()
+                                    }
+
+                                }
+
+                                model: userModel
+
+                                Dialog {
+                                    id: addUserDialog
+                                    modal: true
+
+
+                                    onAccepted: {
+                                        if(a_usernameField.length > 0) {
+                                            _loginController.addUser(userModel, a_usernameField.text, a_passwordField.text, a_nomField.text, a_prenomField.text)
+                                        }
+                                    }
+
+
+                                    title: "Add User"
+
+                                    function reset() {
+                                        a_usernameField.text = ""
+                                        a_passwordField.text = ""
+                                        a_nomField.text = ""
+                                        a_prenomField.text = ""
+                                    }
+
+                                    standardButtons: Dialog.Ok | Dialog.Cancel
+                                    x: (parent.width - width) / 2
+                                    y: (parent.height - height) / 2
+
+                                    GridLayout {
+                                        columns: 4
+                                        anchors.fill: parent
+
+                                        Label {
+                                            text: "Username"
+                                        }
+                                        Label {
+                                            text: "Password"
+                                        }
+                                        Label {
+                                            text: "Nom"
+                                        }
+                                        Label {
+                                            text: "Prenom"
+
+                                        }
+                                        TextField {
+                                            id: a_usernameField
+                                        }
+                                        TextField {
+                                            id: a_passwordField
+                                            echoMode: TextInput.Password
+                                        }
+                                        TextField {
+                                            id: a_nomField
+                                        }
+                                        TextField {
+                                            id: a_prenomField
+                                        }
+                                    }
+                                }
+
+                                Dialog {
+                                    id: editUserDialog
+
+                                    property int userIndex: 0
+
+                                    function refresh() {
+                                        userField.updateContent()
+                                        nomField.updateContent()
+                                        prenomField.updateContent()
+                                    }
+
+                                    onAccepted: {
+                                        _loginController.modifyUser(userModel, userIndex, userField.text, nomField.text, prenomField.text)
+                                    }
+
+
+                                    title: "Edit Parcelle"
+
+                                    standardButtons: Dialog.Ok | Dialog.Cancel
+                                    x: (parent.width - width) / 2
+                                    y: (parent.height - height) / 2
+                                    modal: true
+
+                                    GridLayout {
+                                        columns: 3
+                                        anchors.fill: parent
+
+                                        Label {
+                                            text: "username"
+                                        }
+                                        Label {
+                                            text: "nom"
+                                        }
+                                        Label {
+                                            text: "prenom"
+                                        }
+                                        TextField {
+                                            id: userField
+                                            enabled: false
+                                            function updateContent() {
+                                                text=userModel.getRecordValue(editUserDialog.userIndex, "username")
+                                            }
+                                        }
+                                        TextField {
+                                            id: nomField
+                                            function updateContent() {
+                                                text=userModel.getRecordValue(editUserDialog.userIndex, "nom")
+                                            }
+                                        }
+                                        TextField {
+                                            id: prenomField
+                                            function updateContent() {
+                                                text=userModel.getRecordValue(editUserDialog.userIndex, "prenom")
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Dialog {
+                                    id: editPassDialog
+                                    modal: true
+
+                                    property int userIndex: 0
+
+                                    function refresh() {
+                                        userField2.updateContent()
+                                    }
+
+                                    onAccepted: {
+                                        if (newPassField.text == confirmationField.text) {
+                                            _loginController.modifyPassword(userModel, userIndex, userField2.text, oldPassField.text, newPassField.text)
+                                        }
+                                        else {
+                                            wrongConfirmationDialog.open()
+                                        }
+                                    }
+
+
+                                    title: "Edit Password"
+
+                                    standardButtons: Dialog.Ok | Dialog.Cancel
+                                    x: (parent.width - width) / 2
+                                    y: (parent.height - height) / 2
+
+                                    GridLayout {
+                                        columns: 4
+                                        anchors.fill: parent
+
+                                        Label {
+                                            text: "username"
+                                        }
+                                        Label {
+                                            text: "old password"
+                                        }
+                                        Label {
+                                            text: "new password"
+                                        }
+                                        Label {
+                                            text: "confirmation"
+                                        }
+
+                                        TextField {
+                                            id: userField2
+                                            enabled: false
+                                            function updateContent() {
+                                                text=userModel.getRecordValue(editPassDialog.userIndex, "username")
+                                            }
+                                        }
+                                        TextField {
+                                            id: oldPassField
+                                             echoMode: TextInput.Password
+                                        }
+                                        TextField {
+                                            id: newPassField
+                                             echoMode: TextInput.Password
+                                        }
+                                        TextField {
+                                            id: confirmationField
+                                            echoMode: TextInput.Password
+                                        }
+
+
+                                    }
+
+
+                                }
+
+                            }
+                       }
+                       RowLayout {
+    //                       columns: 4
+    //                       anchors.fill: parent
+
+                           Button {
+                               Layout.fillWidth: true
+                               Layout.margins : margin
+                               text: "Add User"
+                               onClicked: {
+                                   if(_loginController.nbUser()) {
+                                       addUserDialog.reset()
+                                       addUserDialog.open()
+                                   }
+                                   else {
+                                       messageDialog_toomuch.open()
+                                   }
+                               }
+                           }
+
+                           Button {
+                                Layout.fillWidth: true
+                                Layout.margins : margin
+                                text: "Remove User"
+                                    onClicked: {
+                                            var selected=[]
+                                            userTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                            userTableView.selection.clear()
+
+                                            _loginController.deleteUser(userModel,selected)
+                                       }
+                            }
+
+                            Button {
+
+                                Layout.margins : margin
+                                Layout.fillWidth: true
+
+                                Layout.alignment: Qt.AlignHCenter
+                                text: "Modify User"
+
+
+                                    onClicked: {
+                                    if(userTableView.selection.count===1) {
+                                        var sel=0
+                                        userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                        editUserDialog.userIndex=sel
+                                        editUserDialog.refresh()
+                                        editUserDialog.open()
+                                    }
+                                    else {
+                                        errorModifyOnlyOneDialog.open()
+                                    }
+                                }
+                            }
+
+                            Button {
+
+                                Layout.margins : margin
+                                Layout.fillWidth: true
+
+                                Layout.alignment: Qt.AlignHCenter
+                                text: "Modify Password"
+
+
+                                    onClicked: {
+                                    if(userTableView.selection.count===1) {
+                                        var sel=0
+                                        userTableView.selection.forEach(function(rowIndex) {sel=rowIndex})
+                                        editPassDialog.userIndex=sel
+                                        editPassDialog.refresh()
+                                        editPassDialog.open()
+                                    }
+                                    else {
+                                        errorModifyOnlyOneDialog.open()
+                                    }
+                                }
+                            }
+                       }
+                    }
+                }
+                Item {
+                    ColumnLayout {
+                        anchors.fill: parent
+                       Rectangle {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            color: "white"
+
+                            SqlCustomModel {
+                                id: missionModel
+
+                                Component.onCompleted: {
+                                    setupForMission()
+                                }
+
+                            }
+
+                            TableView {
+                                id: missionTableView
+                                anchors.fill: parent
+                                selectionMode: SelectionMode.MultiSelection
+                                TableViewColumn {
+                                    role: "owner"
+                                    title: "Owner"
+                                    movable: false
+                                    width: missionTableView.width/2
+                                }
+                                TableViewColumn {
+                                    role: "name"
+                                    title: "name of the mission"
+                                    movable : false
+                                    width: missionTableView.width/2
+                                }
+
+                                model: missionModel
+                            }
+                       }
+
+
+                        Button {
+                            Layout.fillWidth: true
+                            Layout.margins : margin
+                            text: "Remove Mission"
+                                onClicked: {
+                                        var selected=[]
+                                        missionTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                        missionTableView.selection.clear()
+
+                                        _loginController.deleteMission(missionModel,selected)
+                                   }
+                        }
+                    }
+                }
+                Item {
+                    ColumnLayout {
+                        anchors.fill: parent
+                       Rectangle {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            color: "white"
+
+                            SqlCustomModel {
+                                id: parcelleModel
+
+                                Component.onCompleted: {
+                                    setupForParcelle()
+                                }
+
+                            }
+
+                            TableView {
+                                id: parcelleTableView
+                                anchors.fill: parent
+                                selectionMode: SelectionMode.MultiSelection
+                                TableViewColumn {
+                                    role: "owner"
+                                    title: "Owner"
+                                    movable: false
+                                    width: 2*parcelleTableView.width/5
+                                }
+                                TableViewColumn {
+                                    role: "name"
+                                    title: "name of the parcelle"
+                                    movable : false
+                                    width: 2*parcelleTableView.width/5
+                                }
+                                TableViewColumn {
+                                    role: "surface"
+                                    title: "Surface (ha)"
+                                    movable: false
+                                    width: parcelleTableView.width/5
+                                }
+
+                                model: parcelleModel
+                            }
+                       }
+
+
+                        Button {
+                            Layout.fillWidth: true
+                            Layout.margins : margin
+                            text: "Remove Parcelle"
+                                onClicked: {
+                                        var selected=[]
+                                        parcelleTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
+                                        parcelleTableView.selection.clear()
+
+                                        _parcelleManagerController.deleteParcelle(parcelleModel,selected)
+                                   }
+                        }
+                    }
+                }
+                Item {
+                    property int margin: 6
+
+                    ColumnLayout {
+                        anchors.fill: parent
+                        id: column
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Label {
+                                Layout.topMargin: margin
+                                Layout.leftMargin: margin
+                                Layout.bottomMargin: 0
+                                Layout.preferredWidth: column.width/2-2*margin
+                                text: "Question"
+                            }
+                            Label {
+                                Layout.topMargin: margin
+                                Layout.fillWidth: true
+                                text: "Default answer"
+                            }
+                            Label {
+                                text: "Selection"
+                                Layout.topMargin: margin
+                                Layout.rightMargin: margin
+                            }
+                        }
+
+                    QuestionsView {
+                        id: questionView
                         Layout.fillHeight: true
-                        color: "white"
+                        Layout.fillWidth: true
+                        selectable: true
 
                         SqlCustomModel {
-                            id: parcelleModel
+                            id: parcelleModel2
 
                             Component.onCompleted: {
                                 setupForParcelle()
@@ -465,498 +559,443 @@ Item {
 
                         }
 
-                        TableView {
-                            id: parcelleTableView
-                            anchors.fill: parent
-                            selectionMode: SelectionMode.MultiSelection
-                            TableViewColumn {
-                                role: "owner"
-                                title: "Owner"
-                                movable: false
-                                width: 2*parcelleTableView.width/5
-                            }
-                            TableViewColumn {
-                                role: "name"
-                                title: "name of the parcelle"
-                                movable : false
-                                width: 2*parcelleTableView.width/5
-                            }
-                            TableViewColumn {
-                                role: "surface"
-                                title: "Surface (ha)"
-                                movable: false
-                                width: parcelleTableView.width/5
-                            }
-
-                            model: parcelleModel
-                        }
-                   }
-
-
-                    Button {
-                        Layout.fillWidth: true
-                        Layout.margins : margin
-                        text: "Remove Parcelle"
-                            onClicked: {
-                                    var selected=[]
-                                    parcelleTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
-                                    parcelleTableView.selection.clear()
-
-                                    _parcelleManagerController.deleteParcelle(parcelleModel,selected)
-                               }
-                    }
-                }
-            }
-			Item {
-                property int margin: 6
-
-                ColumnLayout {
-                    anchors.fill: parent
-                    id: column
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Label {
-                            Layout.topMargin: margin
-                            Layout.leftMargin: margin
-                            Layout.bottomMargin: 0
-                            Layout.preferredWidth: column.width/2-2*margin
-                            text: "Question"
-                        }
-                        Label {
-                            Layout.topMargin: margin
-                            Layout.fillWidth: true
-                            text: "Default answer"
-                        }
-                        Label {
-                            text: "Selection"
-                            Layout.topMargin: margin
-                            Layout.rightMargin: margin
-                        }
-                    }
-
-                QuestionsView {
-                    id: questionView
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    selectable: true
-
-                    SqlCustomModel {
-                        id: parcelleModel2
-
                         Component.onCompleted: {
-                            setupForParcelle()
+                            populateQA(parcelleModel2, -1);
                         }
-
                     }
 
-                    Component.onCompleted: {
-                        populateQA(parcelleModel2, -1);
-                    }
-                }
+                    RowLayout {
+                        Layout.alignment: Qt.AlignRight
+                        Layout.fillWidth: true
+                        Button {
+                            text: "Echange"
+                            Layout.margins: margin
+                            Layout.topMargin: 0
+                            onClicked: {
+                                if(questionView.getNbChecked() === 2 && questionView.isCheckedValid()) {
+                                    questionView.exchangeQuestion()
+                                }
+                                else {
+                                    tooMuchExDialog.open()
+                                }
 
-                RowLayout {
-                    Layout.alignment: Qt.AlignRight
-                    Layout.fillWidth: true
-                    Button {
-                        text: "Echange"
-                        Layout.margins: margin
-                        Layout.topMargin: 0
-                        onClicked: {
-                            if(questionView.getNbChecked() === 2 && questionView.isCheckedValid()) {
-                                questionView.exchangeQuestion()
                             }
-                            else {
-                                tooMuchExDialog.open()
+                        }
+                        Button {
+                            text: "+"
+                            Layout.margins: margin
+                            Layout.topMargin: 0
+                            onClicked: {
+                                addQuestionDialog.open()
                             }
-
                         }
-                    }
-                    Button {
-                        text: "+"
-                        Layout.margins: margin
-                        Layout.topMargin: 0
-                        onClicked: {
-                            addQuestionDialog.open()
+                        Button {
+                            text: "-"
+                            Layout.margins: margin
+                            Layout.topMargin: 0
+                            onClicked: {
+                                if(questionView.getNbChecked() === 1) {
+                                    questionView.deleteChecked(parcelleModel2)
+                                    questionView.save(parcelleModel2)
+                                }
+                                else {
+                                    tooMuchDelDialog.open()
+                                }
+                            }
                         }
-                    }
-                    Button {
-                        text: "-"
-                        Layout.margins: margin
-                        Layout.topMargin: 0
-                        onClicked: {
-                            if(questionView.getNbChecked() === 1) {
-                                questionView.deleteChecked(parcelleModel2)
+                        Button {
+                            text: "save"
+                            Layout.margins: margin
+                            Layout.topMargin: 0
+                            onClicked: {
                                 questionView.save(parcelleModel2)
+                                doneDialog.open()
+                            }
+                        }
+
+                    }
+
+                    Dialog {
+                        id: addQuestionDialog
+                        modal: true
+                        width: 3 * parent.width / 4
+                        height: 3* parent.height / 4
+
+                        onAccepted: {
+                            if(questionView.checkIfValid(name_textField.text) && question_textField.length > 0 && name_textField.length > 0) {
+                                if(combo_checkbox.checked) {
+                                    questionView.addQuestionCombo(question_textField.text, possibleChoiceArea.text, parcelleModel2, name_textField.text)
+                                }
+                                else {
+                                    questionView.addQuestion(question_textField.text, parcelleModel2, name_textField.text)
+                                }
+                                questionView.save(parcelleModel2)
+                                reset()
                             }
                             else {
-                                tooMuchDelDialog.open()
+                                 idExistsDialog.open()
+                            }
+                        }
+
+
+                        title: "Add Question"
+
+                        function reset() {
+                            possibleChoiceArea.text="";
+                            question_textField.text="";
+                            name_textField.text="";
+                            combo_checkbox.checked = false
+                        }
+
+                        standardButtons: Dialog.Ok | Dialog.Cancel
+                        x: (parent.width - width) / 2
+                        y: (parent.height - height) / 2
+
+                        ColumnLayout {
+                            anchors.fill: parent
+
+                            Label {
+                                text: "Nom du champ"
+                            }
+                            TextField {
+                                id: name_textField
+                                Layout.fillWidth: true
+                            }
+                            Label {
+                                text: "Question"
+                            }
+                            TextField {
+                                id: question_textField
+                                Layout.fillWidth: true
+                            }
+                            CheckBox {
+                                text: "Multiple choice question"
+                                id: combo_checkbox
+                            }
+                            TextArea {
+                                id: possibleChoiceArea
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                visible: combo_checkbox.checked
                             }
                         }
                     }
-                    Button {
-                        text: "save"
-                        Layout.margins: margin
-                        Layout.topMargin: 0
-                        onClicked: {
-                            questionView.save(parcelleModel2)
-                            doneDialog.open()
-                        }
+
+
                     }
+
 
                 }
-
-                Dialog {
-                    id: addQuestionDialog
-                    modal: true
-                    width: 3 * parent.width / 4
-                    height: 3* parent.height / 4
-
-                    onAccepted: {
-                        if(questionView.checkIfValid(name_textField.text) && question_textField.length > 0 && name_textField.length > 0) {
-                            if(combo_checkbox.checked) {
-                                questionView.addQuestionCombo(question_textField.text, possibleChoiceArea.text, parcelleModel2, name_textField.text)
-                            }
-                            else {
-                                questionView.addQuestion(question_textField.text, parcelleModel2, name_textField.text)
-                            }
-                            questionView.save(parcelleModel2)
-                            reset()
-                        }
-                        else {
-                             idExistsDialog.open()
-                        }
-                    }
-
-
-                    title: "Add Question"
-
-                    function reset() {
-                        possibleChoiceArea.text="";
-                        question_textField.text="";
-                        name_textField.text="";
-                        combo_checkbox.checked = false
-                    }
-
-                    standardButtons: Dialog.Ok | Dialog.Cancel
-                    x: (parent.width - width) / 2
-                    y: (parent.height - height) / 2
+                Item {
 
                     ColumnLayout {
                         anchors.fill: parent
 
+                    Label {
+                        text: "Speed"
+                        color: "gray"
+                        Layout.margins: m2
+                    }
+                    GridLayout {
+                        columns: 6
+
                         Label {
-                            text: "Nom du champ"
+                            text: "Low Speed"
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "Medium Speed"
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "High Speed"
+                            Layout.columnSpan: 2
+                        }
+
+
+                        TextField {
+                            id: lowspeed
+                            text: _loginController.getSpeedLow()
+                        }
+                        Label {
+                            text: "m/s"
                         }
                         TextField {
-                            id: name_textField
-                            Layout.fillWidth: true
+                            id: medspeed
+                            text: _loginController.getSpeedMed()
                         }
                         Label {
-                            text: "Question"
+                            text: "m/s"
                         }
                         TextField {
-                            id: question_textField
-                            Layout.fillWidth: true
+                            id: highspeed
+                            text: _loginController.getSpeedHigh()
                         }
-                        CheckBox {
-                            text: "Multiple choice question"
-                            id: combo_checkbox
+                        Label {
+                            text: "m/s"
                         }
-                        TextArea {
-                            id: possibleChoiceArea
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            visible: combo_checkbox.checked
+                    }
+
+                    Label {
+                        text: "Altitude"
+                        color: "gray"
+                        Layout.margins: m2
+                    }
+                    GridLayout {
+                        columns: 6
+
+                        Label {
+                            text: "Low Altitude"
+                            Layout.columnSpan: 2
                         }
+                        Label {
+                            text: "Medium Altitude"
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "High Altitude"
+                            Layout.columnSpan: 2
+                        }
+
+
+                        TextField {
+                            id: lowalt
+                            text: _loginController.getAltLow()
+                        }
+                        Label {
+                            text: "m"
+                        }
+
+                        TextField {
+                            id: medalt
+                            text: _loginController.getAltMed()
+                        }
+                        Label {
+                            text: "m"
+                        }
+
+                        TextField {
+                            id: highalt
+                            text: _loginController.getAltHigh()
+                        }
+                        Label {
+                            text: "m"
+                        }
+                    }
+
+                    Label {
+                        text: "Limite number"
+                        color: "gray"
+                        Layout.margins: m2
+                    }
+
+                    GridLayout {
+                        columns: 3
+
+                        Label {
+                            text: "Limit of session        "
+                        }
+                        Label {
+                            text: "Limit of parcelle / user"
+                        }
+                        Label {
+                            text: "Limit of mission / user "
+                        }
+
+
+                        TextField {
+                            id: nbSession
+                            text: _loginController.getNbSession()
+                        }
+                        TextField {
+                            id: nbParcelle
+                            text: _loginController.getNbParcelle()
+                        }
+                        TextField {
+                            id: nbMission
+                            text: _loginController.getNbMission()
+                        }
+                    }
+
+                    Label {
+                        text: "Limite number"
+                        color: "gray"
+                        Layout.margins: m2
+                    }
+
+                    GridLayout {
+                        columns: 8
+
+                        Label {
+                            text: "Turnaround distance"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "Tolerance"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "Maximum Climb Rate"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "Maximum Descent Rate"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+
+                        TextField {
+                            id: turn
+                            text: _loginController.getTurn()
+                        }
+                        Label {
+                            text: "m"
+                            Layout.margins: m2
+                        }
+                        TextField {
+                            id: tol
+                            text: _loginController.getTolerance()
+                        }
+                        Label {
+                            text: "m"
+                            Layout.margins: m2
+                        }
+                        TextField {
+                            id: maxclimb
+                            text: _loginController.getMaxClimbRate()
+                        }
+                        Label {
+                            text: "m/s"
+                            Layout.margins: m2
+                        }
+                        TextField {
+                            id: maxdescent
+                            text: _loginController.getMaxDescentRate()
+                        }
+                        Label {
+                            text: "m/s"
+                            Layout.margins: m2
+                        }
+                    }
+
+                    Label {
+                        text: "Camera Param"
+                        color: "gray"
+                        Layout.margins: m2
+                    }
+
+                    GridLayout {
+                        columns: 6
+
+                        Label {
+                            text: "Focale"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "sensor Width"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "Sensor Height"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        TextField {
+                            id: focale
+                            text: _loginController.getCameraFocale()
+                        }
+                        Label {
+                            text: "mm"
+                            Layout.margins: m2
+                        }
+                        TextField {
+                            id: sensorW
+                            text: _loginController.getCameraSensorW()
+                        }
+                        Label {
+                            text: "mm"
+                            Layout.margins: m2
+                        }
+                        TextField {
+                            id: sensorH
+                            text: _loginController.getCameraSensorH()
+                        }
+                        Label {
+                            text: "mm"
+                            Layout.margins: m2
+                        }
+                        Label {
+                            text: "Image Width"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "Image Height"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        Label {
+                            text: "Orientation"
+                            Layout.margins: m2
+                            Layout.columnSpan: 2
+                        }
+                        TextField {
+                            id: imageW
+                            text: _loginController.getCameraImageW()
+                        }
+                        Label {
+                            text: "px"
+                            Layout.margins: m2
+                        }
+                        TextField {
+                            id: imageH
+                            text: _loginController.getCameraImageH()
+                        }
+                        Label {
+                            text: "px"
+                            Layout.margins: m2
+                        }
+                        ComboBox {
+                            id: land
+                            model : ["Portrait", "Landscape"]
+                            currentIndex: _loginController.getCameraLand()
+                            Layout.columnSpan: 2
+                        }
+                    }
+
+                    Button {
+                        text: "export to XML"
+                        Layout.margins: m2
+                        onClicked: {
+                            _loginController.exportToXML()
+                            doneDialog.open()
+                        }
+                    }
+
+                    Button {
+                        text: "Save"
+                        Layout.margins: m2
+                        onClicked: {
+                            _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
+                            _loginController.setParamAlt(lowalt.text, medalt.text, highalt.text)
+                            _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
+                            _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
+                            _loginController.setParamCamera(focale.text, sensorW.text, sensorH.text, imageW.text , imageH.text, land.currentIndex)
+                            doneDialog.open()
+                        }
+                    }
                     }
                 }
 
-
-                }
-
-
-            }
-            Item {
+                Item {
 
                 ColumnLayout {
                     anchors.fill: parent
-
-                Label {
-                    text: "Speed"
-                    color: "gray"
-                    Layout.margins: m2
-                }
-                GridLayout {
-                    columns: 6
-
-                    Label {
-                        text: "Low Speed"
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "Medium Speed"
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "High Speed"
-                        Layout.columnSpan: 2
-                    }
-
-
-                    TextField {
-                        id: lowspeed
-                        text: _loginController.getSpeedLow()
-                    }
-                    Label {
-                        text: "m/s"
-                    }
-                    TextField {
-                        id: medspeed
-                        text: _loginController.getSpeedMed()
-                    }
-                    Label {
-                        text: "m/s"
-                    }
-                    TextField {
-                        id: highspeed
-                        text: _loginController.getSpeedHigh()
-                    }
-                    Label {
-                        text: "m/s"
-                    }
-                }
-
-                Label {
-                    text: "Altitude"
-                    color: "gray"
-                    Layout.margins: m2
-                }
-                GridLayout {
-                    columns: 6
-
-                    Label {
-                        text: "Low Altitude"
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "Medium Altitude"
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "High Altitude"
-                        Layout.columnSpan: 2
-                    }
-
-
-                    TextField {
-                        id: lowalt
-                        text: _loginController.getAltLow()
-                    }
-                    Label {
-                        text: "m"
-                    }
-
-                    TextField {
-                        id: medalt
-                        text: _loginController.getAltMed()
-                    }
-                    Label {
-                        text: "m"
-                    }
-
-                    TextField {
-                        id: highalt
-                        text: _loginController.getAltHigh()
-                    }
-                    Label {
-                        text: "m"
-                    }
-                }
-
-                Label {
-                    text: "Limite number"
-                    color: "gray"
-                    Layout.margins: m2
-                }
-
-                GridLayout {
-                    columns: 3
-
-                    Label {
-                        text: "Limit of session        "
-                    }
-                    Label {
-                        text: "Limit of parcelle / user"
-                    }
-                    Label {
-                        text: "Limit of mission / user "
-                    }
-
-
-                    TextField {
-                        id: nbSession
-                        text: _loginController.getNbSession()
-                    }
-                    TextField {
-                        id: nbParcelle
-                        text: _loginController.getNbParcelle()
-                    }
-                    TextField {
-                        id: nbMission
-                        text: _loginController.getNbMission()
-                    }
-                }
-
-                Label {
-                    text: "Limite number"
-                    color: "gray"
-                    Layout.margins: m2
-                }
-
-                GridLayout {
-                    columns: 8
-
-                    Label {
-                        text: "Turnaround distance"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "Tolerance"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "Maximum Climb Rate"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "Maximum Descent Rate"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-
-                    TextField {
-                        id: turn
-                        text: _loginController.getTurn()
-                    }
-                    Label {
-                        text: "m"
-                        Layout.margins: m2
-                    }
-                    TextField {
-                        id: tol
-                        text: _loginController.getTolerance()
-                    }
-                    Label {
-                        text: "m"
-                        Layout.margins: m2
-                    }
-                    TextField {
-                        id: maxclimb
-                        text: _loginController.getMaxClimbRate()
-                    }
-                    Label {
-                        text: "m/s"
-                        Layout.margins: m2
-                    }
-                    TextField {
-                        id: maxdescent
-                        text: _loginController.getMaxDescentRate()
-                    }
-                    Label {
-                        text: "m/s"
-                        Layout.margins: m2
-                    }
-                }
-
-                Label {
-                    text: "Camera Param"
-                    color: "gray"
-                    Layout.margins: m2
-                }
-
-                GridLayout {
-                    columns: 6
-
-                    Label {
-                        text: "Focale"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "sensor Width"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "Sensor Height"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    TextField {
-                        id: focale
-                        text: _loginController.getCameraFocale()
-                    }
-                    Label {
-                        text: "mm"
-                        Layout.margins: m2
-                    }
-                    TextField {
-                        id: sensorW
-                        text: _loginController.getCameraSensorW()
-                    }
-                    Label {
-                        text: "mm"
-                        Layout.margins: m2
-                    }
-                    TextField {
-                        id: sensorH
-                        text: _loginController.getCameraSensorH()
-                    }
-                    Label {
-                        text: "mm"
-                        Layout.margins: m2
-                    }
-                    Label {
-                        text: "Image Width"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "Image Height"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    Label {
-                        text: "Orientation"
-                        Layout.margins: m2
-                        Layout.columnSpan: 2
-                    }
-                    TextField {
-                        id: imageW
-                        text: _loginController.getCameraImageW()
-                    }
-                    Label {
-                        text: "px"
-                        Layout.margins: m2
-                    }
-                    TextField {
-                        id: imageH
-                        text: _loginController.getCameraImageH()
-                    }
-                    Label {
-                        text: "px"
-                        Layout.margins: m2
-                    }
-                    ComboBox {
-                        id: land
-                        model : ["Portrait", "Landscape"]
-                        currentIndex: _loginController.getCameraLand()
-                        Layout.columnSpan: 2
-                    }
-                }
 
                 Label {
                     text: "Checklist"
@@ -973,32 +1012,20 @@ Item {
                 }
 
                 Button {
-                    text: "export to XML"
-                    Layout.margins: m2
-                    onClicked: {
-                        _loginController.exportToXML()
-                        doneDialog.open()
-                    }
-                }
-
-                Button {
                     text: "Save"
                     Layout.margins: m2
                     onClicked: {
-                        _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
-                        _loginController.setParamAlt(lowalt.text, medalt.text, highalt.text)
-                        _loginController.setParamLimit(nbSession.text, nbParcelle.text, nbMission.text)
                         _loginController.setParamChecklist(checklistArea.text)
-                        _loginController.setParamFlight(turn.text, tol.text, maxclimb.text, maxdescent.text)
-                        _loginController.setParamCamera(focale.text, sensorW.text, sensorH.text, imageW.text , imageH.text, land.currentIndex)
                         doneDialog.open()
                     }
                 }
                 }
             }
 
-        }
-        Button {
+
+            }
+
+            Button {
             Layout.alignment: Qt.AlignRight
             text: "Disconnect"
             Layout.margins: 5
@@ -1060,103 +1087,103 @@ Item {
         color: "black"
         anchors.fill: parent
 
-    Rectangle {
-        color: "white"
-        anchors.fill: parent
-        anchors.bottomMargin: parent.height/6
-        anchors.topMargin: parent.height/6
-        anchors.leftMargin: parent.width/3
-        anchors.rightMargin: parent.width/3
-
-    ColumnLayout {
-
-        anchors.fill: parent
-        anchors.margins: margin
-
         Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 45
-            Layout.alignment: Qt.AlignHCenter
-            Layout.rightMargin: 10
-            Layout.leftMargin: 10
-            color: "pink"
+            color: "white"
+            anchors.fill: parent
+            anchors.bottomMargin: parent.height/6
+            anchors.topMargin: parent.height/6
+            anchors.leftMargin: parent.width/3
+            anchors.rightMargin: parent.width/3
+
             ColumnLayout {
+
                 anchors.fill: parent
-            Label {
-                text: "Please Login!"
-                color: "white"
-                Layout.alignment: Qt.AlignCenter
-                font.bold: true
+                anchors.margins: margin
 
-            }
-            }
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 45
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.rightMargin: 10
+                    Layout.leftMargin: 10
+                    color: "pink"
+                    ColumnLayout {
+                        anchors.fill: parent
+                        Label {
+                            text: "Please Login!"
+                            color: "white"
+                            Layout.alignment: Qt.AlignCenter
+                            font.bold: true
 
-        }
+                        }
+                    }
 
-        Image {
-            source:"/res/resources/icons/mainlogo.png"
-            fillMode: Image.PreserveAspectFit
-            Layout.alignment: Qt.AlignHCenter
-            Layout.fillWidth:true
-        }
-
-        Label {
-            text: "Username"
-            color: "gray"
-            Layout.alignment: Qt.AlignHCenter
-            Layout.rightMargin: 20
-        }
-
-        TextField {
-            id: usernameField
-            Layout.alignment: Qt.AlignHCenter
-
-        }
-
-        Label {
-            text: "Password"
-            color: "gray"
-            Layout.alignment: Qt.AlignHCenter
-            Layout.rightMargin: 20
-        }
-
-        TextField {
-            id: passwordField
-            Layout.alignment: Qt.AlignHCenter
-            echoMode: TextInput.Password
-        }
-
-        Button {
-            Layout.alignment: Qt.AlignHCenter
-            text : "Login"
-
-        onClicked: {
-            var username=usernameField.text
-            if(_loginController.login(username, passwordField.text))
-            {
-                if(username==="admin")
-                {
-                    console.log("ADMIN LOGIN")
-                    adminInterface.open()
                 }
-                else {
-                    progressOverlay.open()
-                    console.log("Logged in as user "+username)
-                    _loginController.loadMainWindow()
-                    rootWindowLoader.setSource("")
-                    rootWindowLoader.setSource("MainRootWindow.qml")
-                    rootWindowLoader.focus=true
+
+                Image {
+                    source:"/res/resources/icons/mainlogo.png"
+                    fillMode: Image.PreserveAspectFit
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.fillWidth:true
+                }
+
+                Label {
+                    text: "Username"
+                    color: "gray"
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.rightMargin: 20
+                }
+
+                TextField {
+                    id: usernameField
+                    Layout.alignment: Qt.AlignHCenter
+
+                }
+
+                Label {
+                    text: "Password"
+                    color: "gray"
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.rightMargin: 20
+                }
+
+                TextField {
+                    id: passwordField
+                    Layout.alignment: Qt.AlignHCenter
+                    echoMode: TextInput.Password
+                }
+
+                Button {
+                    Layout.alignment: Qt.AlignHCenter
+                    text : "Login"
+
+                    onClicked: {
+                        var username=usernameField.text
+                        if(_loginController.login(username, passwordField.text))
+                        {
+                            if(username==="admin")
+                            {
+                                console.log("ADMIN LOGIN")
+                                adminInterface.open()
+                            }
+                            else {
+                                progressOverlay.open()
+                                console.log("Logged in as user "+username)
+                                _loginController.loadMainWindow()
+                                rootWindowLoader.setSource("")
+                                rootWindowLoader.setSource("MainRootWindow.qml")
+                                rootWindowLoader.focus=true
+                            }
+                        }
+                        else {
+                            errorLogin.open()
+                        }
+                        usernameField.text=""
+                        passwordField.text=""
+                    }
                 }
             }
-            else {
-                errorLogin.open()
-            }
-            usernameField.text=""
-            passwordField.text=""
         }
-    }
-    }
-    }
     }
     Dialog {
         id: errorLogin
