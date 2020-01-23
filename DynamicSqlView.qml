@@ -20,13 +20,13 @@ Item {
         selectionMode: SelectionMode.MultiSelection
         TableViewColumn {
             role: "owner"
-            title: "Owner"
+            title: "Utilisateur"
             movable: false
             width: missionTableView.width/2
         }
         TableViewColumn {
             role: "name"
-            title: "name of the mission"
+            title: "Nom de la Mission"
             movable : false
             width: missionTableView.width/2
         }

@@ -87,13 +87,13 @@ Item {
                             selectionMode: SelectionMode.MultiSelection
                             TableViewColumn {
                                 role: "owner"
-                                title: "Owner"
+                                title: "Utilisateur"
                                 movable: false
                                 width: 2*tableView.width/8
                             }
                             TableViewColumn {
                                 role: "name"
-                                title: "name of the Parcelle"
+                                title: "Nom de la Parcelle"
                                 movable : false
                                 width: 3*tableView.width/8
                             }
@@ -140,7 +140,7 @@ Item {
                     Button {
                         Layout.fillWidth: true
                         Layout.margins : margin
-                        text: "Add Parcelle"
+                        text: "Ajouter une Parcelle"
 
                         onClicked: {
                             if(QGroundControl.settingsManager.appSettings.nbParcelle) {
@@ -157,7 +157,7 @@ Item {
                         id: removeParcelle
                         Layout.fillWidth: true
                         Layout.margins : margin
-                        text: "Remove Parcelle"
+                        text: "Supprimer une Parcelle"
                         signal adminVerified()
                             onClicked: {
                                     removeParcelle.adminVerified.connect(deleteParcelleOnAdminVerifed)
@@ -177,7 +177,7 @@ Item {
                     Button {
                         Layout.fillWidth: true
                         Layout.margins : margin
-                        text: "Insert Parcelle to Mission"
+                        text: "Ajouter à la mission"
                         onClicked: {
                                 var selected = []
                                 tableView.selection.forEach( function(rowIndex) {selected.push(rowIndex)} )
@@ -195,7 +195,7 @@ Item {
                         Layout.fillWidth: true
 
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Modify Parcelle"
+                        text: "Modifier la Parcelle"
 
 
                             onClicked: {
@@ -215,7 +215,7 @@ Item {
                     Button {
                         Layout.fillWidth: true
                         Layout.margins: margin
-                        text: "Done"
+                        text: "Ok"
                         onClicked: {
                             parcelleManagerPopup.close()
                         }
@@ -324,7 +324,7 @@ Item {
             }
 
 
-            title: "Edit Parcelle"
+            title: "Modifier Parcelle"
 
             standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -333,10 +333,10 @@ Item {
                 anchors.fill: parent
 
                 Label {
-                    text: "Owner"
+                    text: "Utilisateur"
                 }
                 Label {
-                    text: "Name"
+                    text: "Nom"
                 }
                 TextField {
                     id: ownerField
@@ -417,7 +417,7 @@ Item {
             }
 
 
-            title: "Add Parcelle"
+            title: "Ajouter Parcelle"
 
             standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -426,10 +426,10 @@ Item {
                 anchors.fill: parent
 
                 Label {
-                    text: "Ilot number"
+                    text: "Numéro d'ilot"
                 }
                 Label {
-                    text: "ParcelleFile"
+                    text: "Nom du fichier"
                 }
                 TextField {
                     id: a_ilotField
@@ -456,7 +456,7 @@ Item {
         modal: true
         title: "Error"
         Label{
-            text: "Please select ONE Parcelle to modify."
+            text: "Choisisser une parcelle à modifier"
         }
 
     }

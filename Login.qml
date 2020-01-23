@@ -150,7 +150,7 @@ Item {
                                     }
 
 
-                                    title: "Add User"
+                                    title: "Ajouter un utilisateur"
 
                                     function reset() {
                                         a_usernameField.text = ""
@@ -177,7 +177,7 @@ Item {
                                             text: "Nom"
                                         }
                                         Label {
-                                            text: "Prenom"
+                                            text: "Prénom"
 
                                         }
                                         TextField {
@@ -212,7 +212,7 @@ Item {
                                     }
 
 
-                                    title: "Edit Parcelle"
+                                    title: "Modifier Utilisateur"
 
                                     standardButtons: Dialog.Ok | Dialog.Cancel
                                     x: (parent.width - width) / 2
@@ -224,13 +224,13 @@ Item {
                                         anchors.fill: parent
 
                                         Label {
-                                            text: "username"
+                                            text: "Username"
                                         }
                                         Label {
-                                            text: "nom"
+                                            text: "Nom"
                                         }
                                         Label {
-                                            text: "prenom"
+                                            text: "Prenom"
                                         }
                                         TextField {
                                             id: userField
@@ -274,7 +274,7 @@ Item {
                                     }
 
 
-                                    title: "Edit Password"
+                                    title: "Modifier mot de passe"
 
                                     standardButtons: Dialog.Ok | Dialog.Cancel
                                     x: (parent.width - width) / 2
@@ -285,16 +285,16 @@ Item {
                                         anchors.fill: parent
 
                                         Label {
-                                            text: "username"
+                                            text: "Username"
                                         }
                                         Label {
-                                            text: "old password"
+                                            text: "Ancien Mot de Passe"
                                         }
                                         Label {
-                                            text: "new password"
+                                            text: "Nouveau Mot de Passe"
                                         }
                                         Label {
-                                            text: "confirmation"
+                                            text: "Confirmation"
                                         }
 
                                         TextField {
@@ -332,7 +332,7 @@ Item {
                            Button {
                                Layout.fillWidth: true
                                Layout.margins : margin
-                               text: "Add User"
+                               text: "Ajouter Utilisateur"
                                onClicked: {
                                    if(_loginController.nbUser()) {
                                        addUserDialog.reset()
@@ -347,7 +347,7 @@ Item {
                            Button {
                                 Layout.fillWidth: true
                                 Layout.margins : margin
-                                text: "Remove User"
+                                text: "Supprimer Utilisateur"
                                     onClicked: {
                                             var selected=[]
                                             userTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
@@ -363,7 +363,7 @@ Item {
                                 Layout.fillWidth: true
 
                                 Layout.alignment: Qt.AlignHCenter
-                                text: "Modify User"
+                                text: "Modifier Utilisateur"
 
 
                                     onClicked: {
@@ -386,7 +386,7 @@ Item {
                                 Layout.fillWidth: true
 
                                 Layout.alignment: Qt.AlignHCenter
-                                text: "Modify Password"
+                                text: "Modifier Mot de Passe"
 
 
                                     onClicked: {
@@ -428,13 +428,13 @@ Item {
                                 selectionMode: SelectionMode.MultiSelection
                                 TableViewColumn {
                                     role: "owner"
-                                    title: "Owner"
+                                    title: "Utilisateur"
                                     movable: false
                                     width: missionTableView.width/2
                                 }
                                 TableViewColumn {
                                     role: "name"
-                                    title: "name of the mission"
+                                    title: "Nom de la Mission"
                                     movable : false
                                     width: missionTableView.width/2
                                 }
@@ -447,7 +447,7 @@ Item {
                         Button {
                             Layout.fillWidth: true
                             Layout.margins : margin
-                            text: "Remove Mission"
+                            text: "Supprimer Mission"
                                 onClicked: {
                                         var selected=[]
                                         missionTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
@@ -481,13 +481,13 @@ Item {
                                 selectionMode: SelectionMode.MultiSelection
                                 TableViewColumn {
                                     role: "owner"
-                                    title: "Owner"
+                                    title: "Utilisateur"
                                     movable: false
                                     width: 2*parcelleTableView.width/5
                                 }
                                 TableViewColumn {
                                     role: "name"
-                                    title: "name of the parcelle"
+                                    title: "Nom de la Parcelle"
                                     movable : false
                                     width: 2*parcelleTableView.width/5
                                 }
@@ -506,7 +506,7 @@ Item {
                         Button {
                             Layout.fillWidth: true
                             Layout.margins : margin
-                            text: "Remove Parcelle"
+                            text: "Supprimer Parcelle"
                                 onClicked: {
                                         var selected=[]
                                         parcelleTableView.selection.forEach( function(rowIndex) {console.log("Selected : "+rowIndex);selected.push(rowIndex)} )
@@ -535,7 +535,7 @@ Item {
                             Label {
                                 Layout.topMargin: margin
                                 Layout.fillWidth: true
-                                text: "Default answer"
+                                text: "Reponse par default"
                             }
                             Label {
                                 text: "Selection"
@@ -604,7 +604,7 @@ Item {
                             }
                         }
                         Button {
-                            text: "save"
+                            text: "Enregistrer"
                             Layout.margins: margin
                             Layout.topMargin: 0
                             onClicked: {
@@ -638,7 +638,7 @@ Item {
                         }
 
 
-                        title: "Add Question"
+                        title: "Ajouter Question"
 
                         function reset() {
                             possibleChoiceArea.text="";
@@ -669,7 +669,7 @@ Item {
                                 Layout.fillWidth: true
                             }
                             CheckBox {
-                                text: "Multiple choice question"
+                                text: "Question à choix multiple ?"
                                 id: combo_checkbox
                             }
                             TextArea {
@@ -692,7 +692,7 @@ Item {
                         anchors.fill: parent
 
                     Label {
-                        text: "Speed"
+                        text: "Vitesse"
                         color: "gray"
                         Layout.margins: m2
                     }
@@ -700,15 +700,15 @@ Item {
                         columns: 6
 
                         Label {
-                            text: "Low Speed"
+                            text: "Basse"
                             Layout.columnSpan: 2
                         }
                         Label {
-                            text: "Medium Speed"
+                            text: "Medium"
                             Layout.columnSpan: 2
                         }
                         Label {
-                            text: "High Speed"
+                            text: "Rapide"
                             Layout.columnSpan: 2
                         }
 
@@ -745,15 +745,15 @@ Item {
                         columns: 6
 
                         Label {
-                            text: "Low Altitude"
+                            text: "Basse"
                             Layout.columnSpan: 2
                         }
                         Label {
-                            text: "Medium Altitude"
+                            text: "Medium"
                             Layout.columnSpan: 2
                         }
                         Label {
-                            text: "High Altitude"
+                            text: "Haute"
                             Layout.columnSpan: 2
                         }
 
@@ -784,7 +784,7 @@ Item {
                     }
 
                     Label {
-                        text: "Limite number"
+                        text: "Limite de nombre"
                         color: "gray"
                         Layout.margins: m2
                     }
@@ -793,13 +793,13 @@ Item {
                         columns: 3
 
                         Label {
-                            text: "Limit of session        "
+                            text: "Limite nombre de session"
                         }
                         Label {
-                            text: "Limit of parcelle / user"
+                            text: "Limite parcelle / utilisateur"
                         }
                         Label {
-                            text: "Limit of mission / user "
+                            text: "Limit mission / utilisateur"
                         }
 
 
@@ -818,7 +818,7 @@ Item {
                     }
 
                     Label {
-                        text: "Limite number"
+                        text: "Paramètre de vol"
                         color: "gray"
                         Layout.margins: m2
                     }
@@ -882,7 +882,7 @@ Item {
                     }
 
                     Label {
-                        text: "Camera Param"
+                        text: "Paramètre de Caméra-"
                         color: "gray"
                         Layout.margins: m2
                     }
@@ -962,14 +962,14 @@ Item {
                         }
                         ComboBox {
                             id: land
-                            model : ["Portrait", "Landscape"]
+                            model : ["Portrait", "Paysage"]
                             currentIndex: _loginController.getCameraLand()
                             Layout.columnSpan: 2
                         }
                     }
 
                     Button {
-                        text: "export to XML"
+                        text: "exporter en XML"
                         Layout.margins: m2
                         onClicked: {
                             _loginController.exportToXML()
@@ -978,7 +978,7 @@ Item {
                     }
 
                     Button {
-                        text: "Save"
+                        text: "Enregistrer"
                         Layout.margins: m2
                         onClicked: {
                             _loginController.setParamSpeed(lowspeed.text, medspeed.text, highspeed.text)
@@ -1012,7 +1012,7 @@ Item {
                 }
 
                 Button {
-                    text: "Save"
+                    text: "Enregistrer"
                     Layout.margins: m2
                     onClicked: {
                         _loginController.setParamChecklist(checklistArea.text)
@@ -1027,7 +1027,7 @@ Item {
 
             Button {
             Layout.alignment: Qt.AlignRight
-            text: "Disconnect"
+            text: "Deconnexion"
             Layout.margins: 5
             style: ButtonStyle {
                    background: Rectangle {
@@ -1110,7 +1110,7 @@ Item {
                     ColumnLayout {
                         anchors.fill: parent
                         Label {
-                            text: "Please Login!"
+                            text: "Veuillez vous connecter"
                             color: "white"
                             Layout.alignment: Qt.AlignCenter
                             font.bold: true
@@ -1141,7 +1141,7 @@ Item {
                 }
 
                 Label {
-                    text: "Password"
+                    text: "Mot de Passe"
                     color: "gray"
                     Layout.alignment: Qt.AlignHCenter
                     Layout.rightMargin: 20
@@ -1155,7 +1155,7 @@ Item {
 
                 Button {
                     Layout.alignment: Qt.AlignHCenter
-                    text : "Login"
+                    text : "Connexion"
 
                     onClicked: {
                         var username=usernameField.text
@@ -1194,7 +1194,7 @@ Item {
         y: (parent.height - height) / 2
 
         Label{
-            text: "Invalid username or password!"
+            text: "Mauvaise combinaison username/mot de passe"
         }
 
     }
@@ -1207,7 +1207,7 @@ Item {
         modal: true
         title: "Error"
         Label{
-            text: "New password and confirmation is not the same"
+            text: "Nouveau mot de passe et confirmation non identique"
         }
 
     }
@@ -1233,7 +1233,7 @@ Item {
         modal: true
 
         Label{
-            text: "Please select ONE line to modify."
+            text: "Choisisser qu'une ligne à modifier"
         }
 
     }
@@ -1244,7 +1244,7 @@ Item {
         standardButtons: Dialog.Ok
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
-        title: "Done"
+        title: "Ok"
         modal: true
 
     }
