@@ -190,7 +190,6 @@ private:
     QQuickItem*         _mainRootWindow         = nullptr;
     bool                _bluetoothAvailable     = false;
     QTranslator         _QGCTranslator;
-    QTranslator         _QGCTranslatorQt;
     QLocale             _locale;
     bool                _error                  = false;
 

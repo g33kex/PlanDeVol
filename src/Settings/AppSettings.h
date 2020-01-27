@@ -118,9 +118,6 @@ signals:
 private slots:
     void _indoorPaletteChanged();
 
-    void _languageChanged();
-
 private:
-    QTranslator _QGCTranslator;
 
 };

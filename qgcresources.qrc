@@ -1,4 +1,7 @@
 <RCC>
+	<qresource prefix="/localization">
+        <file alias="qgc_fr_FR.qm">localization/qgc_fr_FR.qm</file>
+    </qresource>
     <qresource prefix="/fonts">
         <file alias="opensans">resources/fonts/OpenSans-Regular.ttf</file>
         <file alias="opensans-demibold">resources/fonts/OpenSans-Semibold.ttf</file>

@@ -73,9 +73,6 @@ DECLARE_SETTINGGROUP(App, "")
     connect(savePathFact, &Fact::rawValueChanged, this, &AppSettings::_checkSavePathDirectories);
     qDebug() << "checking save Path Dir";
     _checkSavePathDirectories();
-    //-- Keep track of language changes
-    SettingsFact* languageFact = qobject_cast<SettingsFact*>(language());
-    connect(languageFact, &Fact::rawValueChanged, this, &AppSettings::_languageChanged);
 }
 
 DECLARE_SETTINGSFACT(AppSettings, offlineEditingFirmwareType)
@@ -115,11 +112,6 @@ DECLARE_SETTINGSFACT_NO_FUNC(AppSettings, indoorPalette)
         connect(_indoorPaletteFact, &Fact::rawValueChanged, this, &AppSettings::_indoorPaletteChanged);
     }
     return _indoorPaletteFact;
-}
-
-void AppSettings::_languageChanged()
-{
-    qgcApp()->setLanguage();
 }
 
 void AppSettings::_checkSavePathDirectories(void)
