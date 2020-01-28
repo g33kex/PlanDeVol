@@ -36,6 +36,8 @@ SpeedSection::SpeedSection(Vehicle* vehicle, QObject* parent)
         flightSpeed = _vehicle->defaultCruiseSpeed();
     }
 
+    flightSpeed = speedParam->at(1).toDouble();
+
     _metaDataMap[_flightSpeedName]->setRawDefaultValue(flightSpeed);
     _flightSpeedFact.setMetaData(_metaDataMap[_flightSpeedName]);
     _flightSpeedFact.setRawValue(flightSpeed);
@@ -45,6 +47,7 @@ SpeedSection::SpeedSection(Vehicle* vehicle, QObject* parent)
 
     connect(this,               &SpeedSection::specifyFlightSpeedChanged,   this, &SpeedSection::_updateSpecifiedFlightSpeed);
     connect(&_flightSpeedFact,  &Fact::valueChanged,                        this, &SpeedSection::_updateSpecifiedFlightSpeed);
+
 }
 
 bool SpeedSection::settingsSpecified(void) const
