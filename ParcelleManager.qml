@@ -302,10 +302,10 @@ Item {
         Dialog {
             id: editParcelleDialog
 
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            width: 3 *  parent.width / 4
-            height: 3 * parent.height / 4
+            x: (element.width - width) / 2
+            y: (element.height - height) / 2
+            width: 4 * element.width / 5
+            height: 4 * element.height / 5
 
             modal: true
 
@@ -369,10 +369,10 @@ Item {
         Dialog {
            id: addParcelleDialog
 
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            width: 3 *  parent.width / 4
-            height: 3 * parent.height / 4
+            x: (element.width - width) / 2
+            y: (element.height - height) / 2
+            width: 4 * element.width / 5
+            height: 4 * element.height / 5
             modal: true
 
 

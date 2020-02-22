@@ -1012,7 +1012,7 @@ Item {
                 columnSpacing:      ScreenTools.defaultFontPixelWidth
 
                 QGCButton {
-                    text:               qsTr("New...")
+                    text:               qsTr("Nouveau...")
                     Layout.fillWidth:   true
                     enabled:            _planMasterController.containsItems
                     onClicked:  {
@@ -1022,7 +1022,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               qsTr("Open Mission...")
+                    text:               qsTr("Ouvrir Mission")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress
                     onClicked: {
@@ -1036,7 +1036,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               qsTr("Save")
+                    text:               "Sauvegarder"
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.currentPlanFile !== ""
                     onClicked: {
@@ -1050,7 +1050,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               qsTr("Save As Mission...")
+                    text:               "Sauvegarder Mission"
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.containsItems
                     onClicked: {

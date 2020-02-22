@@ -190,11 +190,10 @@ Item {
 
     Dialog {
         id: saveAsParcelleDialog
-
         x: (mainWindow.width - width) / 2
         y: (mainWindow.height - height) / 2
-        height: 600
-        width : 800
+        height: 4 * mainWindow.height / 5
+        width : 4 * mainWindow.width / 5
         modal: true
 
         onAccepted: {
@@ -238,9 +237,7 @@ Item {
                     id: questionsView
                     Layout.columnSpan: 2
                     Layout.fillHeight: true
-                   // Layout.fillWidth: true
                     Layout.fillWidth: true
-                    Layout.minimumHeight: 100
                 }
 
         }

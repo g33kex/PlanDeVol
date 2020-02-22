@@ -172,3 +172,7 @@ int SpeedSection::getCruiseSpeedInd () {
     }
     else return 1;
 }
+
+QString SpeedSection::getSpeedTxt () {
+    return _flightSpeedFact.rawValue().toString() + " m/s";
+}

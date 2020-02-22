@@ -26,6 +26,7 @@ public:
     Q_PROPERTY(int      speedIndex          READ getCruiseSpeedInd  CONSTANT)
     Q_INVOKABLE int     getCruiseSpeedInd   ();
     Q_INVOKABLE void    setBoxSpeed         (int index);
+    Q_INVOKABLE QString getSpeedTxt         ();
 
     bool    specifyFlightSpeed      (void) const { return _specifyFlightSpeed; }
     Fact*   flightSpeed             (void) { return &_flightSpeedFact; }

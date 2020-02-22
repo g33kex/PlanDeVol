@@ -90,7 +90,7 @@ Column {
             anchors.right:  parent.right
             spacing:        _margin
             visible:        !usingPreset
-            QGCLabel { text: qsTr("Overlap"); Layout.fillWidth: true }
+            QGCLabel { text: "Overlap"; Layout.fillWidth: true }
             FactTextField {
                 Layout.preferredWidth:  _root._fieldWidth
                 fact:                   cameraCalc.frontalOverlap

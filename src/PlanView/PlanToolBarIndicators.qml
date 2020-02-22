@@ -64,7 +64,7 @@ Item {
     readonly property real _margins: ScreenTools.defaultFontPixelWidth
 
     function getMissionTime() {
-        if(isNaN(_missionTime)) {
+        if(isNaN(_missionTime) || Number(_missionTime) < 0) {
             return "00:00:00"
         }
         var t = new Date(0, 0, 0, 0, 0, Number(_missionTime))

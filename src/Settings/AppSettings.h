@@ -76,6 +76,7 @@ public:
     Q_PROPERTY(int      altIndex                READ getCruiseAltInd      CONSTANT)
     Q_INVOKABLE int     getCruiseAltInd         ();
     Q_INVOKABLE void    setBoxAlt               (int index);
+    Q_INVOKABLE QString getAltTxt               ();
 
     QString missionSavePath     ();
     QString parameterSavePath   ();

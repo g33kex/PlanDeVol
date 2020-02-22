@@ -119,13 +119,15 @@ QGCFlickable {
                     Rectangle {
                         Layout.alignment: Qt.AlignCenter
                         color : "red"
-                        width: 200
-                        height: 40
+                        height: 60
+                        anchors.left:       parent.left
+                        anchors.right:      parent.right
                         border.color: "black"
                         radius: 10
                         Text {
-                            text : "Vol interdit"
+                            text : "Vol\ninterdit"
                             wrapMode: Label.WordWrap
+                            horizontalAlignment:Text.AlignHCenter
                             anchors.centerIn: parent
                         }
                     }
@@ -133,12 +135,14 @@ QGCFlickable {
                     Rectangle {
                         Layout.alignment: Qt.AlignCenter
                         color : "darkorange"
-                        width: 200
-                        height: 40
+                        height: 60
+                        anchors.left:       parent.left
+                        anchors.right:      parent.right
                         border.color: "black"
                         radius: 10
                         Text {
-                            text : "Hauteur maximale de vol : 30m"
+                            text : "Altitude maximale\n30m"
+                            horizontalAlignment:Text.AlignHCenter
                             wrapMode: Label.WordWrap
                             anchors.centerIn: parent
                         }
@@ -148,12 +152,14 @@ QGCFlickable {
                     Rectangle {
                         Layout.alignment: Qt.AlignCenter
                         color : "yellow"
-                        width: 200
-                        height: 40
+                        height: 60
+                        anchors.left:       parent.left
+                        anchors.right:      parent.right
                         border.color: "black"
                         radius: 10
                         Text {
-                            text : "Hauteur maximale de vol : 50m"
+                            text : "Altitude maximale\n50m"
+                            horizontalAlignment:Text.AlignHCenter
                             wrapMode: Label.WordWrap
                             anchors.centerIn: parent
                         }
@@ -162,12 +168,14 @@ QGCFlickable {
                     Rectangle {
                         Layout.alignment: Qt.AlignCenter
                         color : "turquoise"
-                        width: 200
-                        height: 40
+                        height: 60
+                        anchors.left:       parent.left
+                        anchors.right:      parent.right
                         border.color: "black"
                         radius: 10
                         Text {
-                            text : "Hauteur maximale de vol : 100m"
+                            text : "Altitude maximale\n100m"
+                            horizontalAlignment:Text.AlignHCenter
                             wrapMode: Label.WordWrap
                             anchors.centerIn: parent
                         }

@@ -51,7 +51,7 @@ const char* MissionController::_jsonMavAutopilotKey =           "MAV_AUTOPILOT";
 
 const int   MissionController::_missionFileVersion =            2;
 
-const QString MissionController::patternFWLandingName      (QT_TRANSLATE_NOOP("MissionController", "Fixed Wing Landing"));
+const QString MissionController::patternFWLandingName      (QT_TRANSLATE_NOOP("MissionController", "Piste d'atterissage"));
 const QString MissionController::patternStructureScanName  (QT_TRANSLATE_NOOP("MissionController", "Structure Scan"));
 const QString MissionController::patternCorridorScanName   (QT_TRANSLATE_NOOP("MissionController", "Corridor Scan"));
 
@@ -128,8 +128,7 @@ void MissionController::_resetMissionFlightStatus(void)
 
 void MissionController::start(bool flyView)
 {
-    qCDebug(MissionControllerLog) << "start flyView" << flyView;
-
+    _resetMissionFlightStatus();
     PlanElementController::start(flyView);
     _init();
 }

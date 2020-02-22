@@ -56,7 +56,7 @@ Rectangle {
         spacing:            _margin
 
         QGCButton {
-            text:                       qsTr("Optimize Angle")
+            text:                       "Optimisation du vol"
             onClicked:                  _missionController.optimize()
         }
 
@@ -72,10 +72,16 @@ Rectangle {
             }
             ComboBox {
                 currentIndex: QGroundControl.settingsManager.appSettings.altIndex
-                model: [ "low", "med", "high"]
+                model: [ "Faible", "Normale", "Rapide"]
                 onCurrentIndexChanged: {
                     QGroundControl.settingsManager.appSettings.setBoxAlt(currentIndex)
+                    labAlt.text = QGroundControl.settingsManager.appSettings.getAltTxt()
                 }
+            }
+            QGCLabel {
+                id:labAlt
+                Layout.columnSpan : 2
+                text: QGroundControl.settingsManager.appSettings.getAltTxt()
             }
 
             QGCLabel {
@@ -83,10 +89,16 @@ Rectangle {
             }
             ComboBox {
                 currentIndex: missionItem.speedSection.speedIndex
-                model: [ "low", "med", "high"]
+                model: [ "Faible", "Normale", "Rapide"]
                 onCurrentIndexChanged: {
                     missionItem.speedSection.setBoxSpeed(currentIndex)
+                    labSpeed.text = missionItem.speedSection.getSpeedTxt()
                 }
+            }
+            QGCLabel {
+                id : labSpeed
+                Layout.columnSpan : 2
+                text: missionItem.speedSection.getSpeedTxt()
             }
         }
 
@@ -111,6 +123,70 @@ Rectangle {
                 font.pointSize:         ScreenTools.smallFontPointSize
                 visible:                _showCameraSection && cameraSection.checked
             }
+
+            SectionHeader {
+                id:         vehicleInfoSectionHeader
+                text:       qsTr("Vehicle Info")
+                visible:    _offlineEditing && !_waypointsOnlyMode
+                checked:    false
+            }
+
+            GridLayout {
+                anchors.left:   parent.left
+                anchors.right:  parent.right
+                columnSpacing:  ScreenTools.defaultFontPixelWidth
+                rowSpacing:     columnSpacing
+                columns:        2
+                visible:        vehicleInfoSectionHeader.visible && vehicleInfoSectionHeader.checked
+
+                QGCLabel {
+                    text:               _firmwareLabel
+                    Layout.fillWidth:   true
+                    visible:            _multipleFirmware
+                }
+                FactComboBox {
+                    fact:                   QGroundControl.settingsManager.appSettings.offlineEditingFirmwareType
+                    indexModel:             false
+                    Layout.preferredWidth:  _fieldWidth
+                    visible:                _multipleFirmware
+                    enabled:                _enableOfflineVehicleCombos
+                }
+
+                QGCLabel {
+                    text:               _vehicleLabel
+                    Layout.fillWidth:   true
+                    visible:            _multipleVehicleTypes
+                }
+                FactComboBox {
+                    fact:                   QGroundControl.settingsManager.appSettings.offlineEditingVehicleType
+                    indexModel:             false
+                    Layout.preferredWidth:  _fieldWidth
+                    visible:                _multipleVehicleTypes
+                    enabled:                _enableOfflineVehicleCombos
+                }
+
+                QGCLabel {
+                    text:               qsTr("Cruise speed")
+                    visible:            _showCruiseSpeed
+                    Layout.fillWidth:   true
+                }
+                FactTextField {
+                    fact:                   QGroundControl.settingsManager.appSettings.offlineEditingCruiseSpeed
+                    visible:                _showCruiseSpeed
+                    Layout.preferredWidth:  _fieldWidth
+                }
+
+                QGCLabel {
+                    text:               qsTr("Hover speed")
+                    visible:            _showHoverSpeed
+                    Layout.fillWidth:   true
+                }
+                FactTextField {
+                    fact:                   QGroundControl.settingsManager.appSettings.offlineEditingHoverSpeed
+                    visible:                _showHoverSpeed
+                    Layout.preferredWidth:  _fieldWidth
+                }
+            } // GridLayout
 
             SectionHeader {
                 id:         missionEndHeader

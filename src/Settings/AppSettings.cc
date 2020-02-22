@@ -238,4 +238,13 @@ int AppSettings::getCruiseAltInd () {
     else return 1;
 }
 
+QString AppSettings::getAltTxt () {
+    if (altParam->contains(QString::number(defaultMissionItemAltitude()->rawValue().toDouble()))) {
+        return QString::number(defaultMissionItemAltitude()->rawValue().toDouble()) + " m";
+    }
+    else return altParam->at(1) + " m/s";
+}
+
+
+
 
