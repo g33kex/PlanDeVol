@@ -639,6 +639,7 @@ void GeoFenceController::clearAllInteractive(void)
 
 bool GeoFenceController::supported(void) const
 {
+    return true;
     return (_managerVehicle->capabilityBits() & MAV_PROTOCOL_CAPABILITY_MISSION_FENCE) && (_managerVehicle->maxProtoVersion() >= 200);
 }
 
