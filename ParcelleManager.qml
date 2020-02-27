@@ -140,7 +140,7 @@ Item {
                     Button {
                         Layout.fillWidth: true
                         Layout.margins : margin
-                        text: "Ajouter une Parcelle"
+                        text: "Ajouter"
 
                         onClicked: {
                             if(QGroundControl.settingsManager.appSettings.nbParcelle) {
@@ -157,7 +157,7 @@ Item {
                         id: removeParcelle
                         Layout.fillWidth: true
                         Layout.margins : margin
-                        text: "Supprimer une Parcelle"
+                        text: "Supprimer"
                         signal adminVerified()
                             onClicked: {
                                     removeParcelle.adminVerified.connect(deleteParcelleOnAdminVerifed)
@@ -175,27 +175,12 @@ Item {
                             }
                     }
                     Button {
-                        Layout.fillWidth: true
-                        Layout.margins : margin
-                        text: "Ajouter à la mission"
-                        onClicked: {
-                                var selected = []
-                                tableView.selection.forEach( function(rowIndex) {selected.push(rowIndex)} )
-                                tableView.selection.clear()
-
-                                _parcelleManagerController.addToMission(parcelleModel,_planMasterController.missionController,selected)
-                                parcelleManagerPopup.close()
-                        }
-
-
-                    }
-                    Button {
 
                         Layout.margins : margin
                         Layout.fillWidth: true
 
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Modifier la Parcelle"
+                        text: "Modifier"
 
 
                             onClicked: {
@@ -212,6 +197,22 @@ Item {
                         }
 
                     }
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.margins : margin
+                        Layout.columnSpan: 2
+                        text: "Ajouter à la mission"
+                        onClicked: {
+                                var selected = []
+                                tableView.selection.forEach( function(rowIndex) {selected.push(rowIndex)} )
+                                tableView.selection.clear()
+
+                                _parcelleManagerController.addToMission(parcelleModel,_planMasterController.missionController,selected)
+                                parcelleManagerPopup.close()
+                        }
+
+                    }
+
                     Button {
                         Layout.fillWidth: true
                         Layout.margins: margin

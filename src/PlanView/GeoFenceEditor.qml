@@ -125,7 +125,7 @@ QGCFlickable {
                         border.color: "black"
                         radius: 10
                         Text {
-                            text : "Vol\ninterdit"
+                            text : "Vol interdit"
                             wrapMode: Label.WordWrap
                             horizontalAlignment:Text.AlignHCenter
                             anchors.centerIn: parent
@@ -141,7 +141,7 @@ QGCFlickable {
                         border.color: "black"
                         radius: 10
                         Text {
-                            text : "Altitude maximale\n30m"
+                            text : "Altitude maximale 30m"
                             horizontalAlignment:Text.AlignHCenter
                             wrapMode: Label.WordWrap
                             anchors.centerIn: parent
@@ -158,7 +158,7 @@ QGCFlickable {
                         border.color: "black"
                         radius: 10
                         Text {
-                            text : "Altitude maximale\n50m"
+                            text : "Altitude maximale 50m"
                             horizontalAlignment:Text.AlignHCenter
                             wrapMode: Label.WordWrap
                             anchors.centerIn: parent
@@ -174,7 +174,7 @@ QGCFlickable {
                         border.color: "black"
                         radius: 10
                         Text {
-                            text : "Altitude maximale\n100m"
+                            text : "Altitude maximale 100m"
                             horizontalAlignment:Text.AlignHCenter
                             wrapMode: Label.WordWrap
                             anchors.centerIn: parent
