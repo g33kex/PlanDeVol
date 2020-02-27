@@ -191,7 +191,10 @@ public:
     int currentPlanViewIndex        (void) const;
 
     double  missionDistance         (void) const { return _missionFlightStatus.totalDistance; }
-    double  missionTime             (void) const { return _missionFlightStatus.totalTime; }
+    double  missionTime             (void) const {
+        qDebug() << "----------------\nin C++" << _missionFlightStatus.totalTime;
+        return _missionFlightStatus.totalTime;
+    }
     double  missionHoverDistance    (void) const { return _missionFlightStatus.hoverDistance; }
     double  missionHoverTime        (void) const { return _missionFlightStatus.hoverTime; }
     double  missionCruiseDistance   (void) const { return _missionFlightStatus.cruiseDistance; }
