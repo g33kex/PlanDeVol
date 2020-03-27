@@ -31,10 +31,10 @@ Item {
 
             TabBar {
                 id: tabBar
-                contentWidth: 200 * 7
+                contentWidth: 220 * 7
 
                 TabButton {
-                    height: 40
+                    height: 60
                     text: "Utilisateurs"
                     background: Rectangle {
                         color: tabBar.currentIndex == 0 ? "steelblue" : "lightsteelblue"
@@ -42,7 +42,7 @@ Item {
                     }
                 }
                 TabButton {
-                    height: 40
+                    height: 60
                     text: "Missions"
                     background: Rectangle {
                         color: tabBar.currentIndex == 1 ? "coral" : "lightcoral"
@@ -50,7 +50,7 @@ Item {
                     }
                 }
                 TabButton {
-                    height: 40
+                    height: 60
                     text: "Parcelles"
                     background: Rectangle {
                         color: tabBar.currentIndex == 2 ? "mediumseagreen" : "lightgreen"
@@ -58,7 +58,7 @@ Item {
                     }
                 }
 				TabButton {
-                    height: 40
+                    height: 60
                     text: "Questions"
                     background: Rectangle {
                         color: tabBar.currentIndex == 3 ? "orange" : "gold"
@@ -66,7 +66,7 @@ Item {
                     }
                 }
                 TabButton {
-                    height: 40
+                    height: 60
                     text: "Paramètres"
                     background: Rectangle {
                         color: tabBar.currentIndex == 4 ? "silver" : "lightgrey"
@@ -74,7 +74,7 @@ Item {
                     }
                 }
                 TabButton {
-                    height: 40
+                    height: 60
                     text: "Checklist"
                     background: Rectangle {
                         color: tabBar.currentIndex == 5 ? "orchid" : "plum"
