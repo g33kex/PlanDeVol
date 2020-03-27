@@ -6,14 +6,10 @@
 #include <QString>
 
 GeoportailLink::GeoportailLink() {
-    qDebug() << "----- GeoportailLink -----";
-
     request = *new QNetworkRequest(QUrl("http://url"));
     request.setRawHeader("User-Agent", "MyOwnBrowser 1.0");
     _qnam = new QNetworkAccessManager(this);
-    qDebug() << APIkey;
     QObject::connect(_qnam, SIGNAL(finished(QNetworkReply*)), this, SLOT(Managerfinished(QNetworkReply*)));
-    qDebug() << "---------";
 }
 
 GeoportailLink::~GeoportailLink()
