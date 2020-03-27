@@ -64,13 +64,11 @@ Item {
     readonly property real _margins: ScreenTools.defaultFontPixelWidth
 
     function getMissionTime() {
-        console.log(_missionTime)
         if(isNaN(_missionTime) || Number(_missionTime) <= 0) {
             return "00:00:00"
         }
         var t = new Date();
         t.setUTCHours(0, 0, Number(_missionTime), 0)
-        console.log(t.toUTCString())
         var d = t.toUTCString().split(" ")[3]
         return d
     }

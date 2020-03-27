@@ -48,6 +48,7 @@ Item {
 //            fullFileDialog.open()
 //        }
         mainWindow.showComponentDialog(mobileFileOpenDialog, title, mainWindow.showDialogDefaultWidth, StandardButton.Cancel)
+        console.log("in qgcfiledialoag openforload")
     }
 
     function openForSave() {

@@ -91,7 +91,7 @@ Item {
         }
     }
 
-    function test() {
+    function firstOpen() {
         isFirstOpen = false
         if (_planMasterController.dirty) {
             mainWindow.showComponentDialog(syncLoadFromFileOverwrite, columnHolder._overwriteText, mainWindow.showDialogDefaultWidth, StandardButton.Yes | StandardButton.Cancel)
@@ -201,7 +201,7 @@ Item {
             _missionController.setCurrentPlanViewIndex(0, true)
             mainWindow.planMasterControllerPlan = _planMasterController
             if(isFirstOpen) {
-                test()
+                firstOpen()
             }
         }
 
@@ -883,7 +883,7 @@ Item {
         QGCViewMessage {
             id:         syncLoadFromVehicleCheck
             message:   qsTr("You have unsaved/unsent changes. Loading from a file will lose these changes. Are you sure you want to load from a file?")
-            function accept() {
+            onAccepted: {
                 hideDialog()
                 _planMasterController.loadFromSelectedFile()
             }
@@ -1028,7 +1028,7 @@ Item {
                     onClicked: {
                         dropPanel.hide()
                         if (_planMasterController.dirty) {
-                            mainWindow.showComponentDialog(syncLoadFromFileOverwrite, columnHolder._overwriteText, mainWindow.showDialogDefaultWidth, StandardButton.Yes | StandardButton.Cancel)
+                            messageDialog_unsaved.open()
                         } else {
                             _planMasterController.loadFromSelectedFile()
                         }
@@ -1138,5 +1138,13 @@ Item {
         id: messageDialog_toomuch
         title: "Warning"
         text: "Limite de missions enregistrées atteintes."
+    }
+
+    MessageDialog {
+        id: messageDialog_unsaved
+        title: "Warning"
+        text: "Des modifications ont été apportées. Ouvrir une mission va écraser les modifications"
+        standardButtons: StandardButton.Yes | StandardButton.No
+        onYes: _planMasterController.loadFromSelectedFile()
     }
 }
