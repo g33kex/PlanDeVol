@@ -17,6 +17,7 @@
 #include "SettingsManager.h"
 #include "AppSettings.h"
 #include "Admin/List_file.h"
+#include <math.h> //semisens
 
 #include <QPolygonF>
 
@@ -659,13 +660,37 @@ void SurveyComplexItem::_buildAndAppendMissionItems(QList<MissionItem*>& items, 
     bool imagesEverywhere =         _cameraTriggerInTurnAroundFact.rawValue().toBool();
     bool addTriggerAtBeginning =    !hoverAndCaptureEnabled() && imagesEverywhere;
     bool firstOverallPoint =        true;
+    int nwp =                       0; //semisens : waypoint number
+    double radius =                 40.0; //semisens : loiter radius (m)
 
     MAV_FRAME mavFrame = followTerrain() || !_cameraCalc.distanceToSurfaceRelative() ? MAV_FRAME_GLOBAL : MAV_FRAME_GLOBAL_RELATIVE_ALT;
+
+    double angle = _transects[0][0].coord.azimuthTo(_transects[0][1].coord)-_transects[0][0].coord.azimuthTo(_transects.last().last().coord); //semisens
+    if (angle > +180.0 ){angle -= 360;} //semisens
+    if (angle < -180.0 ){angle += 360;} //semisens
+    double turn = angle/abs(angle); //semisens : connaitre le coté du premier virage en comparant les azimuths
 
     for (const QList<TransectStyleComplexItem::CoordInfo_t>& transect: _transects) {
         bool transectEntry = true;
 
         for (const CoordInfo_t& transectCoordInfo: transect) {
+            nwp++; //semisens
+            if (nwp%3 == 0 && nwp != _transects.length()*3) { //semisens : si le wp est le 3eme d'un transect alors on lui associe un loiter
+                turn = turn * -1; //semisens               
+                item = new MissionItem(seqNum++, //semisens
+                                   MAV_CMD_NAV_LOITER_TIME,
+                                   mavFrame,
+                                   6,                                           // semisens loiter time
+                                   0.0,                                         // empty
+                                   radius*turn,                                 // semisens radius
+                                   std::numeric_limits<double>::quiet_NaN(),    // unchanged
+                                   transectCoordInfo.coord.latitude(),
+                                   transectCoordInfo.coord.longitude(),
+                                   transectCoordInfo.coord.altitude(),
+                                   true,                                        // autoContinue
+                                   false,                                       // isCurrentItem
+                                   missionItemParent);
+            }else{ //semisens : sinon, c'est un wp classique
             item = new MissionItem(seqNum++,
                                    MAV_CMD_NAV_WAYPOINT,
                                    mavFrame,
@@ -680,6 +705,7 @@ void SurveyComplexItem::_buildAndAppendMissionItems(QList<MissionItem*>& items, 
                                    true,                                        // autoContinue
                                    false,                                       // isCurrentItem
                                    missionItemParent);
+            } //endif semisens
             items.append(item);
             if (hoverAndCaptureEnabled()) {
                 item = new MissionItem(seqNum++,
@@ -959,6 +985,12 @@ void SurveyComplexItem::_rebuildTransectsPhase1WorkerSinglePolygon(bool refly)
         transects[i] = transectVertices;
     }
 
+    bool firstOverallPoint = true; //semisens first only
+    double angle = transects[0][0].azimuthTo(transects[0][1])-transects[0][0].azimuthTo(transects.last().last()); //semisens
+    if (angle > +180.0 ){angle -= 360;} //semisens
+    if (angle < -180.0 ){angle += 360;} //semisens
+    double turn = angle/abs(angle); //semisens : if firstTurn right -> (-1) / left -> (1)
+
     // Convert to CoordInfo transects and append to _transects
     for (const QList<QGeoCoordinate>& transect : transects) {
         QGeoCoordinate                                  coord;
@@ -985,19 +1017,30 @@ void SurveyComplexItem::_rebuildTransectsPhase1WorkerSinglePolygon(bool refly)
             }
         }
 
-        // Extend the transect ends for turnaround
+        // Extend the transect ends for turnaround //SEMISENS
         if (_hasTurnaround()) {
             QGeoCoordinate turnaroundCoord;
             double turnAroundDistance = _turnAroundDistanceFact.rawValue().toDouble();
 
-            double azimuth = transect[0].azimuthTo(transect[1]);
-            turnaroundCoord = transect[0].atDistanceAndAzimuth(-turnAroundDistance, azimuth);
-            turnaroundCoord.setAltitude(qQNaN());
-            TransectStyleComplexItem::CoordInfo_t coordInfo = { turnaroundCoord, CoordTypeTurnaround };
-            coordInfoTransect.prepend(coordInfo);
+            if (firstOverallPoint) { //semisens first only            
+                double azimuth = transect[0].azimuthTo(transect[1]);
+                turnaroundCoord = transect[0].atDistanceAndAzimuth(-turnAroundDistance, azimuth);
+                turnaroundCoord.setAltitude(qQNaN());
+                TransectStyleComplexItem::CoordInfo_t coordInfo = { turnaroundCoord, CoordTypeTurnaround };
+                coordInfoTransect.prepend(coordInfo);
+                firstOverallPoint = false;
+            }
 
-            azimuth = transect.last().azimuthTo(transect[transect.count() - 2]);
-            turnaroundCoord = transect.last().atDistanceAndAzimuth(-turnAroundDistance, azimuth);
+            double azimuth = transect.last().azimuthTo(transect[transect.count() - 2]); //semisens change azimuth
+            if (turn < 0.0) {
+                azimuth -= atan(10.0/turnAroundDistance)*180.0/M_PI;
+                if (azimuth < 0.0 ){azimuth += 360;} //semisens adjut amuth btwn 0 and 360
+            }else{
+                azimuth += atan(10.0/turnAroundDistance)*180.0/M_PI;
+                if (azimuth > +360.0 ){azimuth -= 360;} //semisens adjut amuth btwn 0 and 360
+            } turn = turn*-1; //semisens
+            double hypothenuse = sqrt(pow(turnAroundDistance,2)+100.0); //semisens change new transect part lenght
+            turnaroundCoord = transect.last().atDistanceAndAzimuth(-hypothenuse, azimuth);
             turnaroundCoord.setAltitude(qQNaN());
             coordInfo = { turnaroundCoord, CoordTypeTurnaround };
             coordInfoTransect.append(coordInfo);
