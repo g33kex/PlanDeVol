@@ -675,7 +675,7 @@ void SurveyComplexItem::_buildAndAppendMissionItems(QList<MissionItem*>& items, 
 
         for (const CoordInfo_t& transectCoordInfo: transect) {
             nwp++; //semisens
-            if (nwp%3 == 0 && nwp != _transects.length()*3) { //semisens : si le wp est le 3eme d'un transect alors on lui associe un loiter
+            if (nwp%3 == 1 && nwp != _transects.length()*3) { //semisens : si le wp est le 3eme d'un transect alors on lui associe un loiter
                 turn = turn * -1; //semisens               
                 item = new MissionItem(seqNum++, //semisens
                                    MAV_CMD_NAV_LOITER_TIME,
