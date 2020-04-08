@@ -1515,7 +1515,7 @@ void SurveyComplexItem::_recalcCameraShots(void)
 
                 }
             } else {
-                bool isFirst = true //semisens
+                bool isFirst = true; //semisens
                 // We have transects available, calc from those
                 for (const QList<TransectStyleComplexItem::CoordInfo_t>& transect: _transects) {
                     QGeoCoordinate firstCameraCoord, lastCameraCoord;
