@@ -989,7 +989,7 @@ void SurveyComplexItem::_rebuildTransectsPhase1WorkerSinglePolygon(bool refly)
     double angle = transects[0][0].azimuthTo(transects[0][1])-transects[0][0].azimuthTo(transects.last().last()); //semisens
     if (angle > +180.0 ){angle -= 360;} //semisens
     if (angle < -180.0 ){angle += 360;} //semisens
-    double turn = angle/abs(angle); //semisens : if firstTurn right -> (-1) / left -> (1)
+    double turn = -1 * angle/abs(angle); //semisens : if firstTurn right -> (-1) / left -> (1)
 
     // Convert to CoordInfo transects and append to _transects
     for (const QList<QGeoCoordinate>& transect : transects) {
