@@ -668,7 +668,7 @@ void SurveyComplexItem::_buildAndAppendMissionItems(QList<MissionItem*>& items, 
     double angle = _transects[0][0].coord.azimuthTo(_transects[0][1].coord)-_transects[0][0].coord.azimuthTo(_transects.last().last().coord); //semisens
     if (angle > +180.0 ){angle -= 360;} //semisens
     if (angle < -180.0 ){angle += 360;} //semisens
-    double turn = angle/abs(angle); //semisens : connaitre le coté du premier virage en comparant les azimuths
+    double turn = -1 * angle/abs(angle); //semisens : connaitre le coté du premier virage en comparant les azimuths
 
     for (const QList<TransectStyleComplexItem::CoordInfo_t>& transect: _transects) {
         bool transectEntry = true;
