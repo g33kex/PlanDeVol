@@ -668,15 +668,15 @@ void SurveyComplexItem::_buildAndAppendMissionItems(QList<MissionItem*>& items, 
     double angle = _transects[0][0].coord.azimuthTo(_transects[0][1].coord)-_transects[0][0].coord.azimuthTo(_transects.last().last().coord); //semisens
     if (angle > +180.0 ){angle -= 360;} //semisens
     if (angle < -180.0 ){angle += 360;} //semisens
-    double turn = angle/abs(angle); //semisens : connaitre le coté du premier virage en comparant les azimuths
+    double turn = -angle/abs(angle); //semisens : connaitre le coté du premier virage en comparant les azimuths
 
     for (const QList<TransectStyleComplexItem::CoordInfo_t>& transect: _transects) {
         bool transectEntry = true;
 
         for (const CoordInfo_t& transectCoordInfo: transect) {
             nwp++; //semisens
-            if (nwp%3 == 1 && nwp != _transects.length()*3) { //semisens : si le wp est le 3eme d'un transect alors on lui associe un loiter
-                turn = turn * -1; //semisens               
+            if (nwp%3 == 1 && nwp != _transects.length()*3) { //semisens : si le wp est le 3eme d'un transect alors on lui associe un loiter              
+                turn = -turn; //semisens
                 item = new MissionItem(seqNum++, //semisens
                                    MAV_CMD_NAV_LOITER_TIME,
                                    mavFrame,
@@ -989,7 +989,7 @@ void SurveyComplexItem::_rebuildTransectsPhase1WorkerSinglePolygon(bool refly)
     double angle = transects[0][0].azimuthTo(transects[0][1])-transects[0][0].azimuthTo(transects.last().last()); //semisens
     if (angle > +180.0 ){angle -= 360;} //semisens
     if (angle < -180.0 ){angle += 360;} //semisens
-    double turn = -1 * angle/abs(angle); //semisens : if firstTurn right -> (-1) / left -> (1)
+    double turn = angle/abs(angle); //semisens : if firstTurn right -> (-1) / left -> (1)
 
     // Convert to CoordInfo transects and append to _transects
     for (const QList<QGeoCoordinate>& transect : transects) {
