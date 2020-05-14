@@ -28,6 +28,8 @@ import QGroundControl.ShapeFileHelper   1.0
 import QGroundControl.Airspace          1.0
 import QGroundControl.Airmap            1.0
 
+import NewDrone.Controls                1.0
+
 /// Mission Editor
 
 Item {

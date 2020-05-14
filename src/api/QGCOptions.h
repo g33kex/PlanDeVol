@@ -90,7 +90,7 @@ public:
     virtual QUrl    flyViewOverlay                  () const { return QUrl(); }
 
     /// Provides an optional preflight checklist
-    QUrl    preFlightChecklistUrl           () const { return QUrl::fromUserInput("qrc:/qml/PreFlightChecklist.qml"); }
+    QUrl    preFlightChecklistUrl           () const { return QUrl::fromUserInput("qrc:/qml/PreFlightCheckList.qml"); }
 
     /// Allows replacing the toolbar
     virtual QUrl    mainToolbarUrl                  () const;

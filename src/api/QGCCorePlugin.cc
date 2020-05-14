@@ -391,7 +391,7 @@ QQmlApplicationEngine* QGCCorePlugin::createRootWindow(QObject *parent)
     pEngine->addImportPath("qrc:/qml");
     pEngine->rootContext()->setContextProperty("joystickManager", qgcApp()->toolbox()->joystickManager());
     pEngine->rootContext()->setContextProperty("debugMessageModel", AppMessages::getModel());
-    pEngine->load(QUrl(QStringLiteral("qrc:/qml/LoginMainWindow.qml")));
+    pEngine->load(QUrl(QStringLiteral("qrc:/qml/NewDrone/LoginMainWindow.qml")));
     //pEngine->load(QUrl(QStringLiteral("qrc:/qml/MainRootWindow.qml")));
     return pEngine;
 }

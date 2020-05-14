@@ -1,0 +1,6 @@
+module NewDrone.Controls
+
+QuestionsView	1.0	QuestionsView.qml
+DynamicSqlView	1.0	DynamicSqlView.qml
+ParcelleManager	1.0	ParcelleManager.qml
+

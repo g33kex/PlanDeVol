@@ -5,6 +5,7 @@ import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import NewDrone.Controls 1.0;
 
 Item {
 
@@ -1166,7 +1167,7 @@ Item {
                                 console.log("Logged in as user "+username)
                                 _loginController.loadMainWindow()
                                 rootWindowLoader.setSource("")
-                                rootWindowLoader.setSource("MainRootWindow.qml")
+                                rootWindowLoader.setSource("qrc:/qml/MainRootWindow.qml")
                                 rootWindowLoader.focus=true
                             }
                         }

@@ -32,7 +32,6 @@ DebugBuild {
 }
 
 QML_IMPORT_PATH += $$PWD/src/QmlControls
-
 #
 # OS Specific settings
 #

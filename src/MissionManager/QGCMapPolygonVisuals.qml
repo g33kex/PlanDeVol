@@ -21,6 +21,8 @@ import QGroundControl.Controls          1.0
 import QGroundControl.FlightMap         1.0
 import QGroundControl.ShapeFileHelper   1.0
 
+import NewDrone.Controls                1.0
+
 /// QGCMapPolygon map visuals
 Item {
     id: _root
