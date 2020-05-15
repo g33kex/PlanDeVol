@@ -119,9 +119,6 @@ QGCFlickable {
                     Rectangle {
                         Layout.alignment: Qt.AlignCenter
                         color : "red"
-                        height: 60
-                        anchors.left:       parent.left
-                        anchors.right:      parent.right
                         border.color: "black"
                         radius: 10
                         Text {
@@ -136,8 +133,6 @@ QGCFlickable {
                         Layout.alignment: Qt.AlignCenter
                         color : "darkorange"
                         height: 60
-                        anchors.left:       parent.left
-                        anchors.right:      parent.right
                         border.color: "black"
                         radius: 10
                         Text {
@@ -153,8 +148,6 @@ QGCFlickable {
                         Layout.alignment: Qt.AlignCenter
                         color : "yellow"
                         height: 60
-                        anchors.left:       parent.left
-                        anchors.right:      parent.right
                         border.color: "black"
                         radius: 10
                         Text {
@@ -169,8 +162,6 @@ QGCFlickable {
                         Layout.alignment: Qt.AlignCenter
                         color : "turquoise"
                         height: 60
-                        anchors.left:       parent.left
-                        anchors.right:      parent.right
                         border.color: "black"
                         radius: 10
                         Text {
