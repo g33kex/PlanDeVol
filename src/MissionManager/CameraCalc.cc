@@ -11,7 +11,7 @@
 #include "JsonHelper.h"
 #include "Vehicle.h"
 #include "CameraMetaData.h"
-#include "Admin/List_file.h"
+#include "List_file.h"
 
 #include <QQmlEngine>
 

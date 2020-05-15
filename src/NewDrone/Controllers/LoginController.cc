@@ -2,8 +2,8 @@
 #include <QMessageBox>
 #include <QCryptographicHash>
 #include "DbManager.h"
-#include "Admin/List_file.h"
-#include "Admin/QuestionFile.h"
+#include "List_file.h"
+#include "QuestionFile.h"
 #include "AppSettings.h"
 
 extern DbManager *db;

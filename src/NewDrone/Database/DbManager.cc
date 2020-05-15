@@ -1,7 +1,7 @@
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 #include <QCryptographicHash>
-#include "Admin/List_file.h"
-#include "Admin/QuestionFile.h"
+#include "List_file.h"
+#include "QuestionFile.h"
 #include <QtXml>
 #include <QDateTime>
 #include <QList>

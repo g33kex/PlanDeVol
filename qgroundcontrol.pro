@@ -383,7 +383,10 @@ INCLUDEPATH += \
     src/ui/toolbar \
     src/ui/uas \
     src/NewDrone \
-    src/NewDrone/Controls
+    src/NewDrone/Controls \
+    src/NewDrone/Database \
+    src/NewDrone/Utils \
+    src/NewDrone/Controllers \
 
 #
 # Plugin API

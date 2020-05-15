@@ -1,15 +1,15 @@
 #include "ParcelleManagerController.h"
 
 #include "DbManager.h"
-#include "Admin/GeoportailLink.h"
-#include "Admin/QuestionFile.h"
+#include "GeoportailLink.h"
+#include "QuestionFile.h"
 #include "ComplexMissionItem.h"
 #include "SurveyComplexItem.h"
 #include <QSqlTableModel>
 #include <QNetworkReply>
 #include "MissionController.h"
 #include "QGCApplication.h"
-#include "Admin/List_file.h"
+#include "List_file.h"
 #include "ShapeFileHelper.h"
 #include <QCryptographicHash>
 #include <QmlObjectListModel.h>

@@ -26,7 +26,6 @@
 #include <QStringListModel>
 #include <QRegularExpression>
 #include <QFontDatabase>
-#include "QuestionsViewController.h"
 
 #ifdef QGC_ENABLE_BLUETOOTH
 #include <QBluetoothLocalDevice>
@@ -98,6 +97,7 @@
 #include "LogReplayLink.h"
 
 #include "LoginController.h"
+#include "QuestionsViewController.h"
 
 #ifndef __mobile__
 #include "FirmwareUpgradeController.h"

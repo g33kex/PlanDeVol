@@ -1,7 +1,7 @@
 #ifndef QUESTIONSVIEWCONTROLLER_H
 #define QUESTIONSVIEWCONTROLLER_H
 
-#include "SqlCustomModel.hpp"
+#include "SqlCustomModel.h"
 
 #include <QObject>
 

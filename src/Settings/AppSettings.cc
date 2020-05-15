@@ -11,8 +11,8 @@
 #include "QGCPalette.h"
 #include "QGCApplication.h"
 #include "ParameterManager.h"
-#include "DataManager/DbManager.h"
-#include "Admin/List_file.h"
+#include "DbManager.h"
+#include "List_file.h"
 
 #include <QQmlEngine>
 #include <QtQml>

@@ -3,7 +3,7 @@
 
 #include <QQmlApplicationEngine>
 #include "DbManager.h"
-#include "SqlCustomModel.hpp"
+#include "SqlCustomModel.h"
 
 class LoginController : public QObject {
 

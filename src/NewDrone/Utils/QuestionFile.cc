@@ -1,6 +1,6 @@
 #include "QuestionFile.h"
 #include "AppSettings.h"
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 
 extern AppSettings* sett;
 extern DbManager* db;

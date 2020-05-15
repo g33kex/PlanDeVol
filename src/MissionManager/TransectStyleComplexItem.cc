@@ -19,7 +19,7 @@
 
 #include <QPolygonF>
 
-#include "Admin/List_file.h"
+#include "List_file.h"
 
 QGC_LOGGING_CATEGORY(TransectStyleComplexItemLog, "TransectStyleComplexItemLog")
 

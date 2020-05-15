@@ -17,7 +17,7 @@
 #include "QGCMapPolygon.h"
 #include "CameraCalc.h"
 #include "TerrainQuery.h"
-#include "Admin/List_file.h"
+#include "List_file.h"
 
 extern List_file *speedParam;
 

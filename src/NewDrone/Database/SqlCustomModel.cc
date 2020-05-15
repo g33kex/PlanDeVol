@@ -1,4 +1,4 @@
-#include "SqlCustomModel.hpp"
+#include "SqlCustomModel.h"
 #include <QSqlRecord>
 #include <QSqlQueryModel>
 #include <QSqlRelationalTableModel>

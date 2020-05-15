@@ -1,7 +1,7 @@
 //#include "DbManager.h"
 #include "MissionController.h"
-#include "SqlCustomModel.hpp"
-#include "Admin/GeoportailLink.h"
+#include "SqlCustomModel.h"
+#include "GeoportailLink.h"
 #include <QmlObjectListModel.h>
 #include <QSqlTableModel>
 #include <QNetworkReply>

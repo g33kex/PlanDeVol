@@ -11,7 +11,7 @@
 #include "AppSettings.h"
 #include "KMLFileHelper.h"
 #include "SHPFileHelper.h"
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 
 #include <QFile>
 #include <QVariant>

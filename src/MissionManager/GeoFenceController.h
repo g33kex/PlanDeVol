@@ -17,7 +17,7 @@
 #include "Vehicle.h"
 #include "MultiVehicleManager.h"
 #include "QGCLoggingCategory.h"
-#include "Admin/GeoportailLink.h"
+#include "GeoportailLink.h"
 
 Q_DECLARE_LOGGING_CATEGORY(GeoFenceControllerLog)
 

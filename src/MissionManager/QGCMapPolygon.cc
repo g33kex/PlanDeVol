@@ -21,8 +21,8 @@
 #include <QFile>
 #include <QDomDocument>
 #include <QList>
-#include "DataManager/DbManager.h"
-#include "Admin/QuestionFile.h"
+#include "DbManager.h"
+#include "QuestionFile.h"
 
 extern DbManager *db;
 extern QString username;

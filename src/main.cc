@@ -28,9 +28,9 @@
 #include "QGCApplication.h"
 #include "AppMessages.h"
 #include "DbManager.h"
-#include "Admin/List_file.h"
-#include "Admin/QuestionFile.h"
-#include "Admin/TestDir.h"
+#include "List_file.h"
+#include "QuestionFile.h"
+#include "TestDir.h"
 
 #include "ParcelleManagerController.h"
 

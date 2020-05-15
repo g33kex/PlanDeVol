@@ -1,7 +1,7 @@
 #include "QuestionsViewController.h"
 #include <QVariant>
 
-#include "Admin/QuestionFile.h"
+#include "QuestionFile.h"
 #include "DbManager.h"
 
 extern DbManager *db;
