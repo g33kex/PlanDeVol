@@ -1,6 +1,6 @@
 #include "ParcelleManagerController.h"
 
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 #include "Admin/GeoportailLink.h"
 #include "Admin/QuestionFile.h"
 #include "ComplexMissionItem.h"

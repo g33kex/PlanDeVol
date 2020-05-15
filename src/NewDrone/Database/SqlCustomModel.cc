@@ -3,7 +3,7 @@
 #include <QSqlQueryModel>
 #include <QSqlRelationalTableModel>
 #include <QDebug>
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 
 extern DbManager *db;
 extern QString username;

@@ -2,7 +2,7 @@
 #define LOGINCONTROLLER_H
 
 #include <QQmlApplicationEngine>
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 #include "SqlCustomModel.hpp"
 
 class LoginController : public QObject {

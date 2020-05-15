@@ -382,44 +382,27 @@ INCLUDEPATH += \
     src/ui/px4_configuration \
     src/ui/toolbar \
     src/ui/uas \
-    src/DataManager
+    src/NewDrone \
+    src/NewDrone/Controls
 
 #
 # Plugin API
 #
 
 HEADERS += \
-    src/Admin/GeoportailLink.h \
-    src/Admin/List_file.h \
-    src/Admin/QuestionFile.h \
-    src/Admin/TestDir.h \
-    src/DataManager/DbManager.h \
-    src/MissionManager/ParcelleManagerController.h \
-    src/MissionManager/QuestionsViewController.h \
-    src/MissionManager/SqlCustomModel.hpp \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
     src/api/QmlComponentInfo.h \
     src/comm/MavlinkMessagesTimer.h \
     src/GPS/Drivers/src/base_station.h \
-    src/ui/LoginController.h
 
 SOURCES += \
-    src/Admin/GeoportailLink.cpp \
-    src/Admin/List_file.cpp \
-    src/Admin/QuestionFile.cpp \
-    src/Admin/TestDir.cpp \
-    src/DataManager/DbManager.cpp \
-    src/MissionManager/ParcelleManagerController.cpp \
-    src/MissionManager/QuestionsViewController.cpp \
-    src/MissionManager/SqlCustomModel.cpp \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \
     src/api/QmlComponentInfo.cc \
     src/comm/MavlinkMessagesTimer.cc \
-    src/ui/LoginController.cpp
 
 #
 # Unit Test specific configuration goes here (requires full debug build with all plugins)
@@ -846,6 +829,34 @@ SOURCES += \
     src/comm/QGCXPlaneLink.cc \
     src/uas/FileManager.cc \
 }
+
+#
+# NewDrone headers and sources
+#
+
+HEADERS += \
+    src/NewDrone/Utils/GeoportailLink.h \
+    src/NewDrone/Utils/List_file.h \
+    src/NewDrone/Utils/QuestionFile.h \
+    src/NewDrone/Utils/TestDir.h \
+    src/NewDrone/Database/DbManager.h \
+    src/NewDrone/Database/SqlCustomModel.h \
+    src/NewDrone/Controllers/LoginController.h \
+    src/NewDrone/Controllers/ParcelleManagerController.h \
+    src/NewDrone/Controllers/QuestionsViewController.h \
+    #src/NewDrone/ParcelleComplexItem.hpp \
+
+SOURCES += \
+    src/NewDrone/Utils/GeoportailLink.cc \
+    src/NewDrone/Utils/List_file.cc \
+    src/NewDrone/Utils/QuestionFile.cc \
+    src/NewDrone/Utils/TestDir.cc \
+    src/NewDrone/Database/DbManager.cc \
+    src/NewDrone/Database/SqlCustomModel.cc \
+    src/NewDrone/Controllers/LoginController.cc \
+    src/NewDrone/Controllers/ParcelleManagerController.cc \
+    src/NewDrone/Controllers/QuestionsViewController.cc \
+    #src/NewDrone/ParcelleComplexItem.cpp \
 
 #
 # Firmware Plugin Support

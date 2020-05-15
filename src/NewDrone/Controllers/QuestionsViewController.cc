@@ -2,7 +2,7 @@
 #include <QVariant>
 
 #include "Admin/QuestionFile.h"
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 
 extern DbManager *db;
 extern QuestionFile *questionFile;

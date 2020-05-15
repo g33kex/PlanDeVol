@@ -213,12 +213,12 @@
         <file alias="VibrationPageWidget.qml">src/FlightMap/Widgets/VibrationPageWidget.qml</file>
         <file alias="VideoPageWidget.qml">src/FlightMap/Widgets/VideoPageWidget.qml</file>
         <file alias="VirtualJoystick.qml">src/FlightDisplay/VirtualJoystick.qml</file>
-        <file alias="NewDrone/LoginMainWindow.qml">src/QmlControls/NewDrone/LoginMainWindow.qml</file>
-        <file alias="NewDrone/Login.qml">src/QmlControls/NewDrone/Login.qml</file>
+        <file alias="NewDrone/LoginMainWindow.qml">src/NewDrone/LoginMainWindow.qml</file>
+        <file alias="NewDrone/Login.qml">src/NewDrone/Login.qml</file>
         <file alias="NewDrone/Controls/qmldir">src/QmlControls/NewDrone/Controls/qmldir</file>
-        <file alias="NewDrone/Controls/ParcelleManager.qml">src/QmlControls/NewDrone/Controls/ParcelleManager.qml</file>
-        <file alias="NewDrone/Controls/DynamicSqlView.qml">src/QmlControls/NewDrone/Controls/DynamicSqlView.qml</file>
-        <file alias="NewDrone/Controls/QuestionsView.qml">src/QmlControls/NewDrone/Controls/QuestionsView.qml</file>
+        <file alias="NewDrone/Controls/ParcelleManager.qml">src/NewDrone/Controls/ParcelleManager.qml</file>
+        <file alias="NewDrone/Controls/DynamicSqlView.qml">src/NewDrone/Controls/DynamicSqlView.qml</file>
+        <file alias="NewDrone/Controls/QuestionsView.qml">src/NewDrone/Controls/QuestionsView.qml</file>
     </qresource>
     <qresource prefix="/json">
         <file alias="APMMavlinkStreamRate.SettingsGroup.json">src/Settings/APMMavlinkStreamRate.SettingsGroup.json</file>

@@ -3,7 +3,7 @@
 #ifndef PARCELLESQLMODEL_H
 #define PARCELLESQLMODEL_H
 
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 
 #include <QSqlRelationalTableModel>
 

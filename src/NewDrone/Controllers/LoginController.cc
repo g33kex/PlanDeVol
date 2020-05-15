@@ -1,7 +1,7 @@
 #include "LoginController.h"
 #include <QMessageBox>
 #include <QCryptographicHash>
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 #include "Admin/List_file.h"
 #include "Admin/QuestionFile.h"
 #include "AppSettings.h"

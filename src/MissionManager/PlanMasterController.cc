@@ -24,7 +24,7 @@
 #include <QJsonDocument>
 #include <QFileInfo>
 
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 
 QGC_LOGGING_CATEGORY(PlanMasterControllerLog, "PlanMasterControllerLog")
 

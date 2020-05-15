@@ -27,7 +27,7 @@
 #include <QStringListModel>
 #include "QGCApplication.h"
 #include "AppMessages.h"
-#include "DataManager/DbManager.h"
+#include "DbManager.h"
 #include "Admin/List_file.h"
 #include "Admin/QuestionFile.h"
 #include "Admin/TestDir.h"
