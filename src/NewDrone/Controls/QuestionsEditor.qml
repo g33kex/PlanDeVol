@@ -99,7 +99,7 @@ Item {
                 Layout.margins: margin
                 Layout.topMargin: 0
                 onClicked: {
-                    questionView.save(parcelleModel2)
+                    save()
                     doneDialog.open()
                 }
             }
