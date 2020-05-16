@@ -1,8 +1,13 @@
 module NewDrone.Controls
 
-QuestionsView       1.0     QuestionsView.qml
-DynamicSqlView      1.0     DynamicSqlView.qml
 ParcelleManager     1.0     ParcelleManager.qml
 AdminSettings       1.0     AdminSettings.qml
 SuperAdminSettings  1.0     SuperAdminSettings.qml
+UserManager			1.0		UserManager.qml
+DynamicSqlView      1.0     DynamicSqlView.qml
+QuestionsView       1.0     QuestionsView.qml
+ParcelsView			1.0		ParcelsView.qml
+MissionsView		1.0		MissionsView.qml
+ChecklistEditor		1.0		ChecklistEditor.qml
+QuestionsEditor		1.0		QuestionsEditor.qml
 

@@ -11,7 +11,6 @@ Item {
         Component.onCompleted: {
             setupForMission()
         }
-
     }
 
     TableView {
@@ -22,13 +21,13 @@ Item {
             role: "owner"
             title: "Utilisateur"
             movable: false
-            width: missionTableView.width/2
+            width: missionTableView.width / 2
         }
         TableViewColumn {
             role: "name"
             title: "Nom de la Mission"
-            movable : false
-            width: missionTableView.width/2
+            movable: false
+            width: missionTableView.width / 2
         }
 
         model: missionModel
