@@ -14,7 +14,7 @@ Item {
     property var m2: 3
 
     LoginController {
-        id: _loginController
+        id: loginController
     }
 
     ParcelleManagerController {
@@ -105,15 +105,20 @@ Item {
 
                     onClicked: {
                         var username = usernameField.text
-                        if (_loginController.login(username,
+                        if (loginController.login(username,
                                                    passwordField.text)) {
                             if (username === "admin") {
                                 console.log("ADMIN LOGIN")
                                 adminSettings.open()
-                            } else {
+                            }
+                            else if(username === "superadmin") {
+                                console.log("SUPERADMIN LOGIN")
+                                superAdminSettings.open()
+                            }
+                            else {
                                 progressOverlay.open()
                                 console.log("Logged in as user " + username)
-                                _loginController.loadMainWindow()
+                                loginController.loadMainWindow()
                                 rootWindowLoader.setSource("")
                                 rootWindowLoader.setSource(
                                             "qrc:/qml/MainRootWindow.qml")
@@ -163,6 +168,12 @@ Item {
 
     AdminSettings {
         id: adminSettings
+        width: parent.width
+        height: parent.height
+    }
+
+    SuperAdminSettings {
+        id: superAdminSettings
         width: parent.width
         height: parent.height
     }

@@ -57,7 +57,7 @@ Item {
                             })
                 missionTableView.selection.clear()
 
-                _loginController.deleteMission(missionModel,
+                loginController.deleteMission(missionModel,
                                                selected)
             }
         }

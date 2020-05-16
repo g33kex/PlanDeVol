@@ -19,14 +19,6 @@ Popup {
 
             TabButton {
                 height: 60
-                text: "User Manager"
-                background: Rectangle {
-                    color: tabBar.currentIndex == 0 ? "steelblue" : "lightsteelblue"
-                    radius: 3
-                }
-            }
-            TabButton {
-                height: 60
                 text: "Missions"
                 background: Rectangle {
                     color: tabBar.currentIndex == 1 ? "coral" : "lightcoral"
@@ -38,14 +30,6 @@ Popup {
                 text: "Parcelles"
                 background: Rectangle {
                     color: tabBar.currentIndex == 2 ? "mediumseagreen" : "lightgreen"
-                    radius: 3
-                }
-            }
-            TabButton {
-                height: 60
-                text: "Questions"
-                background: Rectangle {
-                    color: tabBar.currentIndex == 3 ? "orange" : "gold"
                     radius: 3
                 }
             }
@@ -73,17 +57,11 @@ Popup {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            UserManager {}
             MissionsView {}
             ParcelsView {}
-            QuestionsEditor {
-                id: questionsEditor
-            }
-
             ParametersEditor {
                 id: parametersEditor
             }
-
             ChecklistEditor {
                 id: checkListEditor
             }
@@ -117,10 +95,7 @@ Popup {
                 //we save the flight param
                 parametersEditor.save()
 
-                //we save the questions
-                questionsEditor.save()
-
-                _loginController.onAdminClosed()
+                loginController.onAdminClosed()
 
                 adminPopup.close()
             }

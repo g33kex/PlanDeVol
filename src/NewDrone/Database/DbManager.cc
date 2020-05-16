@@ -203,10 +203,12 @@ void DbManager::buildDB() {
     QSqlQuery queryParcelle(tableParcelle);
     QSqlQuery queryMission(tableMission);
 
-    QString pass = QCryptographicHash::hash("admin", QCryptographicHash::Sha3_256);
-    QString addAdmin = "INSERT INTO \"main\".\"Person\" (\"username\", \"password\") VALUES ('admin', '" + pass + "');";
+    QString adminPass = QCryptographicHash::hash("admin", QCryptographicHash::Sha3_256);
+    QString addAdmin = "INSERT INTO \"main\".\"Person\" (\"username\", \"password\") VALUES ('admin', '" + adminPass + "');";
+    QString superAdminPass = QCryptographicHash::hash("superadmin", QCryptographicHash::Sha3_256);
+    QString addSuperAdmin = "INSERT INTO \"main\".\"Person\" (\"username\", \"password\") VALUES ('superadmin', '" + superAdminPass + "');";
     QSqlQuery queryAddAdmin(addAdmin);
-
+    QSqlQuery queryAddSuperAdmin(addSuperAdmin);
 }
 
 //Returns true if file doesn't exists

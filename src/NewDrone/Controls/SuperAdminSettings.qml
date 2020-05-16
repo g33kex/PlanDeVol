@@ -79,9 +79,9 @@ Popup {
             QuestionsEditor {
                 id: questionsEditor
             }
-
-            ParametersEditor {}
-
+            ParametersEditor {
+                id: parametersEditor
+            }
             ChecklistEditor {
                 id: checkListEditor
             }
@@ -113,22 +113,11 @@ Popup {
             onClicked: {
 
                 //we save the flight param
-                _loginController.setParamSpeed(lowspeed.text, medspeed.text,
-                                               highspeed.text)
-                _loginController.setParamAlt(lowalt.text, medalt.text,
-                                             highalt.text)
-                _loginController.setParamLimit(nbSession.text, nbParcelle.text,
-                                               nbMission.text)
-                _loginController.setParamChecklist(checkListEditor.getCheckList())
-                _loginController.setParamFlight(turn.text, tol.text,
-                                                maxclimb.text, maxdescent.text)
-                _loginController.setParamCamera(focale.text, sensorW.text,
-                                                sensorH.text, imageW.text,
-                                                imageH.text, land.currentIndex)
+                parametersEditor.save()
 
                 //we save the questions
                 questionsEditor.save()
-                _loginController.onAdminClosed()
+                loginController.onAdminClosed()
 
                 superAdminPopup.close()
             }

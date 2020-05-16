@@ -12,16 +12,16 @@ ColumnLayout {
 
     function save() {
 
-        _loginController.setParamSpeed(lowspeed.text, medspeed.text,
+        loginController.setParamSpeed(lowspeed.text, medspeed.text,
                                        highspeed.text)
-        _loginController.setParamAlt(lowalt.text, medalt.text,
+        loginController.setParamAlt(lowalt.text, medalt.text,
                                      highalt.text)
-        _loginController.setParamLimit(nbSession.text, nbParcelle.text,
+        loginController.setParamLimit(nbSession.text, nbParcelle.text,
                                        nbMission.text)
-        _loginController.setParamChecklist(checkListEditor.getCheckList())
-        _loginController.setParamFlight(turn.text, tol.text,
+        loginController.setParamChecklist(checkListEditor.getCheckList())
+        loginController.setParamFlight(turn.text, tol.text,
                                         maxclimb.text, maxdescent.text)
-        _loginController.setParamCamera(focale.text, sensorW.text,
+        loginController.setParamCamera(focale.text, sensorW.text,
                                         sensorH.text, imageW.text,
                                         imageH.text, land.currentIndex)
     }
@@ -49,21 +49,21 @@ ColumnLayout {
 
         TextField {
             id: lowspeed
-            text: _loginController.getSpeedLow()
+            text: loginController.getSpeedLow()
         }
         Label {
             text: "m/s"
         }
         TextField {
             id: medspeed
-            text: _loginController.getSpeedMed()
+            text: loginController.getSpeedMed()
         }
         Label {
             text: "m/s"
         }
         TextField {
             id: highspeed
-            text: _loginController.getSpeedHigh()
+            text: loginController.getSpeedHigh()
         }
         Label {
             text: "m/s"
@@ -93,7 +93,7 @@ ColumnLayout {
 
         TextField {
             id: lowalt
-            text: _loginController.getAltLow()
+            text: loginController.getAltLow()
         }
         Label {
             text: "m"
@@ -101,7 +101,7 @@ ColumnLayout {
 
         TextField {
             id: medalt
-            text: _loginController.getAltMed()
+            text: loginController.getAltMed()
         }
         Label {
             text: "m"
@@ -109,7 +109,7 @@ ColumnLayout {
 
         TextField {
             id: highalt
-            text: _loginController.getAltHigh()
+            text: loginController.getAltHigh()
         }
         Label {
             text: "m"
@@ -137,15 +137,15 @@ ColumnLayout {
 
         TextField {
             id: nbSession
-            text: _loginController.getNbSession()
+            text: loginController.getNbSession()
         }
         TextField {
             id: nbParcelle
-            text: _loginController.getNbParcelle()
+            text: loginController.getNbParcelle()
         }
         TextField {
             id: nbMission
-            text: _loginController.getNbMission()
+            text: loginController.getNbMission()
         }
     }
 
@@ -181,7 +181,7 @@ ColumnLayout {
 
         TextField {
             id: turn
-            text: _loginController.getTurn()
+            text: loginController.getTurn()
         }
         Label {
             text: "m"
@@ -189,7 +189,7 @@ ColumnLayout {
         }
         TextField {
             id: tol
-            text: _loginController.getTolerance()
+            text: loginController.getTolerance()
         }
         Label {
             text: "m"
@@ -197,7 +197,7 @@ ColumnLayout {
         }
         TextField {
             id: maxclimb
-            text: _loginController.getMaxClimbRate()
+            text: loginController.getMaxClimbRate()
         }
         Label {
             text: "m/s"
@@ -205,7 +205,7 @@ ColumnLayout {
         }
         TextField {
             id: maxdescent
-            text: _loginController.getMaxDescentRate()
+            text: loginController.getMaxDescentRate()
         }
         Label {
             text: "m/s"
@@ -239,7 +239,7 @@ ColumnLayout {
         }
         TextField {
             id: focale
-            text: _loginController.getCameraFocale()
+            text: loginController.getCameraFocale()
         }
         Label {
             text: "mm"
@@ -247,7 +247,7 @@ ColumnLayout {
         }
         TextField {
             id: sensorW
-            text: _loginController.getCameraSensorW()
+            text: loginController.getCameraSensorW()
         }
         Label {
             text: "mm"
@@ -255,7 +255,7 @@ ColumnLayout {
         }
         TextField {
             id: sensorH
-            text: _loginController.getCameraSensorH()
+            text: loginController.getCameraSensorH()
         }
         Label {
             text: "mm"
@@ -278,7 +278,7 @@ ColumnLayout {
         }
         TextField {
             id: imageW
-            text: _loginController.getCameraImageW()
+            text: loginController.getCameraImageW()
         }
         Label {
             text: "px"
@@ -286,7 +286,7 @@ ColumnLayout {
         }
         TextField {
             id: imageH
-            text: _loginController.getCameraImageH()
+            text: loginController.getCameraImageH()
         }
         Label {
             text: "px"
@@ -295,7 +295,7 @@ ColumnLayout {
         ComboBox {
             id: land
             model: ["Portrait", "Paysage"]
-            currentIndex: _loginController.getCameraLand()
+            currentIndex: loginController.getCameraLand()
             Layout.columnSpan: 2
         }
     }
@@ -304,7 +304,7 @@ ColumnLayout {
         text: "exporter en XML"
         Layout.margins: m2
         onClicked: {
-            _loginController.exportToXML()
+            loginController.exportToXML()
             doneDialog.open()
         }
     }

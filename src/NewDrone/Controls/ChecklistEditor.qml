@@ -23,7 +23,7 @@ ColumnLayout {
         id: checklistArea
         Layout.fillWidth: true
         Layout.fillHeight: true
-        text: _loginController.getParamChecklist()
+        text: loginController.getParamChecklist()
         Layout.margins: m2
     }
 
@@ -31,7 +31,7 @@ ColumnLayout {
         text: "Enregistrer"
         Layout.margins: m2
         onClicked: {
-            _loginController.setParamChecklist(checklistArea.text)
+            loginController.setParamChecklist(checklistArea.text)
             doneDialog.open()
         }
     }
