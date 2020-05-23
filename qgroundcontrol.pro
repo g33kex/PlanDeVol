@@ -9,6 +9,8 @@
 
 QMAKE_PROJECT_DEPTH = 0 # undocumented qmake flag to force absolute paths in make files
 
+#ANDROID_ABIS=x86_64
+
 exists($${OUT_PWD}/qgroundcontrol.pro) {
     error("You must use shadow build (e.g. mkdir build; cd build; qmake ../qgroundcontrol.pro).")
 }
@@ -1280,3 +1282,8 @@ DISTFILES += \
     database.sqlite3
 
 RESOURCES +=
+
+contains(ANDROID_TARGET_ARCH,) {
+    ANDROID_PACKAGE_SOURCE_DIR = \
+        $$PWD/android
+}

@@ -23,7 +23,7 @@ export ANDROID_NDK_TOOLS_PREFIX=arm-linux-androideabi
 # cd ../
 # mkdir android_build
 # cd android_build
-# >~/local/Qt/5.4/android_armv7/bin/qmake -r -spec android-g++ CONFIG+=debug ../qgroundcontrol/qgroundcontrol.pro
+# >~/local/Qt/5.4/android_armv7/bin/qmake -r -spec ùandroid-g++ CONFIG+=debug ../qgroundcontrol/qgroundcontrol.pro
 # >make -j24 install INSTALL_ROOT=./android-build/
 # >~/local/Qt/5.4/android_armv7/bin/androiddeployqt --input ./android-libQGroundControl.so-deployment-settings.json --output ./android-build --deployment bundled --android-platform android-22 --jdk /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home --verbose --ant /usr/local/bin/ant
 #
