@@ -38,11 +38,11 @@ ApplicationWindow {
         visible: true
         source: "Login.qml"
     }
-
+/*
     Component.onCompleted: {
-        if (ScreenTools.isMobile) {
-            testWindow.showFullScreen()
-        } else {
+       // if (ScreenTools.isMobile) {
+       //    testWindow.showFullScreen()
+     //} else {
             width = ScreenTools.isMobile ? Screen.width : Math.min(
                                                250 * Screen.pixelDensity,
                                                Screen.width)
@@ -50,5 +50,5 @@ ApplicationWindow {
                                                 150 * Screen.pixelDensity,
                                                 Screen.height)
         }
-    }
+    //}*/
 }

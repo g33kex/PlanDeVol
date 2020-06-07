@@ -168,8 +168,14 @@ Item {
 
     AdminSettings {
         id: adminSettings
-        width: parent.width
-        height: parent.height
+        x: parent.width/4
+        y: parent.height/4
+        width: parent.width/2
+        height: parent.height/2
+        visible: true
+        background: Rectangle {
+            color: "#A00"
+        }
     }
 
     SuperAdminSettings {
@@ -179,6 +185,7 @@ Item {
     }
 
     Dialog {
+
         id: doneDialog
         standardButtons: Dialog.Ok
         x: (parent.width - width) / 2
