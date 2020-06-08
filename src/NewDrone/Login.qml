@@ -3,9 +3,9 @@ import QtQuick 2.1
 import QtQuick.Controls 2.4
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
+
 //import QtQuick.Controls 1.4
 //import QtQuick.Controls.Styles 1.4
-
 import NewDrone.Controls 1.0
 
 Item {
@@ -17,9 +17,9 @@ Item {
         id: loginController
     }
 
-    ParcelleManagerController {
+   /* ParcelleManagerController {
         id: _parcelleManagerController
-    }
+    }*/
 
     Loader {
         id: rootWindowLoader
@@ -40,16 +40,14 @@ Item {
             color: "white"
 
             anchors.centerIn: parent
-            width: parent.width/4
-            height: parent.width/3
+            width: parent.width / 4
+            height: parent.width / 3
 
             ColumnLayout {
 
                 anchors.fill: parent
 
-               // anchors.margins: margin
-
-
+                // anchors.margins: margin
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 45
@@ -69,32 +67,29 @@ Item {
                     }
                 }
 
-
                 Image {
                     source: "/res/resources/icons/mainlogo.png"
                     fillMode: Image.Stretch
 
                     Layout.preferredWidth: parent.width
-                    Layout.preferredHeight: parent.width*sourceSize.height/sourceSize.width
+                    Layout.preferredHeight: parent.width * sourceSize.height / sourceSize.width
                 }
-
-
 
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                     Label {
-                    text: "Username"
-                    color: "gray"
-                    Layout.alignment: Qt.AlignCenter
+                        text: "Username"
+                        color: "gray"
+                        Layout.alignment: Qt.AlignCenter
 
-                    //Layout.rightMargin: 20
+                        //Layout.rightMargin: 20
                     }
 
                     TextField {
-                    id: usernameField
-                    Layout.alignment: Qt.AlignCenter
-
+                        id: usernameField
+                        Layout.alignment: Qt.AlignCenter
+                        inputMethodHints: Qt.ImhNoAutoUppercase
                     }
                 }
 
@@ -102,19 +97,18 @@ Item {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
 
-                Label {
-                    text: "Mot de Passe"
-                    color: "gray"
-                    Layout.alignment: Qt.AlignCenter
-                    //Layout.rightMargin: 20
-                }
+                    Label {
+                        text: "Mot de Passe"
+                        color: "gray"
+                        Layout.alignment: Qt.AlignCenter
+                        //Layout.rightMargin: 20
+                    }
 
-                TextField {
-                    id: passwordField
-                    Layout.alignment: Qt.AlignCenter
-                    echoMode: TextInput.Password
-                }
-
+                    TextField {
+                        id: passwordField
+                        Layout.alignment: Qt.AlignCenter
+                        echoMode: TextInput.Password
+                    }
                 }
 
                 Button {
@@ -125,16 +119,14 @@ Item {
                     onClicked: {
                         var username = usernameField.text
                         if (loginController.login(username,
-                                                   passwordField.text)) {
+                                                  passwordField.text)) {
                             if (username === "admin") {
                                 console.log("ADMIN LOGIN")
                                 adminSettings.open()
-                            }
-                            else if(username === "superadmin") {
+                            } else if (username === "superadmin") {
                                 console.log("SUPERADMIN LOGIN")
                                 superAdminSettings.open()
-                            }
-                            else {
+                            } else {
                                 progressOverlay.open()
                                 console.log("Logged in as user " + username)
                                 loginController.loadMainWindow()
@@ -187,19 +179,20 @@ Item {
 
     AdminSettings {
         id: adminSettings
-        x: parent.width/4
-        y: parent.width/4
-        width: parent.width/2
-        height: parent.height/2
+        x: parent.width / 4
+        y: parent.height / 4
+        width: parent.width / 2
+        height: parent.height / 2
         visible: false
     }
 
     SuperAdminSettings {
         id: superAdminSettings
-        x: parent.width/4
-        y: parent.width/4
-        width: parent.width/2
-        height: parent.height/2
+        x: parent.width / 4
+        y: parent.height / 4
+        width: parent.width / 2
+        height: parent.height / 2
+        visible: true
     }
 
     Dialog {

@@ -195,18 +195,34 @@ bool DbManager::verifNbUser() {
 
 void DbManager::buildDB() {
 
-    QString tablePerson = "CREATE TABLE \"Person\" ( \"username\"	TEXT NOT NULL UNIQUE, \"password\"	TEXT,  \"nom\"	TEXT, \"prenom\"	TEXT, PRIMARY KEY(\"username\") );";
-    QString tableParcelle = "CREATE TABLE \"Parcelle\" (\"owner\"	TEXT NOT NULL, \"parcelleFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE,\"surface\" TEXT, FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
-    QString tableMission = "CREATE TABLE \"Mission\" ( \"owner\"	TEXT NOT NULL, \"missionFile\"	TEXT NOT NULL UNIQUE, \"name\" TEXT NOT NULL UNIQUE, PRIMARY KEY(\"missionFile\"), FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE );";
+    QString tablePerson = "CREATE TABLE Person("
+                          "username TEXT NOT NULL UNIQUE PRIMARY KEY, "
+                          "password TEXT, "
+                          "nom TEXT, "
+                          "prenom TEXT, "
+                          "role TEXT DEFAULT 'User');";
+
+    QString tableParcelle = "CREATE TABLE Parcelle("
+                            "owner TEXT NOT NULL, "
+                            "parcelleFile TEXT NOT NULL UNIQUE, "
+                            "name TEXT NOT NULL UNIQUE, "
+                            "surface TEXT, "
+                            "FOREIGN KEY(owner) REFERENCES Person(username) ON UPDATE CASCADE ON DELETE CASCADE);";
+
+    QString tableMission = "CREATE TABLE Mission("
+                           "owner TEXT NOT NULL, "
+                           "missionFile TEXT NOT NULL UNIQUE PRIMARY KEY, "
+                           "name TEXT NOT NULL UNIQUE, "
+                           "FOREIGN KEY(owner) REFERENCES Person(username) ON UPDATE CASCADE ON DELETE CASCADE);";
 
     QSqlQuery queryPerson(tablePerson);
     QSqlQuery queryParcelle(tableParcelle);
     QSqlQuery queryMission(tableMission);
 
     QString adminPass = QCryptographicHash::hash("admin", QCryptographicHash::Sha3_256);
-    QString addAdmin = "INSERT INTO \"main\".\"Person\" (\"username\", \"password\") VALUES ('admin', '" + adminPass + "');";
+    QString addAdmin = "INSERT INTO main.Person(username, password, role) VALUES ('admin', '" + adminPass + "', 'Admin');";
     QString superAdminPass = QCryptographicHash::hash("superadmin", QCryptographicHash::Sha3_256);
-    QString addSuperAdmin = "INSERT INTO \"main\".\"Person\" (\"username\", \"password\") VALUES ('superadmin', '" + superAdminPass + "');";
+    QString addSuperAdmin = "INSERT INTO main.Person(username, password) VALUES ('superadmin', '" + superAdminPass + "', 'Superadmin');";
     QSqlQuery queryAddAdmin(addAdmin);
     QSqlQuery queryAddSuperAdmin(addSuperAdmin);
 }

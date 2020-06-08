@@ -5,7 +5,6 @@ import QtQuick.Controls 2.4
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
 import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
 
 /* The User Manager is used in the admin settings to view, add and remove users and change their passwords, as well as the admin and superadmin passwords */
 Item {
@@ -32,19 +31,25 @@ Item {
                     role: "username"
                     title: "Username"
                     movable: false
-                    width: userTableView.width / 3
+                    width: userTableView.width / 4
                 }
                 TableViewColumn {
                     role: "nom"
                     title: "Nom"
                     movable: false
-                    width: userTableView.width / 3
+                    width: userTableView.width / 4
                 }
                 TableViewColumn {
                     role: "prenom"
                     title: "Prenom"
                     movable: false
-                    width: userTableView.width / 3
+                    width: userTableView.width / 4
+                }
+                TableViewColumn {
+                    role: "role"
+                    title: "Role"
+                    movable: false
+                    width: userTableView.width / 4
                 }
             }
         }
