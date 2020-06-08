@@ -3,8 +3,8 @@ import QtQuick 2.1
 import QtQuick.Controls 2.4
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+//import QtQuick.Controls 1.4
+//import QtQuick.Controls.Styles 1.4
 
 import NewDrone.Controls 1.0
 
@@ -38,23 +38,25 @@ Item {
 
         Rectangle {
             color: "white"
-            anchors.fill: parent
-            anchors.bottomMargin: parent.height / 6
-            anchors.topMargin: parent.height / 6
-            anchors.leftMargin: parent.width / 3
-            anchors.rightMargin: parent.width / 3
+
+            anchors.centerIn: parent
+            width: parent.width/4
+            height: parent.width/3
 
             ColumnLayout {
 
                 anchors.fill: parent
-                anchors.margins: margin
+
+               // anchors.margins: margin
+
 
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 45
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.rightMargin: 10
-                    Layout.leftMargin: 10
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.topMargin: 0
+                    //Layout.rightMargin: 10
+                    //Layout.leftMargin: 10
                     color: "pink"
                     ColumnLayout {
                         anchors.fill: parent
@@ -67,40 +69,57 @@ Item {
                     }
                 }
 
+
                 Image {
                     source: "/res/resources/icons/mainlogo.png"
-                    fillMode: Image.PreserveAspectFit
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.fillWidth: true
+                    fillMode: Image.Stretch
+
+                    Layout.preferredWidth: parent.width
+                    Layout.preferredHeight: parent.width*sourceSize.height/sourceSize.width
                 }
 
-                Label {
+
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                    Label {
                     text: "Username"
                     color: "gray"
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.rightMargin: 20
+                    Layout.alignment: Qt.AlignCenter
+
+                    //Layout.rightMargin: 20
+                    }
+
+                    TextField {
+                    id: usernameField
+                    Layout.alignment: Qt.AlignCenter
+
+                    }
                 }
 
-                TextField {
-                    id: usernameField
-                    Layout.alignment: Qt.AlignHCenter
-                }
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
 
                 Label {
                     text: "Mot de Passe"
                     color: "gray"
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.rightMargin: 20
+                    Layout.alignment: Qt.AlignCenter
+                    //Layout.rightMargin: 20
                 }
 
                 TextField {
                     id: passwordField
-                    Layout.alignment: Qt.AlignHCenter
+                    Layout.alignment: Qt.AlignCenter
                     echoMode: TextInput.Password
                 }
 
+                }
+
                 Button {
-                    Layout.alignment: Qt.AlignHCenter
+                    Layout.alignment: Qt.AlignCenter
+                    Layout.topMargin: 20
                     text: "Connexion"
 
                     onClicked: {
@@ -169,19 +188,18 @@ Item {
     AdminSettings {
         id: adminSettings
         x: parent.width/4
-        y: parent.height/4
+        y: parent.width/4
         width: parent.width/2
         height: parent.height/2
-        visible: true
-        background: Rectangle {
-            color: "#A00"
-        }
+        visible: false
     }
 
     SuperAdminSettings {
         id: superAdminSettings
-        width: parent.width
-        height: parent.height
+        x: parent.width/4
+        y: parent.width/4
+        width: parent.width/2
+        height: parent.height/2
     }
 
     Dialog {
