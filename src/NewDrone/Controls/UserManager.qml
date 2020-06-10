@@ -1,13 +1,25 @@
-import QtQuick 2.0
+import QtQuick 2.11
 import QtQuick.Layouts 1.4
-import QtQuick 2.1
 import QtQuick.Controls 2.4
-import QGroundControl 1.0
-import QGroundControl.Controllers 1.0
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.4 as LC //Lecacy Controls
+import NewDrone 1.0
+import NewDrone.Controllers 1.0
 
 /* The User Manager is used in the admin settings to view, add and remove users and change their passwords, as well as the admin and superadmin passwords */
+/* It is also used to modify user subscription settings (grant the ability to create parcels and limit the total parcel surface) */
 Item {
+
+    UserManagerController {
+        id: userManagerController
+    }
+
+    SqlCustomModel {
+        id: userModel
+        Component.onCompleted: {
+            setupForUsers()
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         Rectangle {
@@ -15,41 +27,44 @@ Item {
             Layout.fillHeight: true
             color: "white"
 
-            SqlCustomModel {
-                id: userModel
-                Component.onCompleted: {
-                    setupForUser()
-                }
-            }
-
-            TableView {
+            LC.TableView {
                 id: userTableView
                 anchors.fill: parent
                 model: userModel
-                selectionMode: SelectionMode.MultiSelection
-                TableViewColumn {
+                selectionMode: LC.SelectionMode.MultiSelection
+                LC.TableViewColumn {
                     role: "username"
                     title: "Username"
                     movable: false
-                    width: userTableView.width / 4
+                    width: userTableView.width / 6
                 }
-                TableViewColumn {
-                    role: "nom"
-                    title: "Nom"
+                LC.TableViewColumn {
+                    role: "firstname"
+                    title: "First Name"
                     movable: false
-                    width: userTableView.width / 4
+                    width: userTableView.width / 6
                 }
-                TableViewColumn {
-                    role: "prenom"
-                    title: "Prenom"
+                LC.TableViewColumn {
+                    role: "lastname"
+                    title: "Last Name"
                     movable: false
-                    width: userTableView.width / 4
+                    width: userTableView.width / 6
                 }
-                TableViewColumn {
+                LC.TableViewColumn {
                     role: "role"
                     title: "Role"
                     movable: false
-                    width: userTableView.width / 4
+                    width: userTableView.width / 6
+                }
+                LC.TableViewColumn {
+                    role: "allowParcelCreation"
+                    title: "Can create parcels?"
+                    width: userTableView.width / 6
+                }
+                LC.TableViewColumn {
+                    role: "maximumParcelSurface"
+                    title: "Surface Limit (ha)"
+                    width: userTableView.width / 6
                 }
             }
         }
@@ -59,14 +74,9 @@ Item {
                 Layout.margins: margin
                 Layout.alignment: Qt.AlignHCenter
 
-                text: "Ajouter Utilisateur"
+                text: "Add User"
                 onClicked: {
-                    if (loginController.nbUser()) {
-                        addUserDialog.reset()
-                        addUserDialog.open()
-                    } else {
-                        tooManySessionsDialog.open()
-                    }
+                    userDialog.show(-1)
                 }
             }
             Button {
@@ -74,55 +84,40 @@ Item {
                 Layout.margins: margin
                 Layout.alignment: Qt.AlignHCenter
 
-                text: "Supprimer Utilisateur"
+                text: "Delete Users"
                 onClicked: {
                     var selected = []
                     userTableView.selection.forEach(function (rowIndex) {
                         console.log("Selected : " + rowIndex)
                         selected.push(rowIndex)
                     })
-                    userTableView.selection.clear()
-
-                    loginController.deleteUser(userModel, selected)
-                }
-            }
-            Button {
-                Layout.fillWidth: true
-                Layout.margins: margin
-                Layout.alignment: Qt.AlignHCenter
-
-                text: "Modifier Utilisateur"
-                onClicked: {
-                    if (userTableView.selection.count === 1) {
-                        var sel = 0
-                        userTableView.selection.forEach(function (rowIndex) {
-                            sel = rowIndex
-                        })
-                        editUserDialog.userIndex = sel
-                        editUserDialog.refresh()
-                        editUserDialog.open()
-                    } else {
-                        modifyOnlyOneDialog.open()
+                    if(selected.length>0) {
+                        deleteConfirmationDialog.show(selected)
+                    }
+                    else {
+                       errorDialog.show("Please select at least one user to delete.")
                     }
                 }
+
             }
             Button {
-                Layout.margins: margin
                 Layout.fillWidth: true
+                Layout.margins: margin
                 Layout.alignment: Qt.AlignHCenter
 
-                text: "Modifier Mot de Passe"
+                text: "Edit User"
                 onClicked: {
                     if (userTableView.selection.count === 1) {
                         var sel = 0
                         userTableView.selection.forEach(function (rowIndex) {
                             sel = rowIndex
                         })
-                        editPassDialog.userIndex = sel
-                        editPassDialog.refresh()
-                        editPassDialog.open()
-                    } else {
-                        errorModifyOnlyOneDialog.open()
+                        userDialog.show(sel)
+                    } else if(userTableView.selection.count === 0) {
+                        errorDialog.show("Please select one user to edit.")
+                    }
+                    else {
+                        errorDialog.show("Please select ONLY one user to edit.")
                     }
                 }
             }
@@ -130,225 +125,242 @@ Item {
     }
 
     Dialog {
-        id: addUserDialog
+        id: userDialog
         modal: true
 
-        onAccepted: {
-            if (a_usernameField.length > 0) {
-                loginController.addUser(userModel, a_usernameField.text,
-                                        a_passwordField.text, a_nomField.text,
-                                        a_prenomField.text)
-            }
-        }
+        standardButtons: Dialog.Discard | Dialog.Cancel
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
 
-        title: "Ajouter un utilisateur"
+        property int userIndex
+        property bool isNew: true
+        property bool isUser: true
 
         function reset() {
-            a_usernameField.text = ""
-            a_passwordField.text = ""
-            a_nomField.text = ""
-            a_prenomField.text = ""
+            usernameField.text = ""
+            passwordField.text = ""
+            firstnameField.text = ""
+            lastnameField.text = ""
+            roleComboBox.currentIndex = 0
+            allowParcelCreationCheckBox.checked = false
+            maximumParcelSurfaceSpinBox.value = 0
         }
-
-        standardButtons: Dialog.Ok | Dialog.Cancel
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-
-        GridLayout {
-            columns: 4
-            anchors.fill: parent
-
-            Label {
-                text: "Username"
-            }
-            Label {
-                text: "Password"
-            }
-            Label {
-                text: "Nom"
-            }
-            Label {
-                text: "Prénom"
-            }
-            TextField {
-                id: a_usernameField
-            }
-            TextField {
-                id: a_passwordField
-                echoMode: TextInput.Password
-            }
-            TextField {
-                id: a_nomField
-            }
-            TextField {
-                id: a_prenomField
-            }
-        }
-    }
-
-    Dialog {
-        id: editUserDialog
-
-        property int userIndex: 0
 
         function refresh() {
-            userField.updateContent()
-            nomField.updateContent()
-            prenomField.updateContent()
+            usernameField.updateContent()
+            firstnameField.updateContent()
+            lastnameField.updateContent()
+            roleComboBox.updateContent()
+            passwordField.text = ""
+            passwordConfirmationField.text = ""
         }
 
-        onAccepted: {
-            loginController.modifyUser(userModel, userIndex, userField.text,
-                                       nomField.text, prenomField.text)
-        }
-
-        title: "Modifier Utilisateur"
-
-        standardButtons: Dialog.Ok | Dialog.Cancel
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
-
-        GridLayout {
-            columns: 3
-            anchors.fill: parent
-
-            Label {
-                text: "Username"
-            }
-            Label {
-                text: "Nom"
-            }
-            Label {
-                text: "Prenom"
-            }
-            TextField {
-                id: userField
-                enabled: false
-                function updateContent() {
-                    text = userModel.getRecordValue(editUserDialog.userIndex,
-                                                    "username")
-                }
-            }
-            TextField {
-                id: nomField
-                function updateContent() {
-                    text = userModel.getRecordValue(editUserDialog.userIndex,
-                                                    "nom")
-                }
-            }
-            TextField {
-                id: prenomField
-                function updateContent() {
-                    text = userModel.getRecordValue(editUserDialog.userIndex,
-                                                    "prenom")
-                }
-            }
-        }
-    }
-
-    Dialog {
-        id: editPassDialog
-        modal: true
-
-        property int userIndex: 0
-
-        function refresh() {
-            userField2.updateContent()
-        }
-
-        onAccepted: {
-            if (newPassField.text == confirmationField.text) {
-                loginController.modifyPassword(userModel, userIndex,
-                                               userField2.text,
-                                               oldPassField.text,
-                                               newPassField.text)
+        function show(selection) {
+            if (selection === -1) {
+                title = "New User"
+                isUser = true
+                isNew = true
+                reset()
             } else {
-                wrongConfirmationDialog.open()
+                title = "Modify User"
+                userIndex = selection
+                isNew = false
+                refresh()
+            }
+            open()
+        }
+
+        onAccepted: {
+            if (isNew) {
+                if (usernameField.length > 0) {
+                    userManagerController.addUser(
+                                userModel, passwordField.text,
+                                usernameField.text, firstnameField.text,
+                                lastnameField.text, roleComboBox.currentText,
+                                allowParcelCreationCheckBox.checked,
+                                maximumParcelSurfaceSpinBox.value)
+                }
+            } else {
+                userManagerController.modifyUser(
+                            userModel, userIndex, passwordField.text,
+                            firstnameField.text, lastnameField.text,
+                            roleComboBox.currentText,
+                            allowParcelCreationCheckBox.checked,
+                            maximumParcelSurfaceSpinBox.value)
             }
         }
 
-        title: "Modifier mot de passe"
-
-        standardButtons: Dialog.Ok | Dialog.Cancel
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-
         GridLayout {
-            columns: 4
+            id: addOrEditUserDialog_gridLayout
+            columns: (passwordConfirmationField.visible || userDialog.isUser) ? 6 : 5
             anchors.fill: parent
 
             Label {
                 text: "Username"
             }
             Label {
-                text: "Ancien Mot de Passe"
+                text: "First Name"
             }
             Label {
-                text: "Nouveau Mot de Passe"
+                text: "Last Name"
             }
             Label {
-                text: "Confirmation"
+                text: "Role"
             }
-
+            Label {
+                text: userDialog.isNew ? "Password" : "Change Password"
+                visible: passwordField.visible
+            }
+            Label {
+                text: "Confirm Password"
+                visible: passwordConfirmationField.visible
+            }
+            Label {
+                text: "Can create parcels?"
+                visible: allowParcelCreationCheckBox.visible
+            }
+            Label {
+                text: "Surface Limit (ha)"
+                visible: maximumParcelSurfaceSpinBox.visible
+            }
             TextField {
-                id: userField2
-                enabled: false
+                id: usernameField
+                enabled: userDialog.isNew
                 function updateContent() {
-                    text = userModel.getRecordValue(editPassDialog.userIndex,
+                    text = userModel.getRecordValue(userDialog.userIndex,
                                                     "username")
                 }
             }
             TextField {
-                id: oldPassField
-                echoMode: TextInput.Password
+                id: firstnameField
+                function updateContent() {
+                    text = userModel.getRecordValue(userDialog.userIndex,
+                                                    "firstname")
+                }
             }
             TextField {
-                id: newPassField
-                echoMode: TextInput.Password
+                id: lastnameField
+                function updateContent() {
+                    text = userModel.getRecordValue(userDialog.userIndex,
+                                                    "lastname")
+                }
+            }
+            ComboBox {
+                id: roleComboBox
+                implicitWidth: 120
+                currentIndex: 0
+                model: ["User", "Admin", "SuperAdmin"]
+                onActivated: {
+                    updateOthers(index)
+                }
+
+                function updateOthers(index) {
+                    var toggle
+                    if (index !== 0) {
+                        userDialog.isUser=false
+                        allowParcelCreationCheckBox.checked = false
+                        maximumParcelSurfaceSpinBox.value = 0
+                    } else {
+                        userDialog.isUser=true
+                        passwordField.text = ""
+                        passwordConfirmationField.text = ""
+                        if (!userDialog.isNew) {
+                            allowParcelCreationCheckBox.updateContent()
+                            maximumParcelSurfaceSpinBox.updateContent()
+                        }
+                    }
+                }
+
+                function updateContent() {
+                    currentIndex = roleComboBox.find(
+                                userModel.getRecordValue(
+                                    userDialog.userIndex, "role"))
+                    updateOthers(currentIndex)
+                }
             }
             TextField {
-                id: confirmationField
+                id: passwordField
                 echoMode: TextInput.Password
+                visible: !userDialog.isUser
+            }
+            TextField {
+                id: passwordConfirmationField
+                echoMode: TextInput.Password
+                visible: !userDialog.isUser && (userDialog.isNew || passwordField.text!=="");
+            }
+            CheckBox {
+                id: allowParcelCreationCheckBox
+                Layout.alignment: Qt.AlignHCenter
+                visible: userDialog.isUser
+                function updateContent() {
+                    checked = userModel.getRecordValue(
+                                userDialog.userIndex,
+                                "allowParcelCreation") === "yes" ? true : false
+                }
+            }
+            SpinBox {
+                id: maximumParcelSurfaceSpinBox
+                Layout.alignment: Qt.AlignHCenter
+                Layout.fillWidth: true
+                visible: userDialog.isUser
+                function updateContent() {
+                    value = userModel.getRecordValue(userDialog.userIndex,
+                                                     "maximumParcelSurface")
+                }
             }
         }
     }
 
     Dialog {
-        id: wrongConfirmationDialog
-        standardButtons: Dialog.Ok
+        id: deleteConfirmationDialog
+        modal: true
+
+        title: "Confirm"
+        standardButtons: Dialog.Ok | Dialog.Cancel
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
-        modal: true
-        title: "Error"
+
+        property var toDelete
+
+        function show(selected) {
+            toDelete = selected
+            if(selected.length>0) {
+            deleteConfirmationDialog_label.text
+                    = "Are you sure you want to delete " + toDelete.length
+                    + " users ?\nThis will also delete all their parcels and missions."
+            }
+
+            open()
+        }
+
+        onAccepted: {
+            userTableView.selection.clear()
+            userManagerController.deleteUsers(userModel, toDelete)
+        }
+
         Label {
-            text: "Nouveau mot de passe et confirmation non identique"
+            id: deleteConfirmationDialog_label
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 
     Dialog {
-        id: modifyOnlyOneDialog
+        id: errorDialog
         standardButtons: Dialog.Ok
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
         title: "Error"
-        modal: true
-
-        Label {
-            text: "Choisisser qu'une ligne à modifier"
-        }
-    }
-
-    Dialog {
-        id: tooManySessionsDialog
-        standardButtons: Dialog.Ok
+        //implicitWidth: errorDialogLabel.implicitWidth+30 //Workaround QT bug
+        //implicitWidth: 500
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         modal: true
-        title: "Warning"
-        Label {
-            anchors.centerIn: parent
-            text: "Limite de sessions enregistrées atteintes."
+
+        function show(text) {
+            errorDialogLabel.text = text
+            width = 500
+            open()
         }
-    }
+            Label {
+            id: errorDialogLabel
+            }
+        }
 }

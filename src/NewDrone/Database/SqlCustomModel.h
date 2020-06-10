@@ -24,7 +24,7 @@ public:
 
     Q_INVOKABLE void setupForParcelle();
     Q_INVOKABLE void setupForMission();
-    Q_INVOKABLE void setupForUser();
+    Q_INVOKABLE void setupForUsers();
     QHash<int, QByteArray> roleNames() const override {	return roles;	}
 
     Q_INVOKABLE QVariant getRecordValue(int recordIndex, QString role);

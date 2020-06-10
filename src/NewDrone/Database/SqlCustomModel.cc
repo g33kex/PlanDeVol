@@ -61,8 +61,8 @@ void SqlCustomModel::setupForMission() {
     this->select();
 }
 
-void SqlCustomModel::setupForUser() {
-    this->setTable("Person");
+void SqlCustomModel::setupForUsers() {
+    this->setTable("Users");
     this->setEditStrategy(QSqlTableModel::OnManualSubmit);
     this->generateRoleNames();
     this->select();

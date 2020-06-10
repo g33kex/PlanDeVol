@@ -19,6 +19,8 @@ class DbManager
 
         QString getPassword(const QString& user);
 
+        QString getRole(const QString &user);
+
         QSqlDatabase getDB();
 
         bool addQuestion(QString name);
@@ -36,7 +38,7 @@ class DbManager
 
         void saveToXML(QString);
 
-    private:
+private:
         QSqlDatabase m_db;
 };
 

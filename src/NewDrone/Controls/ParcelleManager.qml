@@ -9,6 +9,9 @@ import QtPositioning 5.11
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
 
+import NewDrone 1.0
+import NewDrone.Controllers 1.0
+
 Item {
     id: element
 

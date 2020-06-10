@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QGroundControl.Controllers 1.0
 import QtQml.Models 2.1
+import NewDrone.Controllers 1.0
 
 Rectangle {
     id: rectangle

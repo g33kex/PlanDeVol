@@ -18,11 +18,9 @@ public:
 
     Q_INVOKABLE bool login(QString username, QString password);
 
+    Q_INVOKABLE QString getRole(QString user);
+
     Q_INVOKABLE void deleteMission(SqlCustomModel *model, QList<int> indexes);
-
-    Q_INVOKABLE void deleteUser(SqlCustomModel *model, QList<int> indexes);
-
-    Q_INVOKABLE void addUser(SqlCustomModel *model, QString username, QString password, QString nom, QString prenom);
 
     Q_INVOKABLE void setParamSpeed(QString lowSpeed, QString medSpeed, QString HighSpeed);
     Q_INVOKABLE void setParamAlt(QString lowAlt, QString medAlt, QString HighAlt);
@@ -55,10 +53,6 @@ public:
 
     Q_INVOKABLE void    exportToXML();
     Q_INVOKABLE bool    nbUser              ();
-
-
-public slots:
-    void modifyUser(SqlCustomModel *model, int index, QString username, QString nom, QString prenom);
 
 public slots:
     void onAdminClosed();

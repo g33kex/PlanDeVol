@@ -39,6 +39,10 @@ bool LoginController::login(QString user, QString password) {
      return false;
 }
 
+QString LoginController::getRole(QString user) {
+    return db->getRole(user);
+}
+
 void LoginController::onAdminClosed() {
 
 
@@ -139,39 +143,6 @@ void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
 }
 
 
-void LoginController::deleteUser(SqlCustomModel *model, QList<int> indexes) {
-    for(int i=0; i<indexes.size();i++) {
-        QString username = model->record(indexes[i]).value("username").toString();
-        qDebug() << "remove all parcelle et mission from " << username;
-        QList<QString> listParcelle = db->getAllParcelle(username);
-        for (QList<QString>::iterator j = listParcelle.begin(); j != listParcelle.end(); ++j) {
-            QFile file (*j);
-            file.remove();
-        }
-        QList<QString> listMission = db->getAllMission(username);
-        for (QList<QString>::iterator j = listParcelle.begin(); j != listParcelle.end(); ++j) {
-            QFile file (*j);
-            file.remove();
-        }
-        model->removeRow(indexes[i]);
-    }
-    model->submitAll();
-}
-
-
-void LoginController::addUser(SqlCustomModel *model, QString user, QString password, QString nom, QString prenom) {
-    QSqlRecord newRecord = model->record();
-    newRecord.setValue("username", QVariant(user));
-    QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
-    newRecord.setValue("password", QVariant(mdp));
-    newRecord.setValue("nom", QVariant(nom));
-    newRecord.setValue("prenom",QVariant(prenom));
-
-    /*-1 is set to indicate that it will be added to the last row*/
-    if(model->insertRecord(-1, newRecord)) {
-        model->submitAll();
-    }
-}
 
 void LoginController::setParamSpeed(QString lowSpeed, QString medSpeed, QString highSpeed) {
     speedParam->replace(0, lowSpeed);
@@ -318,21 +289,6 @@ QString LoginController::getParamChecklist() {
         res += '\n';
     }
     return res;
-}
-
-void LoginController::modifyUser(SqlCustomModel *model, int index, QString username, QString nom, QString prenom) {
-
-    QSqlRecord record = model->record(index);
-
-    record.setValue("username", QVariant(username));
-//    QString pass = db->getPassword(username);
-//    record.setValue("password",QVariant(pass));
-    record.setValue("nom", QVariant(nom));
-    record.setValue("prenom", QVariant(prenom));
-
-    bool ok = model->setRecord(index, record);
-    qDebug() << ok;
-    model->submitAll();
 }
 
 bool LoginController::modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass) {

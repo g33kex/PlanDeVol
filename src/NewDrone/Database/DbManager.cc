@@ -140,7 +140,7 @@ QList<QString> DbManager::getAllMission(QString username) {
 
 QString DbManager::getPassword(const QString& user) {
     QSqlQuery query;
-    query.prepare("SELECT * FROM Person WHERE username = (:username)");
+    query.prepare("SELECT * FROM Users WHERE username = (:username)");
     query.bindValue(":username", user);
     if(query.exec()) {
         query.first();
@@ -152,6 +152,21 @@ QString DbManager::getPassword(const QString& user) {
         return "";
     }
 
+}
+
+QString DbManager::getRole(const QString& user) {
+    QSqlQuery query;
+    query.prepare("SELECT * FROM Users WHERE username = (:username)");
+    query.bindValue(":username", user);
+    if(query.exec()) {
+        query.first();
+        QString role = query.value("role").toString();
+        return role;
+    }
+    else {
+        qDebug() << "getRole error :" << query.lastError();
+        return "";
+    }
 }
 
 QSqlDatabase DbManager::getDB() {
@@ -190,41 +205,56 @@ bool DbManager::verifNbUser() {
     query.first();
     QString value = query.value("count(username)").toString();
     //here, we have a "<=" to include the admin !
-    return value.toInt() <= nbParam->at(0).toInt();
+    return value.toInt() <= nbParam->at(0).toInt()+1;
 }
 
 void DbManager::buildDB() {
 
-    QString tablePerson = "CREATE TABLE Person("
+    QString tableUsers = "CREATE TABLE IF NOT EXISTS Users("
                           "username TEXT NOT NULL UNIQUE PRIMARY KEY, "
                           "password TEXT, "
-                          "nom TEXT, "
-                          "prenom TEXT, "
-                          "role TEXT DEFAULT 'User');";
+                          "firstname TEXT, "
+                          "lastname TEXT, "
+                          "role TEXT CHECK(role IN ('User', 'Admin', 'SuperAdmin')) DEFAULT 'User', "
+                          "allowParcelCreation TEXT DEFAULT('no') CHECK(allowParcelCreation = 'no' or (allowParcelCreation = 'yes' and role = 'User')), "
+                          "maximumParcelSurface INTEGER DEFAULT 0"
+                          ");";
 
-    QString tableParcelle = "CREATE TABLE Parcelle("
+    QString tableParcelle = "CREATE TABLE IF NOT EXISTS Parcelle("
                             "owner TEXT NOT NULL, "
                             "parcelleFile TEXT NOT NULL UNIQUE, "
                             "name TEXT NOT NULL UNIQUE, "
                             "surface TEXT, "
                             "FOREIGN KEY(owner) REFERENCES Person(username) ON UPDATE CASCADE ON DELETE CASCADE);";
 
-    QString tableMission = "CREATE TABLE Mission("
+    QString tableMission = "CREATE TABLE IF NOT EXISTS Mission("
                            "owner TEXT NOT NULL, "
                            "missionFile TEXT NOT NULL UNIQUE PRIMARY KEY, "
                            "name TEXT NOT NULL UNIQUE, "
                            "FOREIGN KEY(owner) REFERENCES Person(username) ON UPDATE CASCADE ON DELETE CASCADE);";
 
-    QSqlQuery queryPerson(tablePerson);
+    QSqlQuery queryUsers(tableUsers);
     QSqlQuery queryParcelle(tableParcelle);
     QSqlQuery queryMission(tableMission);
 
+#ifdef QT_DEBUG
     QString adminPass = QCryptographicHash::hash("admin", QCryptographicHash::Sha3_256);
-    QString addAdmin = "INSERT INTO main.Person(username, password, role) VALUES ('admin', '" + adminPass + "', 'Admin');";
-    QString superAdminPass = QCryptographicHash::hash("superadmin", QCryptographicHash::Sha3_256);
-    QString addSuperAdmin = "INSERT INTO main.Person(username, password) VALUES ('superadmin', '" + superAdminPass + "', 'Superadmin');";
+    QString addAdmin = "INSERT INTO main.Users(username, password, role) VALUES ('admin', '" + adminPass + "', 'Admin');";
+    QString testUserPass = QCryptographicHash::hash("john", QCryptographicHash::Sha3_256);
+    QString addTestUser = "INSERT INTO main.Users(username, password, firstname, lastname, role, allowParcelCreation, maximumParcelSurface) VALUES ('john', '" + testUserPass + "', 'John', 'Smith', 'User', 'yes', 1000)";
     QSqlQuery queryAddAdmin(addAdmin);
-    QSqlQuery queryAddSuperAdmin(addSuperAdmin);
+    QSqlQuery queryTestUser(addTestUser);
+#endif
+
+    QSqlQuery findSuperAdmins = QSqlQuery("SELECT username from Users where role='SuperAdmin'");
+    if(!findSuperAdmins.first())
+    {
+        qDebug() << "No SuperAdmin account, creating default.";
+        QString superAdminPass = QCryptographicHash::hash("superadmin", QCryptographicHash::Sha3_256);
+        QString addSuperAdmin = "INSERT OR REPLACE INTO main.Users(username, password, role) VALUES ('superadmin', '" + superAdminPass + "', 'SuperAdmin');";
+        QSqlQuery queryAddSuperAdmin(addSuperAdmin);
+    }
+
 }
 
 //Returns true if file doesn't exists

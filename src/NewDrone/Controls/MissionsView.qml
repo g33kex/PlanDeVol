@@ -6,6 +6,7 @@ import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import NewDrone 1.0;
 
 Item {
     ColumnLayout {

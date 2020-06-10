@@ -7,6 +7,7 @@ import QGroundControl.Controllers 1.0
 //import QtQuick.Controls 1.4
 //import QtQuick.Controls.Styles 1.4
 import NewDrone.Controls 1.0
+import NewDrone.Controllers 1.0
 
 Item {
 
@@ -17,9 +18,9 @@ Item {
         id: loginController
     }
 
-   /* ParcelleManagerController {
-        id: _parcelleManagerController
-    }*/
+   // ParcelleManagerController {
+    //    id: _parcelleManagerController
+    //}
 
     Loader {
         id: rootWindowLoader
@@ -120,13 +121,14 @@ Item {
                         var username = usernameField.text
                         if (loginController.login(username,
                                                   passwordField.text)) {
-                            if (username === "admin") {
+                            var role = loginController.getRole(username);
+                            if (role === "Admin") {
                                 console.log("ADMIN LOGIN")
                                 adminSettings.open()
-                            } else if (username === "superadmin") {
+                            } else if (role === "SuperAdmin") {
                                 console.log("SUPERADMIN LOGIN")
                                 superAdminSettings.open()
-                            } else {
+                            } else if (role === "User") {
                                 progressOverlay.open()
                                 console.log("Logged in as user " + username)
                                 loginController.loadMainWindow()

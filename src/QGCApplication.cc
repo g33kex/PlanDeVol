@@ -98,6 +98,7 @@
 
 #include "LoginController.h"
 #include "QuestionsViewController.h"
+#include "UserManagerController.h"
 
 #ifndef __mobile__
 #include "FirmwareUpgradeController.h"
@@ -386,6 +387,8 @@ void QGCApplication::_initCommon()
     static const char* kQGCControllers  = "QGroundControl.Controllers";
     static const char* kQGCVehicle      = "QGroundControl.Vehicle";
 
+    static const char* kNDControllers   = "NewDrone.Controllers";
+
     QSettings settings;
 
 
@@ -440,11 +443,6 @@ void QGCApplication::_initCommon()
     qmlRegisterType<SyslinkComponentController>     (kQGCControllers,                       1, 0, "SyslinkComponentController");
     qmlRegisterType<EditPositionDialogController>   (kQGCControllers,                       1, 0, "EditPositionDialogController");
 
-    qmlRegisterType<ParcelleManagerController>      (kQGCControllers,                       1, 0, "ParcelleManagerController");
-    qmlRegisterType<LoginController>                (kQGCControllers,                       1, 0, "LoginController");
-    qmlRegisterType<QuestionsViewController>		(kQGCControllers, 						1, 0, "QuestionsViewController");
-
-
 #ifndef __mobile__
 #ifndef NO_SERIAL_LINK
     qmlRegisterType<FirmwareUpgradeController>      (kQGCControllers,                       1, 0, "FirmwareUpgradeController");
@@ -459,8 +457,11 @@ void QGCApplication::_initCommon()
     qmlRegisterSingletonType<ScreenToolsController>     ("QGroundControl.ScreenToolsController",    1, 0, "ScreenToolsController",  screenToolsControllerSingletonFactory);
     qmlRegisterSingletonType<ShapeFileHelper>           ("QGroundControl.ShapeFileHelper",          1, 0, "ShapeFileHelper",        shapeFileHelperSingletonFactory);
 
-    qmlRegisterType<SqlCustomModel>                   ("QGroundControl",                          1, 0, "SqlCustomModel");
-
+    qmlRegisterType<ParcelleManagerController>      (kNDControllers,                        1, 0, "ParcelleManagerController");
+    qmlRegisterType<LoginController>                (kNDControllers,                        1, 0, "LoginController");
+    qmlRegisterType<QuestionsViewController>		(kNDControllers, 						1, 0, "QuestionsViewController");
+    qmlRegisterType<UserManagerController>          (kNDControllers,                        1, 0, "UserManagerController");
+    qmlRegisterType<SqlCustomModel>                 ("NewDrone",                            1, 0, "SqlCustomModel");
 }
 
 bool QGCApplication::_initForNormalAppBoot()
