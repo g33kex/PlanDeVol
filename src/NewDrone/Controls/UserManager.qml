@@ -127,18 +127,21 @@ Item {
     Dialog {
         id: userDialog
         modal: true
+        closePolicy: Popup.NoAutoClose
 
-        standardButtons: Dialog.Discard | Dialog.Cancel
+
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
         property int userIndex
         property bool isNew: true
         property bool isUser: true
+        property bool wasUser: false
 
         function reset() {
             usernameField.text = ""
             passwordField.text = ""
+            passwordConfirmationField.text = ""
             firstnameField.text = ""
             lastnameField.text = ""
             roleComboBox.currentIndex = 0
@@ -208,7 +211,7 @@ Item {
                 text: "Role"
             }
             Label {
-                text: userDialog.isNew ? "Password" : "Change Password"
+                text: (userDialog.isNew || userDialog.wasUser) ? "Password" : "Change Password"
                 visible: passwordField.visible
             }
             Label {
@@ -247,7 +250,7 @@ Item {
             }
             ComboBox {
                 id: roleComboBox
-                implicitWidth: 120
+                implicitWidth: 140
                 currentIndex: 0
                 model: ["User", "Admin", "SuperAdmin"]
                 onActivated: {
@@ -275,6 +278,13 @@ Item {
                     currentIndex = roleComboBox.find(
                                 userModel.getRecordValue(
                                     userDialog.userIndex, "role"))
+                    if(currentIndex===0) {
+                        userDialog.wasUser=true
+                    }
+                    else {
+                        userDialog.wasUser=false
+                    }
+
                     updateOthers(currentIndex)
                 }
             }
@@ -286,7 +296,7 @@ Item {
             TextField {
                 id: passwordConfirmationField
                 echoMode: TextInput.Password
-                visible: !userDialog.isUser && (userDialog.isNew || passwordField.text!=="");
+                visible: !userDialog.isUser && (userDialog.isNew || userDialog.wasUser || passwordField.text!=="");
             }
             CheckBox {
                 id: allowParcelCreationCheckBox
@@ -301,7 +311,10 @@ Item {
             SpinBox {
                 id: maximumParcelSurfaceSpinBox
                 Layout.alignment: Qt.AlignHCenter
-                Layout.fillWidth: true
+                implicitWidth: 180
+                editable: true
+                to: 1000000
+                //Layout.fillWidth: true
                 visible: userDialog.isUser
                 function updateContent() {
                     value = userModel.getRecordValue(userDialog.userIndex,
@@ -309,11 +322,42 @@ Item {
                 }
             }
         }
+
+
+
+        footer: DialogButtonBox {
+            Layout.fillWidth: true
+            Button {
+                text: "Cancel"
+                onClicked: {
+                    userDialog.close()
+                }
+            }
+            Button {
+                text: "Ok"
+                onClicked: {
+                    if(usernameField.text==="") {
+                        errorDialog.show("Username cannot be empty.")
+                    }
+                    else if(!userDialog.isUser &&  passwordField.text==="" && (userDialog.isNew || userDialog.wasUser)) {
+                        errorDialog.show("Please specify a password.")
+                    }
+                    else if(passwordField.text!="" && passwordField.text != passwordConfirmationField.text) {
+                        errorDialog.show("Password don't match confirmation.")
+                    }
+                    else {
+                        userDialog.accept()
+                    }
+                }
+            }
+        }
+
     }
 
     Dialog {
         id: deleteConfirmationDialog
         modal: true
+        closePolicy: Popup.NoAutoClose
 
         title: "Confirm"
         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -327,7 +371,7 @@ Item {
             if(selected.length>0) {
             deleteConfirmationDialog_label.text
                     = "Are you sure you want to delete " + toDelete.length
-                    + " users ?\nThis will also delete all their parcels and missions."
+                    + " user"+(toDelete.length>1 ? "s" : "")+" ?\nThis will also delete all their parcels and missions."
             }
 
             open()
@@ -340,11 +384,10 @@ Item {
 
         Label {
             id: deleteConfirmationDialog_label
-            horizontalAlignment: Text.AlignHCenter
         }
     }
 
-    Dialog {
+    /*Dialog {
         id: errorDialog
         standardButtons: Dialog.Ok
         title: "Error"
@@ -362,5 +405,9 @@ Item {
             Label {
             id: errorDialogLabel
             }
-        }
+        }*/
+
+    ErrorDialog {
+        id: errorDialog
+    }
 }
