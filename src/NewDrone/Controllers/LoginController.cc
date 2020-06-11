@@ -229,18 +229,6 @@ QString LoginController::getAltHigh(){
     return altParam->at(2);
 }
 
-QString LoginController::getNbSession(){
-    return nbParam->at(0);
-}
-
-QString LoginController::getNbParcelle(){
-    return nbParam->at(1);
-}
-
-QString LoginController::getNbMission(){
-    return nbParam->at(2);
-}
-
 QString LoginController::getTurn(){
     return flightParam->at(0);
 }
@@ -289,26 +277,6 @@ QString LoginController::getParamChecklist() {
         res += '\n';
     }
     return res;
-}
-
-bool LoginController::modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass) {
-
-    QSqlRecord record = model->record(index);
-    QString pass = db->getPassword(username);
-
-    QString hashOld = QCryptographicHash::hash(oldPass.toUtf8(), QCryptographicHash::Sha3_256);
-    QString hashNew = QCryptographicHash::hash(newPass.toUtf8(), QCryptographicHash::Sha3_256);
-    if (hashOld.compare(pass) == 0) {
-        record.setValue("password", QVariant(hashNew));
-        bool ok = model->setRecord(index, record);
-        model->submitAll();
-        return true;
-    }
-    else return false;
-}
-
-bool LoginController::nbUser(void){
-    return db->verifNbUser();
 }
 
 void LoginController::exportToXML() {

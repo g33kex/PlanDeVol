@@ -1,14 +1,177 @@
 import QtQuick 2.0
-import QtQuick 2.0
 import QtQuick.Layouts 1.4
-import QtQuick 2.1
 import QtQuick.Controls 2.4
-import QGroundControl 1.0
-import QGroundControl.Controllers 1.0
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import NewDrone 1.0
+import NewDrone.Controllers 1.0
 
-ColumnLayout {
+Item {
+    id: parametersEditor
+    property int titleSize: 10
+    property int space: 10
+    property int small_space: 5
+
+ScrollView {
+    anchors.fill: parent
+    clip: true
+
+    ColumnLayout {
+        height: 300
+        implicitWidth: parametersEditor.width
+        anchors.margins: 20
+        spacing: 20
+
+        GroupBox {
+            label: Label{
+                text: "Presets"
+                font.bold: true
+                font.pointSize: titleSize
+            }
+
+           // Layout.alignment: Qt.AlignHCenter
+            //Layout.fillWidth: true
+
+            GridLayout {
+                anchors.centerIn: parent
+                columns: 4
+                columnSpacing: space
+                rowSpacing: space
+                Item {
+                    implicitWidth: 1
+                }
+                Label {
+                    text: "Low"
+                }
+                Label {
+                    text: "Medium"
+                }
+                Label {
+                    text: "High"
+                }
+                Label {
+                    text: "Speed (m/s)"
+                }
+                SpinBox {}
+                SpinBox {}
+                SpinBox {}
+                Label {
+                    text: "Altitude (m)"
+                }
+                SpinBox {}
+                SpinBox {}
+                SpinBox {}
+            }
+        }
+
+        GroupBox {
+            label: Label{
+                text: "Flight"
+                font.bold: true
+                font.pointSize: titleSize
+            }
+
+            GridLayout {
+                anchors.centerIn: parent
+                columns: 2
+                columnSpacing: space
+                rowSpacing: small_space
+                    Label {
+                        text: "Turnaround Distance (m)"
+                    }
+                    Label {
+                        text: "Tolerance (m)"
+                    }
+                    SpinBox {}
+                    SpinBox {}
+                    Label {
+                        text: "Max Climb Rate (m/s)"
+                    }
+                    Label {
+                        text: "Max Descent Rate (m/s)"
+                    }
+                    SpinBox {}
+                    SpinBox {}
+            }
+        }
+
+        GroupBox {
+            label: Label{
+                text: "Camera"
+                font.bold: true
+                font.pointSize: titleSize
+            }
+
+            GridLayout {
+                anchors.centerIn: parent
+                columns: 2
+                columnSpacing: space
+                Label {
+                    text: "Focal Length (mm)"
+                    Layout.columnSpan: 2
+                }
+                SpinBox {
+                    Layout.columnSpan: 2
+                }
+                Label {
+                    text: "Sensor Width (mm)"
+                }
+                Label {
+                    text: "Sensor Height (mm)"
+                }
+                SpinBox {
+
+                }
+                SpinBox {
+
+                }
+            }
+        }
+
+        GroupBox {
+            label: Label{
+                text: "Image"
+                font.bold: true
+                font.pointSize: titleSize
+            }
+
+            GridLayout {
+                anchors.centerIn: parent
+                columns: 2
+                columnSpacing: space
+                Label {
+                    text: "Image Orientation"
+                    Layout.columnSpan: 2
+                }
+                ComboBox {
+                    model: ["Landscape", "Portrait"]
+                    Layout.columnSpan: 2
+                }
+                Label {
+                    text: "Image Width (px)"
+                }
+                Label {
+                    text: "Image Height (px)"
+                }
+                SpinBox {
+
+                }
+                SpinBox {
+
+                }
+                Label {
+                    text: "Overlap (cm)"
+                    Layout.columnSpan: 2
+                }
+                SpinBox {
+                    Layout.columnSpan: 2
+                }
+            }
+        }
+    }
+}
+
+}
+/*ColumnLayout {
+
 
     function save() {
 
@@ -113,39 +276,6 @@ ColumnLayout {
         }
         Label {
             text: "m"
-        }
-    }
-
-    Label {
-        text: "Limite de nombre"
-        color: "gray"
-        Layout.margins: m2
-    }
-
-    GridLayout {
-        columns: 3
-
-        Label {
-            text: "Limite nombre de session"
-        }
-        Label {
-            text: "Limite parcelle / utilisateur"
-        }
-        Label {
-            text: "Limit mission / utilisateur"
-        }
-
-        TextField {
-            id: nbSession
-            text: loginController.getNbSession()
-        }
-        TextField {
-            id: nbParcelle
-            text: loginController.getNbParcelle()
-        }
-        TextField {
-            id: nbMission
-            text: loginController.getNbMission()
         }
     }
 
@@ -317,4 +447,5 @@ ColumnLayout {
             doneDialog.open()
         }
     }
-}
+}*/
+

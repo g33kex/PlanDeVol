@@ -34,9 +34,6 @@ public:
     Q_INVOKABLE QString getAltLow();
     Q_INVOKABLE QString getAltMed();
     Q_INVOKABLE QString getAltHigh();
-    Q_INVOKABLE QString getNbSession();
-    Q_INVOKABLE QString getNbParcelle();
-    Q_INVOKABLE QString getNbMission();
     Q_INVOKABLE QString getParamChecklist();
     Q_INVOKABLE QString getTurn();
     Q_INVOKABLE QString getTolerance();
@@ -49,10 +46,8 @@ public:
     Q_INVOKABLE QString getCameraImageH();
     Q_INVOKABLE int getCameraLand();
 
-    Q_INVOKABLE bool modifyPassword(SqlCustomModel *model, int index, QString username, QString oldPass, QString newPass);
 
     Q_INVOKABLE void    exportToXML();
-    Q_INVOKABLE bool    nbUser              ();
 
 public slots:
     void onAdminClosed();
