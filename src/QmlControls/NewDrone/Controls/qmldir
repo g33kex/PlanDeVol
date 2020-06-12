@@ -10,6 +10,6 @@ ParcelsView			1.0		ParcelsView.qml
 MissionsView		1.0		MissionsView.qml
 ChecklistEditor		1.0		ChecklistEditor.qml
 QuestionsEditor		1.0		QuestionsEditor.qml
-ParametersEditor	1.0		ParametersEditor.qml
+SettingsEditor		1.0		SettingsEditor.qml
 ErrorDIalog			1.0		ErrorDialog.qml
 

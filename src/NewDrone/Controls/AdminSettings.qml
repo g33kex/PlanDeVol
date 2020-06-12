@@ -63,7 +63,7 @@ Popup {
 
                 MissionsView {}
                 ParcelsView {}
-                ParametersEditor {
+                SettingsEditor {
                     id: parametersEditor
                 }
                 ChecklistEditor {

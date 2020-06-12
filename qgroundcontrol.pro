@@ -395,7 +395,7 @@ INCLUDEPATH += \
 #
 
 HEADERS += \
-    src/NewDrone/Controllers/ParametersEditorController.h \
+    src/NewDrone/Controllers/SettingsEditorController.h \
     src/NewDrone/Controllers/UserManagerController.h \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
@@ -405,7 +405,7 @@ HEADERS += \
     src/GPS/Drivers/src/base_station.h \
 
 SOURCES += \
-    src/NewDrone/Controllers/ParametersEditorController.cc \
+    src/NewDrone/Controllers/SettingsEditorController.cc \
     src/NewDrone/Controllers/UserManagerController.cc \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \

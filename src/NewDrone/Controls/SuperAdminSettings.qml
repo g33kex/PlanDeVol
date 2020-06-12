@@ -50,17 +50,9 @@ Popup {
             }
             TabButton {
                 height: 60
-                text: "Paramètres"
+                text: "Settings"
                 background: Rectangle {
                     color: tabBar.currentIndex == 4 ? "silver" : "lightgrey"
-                    radius: 3
-                }
-            }
-            TabButton {
-                implicitHeight: 60
-                text: "Checklist"
-                background: Rectangle {
-                    color: tabBar.currentIndex == 5 ? "orchid" : "plum"
                     radius: 3
                 }
             }
@@ -81,11 +73,8 @@ Popup {
                 QuestionsEditor {
                     id: questionsEditor
                 }
-                ParametersEditor {
-                    id: parametersEditor
-                }
-                ChecklistEditor {
-                    id: checkListEditor
+                SettingsEditor {
+                    id: settingsEditor
                 }
             }
         }
@@ -105,7 +94,7 @@ Popup {
 
             onClicked: {
                 //we save the flight param
-                parametersEditor.save()
+                settingsEditor.save()
 
                 //we save the questions
                 questionsEditor.save()

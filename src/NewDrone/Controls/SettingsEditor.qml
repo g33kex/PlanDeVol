@@ -5,170 +5,204 @@ import NewDrone 1.0
 import NewDrone.Controllers 1.0
 
 Item {
-    id: parametersEditor
+    id: settingsEditor
     property int titleSize: 10
     property int space: 10
     property int small_space: 5
 
-ScrollView {
-    anchors.fill: parent
-    clip: true
+    SettingsEditorController {
+        id: settingsEditorController
+    }
 
-    ColumnLayout {
-        height: 300
-        implicitWidth: parametersEditor.width
-        anchors.margins: 20
-        spacing: 20
+    ScrollView {
+        anchors.fill: parent
+        clip: true
 
-        GroupBox {
-            label: Label{
-                text: "Presets"
-                font.bold: true
-                font.pointSize: titleSize
+        ColumnLayout {
+            height: 300
+            implicitWidth: settingsEditor.width
+            anchors.margins: 20
+            spacing: 20
+
+            GroupBox {
+                id: flightPresets
+                label: Label {
+                    text: "Flight Presets"
+                    font.bold: true
+                    font.pointSize: titleSize
+                }
+
+                // Layout.alignment: Qt.AlignHCenter
+                //Layout.fillWidth: true
+                GridLayout {
+                    anchors.centerIn: parent
+                    columns: 4
+                    columnSpacing: space
+                    rowSpacing: space
+                    Item {
+                        implicitWidth: 1
+                    }
+                    Label {
+                        text: "Low"
+                    }
+                    Label {
+                        text: "Medium"
+                    }
+                    Label {
+                        text: "High"
+                    }
+                    Label {
+                        text: "Speed (m/s)"
+                    }
+                    SpinBox {
+                        id: lowSpeed
+                        editable: true
+                        value: settingsEditorController.lowSpeed
+                        onValueChanged: settingsEditorController.lowSpeed=value
+                    }
+                    SpinBox {
+                        id: mediumSpeed
+                        editable: true
+                        value: settingsEditorController.lowSpeed
+                        onValueChanged: settingsEditorController.lowSpeed=value
+                    }
+                    SpinBox {
+                        id: highSpeed
+                        editable: true
+                    }
+                    Label {
+                        text: "Altitude (m)"
+                    }
+                    SpinBox {
+                        id: lowAltitude
+                        editable: true
+                    }
+                    SpinBox {
+                        id: mediumAltitude
+                        editable: true
+                    }
+                    SpinBox {
+                        id: highAltitude
+                        editable: true
+                    }
+                }
+
+                function save() {}
             }
 
-           // Layout.alignment: Qt.AlignHCenter
-            //Layout.fillWidth: true
+            GroupBox {
+                id: flightSettings
+                label: Label {
+                    text: "Flight Settings"
+                    font.bold: true
+                    font.pointSize: titleSize
+                }
 
-            GridLayout {
-                anchors.centerIn: parent
-                columns: 4
-                columnSpacing: space
-                rowSpacing: space
-                Item {
-                    implicitWidth: 1
-                }
-                Label {
-                    text: "Low"
-                }
-                Label {
-                    text: "Medium"
-                }
-                Label {
-                    text: "High"
-                }
-                Label {
-                    text: "Speed (m/s)"
-                }
-                SpinBox {}
-                SpinBox {}
-                SpinBox {}
-                Label {
-                    text: "Altitude (m)"
-                }
-                SpinBox {}
-                SpinBox {}
-                SpinBox {}
-            }
-        }
-
-        GroupBox {
-            label: Label{
-                text: "Flight"
-                font.bold: true
-                font.pointSize: titleSize
-            }
-
-            GridLayout {
-                anchors.centerIn: parent
-                columns: 2
-                columnSpacing: space
-                rowSpacing: small_space
+                GridLayout {
+                    anchors.centerIn: parent
+                    columns: 2
+                    columnSpacing: space
+                    rowSpacing: small_space
                     Label {
                         text: "Turnaround Distance (m)"
                     }
                     Label {
                         text: "Tolerance (m)"
                     }
-                    SpinBox {}
-                    SpinBox {}
+                    SpinBox {
+                        id: turnaroundDistance
+                        editable: true
+                    }
+                    SpinBox {
+                        id: tolerance
+                        editable: true
+                    }
                     Label {
                         text: "Max Climb Rate (m/s)"
                     }
                     Label {
                         text: "Max Descent Rate (m/s)"
                     }
+                    SpinBox {
+                        id: maxClimbRate
+                        editable: true
+                    }
+                    SpinBox {
+                        id: minDescentRate
+                        editable: true
+                    }
+                }
+            }
+
+            GroupBox {
+                id: cameraSettings
+                label: Label {
+                    text: "Camera Settings"
+                    font.bold: true
+                    font.pointSize: titleSize
+                }
+
+                GridLayout {
+                    anchors.centerIn: parent
+                    columns: 2
+                    columnSpacing: space
+                    Label {
+                        text: "Focal Length (mm)"
+                        Layout.columnSpan: 2
+                    }
+                    SpinBox {
+                        Layout.columnSpan: 2
+                    }
+                    Label {
+                        text: "Sensor Width (mm)"
+                    }
+                    Label {
+                        text: "Sensor Height (mm)"
+                    }
                     SpinBox {}
                     SpinBox {}
-            }
-        }
-
-        GroupBox {
-            label: Label{
-                text: "Camera"
-                font.bold: true
-                font.pointSize: titleSize
-            }
-
-            GridLayout {
-                anchors.centerIn: parent
-                columns: 2
-                columnSpacing: space
-                Label {
-                    text: "Focal Length (mm)"
-                    Layout.columnSpan: 2
-                }
-                SpinBox {
-                    Layout.columnSpan: 2
-                }
-                Label {
-                    text: "Sensor Width (mm)"
-                }
-                Label {
-                    text: "Sensor Height (mm)"
-                }
-                SpinBox {
-
-                }
-                SpinBox {
-
                 }
             }
-        }
 
-        GroupBox {
-            label: Label{
-                text: "Image"
-                font.bold: true
-                font.pointSize: titleSize
-            }
+            GroupBox {
+                id: imageSettings
+                label: Label {
+                    text: "Image Settings"
+                    font.bold: true
+                    font.pointSize: titleSize
+                }
 
-            GridLayout {
-                anchors.centerIn: parent
-                columns: 2
-                columnSpacing: space
-                Label {
-                    text: "Image Orientation"
-                    Layout.columnSpan: 2
-                }
-                ComboBox {
-                    model: ["Landscape", "Portrait"]
-                    Layout.columnSpan: 2
-                }
-                Label {
-                    text: "Image Width (px)"
-                }
-                Label {
-                    text: "Image Height (px)"
-                }
-                SpinBox {
-
-                }
-                SpinBox {
-
-                }
-                Label {
-                    text: "Overlap (cm)"
-                    Layout.columnSpan: 2
-                }
-                SpinBox {
-                    Layout.columnSpan: 2
+                GridLayout {
+                    anchors.centerIn: parent
+                    columns: 2
+                    columnSpacing: space
+                    Label {
+                        text: "Image Orientation"
+                        Layout.columnSpan: 2
+                    }
+                    ComboBox {
+                        model: ["Landscape", "Portrait"]
+                        Layout.columnSpan: 2
+                    }
+                    Label {
+                        text: "Image Width (px)"
+                    }
+                    Label {
+                        text: "Image Height (px)"
+                    }
+                    SpinBox {}
+                    SpinBox {}
+                    Label {
+                        text: "Overlap (cm)"
+                        Layout.columnSpan: 2
+                    }
+                    SpinBox {
+                        Layout.columnSpan: 2
+                    }
                 }
             }
         }
     }
-}
-
 }
 /*ColumnLayout {
 
