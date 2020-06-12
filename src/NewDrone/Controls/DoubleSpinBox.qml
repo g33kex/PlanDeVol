@@ -5,8 +5,8 @@ import NewDrone 1.0
 Item
 {
     id: doublespinbox
-    width: 140
-    height: 40
+    implicitWidth: 180
+    implicitHeight: 40
     property int decimals: 2
     property alias value: valuePreview.value
     property real from: 0

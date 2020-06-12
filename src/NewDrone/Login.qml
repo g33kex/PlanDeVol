@@ -181,19 +181,15 @@ Item {
 
     AdminSettings {
         id: adminSettings
-        x: parent.width / 4
-        y: parent.height / 4
-        width: parent.width / 2
-        height: parent.height / 2
+        width: parent.width
+        height: parent.height
         visible: false
     }
 
     SuperAdminSettings {
         id: superAdminSettings
-        x: parent.width / 4
-        y: parent.height / 4
-        width: parent.width / 2
-        height: parent.height / 2
+        width: parent.width
+        height: parent.height
         visible: true
     }
 

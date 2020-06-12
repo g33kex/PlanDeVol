@@ -253,7 +253,7 @@ Item {
             }
             ComboBox {
                 id: roleComboBox
-                implicitWidth: 140
+                implicitWidth: 200
                 currentIndex: 0
                 model: ["User", "Admin", "SuperAdmin"]
                 onActivated: {

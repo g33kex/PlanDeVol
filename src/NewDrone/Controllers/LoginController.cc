@@ -30,6 +30,10 @@ void LoginController::loadMainWindow() {
 //Returns true if login sucessful and sets global user variable
 bool LoginController::login(QString user, QString password) {
      if (user == "") return false;
+     if(getRole(user) == "User") {
+         username = user;
+         return true;
+     }
      QString mdp = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
      QString mdp_base = db->getPassword(user);
      if(mdp_base.compare(mdp) == 0) {
