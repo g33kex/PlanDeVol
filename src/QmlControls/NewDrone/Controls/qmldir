@@ -11,5 +11,6 @@ MissionsView		1.0		MissionsView.qml
 ChecklistEditor		1.0		ChecklistEditor.qml
 QuestionsEditor		1.0		QuestionsEditor.qml
 SettingsEditor		1.0		SettingsEditor.qml
-ErrorDIalog			1.0		ErrorDialog.qml
+ErrorDialog			1.0		ErrorDialog.qml
+DoubleSpinBox		1.0		DoubleSpinBox.qml
 

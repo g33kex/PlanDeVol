@@ -68,6 +68,7 @@ void QGCLoggingCategoryRegister::setFilterRulesFromSettings(const QString& comma
     QString filterRules;
 
     filterRules += "*Log.debug=false\n";
+    //filterRules += "qt.qml.binding.removal.info=true\n";
 
     // Set up filters defined in settings
     foreach (QString category, _registeredCategories) {

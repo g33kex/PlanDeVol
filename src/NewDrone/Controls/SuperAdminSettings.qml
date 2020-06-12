@@ -9,6 +9,21 @@ Popup {
     modal: true
     padding: 20
 
+    function disconnect() {
+        if(settingsEditor.modified) {
+            confirmDiscardModificationsAndDisconnect.show("You have unsaved settings.\nAre you sure you want to discard them and disconnect?")
+            return
+        }
+
+        //we save the questions
+        questionsEditor.save()
+        loginController.onAdminClosed()
+
+        //we save the flight param
+
+        superAdminPopup.close()
+    }
+
     contentItem: ColumnLayout {
 
         TabBar {
@@ -93,15 +108,16 @@ Popup {
             }
 
             onClicked: {
-                //we save the flight param
-                settingsEditor.save()
-
-                //we save the questions
-                questionsEditor.save()
-                loginController.onAdminClosed()
-
-                superAdminPopup.close()
+                disconnect()
             }
+        }
+    }
+
+    ConfirmationDialog {
+        id: confirmDiscardModificationsAndDisconnect
+        onAccepted: {
+            settingsEditor.loadSettings()
+            disconnect()
         }
     }
 }

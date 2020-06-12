@@ -397,6 +397,7 @@ INCLUDEPATH += \
 HEADERS += \
     src/NewDrone/Controllers/SettingsEditorController.h \
     src/NewDrone/Controllers/UserManagerController.h \
+    src/NewDrone/Utils/QmlValuePreview.h \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \

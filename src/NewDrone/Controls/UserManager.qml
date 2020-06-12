@@ -92,7 +92,10 @@ Item {
                         selected.push(rowIndex)
                     })
                     if(selected.length>0) {
-                        deleteConfirmationDialog.show(selected)
+                        //deleteConfirmationDialog.show(selected)
+                        confirmDeleteDialog.toDelete=selected
+                        confirmDeleteDialog.show("Are you sure you want to delete " + selected.length + " user"+(selected.length>1 ? "s" : "")+" ?\nThis will also delete all their parcels and missions.")
+
                     }
                     else {
                        errorDialog.show("Please select at least one user to delete.")
@@ -328,12 +331,6 @@ Item {
         footer: DialogButtonBox {
             Layout.fillWidth: true
             Button {
-                text: "Cancel"
-                onClicked: {
-                    userDialog.close()
-                }
-            }
-            Button {
                 text: "Ok"
                 onClicked: {
                     if(usernameField.text==="") {
@@ -348,6 +345,12 @@ Item {
                     else {
                         userDialog.accept()
                     }
+                }
+            }
+            Button {
+                text: "Cancel"
+                onClicked: {
+                    userDialog.close()
                 }
             }
         }
@@ -387,25 +390,14 @@ Item {
         }
     }
 
-    /*Dialog {
-        id: errorDialog
-        standardButtons: Dialog.Ok
-        title: "Error"
-        //implicitWidth: errorDialogLabel.implicitWidth+30 //Workaround QT bug
-        //implicitWidth: 500
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
-
-        function show(text) {
-            errorDialogLabel.text = text
-            width = 500
-            open()
+    ConfirmationDialog {
+        id: confirmDeleteDialog
+        property var toDelete
+        onAccepted: {
+            userTableView.selection.clear()
+            userManagerController.deleteUsers(userModel, toDelete)
         }
-            Label {
-            id: errorDialogLabel
-            }
-        }*/
+    }
 
     ErrorDialog {
         id: errorDialog

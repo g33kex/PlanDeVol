@@ -4,264 +4,80 @@
 
 SettingsEditorController::SettingsEditorController()
 {
-
+    this->loadSettings();
 }
 
-/*Getters*/
-//Flight Presets
-double SettingsEditorController::getLowSpeed()
-{
-   /* settings.beginGroup(settingsGroup);
-    double value = settings.value("lowSpeed", 15).toDouble();
-    settings.endGroup();
-    return value;*/
-    return _lowSpeed;
-}
-
-double SettingsEditorController::getMediumSpeed()
-{
-    settings.beginGroup(settingsGroup);
-    int value = settings.value("mediumSpeed", 30).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-double SettingsEditorController::getHighSpeed()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("highSpeed", 40).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-double SettingsEditorController::getLowAltitude()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("lowAltitude", 30).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-double SettingsEditorController::getMediumAltitude()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("mediumAltitude", 50).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-double SettingsEditorController::getHighAltitude()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("highAltitude, 100").toDouble();
-    settings.endGroup();
-    return value;
-}
-
-//Flight Settings
-double SettingsEditorController::getTurnaroundDistance()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("turnaroundDistance", 10).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-double SettingsEditorController::getTolerance()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("tolerance", 10).toDouble();
-    settings.endGroup();
-}
-
-double SettingsEditorController::getMaxClimbRate()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("maxClimbRate", 2).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-double SettingsEditorController::getMinDescentRate()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("maxDescentRate", 2).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-//Camera Settings
-double SettingsEditorController::getFocalLength()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("focalLength", 5.2).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-double SettingsEditorController::getSensorWidth()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("sensorWidth", 6.26).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-double SettingsEditorController::getSensorHeight()
-{
-    settings.beginGroup(settingsGroup);
-    double value = settings.value("sensorHeight", 3.56).toDouble();
-    settings.endGroup();
-    return value;
-}
-
-//Image Settings
-int SettingsEditorController::getImageWidth()
-{
-    settings.beginGroup(settingsGroup);
-    int value = settings.value("imageWidth", 3864).toInt();
-    settings.endGroup();
-    return value;
-}
-
-int SettingsEditorController::getImageHeight()
-{
-    settings.beginGroup(settingsGroup);
-    int value = settings.value("imageHeight", 2196).toInt();
-    settings.endGroup();
-    return value;
-}
-
-QString SettingsEditorController::getImageOrientation()
-{
-    settings.beginGroup(settingsGroup);
-    QString value = settings.value("imageOrientation", "landscape").toString();
-    settings.endGroup();
-    return value;
-}
-
-/*Setters*/
-//Flight Presets
-void SettingsEditorController::setLowSpeed(double value)
-{
-    /*settings.beginGroup(settingsGroup);
-    if(settings.value("lowSpeed")!=value) {
-        settings.setValue("lowSpeed", value);
-        qDebug() << "New Value is " << value;
-        emit lowSpeedChanged();
-    }
-    settings.endGroup();*/
-    if(value!=_lowSpeed) {
-        _lowSpeed=value;
-        emit lowSpeedChanged();
-    }
-}
-
-void SettingsEditorController::setMediumSpeed(double value)
+void SettingsEditorController::loadSettings()
 {
     settings.beginGroup(settingsGroup);
 
+    //Flight Presets
+    setLowSpeed(settings.value(key_lowSpeed, 15).toDouble());
+    setMediumSpeed(settings.value(key_mediumSpeed, 30).toDouble());
+    setHighSpeed(settings.value(key_highSpeed, 40).toDouble());
+    setLowAltitude(settings.value(key_lowAltitude, 30).toDouble());
+    setMediumAltitude(settings.value(key_mediumAltitude, 50).toDouble());
+    setHighAltitude(settings.value(key_highAltitude, 100).toDouble());
+
+    //Flight Settings
+    setTurnaroundDistance(settings.value(key_turnaroundDistance, 10).toDouble());
+    setTolerance(settings.value(key_tolerance, 10).toDouble());
+    setMaxClimbRate(settings.value(key_maxClimbRate, 2).toDouble());
+    setMaxDescentRate(settings.value(key_maxDescentRate, 2).toDouble());
+
+    //Camera Settings
+    setFocalLength(settings.value(key_focalLength, 5.2).toDouble());
+    setSensorWidth(settings.value(key_sensorWidth, 6.26).toDouble());
+    setSensorHeight(settings.value(key_sensorHeight, 3.56).toDouble());
+
+    //Image Settings
+    setImageWidth(settings.value(key_imageWidth, 3864).toInt());
+    setImageHeight(settings.value(key_imageHeight, 2196).toInt());
+    setImageOrientation(static_cast<Orientation>(settings.value(key_imageOrientation, landscape).toInt()));
+    setOverlap(settings.value(key_overlap, 0).toInt());
+
     settings.endGroup();
+
+    setModified(false);
 }
 
-void SettingsEditorController::setHighSpeed(double value)
+void SettingsEditorController::saveSettings()
 {
     settings.beginGroup(settingsGroup);
 
+    //Flight Presets
+    settings.setValue(key_lowSpeed, lowSpeed());
+    settings.setValue(key_mediumSpeed, mediumSpeed());
+    settings.setValue(key_highSpeed, highSpeed());
+    settings.setValue(key_lowAltitude, lowAltitude());
+    settings.setValue(key_mediumAltitude, mediumAltitude());
+    settings.setValue(key_highAltitude, highAltitude());
+
+    //Flight Settings
+    settings.setValue(key_turnaroundDistance, turnaroundDistance());
+    settings.setValue(key_tolerance, tolerance());
+    settings.setValue(key_maxClimbRate, maxClimbRate());
+    settings.setValue(key_maxDescentRate, maxDescentRate());
+
+    //Camera Settings
+    settings.setValue(key_focalLength, focalLength());
+    settings.setValue(key_sensorWidth, sensorWidth());
+    settings.setValue(key_sensorHeight, sensorHeight());
+
+    //Image Settings
+    settings.setValue(key_imageWidth, imageWidth());
+    settings.setValue(key_imageHeight, imageHeight());
+    settings.setValue(key_imageOrientation, static_cast<int>(imageOrientation()));
+    settings.setValue(key_overlap, overlap());
+
     settings.endGroup();
+
+    setModified(false);
 }
 
-void SettingsEditorController::setLowAltitude(double value)
+
+void SettingsEditorController::resetSettings()
 {
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
+    settings.remove(settingsGroup);
+    loadSettings();
 }
-
-void SettingsEditorController::setMediumAltitude(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-void SettingsEditorController::setHighAltitude(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-//Flight Settings
-void SettingsEditorController::setTurnaroundDistance(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-void SettingsEditorController::setTolerance(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-void SettingsEditorController::setMaxClimbRate(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-void SettingsEditorController::setMinDescentRate(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-//Camera Settings
-void SettingsEditorController::setFocalLength(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-void SettingsEditorController::setSensorWidth(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-void SettingsEditorController::setSensorHeight(double value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-//Image Settings
-void SettingsEditorController::setImageWidth(int value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-void SettingsEditorController::setImageHeight(int value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-
-void SettingsEditorController::setImageOrientation(QString value)
-{
-    settings.beginGroup(settingsGroup);
-
-    settings.endGroup();
-}
-

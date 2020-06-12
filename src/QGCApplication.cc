@@ -100,6 +100,7 @@
 #include "QuestionsViewController.h"
 #include "UserManagerController.h"
 #include "SettingsEditorController.h"
+#include "QmlValuePreview.h"
 
 #ifndef __mobile__
 #include "FirmwareUpgradeController.h"
@@ -462,8 +463,11 @@ void QGCApplication::_initCommon()
     qmlRegisterType<LoginController>                (kNDControllers,                        1, 0, "LoginController");
     qmlRegisterType<QuestionsViewController>		(kNDControllers, 						1, 0, "QuestionsViewController");
     qmlRegisterType<UserManagerController>          (kNDControllers,                        1, 0, "UserManagerController");
-    qmlRegisterType<SettingsEditorController>      (kNDControllers,                        1, 0, "SettingsEditorController");
+    qmlRegisterType<SettingsEditorController>       (kNDControllers,                        1, 0, "SettingsEditorController");
     qmlRegisterType<SqlCustomModel>                 ("NewDrone",                            1, 0, "SqlCustomModel");
+
+    qRegisterMetaType<QDoubleValueArg *>("QDoubleValueArg *");
+    qmlRegisterType<QmlDoubleValuePreview>          ("NewDrone",                           1, 0, "DoubleValuePreview");
 }
 
 bool QGCApplication::_initForNormalAppBoot()

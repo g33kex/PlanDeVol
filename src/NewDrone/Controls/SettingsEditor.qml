@@ -14,8 +14,19 @@ Item {
         id: settingsEditorController
     }
 
-    ScrollView {
+    property var resetSettings: settingsEditorController.resetSettings
+    property var loadSettings: settingsEditorController.loadSettings
+    property var saveSettings: settingsEditorController.saveSettings
+
+    property var modified: settingsEditorController.modified
+
+    ColumnLayout {
         anchors.fill: parent
+        spacing : space
+
+    ScrollView {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
         clip: true
 
         ColumnLayout {
@@ -54,40 +65,53 @@ Item {
                     Label {
                         text: "Speed (m/s)"
                     }
-                    SpinBox {
-                        id: lowSpeed
+                    DoubleSpinBox {
                         editable: true
+                        to: 50
+                        decimals: 1
                         value: settingsEditorController.lowSpeed
                         onValueChanged: settingsEditorController.lowSpeed=value
                     }
-                    SpinBox {
-                        id: mediumSpeed
+                    DoubleSpinBox {
+                        id: test2
                         editable: true
-                        value: settingsEditorController.lowSpeed
-                        onValueChanged: settingsEditorController.lowSpeed=value
+                        to: 50
+                        decimals: 1
+                        value: settingsEditorController.mediumSpeed
+                        onValueChanged: settingsEditorController.mediumSpeed=value
                     }
-                    SpinBox {
-                        id: highSpeed
+                    DoubleSpinBox {
                         editable: true
+                        to: 50
+                        decimals: 1
+                        value: settingsEditorController.highSpeed
+                        onValueChanged: settingsEditorController.highSpeed=value
                     }
                     Label {
                         text: "Altitude (m)"
                     }
-                    SpinBox {
-                        id: lowAltitude
+                    DoubleSpinBox {
                         editable: true
+                        to: 200
+                        decimals: 1
+                        value: settingsEditorController.lowAltitude
+                        onValueChanged: settingsEditorController.lowAltitude=value
                     }
-                    SpinBox {
-                        id: mediumAltitude
+                    DoubleSpinBox {
                         editable: true
+                        to: 200
+                        decimals: 1
+                        value: settingsEditorController.mediumAltitude
+                        onValueChanged: settingsEditorController.mediumAltitude=value
                     }
-                    SpinBox {
-                        id: highAltitude
+                    DoubleSpinBox {
                         editable: true
+                        to: 200
+                        decimals: 1
+                        value: settingsEditorController.highAltitude
+                        onValueChanged: settingsEditorController.highAltitude=value
                     }
                 }
-
-                function save() {}
             }
 
             GroupBox {
@@ -109,13 +133,19 @@ Item {
                     Label {
                         text: "Tolerance (m)"
                     }
-                    SpinBox {
-                        id: turnaroundDistance
+                    DoubleSpinBox {
                         editable: true
+                        to: 100
+                        decimals: 1
+                        value: settingsEditorController.turnaroundDistance
+                        onValueChanged: settingsEditorController.turnaroundDistance=value
                     }
-                    SpinBox {
-                        id: tolerance
+                    DoubleSpinBox {
                         editable: true
+                        to: 100
+                        decimals: 1
+                        value: settingsEditorController.tolerance
+                        onValueChanged: settingsEditorController.tolerance=value
                     }
                     Label {
                         text: "Max Climb Rate (m/s)"
@@ -123,13 +153,21 @@ Item {
                     Label {
                         text: "Max Descent Rate (m/s)"
                     }
-                    SpinBox {
-                        id: maxClimbRate
+                    DoubleSpinBox {
                         editable: true
+                        to: 50
+                        decimals: 2
+                        stepSize: 0.5
+                        value: settingsEditorController.maxClimbRate
+                        onValueChanged: settingsEditorController.maxClimbRate=value
                     }
-                    SpinBox {
-                        id: minDescentRate
+                    DoubleSpinBox {
                         editable: true
+                        to: 50
+                        decimals: 2
+                        stepSize: 0.5
+                        value: settingsEditorController.maxDescentRate
+                        onValueChanged: settingsEditorController.maxDescentRate=value
                     }
                 }
             }
@@ -150,8 +188,14 @@ Item {
                         text: "Focal Length (mm)"
                         Layout.columnSpan: 2
                     }
-                    SpinBox {
+                    DoubleSpinBox {
                         Layout.columnSpan: 2
+                        editable: true
+                        to: 500
+                        decimals: 2
+                        stepSize: 0.01
+                        value: settingsEditorController.focalLength
+                        onValueChanged: settingsEditorController.focalLength=value
                     }
                     Label {
                         text: "Sensor Width (mm)"
@@ -159,8 +203,21 @@ Item {
                     Label {
                         text: "Sensor Height (mm)"
                     }
-                    SpinBox {}
-                    SpinBox {}
+                    DoubleSpinBox {
+                        editable: true
+                        to: 500
+                        decimals: 2
+                        stepSize: 0.01
+                        value: settingsEditorController.sensorWidth
+                        onValueChanged: settingsEditorController.sensorWidth=value
+                    }
+                    DoubleSpinBox {
+                        editable: true
+                        to: 500
+                        stepSize: 0.01
+                        value: settingsEditorController.sensorHeight
+                        onValueChanged: settingsEditorController.sensorHeight=value
+                    }
                 }
             }
 
@@ -183,6 +240,8 @@ Item {
                     ComboBox {
                         model: ["Landscape", "Portrait"]
                         Layout.columnSpan: 2
+                        currentIndex: settingsEditorController.imageOrientation
+                        onCurrentIndexChanged: settingsEditorController.imageOrientation=currentIndex
                     }
                     Label {
                         text: "Image Width (px)"
@@ -190,17 +249,80 @@ Item {
                     Label {
                         text: "Image Height (px)"
                     }
-                    SpinBox {}
-                    SpinBox {}
+                    SpinBox {
+                        editable: true
+                        to: 8000
+                        value: settingsEditorController.imageWidth
+                        onValueChanged: settingsEditorController.imageWidth=value
+                    }
+                    SpinBox {
+                        editable: true
+                        to: 8000
+                        value: settingsEditorController.imageHeight
+                        onValueChanged: settingsEditorController.imageHeight=value
+                    }
                     Label {
                         text: "Overlap (cm)"
                         Layout.columnSpan: 2
                     }
                     SpinBox {
                         Layout.columnSpan: 2
+                        editable: true
+                        to: 8000
+                        value: settingsEditorController.overlap
+                        onValueChanged: settingsEditorController.overlap=value
                     }
                 }
             }
+        }
+    }
+
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: space
+        Button {
+            text: "Reset to default"
+            Layout.fillWidth: true
+            Layout.margins: small_space
+
+            onClicked: {
+                confirmResetDialog.show("Are you sure you want to DISCARD ALL YOUR SETTINGS and reset them to default values?")
+            }
+        }
+        Button {
+            text: "Restore"
+            Layout.fillWidth: true
+            Layout.margins: small_space
+            enabled: settingsEditorController.modified
+
+            onClicked: {
+                confirmRestoreDialog.show("Are you sure you want to discard your unsaved changes?")
+            }
+        }
+        Button {
+            text: "Save"
+            Layout.fillWidth: true
+            Layout.margins: small_space
+            enabled: settingsEditorController.modified
+
+            onClicked: {
+                saveSettings()
+            }
+        }
+    }
+    }
+
+    ConfirmationDialog {
+        id: confirmRestoreDialog
+        onAccepted: {
+            loadSettings()
+        }
+    }
+
+    ConfirmationDialog {
+        id: confirmResetDialog
+        onAccepted: {
+            resetSettings()
         }
     }
 }
