@@ -40,7 +40,6 @@ Item {
                 spacing: 20
 
                 GroupBox {
-                    id: flightPresets
                     label: Label {
                         text: "Flight Presets"
                         font.bold: true
@@ -119,7 +118,6 @@ Item {
                 }
 
                 GroupBox {
-                    id: flightSettings
                     label: Label {
                         text: "Flight Settings"
                         font.bold: true
@@ -177,7 +175,6 @@ Item {
                 }
 
                 GroupBox {
-                    id: cameraSettings
                     label: Label {
                         text: "Camera Settings"
                         font.bold: true
@@ -226,7 +223,6 @@ Item {
                 }
 
                 GroupBox {
-                    id: imageSettings
                     label: Label {
                         text: "Image Settings"
                         font.bold: true
@@ -281,6 +277,19 @@ Item {
                             value: settingsEditorController.overlap
                             onValueChanged: settingsEditorController.overlap = value
                         }
+                    }
+                }
+                GroupBox {
+                    label: Label {
+                        text: "Checklist"
+                        font.bold: true
+                        font.pointSize: titleSize
+                    }
+                    TextArea {
+                        implicitWidth: 600
+                        implicitHeight: 300
+                        text: settingsEditorController.checklist
+                        onTextChanged: settingsEditorController.checklist=text
                     }
                 }
             }

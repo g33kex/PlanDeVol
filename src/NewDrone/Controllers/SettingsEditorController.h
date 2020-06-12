@@ -47,6 +47,8 @@ public:
     Q_PROPERTY(int imageHeight READ imageHeight WRITE setImageHeight NOTIFY imageHeightChanged)
     Q_PROPERTY(Orientation imageOrientation READ imageOrientation WRITE setImageOrientation NOTIFY imageOrientationChanged)
     Q_PROPERTY(int overlap READ overlap WRITE setOverlap NOTIFY overlapChanged)
+    //Checklist
+    Q_PROPERTY(QString checklist READ checklist WRITE setChecklist NOTIFY checklistChanged)
 
     double lowSpeed() const { return m_lowSpeed; }
 
@@ -81,6 +83,8 @@ public:
     Orientation imageOrientation() const { return m_imageOrientation; }
 
     int overlap() const { return m_overlap; }
+
+    QString checklist() const { return m_checklist; }
 
     bool modified() const { return m_modified; }
 
@@ -237,6 +241,16 @@ public slots:
       emit overlapChanged(m_overlap);
     }
 
+    void setChecklist(QString checklist)
+    {
+        if (m_checklist == checklist)
+            return;
+
+        m_checklist = checklist;
+        setModified(true);
+        emit checklistChanged(m_checklist);
+    }
+
     void setModified(bool modified) {
       if (m_modified == modified)
         return;
@@ -263,6 +277,7 @@ signals:
     void imageHeightChanged(int imageHeight);
     void imageOrientationChanged(Orientation imageOrientation);
     void overlapChanged(int overlap);
+    void checklistChanged(QString checklist);
 
     void modifiedChanged(bool modified);
 
@@ -288,6 +303,7 @@ private:
     int m_imageHeight;
     Orientation m_imageOrientation;
     int m_overlap;
+    QString m_checklist;
 
     const QString key_lowSpeed = "lowSpeed";
     const QString key_mediumSpeed = "mediumSpeed";
@@ -306,6 +322,7 @@ private:
     const QString key_imageHeight = "imageHeight";
     const QString key_imageOrientation = "imageOrientation";
     const QString key_overlap = "overlap";
+    const QString key_checklist = "checklist";
 };
 
 

@@ -36,6 +36,9 @@ void SettingsEditorController::loadSettings()
     setImageOrientation(static_cast<Orientation>(settings.value(key_imageOrientation, landscape).toInt()));
     setOverlap(settings.value(key_overlap, 0).toInt());
 
+    //Checklist
+    setChecklist(settings.value(key_checklist, "Nothing to report").toString());
+
     settings.endGroup();
 
     setModified(false);
@@ -69,6 +72,9 @@ void SettingsEditorController::saveSettings()
     settings.setValue(key_imageHeight, imageHeight());
     settings.setValue(key_imageOrientation, static_cast<int>(imageOrientation()));
     settings.setValue(key_overlap, overlap());
+
+    //Checklist
+    settings.setValue(key_checklist, checklist());
 
     settings.endGroup();
 
