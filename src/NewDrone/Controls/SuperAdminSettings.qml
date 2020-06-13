@@ -22,6 +22,7 @@ Popup {
         }
         tabBar.setCurrentIndex(0)
         questionsEditor.onClosed()
+        settingsWindow.setSource("")
         superAdminPopup.close()
     }
 
@@ -100,31 +101,28 @@ Popup {
                     id: settingsEditor
                     isSuperAdmin: true
                 }
-                Rectangle {
-                    id: settingsRectangle
+                Item {
+                    id: advanced
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Loader {
-                        id: settingsWindow
-                        anchors.fill: parent
-                        function close() {
-                            tabBar.setCurrentIndex(0)
-                        }
-
-                        //Needed properties from mainRootWindow
-                        property alias mainWindow: settingsRectangle
-                        property var activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
-
-                        onVisibleChanged: {
-                            if (visible) {
-                                settingsWindow.setSource("qrc:/qml/AppSettings.qml")
-                            } else {
-                                settingsWindow.setSource("")
-                            }
-                        }
-                    }
                 }
             }
+        }
+
+        Loader {
+            id: settingsWindow
+            visible: advanced.visible
+            Layout.preferredHeight: advanced.height
+            Layout.preferredWidth: advanced.width
+            function close() {
+                tabBar.setCurrentIndex(0)
+            }
+
+            //Needed properties from mainRootWindow
+            property alias mainWindow: advanced
+            property var activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
+
+            source: "qrc:/qml/AppSettings.qml"
         }
 
         Button {
