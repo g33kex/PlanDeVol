@@ -17,10 +17,10 @@ Rectangle {
 
     function getAnswers() {
         var res = []
-        //            console.log("-----QuestionView.qml-------")
+                    console.log("-----QuestionView.qml get Answers-------")
         for (var i = 0; i < repeater.model.count; i++) {
-            //                console.log(repeater.itemAt(i).children[1].text)
-            //                console.log(i)
+                            console.log(repeater.itemAt(i).children[1].text)
+                            console.log(i)
             res.push(repeater.itemAt(i).children[1].text)
         }
         return res
@@ -141,6 +141,10 @@ Rectangle {
         _questionsViewController.setDefaultAnswers(getAnswers())
         _questionsViewController.setComboAnswers(getComboAnswers())
         _questionsViewController.save()
+    }
+
+    function loadAndReset() {
+        _questionsViewController.loadAndReset()
     }
 
     function populateQA(parcelleModel, index) {

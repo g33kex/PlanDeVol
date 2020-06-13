@@ -11,12 +11,14 @@
 #include "JsonHelper.h"
 #include "FirmwarePlugin.h"
 #include "SimpleMissionItem.h"
-#include "List_file.h"
+
+#include "SettingsEditorController.h"
 
 const char* SpeedSection::_flightSpeedName = "FlightSpeed";
-extern List_file *speedParam;
 
 QMap<QString, FactMetaData*> SpeedSection::_metaDataMap;
+
+static SettingsEditorController *settingsEditorController = SettingsEditorController::getInstance();
 
 SpeedSection::SpeedSection(Vehicle* vehicle, QObject* parent)
     : Section               (vehicle, parent)
@@ -36,7 +38,7 @@ SpeedSection::SpeedSection(Vehicle* vehicle, QObject* parent)
         flightSpeed = _vehicle->defaultCruiseSpeed();
     }
 
-    flightSpeed = speedParam->at(1).toDouble();
+    flightSpeed = settingsEditorController->mediumSpeed();
 
     _metaDataMap[_flightSpeedName]->setRawDefaultValue(flightSpeed);
     _flightSpeedFact.setMetaData(_metaDataMap[_flightSpeedName]);
@@ -162,15 +164,28 @@ void SpeedSection::_flightSpeedChanged(void)
 
 void SpeedSection::setBoxSpeed (int index) {
 //    qDebug() << "--------- survey setBoxSpeed" << index;
-    _flightSpeedFact.setRawValue(speedParam->at(index).toDouble());
+    //_flightSpeedFact.setRawValue(speedParam->at(index).toDouble());
+    double speed = 0;
+    switch(index) {
+    case 0: speed=settingsEditorController->lowSpeed(); break;
+    case 1: speed=settingsEditorController->mediumSpeed(); break;
+    case 2: speed=settingsEditorController->highSpeed(); break;
+    default: return;
+    }
+    _flightSpeedFact.setRawValue(speed);
 }
 
+//Returns whether the current speed is low, medium or high
 int SpeedSection::getCruiseSpeedInd () {
 //    qDebug() << "--------- survey getCruiseSpeedInd" << _cruiseSpeed;
-    if (speedParam->contains(QString::number(_flightSpeedFact.rawValue().toDouble()))) {
-        return speedParam->indexOf(QString::number(_flightSpeedFact.rawValue().toDouble()));
-    }
-    else return 1;
+    double speed = _flightSpeedFact.rawValue().toDouble();
+    if(qFuzzyCompare(speed,settingsEditorController->lowSpeed()))
+        return 0;
+    if(qFuzzyCompare(speed,settingsEditorController->mediumSpeed()))
+        return 1;
+    if(qFuzzyCompare(speed,settingsEditorController->highSpeed()))
+        return 2;
+    return 1;
 }
 
 QString SpeedSection::getSpeedTxt () {

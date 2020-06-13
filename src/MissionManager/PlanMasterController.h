@@ -19,13 +19,12 @@
 #include "QGCLoggingCategory.h"
 #include "QGCComboBox.h"
 #include "ParcelleManagerController.h"
-#include "List_file.h"
+
+#include "SettingsEditorController.h"
 
 
 
 Q_DECLARE_LOGGING_CATEGORY(PlanMasterControllerLog)
-
-extern List_file* checklist;
 
 /// Master controller for mission, fence, rally
 class PlanMasterController : public QObject
@@ -78,7 +77,7 @@ public:
     Q_INVOKABLE void removeAll(void);                       ///< Removes all from controller only, synce required to remove from vehicle
     Q_INVOKABLE void removeAllFromVehicle(void);   ///< Removes all from vehicle and controller
 
-    Q_INVOKABLE QList<QString> getCustomChecklist(void) {return *checklist;}
+    Q_INVOKABLE QList<QString> getCustomChecklist(void) {return SettingsEditorController::getInstance()->checklist().split('\n');}
 
     Q_INVOKABLE void showParcelleManager(void);
 
@@ -125,8 +124,6 @@ private slots:
     void _sendRallyPointsComplete(void);
 
 private:
-    /*extern List_file *checklist;
-    List_file *checklist;*/
 
     void _showPlanFromManagerVehicle(void);
 

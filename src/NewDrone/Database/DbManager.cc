@@ -1,13 +1,11 @@
 #include "DbManager.h"
 #include <QCryptographicHash>
-#include "List_file.h"
 #include "QuestionFile.h"
 #include <QtXml>
 #include <QDateTime>
 #include <QList>
 #include "AppSettings.h"
 
-extern List_file *nbParam;
 //extern List_file *lColumn;
 extern AppSettings* sett;
 extern QuestionFile *questionFile;
@@ -45,6 +43,7 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
     return success;
 }
 
+//TODO WARNING : this function is vulnerable to trivial SQL injection attacks...
 bool DbManager::addParcelle(const QString& owner, const QString& file,QString surface, QStringList answers, QList<int> comboAnswers) {
    bool success = false;
    if (owner == "" || file == "") return success;
@@ -83,7 +82,7 @@ bool DbManager::addParcelle(const QString& owner, const QString& file,QString su
    }
 
    if(query.exec()) success = true;
-   else qDebug() << "addParcelle error:  " << query.lastError() << query.lastQuery();
+   else qDebug() << "addParcelle error:  " << query.lastError() << query.lastQuery() << "Answer length : " << answers.length() << "Combo lenght" << comboAnswers.length();
 
    return success;
 }
@@ -175,8 +174,10 @@ QSqlDatabase DbManager::getDB() {
 
 
 //we return false so that it block if the request come to an error
+//TODO : phase 4
 bool DbManager::verifNbMission(QString username) {
-    QSqlQuery query;
+    return true;
+   /* QSqlQuery query;
     query.prepare("SELECT count(missionFile) FROM Mission WHERE owner = (:username)");
     query.bindValue(":username", username);
     if(query.exec()) {
@@ -184,11 +185,12 @@ bool DbManager::verifNbMission(QString username) {
         QString value = query.value("count(missionFile)").toString();
         return value.toInt() < nbParam->at(2).toInt();
     }
-    return false;
+    return false;*/
 }
 
 bool DbManager::verifNbParcelle(QString username) {
-    QSqlQuery query;
+    return true;
+   /* QSqlQuery query;
     query.prepare("SELECT count(parcelleFile) FROM Parcelle WHERE owner = (:username)");
     query.bindValue(":username", username);
     if(query.exec()) {
@@ -196,16 +198,17 @@ bool DbManager::verifNbParcelle(QString username) {
         QString value = query.value("count(parcelleFile)").toString();
         return value.toInt() < nbParam->at(1).toInt();
     }
-    return false;
+    return false;*/
 }
 
 //we return false so that it block if the request come to an error
 bool DbManager::verifNbUser() {
-    QSqlQuery query("SELECT count(username) FROM Person");
+    return true;
+    /*QSqlQuery query("SELECT count(username) FROM Person");
     query.first();
     QString value = query.value("count(username)").toString();
     //here, we have a "<=" to include the admin !
-    return value.toInt() <= nbParam->at(0).toInt()+1;
+    return value.toInt() <= nbParam->at(0).toInt()+1;*/
 }
 
 void DbManager::buildDB() {
@@ -225,13 +228,13 @@ void DbManager::buildDB() {
                             "parcelleFile TEXT NOT NULL UNIQUE, "
                             "name TEXT NOT NULL UNIQUE, "
                             "surface TEXT, "
-                            "FOREIGN KEY(owner) REFERENCES Person(username) ON UPDATE CASCADE ON DELETE CASCADE);";
+                            "FOREIGN KEY(owner) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE);";
 
     QString tableMission = "CREATE TABLE IF NOT EXISTS Mission("
                            "owner TEXT NOT NULL, "
                            "missionFile TEXT NOT NULL UNIQUE PRIMARY KEY, "
                            "name TEXT NOT NULL UNIQUE, "
-                           "FOREIGN KEY(owner) REFERENCES Person(username) ON UPDATE CASCADE ON DELETE CASCADE);";
+                           "FOREIGN KEY(owner) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE);";
 
     QSqlQuery queryUsers(tableUsers);
     QSqlQuery queryParcelle(tableParcelle);
@@ -240,8 +243,7 @@ void DbManager::buildDB() {
 #ifdef QT_DEBUG
     QString adminPass = QCryptographicHash::hash("admin", QCryptographicHash::Sha3_256);
     QString addAdmin = "INSERT INTO main.Users(username, password, role) VALUES ('admin', '" + adminPass + "', 'Admin');";
-    QString testUserPass = QCryptographicHash::hash("john", QCryptographicHash::Sha3_256);
-    QString addTestUser = "INSERT INTO main.Users(username, password, firstname, lastname, role, allowParcelCreation, maximumParcelSurface) VALUES ('john', '" + testUserPass + "', 'John', 'Smith', 'User', 'yes', 1000)";
+    QString addTestUser = "INSERT INTO main.Users(username, firstname, lastname, role, allowParcelCreation, maximumParcelSurface) VALUES ('john', 'John', 'Smith', 'User', 'yes', 1000)";
     QSqlQuery queryAddAdmin(addAdmin);
     QSqlQuery queryTestUser(addTestUser);
 #endif

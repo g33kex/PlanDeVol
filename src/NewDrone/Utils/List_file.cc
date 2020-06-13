@@ -1,4 +1,4 @@
-#include "List_file.h"
+/*#include "List_file.h"
 #include <QFile>
 #include <QList>
 #include <QString>
@@ -50,4 +50,4 @@ bool List_file::load() {
     if (this->count() == 0)  return false;
     return true;
 }
-
+*/

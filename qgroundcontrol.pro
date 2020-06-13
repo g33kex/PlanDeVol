@@ -846,7 +846,6 @@ SOURCES += \
 
 HEADERS += \
     src/NewDrone/Utils/GeoportailLink.h \
-    src/NewDrone/Utils/List_file.h \
     src/NewDrone/Utils/QuestionFile.h \
     src/NewDrone/Utils/TestDir.h \
     src/NewDrone/Database/DbManager.h \
@@ -858,7 +857,6 @@ HEADERS += \
 
 SOURCES += \
     src/NewDrone/Utils/GeoportailLink.cc \
-    src/NewDrone/Utils/List_file.cc \
     src/NewDrone/Utils/QuestionFile.cc \
     src/NewDrone/Utils/TestDir.cc \
     src/NewDrone/Database/DbManager.cc \

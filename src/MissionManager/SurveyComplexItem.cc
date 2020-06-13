@@ -16,14 +16,11 @@
 #include "QGCQGeoCoordinate.h"
 #include "SettingsManager.h"
 #include "AppSettings.h"
-#include "List_file.h"
 #include <math.h> //semisens
 
 #include <QPolygonF>
 
 QGC_LOGGING_CATEGORY(SurveyComplexItemLog, "SurveyComplexItemLog")
-
-extern List_file *speedParam;
 
 const char* SurveyComplexItem::jsonComplexItemTypeValue =   "survey";
 const char* SurveyComplexItem::jsonV3ComplexItemTypeValue = "survey";

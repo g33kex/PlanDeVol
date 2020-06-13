@@ -16,7 +16,8 @@
 #include "SettingsManager.h"
 #include "AppSettings.h"
 #include "MissionCommandUIInfo.h"
-#include "Utils/List_file.h"
+
+#include "SettingsEditorController.h"
 
 #include <QPolygonF>
 
@@ -28,7 +29,6 @@ const char* MissionSettingsItem::_plannedHomePositionAltitudeName = "PlannedHome
 
 QMap<QString, FactMetaData*> MissionSettingsItem::_metaDataMap;
 
-extern List_file *speedParam;
 
 MissionSettingsItem::MissionSettingsItem(Vehicle* vehicle, bool flyView, QObject* parent)
     : ComplexMissionItem                (vehicle, flyView, parent)
@@ -53,7 +53,7 @@ MissionSettingsItem::MissionSettingsItem(Vehicle* vehicle, bool flyView, QObject
     _cameraSection.setAvailable(true);
     _speedSection.setAvailable(true);
 
-    _speedSection.flightSpeed()->setRawValue(speedParam->at(1));
+    _speedSection.flightSpeed()->setRawValue(SettingsEditorController::getInstance()->mediumSpeed());
 
     connect(this,               &MissionSettingsItem::specifyMissionFlightSpeedChanged, this, &MissionSettingsItem::_setDirtyAndUpdateLastSequenceNumber);
     connect(this,               &MissionSettingsItem::missionEndRTLChanged,             this, &MissionSettingsItem::_setDirtyAndUpdateLastSequenceNumber);

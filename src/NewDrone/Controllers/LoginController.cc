@@ -2,17 +2,16 @@
 #include <QMessageBox>
 #include <QCryptographicHash>
 #include "DbManager.h"
-#include "List_file.h"
 #include "QuestionFile.h"
 #include "AppSettings.h"
 
 extern DbManager *db;
-extern List_file *checklist;
+/*extern List_file *checklist;
 extern List_file *speedParam;
 extern List_file *nbParam;
 extern List_file *altParam;
 extern List_file *flightParam;
-extern List_file *cameraParam;
+extern List_file *cameraParam;*/
 extern QString username;
 extern AppSettings* sett;
 extern QuestionFile* questionFile;
@@ -47,6 +46,7 @@ QString LoginController::getRole(QString user) {
     return db->getRole(user);
 }
 
+/*
 void LoginController::onAdminClosed() {
 
 
@@ -136,15 +136,7 @@ void LoginController::onAdminClosed() {
     }
 }
 
-void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
-    for(int i=0; i<indexes.size();i++) {
-        qDebug() << "Removing " << indexes[i];
-        QFile file (model->record(indexes[i]).value("missionFile").toString());
-        file.remove();
-        model->removeRow(indexes[i]);
-    }
-    model->submitAll();
-}
+
 
 
 
@@ -281,6 +273,16 @@ QString LoginController::getParamChecklist() {
         res += '\n';
     }
     return res;
+}*/
+
+void LoginController::deleteMission(SqlCustomModel *model, QList<int> indexes) {
+    for(int i=0; i<indexes.size();i++) {
+        qDebug() << "Removing " << indexes[i];
+        QFile file (model->record(indexes[i]).value("missionFile").toString());
+        file.remove();
+        model->removeRow(indexes[i]);
+    }
+    model->submitAll();
 }
 
 void LoginController::exportToXML() {

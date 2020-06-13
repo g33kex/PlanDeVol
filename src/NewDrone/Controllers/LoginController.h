@@ -22,7 +22,7 @@ public:
 
     Q_INVOKABLE void deleteMission(SqlCustomModel *model, QList<int> indexes);
 
-    Q_INVOKABLE void setParamSpeed(QString lowSpeed, QString medSpeed, QString HighSpeed);
+ /*   Q_INVOKABLE void setParamSpeed(QString lowSpeed, QString medSpeed, QString HighSpeed);
     Q_INVOKABLE void setParamAlt(QString lowAlt, QString medAlt, QString HighAlt);
     Q_INVOKABLE void setParamLimit(QString session, QString parcelles, QString missions);
     Q_INVOKABLE void setParamChecklist(QString checklist);
@@ -44,13 +44,13 @@ public:
     Q_INVOKABLE QString getCameraSensorH();
     Q_INVOKABLE QString getCameraImageW();
     Q_INVOKABLE QString getCameraImageH();
-    Q_INVOKABLE int getCameraLand();
+    Q_INVOKABLE int getCameraLand();*/
 
 
     Q_INVOKABLE void    exportToXML();
 
-public slots:
-    void onAdminClosed();
+//public slots:
+//    void onAdminClosed();
 
 private:
 };

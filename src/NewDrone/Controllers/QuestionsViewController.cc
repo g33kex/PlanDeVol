@@ -192,3 +192,9 @@ void QuestionsViewController::setComboAnswers(QList<int> def) {
     selectedAnswers.clear();
     selectedAnswers.append(def);
 }
+
+void QuestionsViewController::loadAndReset()
+{
+    questionFile->clear();
+    questionFile->load();
+}

@@ -2,9 +2,18 @@
 
 #include <QDebug>
 
+SettingsEditorController *SettingsEditorController::instance = nullptr;
+
 SettingsEditorController::SettingsEditorController()
 {
     this->loadSettings();
+}
+
+SettingsEditorController *SettingsEditorController::getInstance() {
+    if(instance==nullptr){
+        instance = new SettingsEditorController();
+    }
+    return instance;
 }
 
 void SettingsEditorController::loadSettings()

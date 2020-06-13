@@ -9,7 +9,6 @@
 #include <QNetworkReply>
 #include "MissionController.h"
 #include "QGCApplication.h"
-#include "List_file.h"
 #include "ShapeFileHelper.h"
 #include <QCryptographicHash>
 #include <QmlObjectListModel.h>
@@ -18,7 +17,6 @@
 
 extern QString username;
 extern DbManager *db;
-extern List_file *speedParam;
 extern QuestionFile *questionFile;
 
 ParcelleManagerController::ParcelleManagerController() {

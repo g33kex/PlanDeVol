@@ -12,7 +12,7 @@
 #include "QGCApplication.h"
 #include "ParameterManager.h"
 #include "DbManager.h"
-#include "List_file.h"
+#include "SettingsEditorController.h"
 
 #include <QQmlEngine>
 #include <QtQml>
@@ -38,10 +38,10 @@ const char* AppSettings::crashDirectory =           "CrashLogs";
 
 extern DbManager *db;
 extern QString username;
-extern List_file *altParam;
-extern List_file *speedParam;
 extern AppSettings * sett;
 AppSettings * sett;
+
+static SettingsEditorController *settingsEditorController = SettingsEditorController::getInstance();
 
 
 DECLARE_SETTINGGROUP(App, "")
@@ -228,21 +228,40 @@ bool AppSettings::nbParcelle(void){
 }
 
 void AppSettings::setBoxAlt (int index) {
-    defaultMissionItemAltitude()->setRawValue(altParam->at(index).toDouble());
-}
-
-int AppSettings::getCruiseAltInd () {
-    if (altParam->contains(QString::number(defaultMissionItemAltitude()->rawValue().toDouble()))) {
-        return altParam->indexOf(QString::number(defaultMissionItemAltitude()->rawValue().toDouble()));
+    double altitude = 0;
+    switch(index) {
+    case 0: altitude=settingsEditorController->lowAltitude(); break;
+    case 1: altitude=settingsEditorController->mediumAltitude(); break;
+    case 2: altitude=settingsEditorController->highAltitude(); break;
+    default: return;
     }
-    else return 1;
+    defaultMissionItemAltitude()->setRawValue(altitude);
 }
 
+//Returns whether current altitude is low, medium or high preset
+int AppSettings::getCruiseAltInd () {
+    double altitude = defaultMissionItemAltitude()->rawValue().toDouble();
+    if(qFuzzyCompare(altitude,settingsEditorController->lowAltitude()))
+        return 0;
+    if(qFuzzyCompare(altitude,settingsEditorController->mediumAltitude()))
+        return 1;
+    if(qFuzzyCompare(altitude,settingsEditorController->highAltitude()))
+        return 2;
+    return 1;
+
+}
+
+//Returns current altitude as text //TODO : original code in comments, I translated it to the new Settings API, but it still makes no sense.
 QString AppSettings::getAltTxt () {
-    if (altParam->contains(QString::number(defaultMissionItemAltitude()->rawValue().toDouble()))) {
+    /*if (altParam->contains(QString::number(defaultMissionItemAltitude()->rawValue().toDouble()))) {
         return QString::number(defaultMissionItemAltitude()->rawValue().toDouble()) + " m";
     }
-    else return altParam->at(1) + " m/s";
+    else return altParam->at(1) + " m/s";*/
+    double altitude = defaultMissionItemAltitude()->rawValue().toDouble();
+    if(qFuzzyCompare(altitude,settingsEditorController->lowAltitude()) || qFuzzyCompare(altitude,settingsEditorController->mediumAltitude()) || qFuzzyCompare(altitude,settingsEditorController->highAltitude())) {
+        return QString::number(defaultMissionItemAltitude()->rawValue().toDouble()) + " m";
+    }
+    return QString::number(settingsEditorController->mediumAltitude()) + " m/s";
 }
 
 

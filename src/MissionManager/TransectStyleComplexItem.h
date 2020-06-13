@@ -17,9 +17,7 @@
 #include "QGCMapPolygon.h"
 #include "CameraCalc.h"
 #include "TerrainQuery.h"
-#include "List_file.h"
-
-extern List_file *speedParam;
+#include "SettingsEditorController.h"
 
 Q_DECLARE_LOGGING_CATEGORY(TransectStyleComplexItemLog)
 

@@ -227,7 +227,7 @@
         <file alias="NewDrone/Controls/ChecklistEditor.qml">src/NewDrone/Controls/ChecklistEditor.qml</file>
         <file alias="NewDrone/Controls/QuestionsEditor.qml">src/NewDrone/Controls/QuestionsEditor.qml</file>
         <file alias="NewDrone/Controls/SettingsEditor.qml">src/NewDrone/Controls/SettingsEditor.qml</file>
-        <file alias="NewDrone/Controls/ErrorDialog.qml">src/NewDrone/Controls/ErrorDialog.qml</file>
+        <file alias="NewDrone/Controls/SimpleDialog.qml">src/NewDrone/Controls/SimpleDialog.qml</file>
         <file alias="NewDrone/Controls/DoubleSpinBox.qml">src/NewDrone/Controls/DoubleSpinBox.qml</file>
         <file alias="NewDrone/Controls/ConfirmationDialog.qml">src/NewDrone/Controls/ConfirmationDialog.qml</file>
     </qresource>

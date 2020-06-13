@@ -11,7 +11,9 @@
 #include "JsonHelper.h"
 #include "Vehicle.h"
 #include "CameraMetaData.h"
-#include "List_file.h"
+
+#include "SettingsEditorController.h"
+static SettingsEditorController *settingsEditorController = SettingsEditorController::getInstance();
 
 #include <QQmlEngine>
 
@@ -26,9 +28,6 @@ const char* CameraCalc::adjustedFootprintFrontalName =      "AdjustedFootprintFr
 const char* CameraCalc::adjustedFootprintSideName =         "AdjustedFootprintSide";
 
 const char* CameraCalc::_jsonCameraSpecTypeKey =            "CameraSpecType";
-
-extern List_file *altParam;
-extern List_file *cameraParam;
 
 CameraCalc::CameraCalc(Vehicle* vehicle, const QString& settingsGroup, QObject* parent)
     : CameraSpec                    (settingsGroup, parent)
@@ -78,12 +77,12 @@ CameraCalc::CameraCalc(Vehicle* vehicle, const QString& settingsGroup, QObject* 
 
     _cameraNameChanged();
 
-    focalLength()->setRawValue(cameraParam->at(0).toFloat());
-    sensorWidth()->setRawValue(cameraParam->at(1).toFloat());
-    sensorHeight()->setRawValue(cameraParam->at(2).toFloat());
-    imageWidth()->setRawValue(cameraParam->at(3).toFloat());
-    imageHeight()->setRawValue(cameraParam->at(4).toFloat());
-    landscape()->setRawValue(cameraParam->at(5));
+    focalLength()->setRawValue(settingsEditorController->focalLength());
+    sensorWidth()->setRawValue(settingsEditorController->sensorWidth());
+    sensorHeight()->setRawValue(settingsEditorController->sensorHeight());
+    imageWidth()->setRawValue(settingsEditorController->imageWidth());
+    imageHeight()->setRawValue(settingsEditorController->imageHeight());
+    landscape()->setRawValue(settingsEditorController->imageOrientation());
     setDirty(false);
 }
 

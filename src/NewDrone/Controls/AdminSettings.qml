@@ -11,6 +11,16 @@ Popup {
     modal: true
     padding: 20
 
+    function disconnect() {
+        if(settingsEditor.modified) {
+            confirmDiscardModificationsAndDisconnect.show("You have unsaved settings.\nAre you sure you want to discard them and disconnect?")
+            return
+        }
+        questionsEditor.onClosed()
+        adminPopup.close()
+    }
+
+
     contentItem: ColumnLayout {
 
         TabBar {
@@ -64,14 +74,11 @@ Popup {
                 MissionsView {}
                 ParcelsView {}
                 SettingsEditor {
-                    id: parametersEditor
-                }
-                ChecklistEditor {
-                    id: checkListEditor
+                    id: settingsEditor
+                    isSuperAdmin: false
                 }
             }
         }
-
         Button {
             id: disconnectButton
             Layout.alignment: Qt.AlignRight
@@ -79,20 +86,22 @@ Popup {
 
             text: "Deconnexion"
             background: Rectangle {
-                    border.width: disconnectButton.activeFocus ? 2 : 1
-                    border.color: "pink"
-                    radius: 20
-                    color: "#C00"
+                border.width: disconnectButton.activeFocus ? 2 : 1
+                border.color: "pink"
+                radius: 20
+                color: "#C00"
             }
 
             onClicked: {
-                //we save the flight param
-                parametersEditor.save()
-
-                loginController.onAdminClosed()
-
-                adminPopup.close()
+                disconnect()
             }
+        }
+    }
+    ConfirmationDialog {
+        id: confirmDiscardModificationsAndDisconnect
+        onAccepted: {
+            settingsEditor.loadSettings()
+            disconnect()
         }
     }
 }

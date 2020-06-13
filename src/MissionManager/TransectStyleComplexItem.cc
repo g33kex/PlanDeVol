@@ -17,9 +17,10 @@
 #include "AppSettings.h"
 #include "QGCQGeoCoordinate.h"
 
-#include <QPolygonF>
+#include "SettingsEditorController.h"
+static SettingsEditorController *settingsEditorController = SettingsEditorController::getInstance();
 
-#include "List_file.h"
+#include <QPolygonF>
 
 QGC_LOGGING_CATEGORY(TransectStyleComplexItemLog, "TransectStyleComplexItemLog")
 
@@ -41,8 +42,6 @@ const char* TransectStyleComplexItem::_jsonCameraShotsKey =                 "Cam
 
 const int   TransectStyleComplexItem::_terrainQueryTimeoutMsecs =           1000;
 
-extern List_file *flightParam;
-
 TransectStyleComplexItem::TransectStyleComplexItem(Vehicle* vehicle, bool flyView, QString settingsGroup, QObject* parent)
     : ComplexMissionItem                (vehicle, flyView, parent)
     , _sequenceNumber                   (0)
@@ -62,20 +61,20 @@ TransectStyleComplexItem::TransectStyleComplexItem(Vehicle* vehicle, bool flyVie
     , _terrainAdjustMaxClimbRateFact    (settingsGroup, _metaDataMap[terrainAdjustMaxClimbRateName])
     , _terrainAdjustMaxDescentRateFact  (settingsGroup, _metaDataMap[terrainAdjustMaxDescentRateName])
 {
-    if (_turnAroundDistanceFact.rawValue().toDouble() != flightParam->at(0).toDouble()) {
-        _turnAroundDistanceFact.setRawValue(flightParam->at(0).toDouble());
+    if (!qFuzzyCompare(_turnAroundDistanceFact.rawValue().toDouble(), settingsEditorController->turnaroundDistance())) {
+        _turnAroundDistanceFact.setRawValue(settingsEditorController->turnaroundDistance());
     }
 
-    if (_terrainAdjustToleranceFact.rawValue().toDouble() != flightParam->at(1).toDouble()) {
-        _terrainAdjustToleranceFact.setRawValue(flightParam->at(1).toDouble());
+    if (!qFuzzyCompare(_terrainAdjustToleranceFact.rawValue().toDouble(), settingsEditorController->tolerance())) {
+        _terrainAdjustToleranceFact.setRawValue(settingsEditorController->tolerance());
     }
 
-    if (_terrainAdjustMaxClimbRateFact.rawValue().toDouble() != flightParam->at(2).toDouble()) {
-        _terrainAdjustMaxClimbRateFact.setRawValue(flightParam->at(2).toDouble());
+    if (!qFuzzyCompare(_terrainAdjustMaxClimbRateFact.rawValue().toDouble(), settingsEditorController->maxClimbRate())) {
+        _terrainAdjustMaxClimbRateFact.setRawValue(settingsEditorController->maxClimbRate());
     }
 
-    if (_terrainAdjustMaxDescentRateFact.rawValue().toDouble() != flightParam->at(2).toDouble()) {
-        _terrainAdjustMaxDescentRateFact.setRawValue(flightParam->at(2).toDouble());
+    if (!qFuzzyCompare(_terrainAdjustMaxDescentRateFact.rawValue().toDouble(), settingsEditorController->maxDescentRate())) {
+        _terrainAdjustMaxDescentRateFact.setRawValue(settingsEditorController->maxDescentRate());
     }
 
     _terrainQueryTimer.setInterval(_terrainQueryTimeoutMsecs);

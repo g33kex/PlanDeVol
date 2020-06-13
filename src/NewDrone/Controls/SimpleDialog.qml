@@ -8,7 +8,7 @@ Popup {
     modal: true
     closePolicy: Popup.NoAutoClose
 
-    property var title: "Error"
+    property var title: ""
     property var msg: ""
 
     function show(message) {

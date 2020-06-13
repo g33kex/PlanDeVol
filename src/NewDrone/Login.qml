@@ -193,13 +193,9 @@ Item {
         visible: true
     }
 
-    Dialog {
+    SimpleDialog {
 
         id: doneDialog
-        standardButtons: Dialog.Ok
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
         title: "Ok"
-        modal: true
     }
 }

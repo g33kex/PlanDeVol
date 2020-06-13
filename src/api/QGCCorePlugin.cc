@@ -19,6 +19,7 @@
 #include "QGCLoggingCategory.h"
 #include "QGCCameraManager.h"
 #include "LoginController.h"
+#include "SettingsEditorController.h"
 
 #include <QtQml>
 #include <QQmlEngine>
@@ -391,6 +392,7 @@ QQmlApplicationEngine* QGCCorePlugin::createRootWindow(QObject *parent)
     pEngine->addImportPath("qrc:/qml");
     pEngine->rootContext()->setContextProperty("joystickManager", qgcApp()->toolbox()->joystickManager());
     pEngine->rootContext()->setContextProperty("debugMessageModel", AppMessages::getModel());
+    pEngine->rootContext()->setContextProperty("settingsEditorController", SettingsEditorController::getInstance());
     pEngine->load(QUrl(QStringLiteral("qrc:/qml/NewDrone/LoginMainWindow.qml")));
     //pEngine->load(QUrl(QStringLiteral("qrc:/qml/MainRootWindow.qml")));
     return pEngine;

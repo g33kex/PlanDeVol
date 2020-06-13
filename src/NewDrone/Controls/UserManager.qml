@@ -399,7 +399,8 @@ Item {
         }
     }
 
-    ErrorDialog {
+    SimpleDialog {
         id: errorDialog
+        title: "Error"
     }
 }

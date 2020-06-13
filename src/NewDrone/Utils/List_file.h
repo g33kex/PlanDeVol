@@ -1,4 +1,4 @@
-#include <QList>
+/*#include <QList>
 #include <QString>
 
 #ifndef CHECKLISTCONTROLLER_H
@@ -17,3 +17,5 @@ private:
 };
 
 #endif // CHECKLISTCONTROLLER_H
+
+*/

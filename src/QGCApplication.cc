@@ -99,7 +99,6 @@
 #include "LoginController.h"
 #include "QuestionsViewController.h"
 #include "UserManagerController.h"
-#include "SettingsEditorController.h"
 #include "QmlValuePreview.h"
 
 #ifndef __mobile__
@@ -463,7 +462,6 @@ void QGCApplication::_initCommon()
     qmlRegisterType<LoginController>                (kNDControllers,                        1, 0, "LoginController");
     qmlRegisterType<QuestionsViewController>		(kNDControllers, 						1, 0, "QuestionsViewController");
     qmlRegisterType<UserManagerController>          (kNDControllers,                        1, 0, "UserManagerController");
-    qmlRegisterType<SettingsEditorController>       (kNDControllers,                        1, 0, "SettingsEditorController");
     qmlRegisterType<SqlCustomModel>                 ("NewDrone",                            1, 0, "SqlCustomModel");
 
     qRegisterMetaType<QDoubleValueArg *>("QDoubleValueArg *");
@@ -484,6 +482,7 @@ bool QGCApplication::_initForNormalAppBoot()
 
     // Exit main application when last window is closed
     connect(this, &QGCApplication::lastWindowClosed, this, QGCApplication::quit);
+
 
     _qmlAppEngine = toolbox()->corePlugin()->createRootWindow(this);
 

@@ -29,6 +29,8 @@ public:
     Q_INVOKABLE void        setDefaultAnswers(QStringList def);
     Q_INVOKABLE void        setComboAnswers(QList<int> def);
 
+    Q_INVOKABLE void loadAndReset();
+
 private :
 
     QList<QString> swapItemsAt(QList<QString> inp, int i, int j);

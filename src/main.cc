@@ -28,7 +28,6 @@
 #include "QGCApplication.h"
 #include "AppMessages.h"
 #include "DbManager.h"
-#include "List_file.h"
 #include "QuestionFile.h"
 #include "TestDir.h"
 
@@ -225,24 +224,6 @@ QString username = "";
 extern DbManager *db;
 DbManager *db;
 
-extern List_file *checklist;
-List_file *checklist;
-
-extern List_file *speedParam;
-List_file *speedParam;
-
-extern List_file *altParam;
-List_file *altParam;
-
-extern List_file *flightParam;
-List_file *flightParam;
-
-extern List_file *nbParam;
-List_file *nbParam;
-
-extern List_file *cameraParam;
-List_file *cameraParam;
-
 extern QuestionFile *questionFile;
 QuestionFile *questionFile;
 
@@ -418,15 +399,7 @@ int main(int argc, char *argv[])
 #ifdef __android__
         checkAndroidWritePermission();
 #endif
-
-        checklist = new List_file("Checklist");
-        //param par defaut if the file is empty
-        if (! checklist->load()) {
-            qDebug() << "checklist file is empty";
-            checklist->append("RAS: Rien a Signaler");
-        }
-
-        // verifier qu'il n'y a qu'une occurence de :
+      /*  // verifier qu'il n'y a qu'une occurence de :
         for(QList<QString>::iterator i = checklist->begin(); i != checklist->end(); ++i) {
             if((*i).count(":") < 1) {
                 (*i).append(":foo");
@@ -436,50 +409,9 @@ int main(int argc, char *argv[])
                 (*i) = (*i).replace(":", ";");
                 (*i) = (*i).replace(index, 1, ":");
             }
-        }
+        }*/
 
-        speedParam = new List_file("SpeedParam");
-        //param par defaut if the file is empty
-        if (! speedParam->load()) {
-            speedParam->clear();
-            speedParam->append("15");
-            speedParam->append("30");
-            speedParam->append("40");
-            qDebug() << "speedParam file is empty" << speedParam->size();
-        }
-
-        altParam = new List_file("AltParam");
-        //param par defaut if the file is empty
-        if (! altParam->load()) {
-            altParam->clear();
-            altParam->append("30");
-            altParam->append("50");
-            altParam->append("100");
-            qDebug() << "altParam file is empty" << altParam->size();
-        }
-
-        //permet de contenir le nombre de sessions, missions et parcelles
-        nbParam = new List_file("nbParam");
-        //param par defaut if the file is empty
-        if (! nbParam->load()) {
-            nbParam->clear();
-            nbParam->append("10"); //session
-            nbParam->append("10"); //parcelle
-            nbParam->append("10"); //mission
-            qDebug() << "nbParam file is empty" << nbParam->size();
-        }
-
-        //permet de contenir la turnaround distance
-        flightParam = new List_file("flightParam");
-        //param par defaut if the file is empty
-        if (! flightParam->load()) {
-            flightParam->clear();
-            flightParam->append("10"); //turnaround
-            flightParam->append("10"); //Tolerance
-            flightParam->append("2"); //MaxClimbRate
-            flightParam->append("2"); //MaxDescentRate
-            qDebug() << "flightParam file is empty" << flightParam->size();
-        }
+        //TODO checklist verif to recode with new api
 
         TestDir t = *new TestDir();
         t.test();
@@ -489,18 +421,6 @@ int main(int argc, char *argv[])
 
         questionFile = new QuestionFile("questionFile.csv");
         questionFile->load();
-
-        cameraParam = new List_file("cameraParam");
-        if (! cameraParam->load()) {
-            cameraParam->clear();
-            cameraParam->append("5.2");
-            cameraParam->append("6.26");
-            cameraParam->append("3.56");
-            cameraParam->append("3864");
-            cameraParam->append("2196");
-            cameraParam->append("true");
-            qDebug() << "cameraParam file is empty" << cameraParam->size();
-        }
 
         if (!app->_initForNormalAppBoot()) {
             return -1;

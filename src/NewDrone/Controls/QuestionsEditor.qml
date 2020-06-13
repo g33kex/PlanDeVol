@@ -11,6 +11,11 @@ import NewDrone 1.0
 Item {
     property int margin: 6
 
+    function onClosed() {
+        save()
+        questionView.loadAndReset()
+    }
+
     function save() {
         questionView.save(parcelleModel2)
     }
@@ -30,10 +35,10 @@ Item {
             Label {
                 Layout.topMargin: margin
                 Layout.fillWidth: true
-                text: "Reponse par default"
+                text: "Default answer"
             }
             Label {
-                text: "Selection"
+                text: "Select"
                 Layout.topMargin: margin
                 Layout.rightMargin: margin
             }
@@ -62,7 +67,7 @@ Item {
             Layout.alignment: Qt.AlignRight
             Layout.fillWidth: true
             Button {
-                text: "Echange"
+                text: "Swap"
                 Layout.margins: margin
                 Layout.topMargin: 0
                 onClicked: {
@@ -70,7 +75,7 @@ Item {
                             && questionView.isCheckedValid()) {
                         questionView.exchangeQuestion()
                     } else {
-                        tooManySelectionsDialog.open()
+                        errorDialog.show("Please select two questions of the same category to swap.")
                     }
                 }
             }
@@ -91,17 +96,18 @@ Item {
                         questionView.deleteChecked(parcelleModel2)
                         questionView.save(parcelleModel2)
                     } else {
+                        errorDialog.show("Please select ONE question to delete.")
                         tooManyDelDialog.open()
                     }
                 }
             }
             Button {
-                text: "Enregistrer"
+                text: "Save"
                 Layout.margins: margin
                 Layout.topMargin: 0
                 onClicked: {
                     save()
-                    doneDialog.open()
+                    doneDialog.show("Done.")
                 }
             }
         }
@@ -130,11 +136,11 @@ Item {
                 questionView.save(parcelleModel2)
                 reset()
             } else {
-                idExistsDialog.open()
+                errorDialog.show("The question name is already used!")
             }
         }
 
-        title: "Ajouter Question"
+        title: "Add Question"
 
         function reset() {
             possibleChoiceArea.text = ""
@@ -151,7 +157,7 @@ Item {
             anchors.fill: parent
 
             Label {
-                text: "Nom du champ"
+                text: "Question Name"
             }
             TextField {
                 id: name_textField
@@ -165,7 +171,7 @@ Item {
                 Layout.fillWidth: true
             }
             CheckBox {
-                text: "Question à choix multiple ?"
+                text: "Multiple choice question"
                 id: combo_checkbox
             }
             TextArea {
@@ -177,43 +183,8 @@ Item {
         }
     }
 
-    Dialog {
-        id: idExistsDialog
-        standardButtons: Dialog.Ok
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
+    SimpleDialog {
+        id: errorDialog
         title: "Error"
-        Label {
-            anchors.centerIn: parent
-            text: "L'identifiant est deja utilisé"
-        }
     }
-
-    Dialog {
-        id: tooManySelectionsDialog
-        standardButtons: Dialog.Ok
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
-        title: "Error"
-        Label {
-            anchors.centerIn: parent
-            text: "Séléctionner que 2 questions de la même catégorie à échanger"
-        }
-    }
-
-    Dialog {
-        id: tooManyDelDialog
-        standardButtons: Dialog.Ok
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
-        title: "Error"
-        Label {
-            anchors.centerIn: parent
-            text: "Séléctionner qu'une question a supprimer"
-        }
-    }
-
 }

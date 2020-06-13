@@ -12,7 +12,7 @@ class SettingsEditorController : public QObject
     Q_OBJECT
 
 public:
-    explicit SettingsEditorController();
+    static SettingsEditorController *getInstance();
 
     enum Orientation {
         landscape,
@@ -282,6 +282,9 @@ signals:
     void modifiedChanged(bool modified);
 
 private:
+    explicit SettingsEditorController();
+    static SettingsEditorController *instance;
+
     QSettings settings;
     QString settingsGroup = "NewDrone";
     bool m_modified;

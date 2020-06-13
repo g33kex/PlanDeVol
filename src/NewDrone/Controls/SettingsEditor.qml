@@ -10,10 +10,7 @@ Item {
     property int space: 10
     property int small_space: 5
 
-
-    SettingsEditorController {
-        id: settingsEditorController
-    }
+    property bool isSuperAdmin: false
 
     property var resetSettings: settingsEditorController.resetSettings
     property var loadSettings: settingsEditorController.loadSettings

@@ -14,13 +14,7 @@ Popup {
             confirmDiscardModificationsAndDisconnect.show("You have unsaved settings.\nAre you sure you want to discard them and disconnect?")
             return
         }
-
-        //we save the questions
-        questionsEditor.save()
-        loginController.onAdminClosed()
-
-        //we save the flight param
-
+        questionsEditor.onClosed()
         superAdminPopup.close()
     }
 
@@ -90,6 +84,7 @@ Popup {
                 }
                 SettingsEditor {
                     id: settingsEditor
+                    isSuperAdmin: true
                 }
             }
         }
