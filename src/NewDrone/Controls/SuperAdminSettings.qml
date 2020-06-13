@@ -4,16 +4,23 @@ import QtQuick.Controls 2.4
 import QGroundControl 1.0
 import QGroundControl.Controllers 1.0
 
+import QGroundControl.Palette 1.0
+import QGroundControl.ScreenTools 1.0
+import QGroundControl.FlightDisplay 1.0
+import QGroundControl.FlightMap 1.0
+
 Popup {
     id: superAdminPopup
     modal: true
     padding: 20
 
     function disconnect() {
-        if(settingsEditor.modified) {
-            confirmDiscardModificationsAndDisconnect.show("You have unsaved settings.\nAre you sure you want to discard them and disconnect?")
+        if (settingsEditor.modified) {
+            confirmDiscardModificationsAndDisconnect.show(
+                        "You have unsaved settings.\nAre you sure you want to discard them and disconnect?")
             return
         }
+        tabBar.setCurrentIndex(0)
         questionsEditor.onClosed()
         superAdminPopup.close()
     }
@@ -65,6 +72,13 @@ Popup {
                     radius: 3
                 }
             }
+            TabButton {
+                height: 60
+                text: "Advanced"
+                background: Rectangle {
+                    color: tabBar.currentIndex == 5 ? "plum" : "pink"
+                }
+            }
         }
 
         Item {
@@ -86,6 +100,30 @@ Popup {
                     id: settingsEditor
                     isSuperAdmin: true
                 }
+                Rectangle {
+                    id: settingsRectangle
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Loader {
+                        id: settingsWindow
+                        anchors.fill: parent
+                        function close() {
+                            tabBar.setCurrentIndex(0)
+                        }
+
+                        //Needed properties from mainRootWindow
+                        property alias mainWindow: settingsRectangle
+                        property var activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
+
+                        onVisibleChanged: {
+                            if (visible) {
+                                settingsWindow.setSource("qrc:/qml/AppSettings.qml")
+                            } else {
+                                settingsWindow.setSource("")
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -94,7 +132,7 @@ Popup {
             Layout.alignment: Qt.AlignRight
             padding: 10
 
-            text: "Deconnexion"
+            text: "Disconnect"
             background: Rectangle {
                 border.width: disconnectButton.activeFocus ? 2 : 1
                 border.color: "pink"

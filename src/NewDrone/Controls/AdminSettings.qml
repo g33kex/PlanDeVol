@@ -16,7 +16,7 @@ Popup {
             confirmDiscardModificationsAndDisconnect.show("You have unsaved settings.\nAre you sure you want to discard them and disconnect?")
             return
         }
-        questionsEditor.onClosed()
+        tabBar.setCurrentIndex(0)
         adminPopup.close()
     }
 
@@ -50,14 +50,6 @@ Popup {
                 text: "Paramètres"
                 background: Rectangle {
                     color: tabBar.currentIndex == 4 ? "silver" : "lightgrey"
-                    radius: 3
-                }
-            }
-            TabButton {
-                implicitHeight: 60
-                text: "Checklist"
-                background: Rectangle {
-                    color: tabBar.currentIndex == 5 ? "orchid" : "plum"
                     radius: 3
                 }
             }

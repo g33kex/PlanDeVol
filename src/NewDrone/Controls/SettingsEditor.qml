@@ -285,6 +285,7 @@ Item {
                     TextArea {
                         implicitWidth: 600
                         implicitHeight: 300
+                        enabled: isSuperAdmin
                         text: settingsEditorController.checklist
                         onTextChanged: settingsEditorController.checklist=text
                     }
