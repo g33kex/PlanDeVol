@@ -19,8 +19,8 @@ Item {
     property var modified: settingsEditorController.modified
 
     FontLoader {
-        id: settingsFont
-        source: "/res/resources/fonts/FuturaBookBT.ttf"
+        id: abelioFont
+        source: "/fonts/FuturaBookBT"
     }
 
     ColumnLayout {
@@ -47,7 +47,7 @@ Item {
                         text: "Flight Presets"
                         font.bold: true
                         font.pointSize: titleSize
-                        font.family: settingsFont.name
+                        font.family: abelioFont.name
                     }
 
                     // Layout.alignment: Qt.AlignHCenter
@@ -62,19 +62,19 @@ Item {
                         }
                         Label {
                             text: "Low"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         Label {
                             text: "Medium"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         Label {
                             text: "High"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         Label {
                             text: "Speed (m/s)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         DoubleSpinBox {
                             editable: true
@@ -100,7 +100,7 @@ Item {
                         }
                         Label {
                             text: "Altitude (m)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         DoubleSpinBox {
                             editable: true
@@ -132,7 +132,7 @@ Item {
                         text: "Flight Settings"
                         font.bold: true
                         font.pointSize: titleSize
-                        font.family: settingsFont.name
+                        font.family: abelioFont.name
                     }
 
 
@@ -143,7 +143,7 @@ Item {
                         rowSpacing: small_space
                         Label {
                             text: "Turnaround Distance (m)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         DoubleSpinBox {
                             Layout.columnSpan: 3
@@ -155,7 +155,7 @@ Item {
                         }
                         Label {
                             text: "Loiter Radius (m)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         DoubleSpinBox {
                             Layout.columnSpan: 3
@@ -176,19 +176,19 @@ Item {
                         }
                         Label {
                             text: "Tolerance (m)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         Label {
                             text: "Max Climb Rate (m/s)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         Label {
                             text: "Max Descent Rate (m/s)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         Label {
                             text: "Terrain Following"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         DoubleSpinBox {
                             editable: true
@@ -221,7 +221,7 @@ Item {
                         text: "Camera Settings"
                         font.bold: true
                         font.pointSize: titleSize
-                        font.family: settingsFont.name
+                        font.family: abelioFont.name
                     }
 
                     GridLayout {
@@ -230,7 +230,7 @@ Item {
                         columnSpacing: space
                         Label {
                             text: "Focal Length (mm)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                             Layout.columnSpan: 2
                         }
                         DoubleSpinBox {
@@ -244,11 +244,11 @@ Item {
                         }
                         Label {
                             text: "Sensor Width (mm)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         Label {
                             text: "Sensor Height (mm)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                         }
                         DoubleSpinBox {
                             editable: true
@@ -273,7 +273,7 @@ Item {
                         text: "Image Settings"
                         font.bold: true
                         font.pointSize: titleSize
-                        font.family: settingsFont.name
+                        font.family: abelioFont.name
                     }
 
                     GridLayout {
@@ -282,13 +282,13 @@ Item {
                         columnSpacing: space
                         Label {
                             text: "Image Orientation"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                             Layout.columnSpan: 2
                             visible: isSuperAdmin
                         }
                         ComboBox {
                             model: ["Landscape", "Portrait"]
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                             Layout.columnSpan: 2
                             Layout.minimumWidth: 180
                             currentIndex: settingsEditorController.imageOrientation
@@ -298,12 +298,12 @@ Item {
                         }
                         Label {
                             text: "Image Width (px)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                             visible: isSuperAdmin
                         }
                         Label {
                             text: "Image Height (px)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                             visible: isSuperAdmin
                         }
                         SpinBox {
@@ -324,7 +324,7 @@ Item {
                         }
                         Label {
                             text: "Overlap (%)"
-                            font.family: settingsFont.name
+                            font.family: abelioFont.name
                             Layout.columnSpan: 2
                             visible: !isSuperAdmin
                         }
@@ -344,11 +344,11 @@ Item {
                         text: "Checklist"
                         font.bold: true
                         font.pointSize: titleSize
-                        font.family: settingsFont.name
+                        font.family: abelioFont.name
                     }
                     TextArea {
                         implicitWidth: 600
-                        font.family: settingsFont.name
+                        font.family: abelioFont.name
                         implicitHeight: 300
                         enabled: isSuperAdmin
                         text: settingsEditorController.checklist
@@ -362,7 +362,7 @@ Item {
         RowLayout {
             Button {
                 text: "Reset to default"
-                font.family: settingsFont.name
+                font.family: abelioFont.name
                 Layout.margins: small_space
                 Layout.alignment: Qt.AlignHCenter
 
@@ -373,7 +373,7 @@ Item {
             }
             Button {
                 text: "Restore"
-                font.family: settingsFont.name
+                font.family: abelioFont.name
                 Layout.fillWidth: true
                 Layout.margins: small_space
                 Layout.alignment: Qt.AlignHCenter
@@ -387,7 +387,7 @@ Item {
             }
             Button {
                 text: "Save"
-                font.family: settingsFont.name
+                font.family: abelioFont.name
                 Layout.fillWidth: true
                 Layout.margins: small_space
                 Layout.alignment: Qt.AlignHCenter
