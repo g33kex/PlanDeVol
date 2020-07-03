@@ -179,7 +179,7 @@ Item {
         id: adminSettings
         width: parent.width
         height: parent.height
-        visible: true
+        visible: false
     }
 
     SuperAdminSettings {
