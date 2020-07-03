@@ -46,6 +46,11 @@ Column {
 //        _cameraList.push(cameraCalc.customCameraName)
     }
 
+    Component.onCompleted: {
+        cameraCalc.frontalOverlap.value = settingsEditorController.overlap
+        cameraCalc.sideOverlap.value = settingsEditorController.overlap
+    }
+
     QGCPalette { id: qgcPal; colorGroupEnabled: true }
 
     ExclusiveGroup {
@@ -94,10 +99,12 @@ Column {
             FactTextField {
                 Layout.preferredWidth:  _root._fieldWidth
                 fact:                   cameraCalc.frontalOverlap
+                enabled: false
             }
             FactTextField {
                 Layout.preferredWidth:  _root._fieldWidth
                 fact:                   cameraCalc.sideOverlap
+                enabled: false
             }
         }
 

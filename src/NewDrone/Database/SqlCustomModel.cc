@@ -40,15 +40,18 @@ void SqlCustomModel::generateRoleNames()
 
 }
 
-void SqlCustomModel::setupForParcelle() {
+void SqlCustomModel::setupForParcel(bool showAllUsers) {
 
-    qDebug() << "---- setupForParcelle----";
-    this->setTable("Parcelle");
-    if (!(username.compare("")==0 || username.compare("admin")==0)) {
+    qDebug() << "---- setupForParcel---- showAllUsers:" << showAllUsers;
+    this->setTable("Parcel");
+    if (!showAllUsers && !(username.compare("")==0 || username.compare("admin")==0)) {
         qDebug() << username;
         QString filtre = QString("owner = \'") + username + QString("\'");
         this->setFilter(filtre);
     }
+  /* else {
+        this->setFilter("owner = \'john\'");
+    }*/
     this->setEditStrategy(QSqlTableModel::OnManualSubmit);
     this->generateRoleNames();
     this->select();

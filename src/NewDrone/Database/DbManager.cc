@@ -30,7 +30,7 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
     if (username == "" ) return success;
     QString hashpassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_256);
     QSqlQuery query;
-    if( ! query.prepare("INSERT INTO Person (username, password, nom, prenom) VALUES (:username, :password, :nom, :prenom)")) {
+    if( ! query.prepare("INSERT INTO Users (username, password, nom, prenom) VALUES (:username, :password, :nom, :prenom)")) {
         qDebug() << "error prepare" << query.lastError();
     }
     query.bindValue(":username", username);
@@ -44,11 +44,11 @@ bool DbManager::addUser(const QString& username, const QString& password, const 
 }
 
 //TODO WARNING : this function is vulnerable to trivial SQL injection attacks...
-bool DbManager::addParcelle(const QString& owner, const QString& file,QString surface, QStringList answers, QList<int> comboAnswers) {
+bool DbManager::addParcel(const QString& owner, const QString& file,QString surface, QStringList answers, QList<int> comboAnswers) {
    bool success = false;
    if (owner == "" || file == "") return success;
 
-   QString prep = "INSERT INTO Parcelle (owner, parcelleFile, name, surface";
+   QString prep = "INSERT INTO Parcel (owner, parcelFile, name, surface";
    QSqlQuery query;
    QString posVal = "(?,?,?,?";
 
@@ -82,26 +82,37 @@ bool DbManager::addParcelle(const QString& owner, const QString& file,QString su
    }
 
    if(query.exec()) success = true;
-   else qDebug() << "addParcelle error:  " << query.lastError() << query.lastQuery() << "Answer length : " << answers.length() << "Combo lenght" << comboAnswers.length();
+   else qDebug() << "addParcel error:  " << query.lastError() << query.lastQuery() << "Answer length : " << answers.length() << "Combo lenght" << comboAnswers.length();
 
    return success;
 }
 
 
-QList<QString> DbManager::getAllParcelle(QString username) {
+QList<QString> DbManager::getAllParcel(QString username) {
     QList<QString> res = *new QList<QString>();
-    QString foo = "SELECT parcelleFile FROM Parcelle WHERE owner = \""+ username + "\"";
+    QString foo = "SELECT parcelFile FROM Parcel WHERE owner = \""+ username + "\"";
     QSqlQuery query (foo);
-    int idName = query.record().indexOf("parcelleFile");
+    int idName = query.record().indexOf("parcelFile");
     while (query.next()) {
         res.append(query.value(idName).toString());
     }
     return res;
 }
 
-QList<QString> DbManager::getAllParcelleNames(QString username) {
+QList<QString> DbManager::getAllParcel() {
     QList<QString> res = *new QList<QString>();
-    QString foo = "SELECT name FROM Parcelle WHERE owner = \""+ username + "\"";
+    QString foo = "SELECT parcelFile FROM Parcel";
+    QSqlQuery query (foo);
+    int idName = query.record().indexOf("parcelFile");
+    while (query.next()) {
+        res.append(query.value(idName).toString());
+    }
+    return res;
+}
+
+QList<QString> DbManager::getAllParcelNames(QString username) {
+    QList<QString> res = *new QList<QString>();
+    QString foo = "SELECT name FROM Parcel WHERE owner = \""+ username + "\"";
     QSqlQuery query (foo);
     int idName = query.record().indexOf("name");
     while (query.next()) {
@@ -188,14 +199,14 @@ bool DbManager::verifNbMission(QString username) {
     return false;*/
 }
 
-bool DbManager::verifNbParcelle(QString username) {
+bool DbManager::verifNbParcel(QString username) {
     return true;
    /* QSqlQuery query;
-    query.prepare("SELECT count(parcelleFile) FROM Parcelle WHERE owner = (:username)");
+    query.prepare("SELECT count(parcelFile) FROM Parcel WHERE owner = (:username)");
     query.bindValue(":username", username);
     if(query.exec()) {
         query.first();
-        QString value = query.value("count(parcelleFile)").toString();
+        QString value = query.value("count(parcelFile)").toString();
         return value.toInt() < nbParam->at(1).toInt();
     }
     return false;*/
@@ -204,7 +215,7 @@ bool DbManager::verifNbParcelle(QString username) {
 //we return false so that it block if the request come to an error
 bool DbManager::verifNbUser() {
     return true;
-    /*QSqlQuery query("SELECT count(username) FROM Person");
+    /*QSqlQuery query("SELECT count(username) FROM Users");
     query.first();
     QString value = query.value("count(username)").toString();
     //here, we have a "<=" to include the admin !
@@ -223,9 +234,9 @@ void DbManager::buildDB() {
                           "maximumParcelSurface INTEGER DEFAULT 0"
                           ");";
 
-    QString tableParcelle = "CREATE TABLE IF NOT EXISTS Parcelle("
+    QString tableParcel = "CREATE TABLE IF NOT EXISTS Parcel("
                             "owner TEXT NOT NULL, "
-                            "parcelleFile TEXT NOT NULL UNIQUE, "
+                            "parcelFile TEXT NOT NULL UNIQUE, "
                             "name TEXT NOT NULL UNIQUE, "
                             "surface TEXT, "
                             "FOREIGN KEY(owner) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE);";
@@ -237,7 +248,7 @@ void DbManager::buildDB() {
                            "FOREIGN KEY(owner) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE);";
 
     QSqlQuery queryUsers(tableUsers);
-    QSqlQuery queryParcelle(tableParcelle);
+    QSqlQuery queryParcel(tableParcel);
     QSqlQuery queryMission(tableMission);
 
 #ifdef QT_DEBUG
@@ -262,7 +273,7 @@ void DbManager::buildDB() {
 //Returns true if file doesn't exists
 bool DbManager::checkIfExist(QString file) {
     QSqlQuery queryTest;
-    queryTest.prepare("SELECT COUNT(*) as foo FROM Parcelle WHERE parcelleFile = (:file)");
+    queryTest.prepare("SELECT COUNT(*) as foo FROM Parcel WHERE parcelFile = (:file)");
     queryTest.bindValue(":file", file);
     if(queryTest.exec()) {
         queryTest.first();
@@ -289,7 +300,7 @@ void DbManager::saveToXML(QString path) {
     xmlWriter.writeStartElement("Database");
     xmlWriter.writeTextElement("Date", QDateTime::currentDateTime().toString("ddMMyyyy-hhmmss") );
 
-    QString reqUser = "SELECT username FROM Person";
+    QString reqUser = "SELECT username FROM Users";
     QSqlQuery UserQuery (reqUser);
 
     while (UserQuery.next()) {
@@ -297,32 +308,32 @@ void DbManager::saveToXML(QString path) {
         xmlWriter.writeStartElement("User");
         xmlWriter.writeTextElement("username", UserQuery.value(0).toString());
 
-        QString reqParcelle = "SELECT * FROM Parcelle WHERE owner = \""+ UserQuery.value(0).toString() + "\"";
-        QSqlQuery ParcelleQuery (reqParcelle);
+        QString reqParcel = "SELECT * FROM Parcel WHERE owner = \""+ UserQuery.value(0).toString() + "\"";
+        QSqlQuery ParcelQuery (reqParcel);
 
-        while (ParcelleQuery.next()) {
-            //list of parcelle of the corresponding username
-            xmlWriter.writeStartElement("Parcelle");
+        while (ParcelQuery.next()) {
+            //list of parcel of the corresponding username
+            xmlWriter.writeStartElement("Parcel");
 
-            // write main element of the parcelle
-            xmlWriter.writeTextElement("filename", ParcelleQuery.value("name").toString());
-            xmlWriter.writeTextElement("pathTo", ParcelleQuery.value("parcelleFile").toString());
+            // write main element of the parcel
+            xmlWriter.writeTextElement("filename", ParcelQuery.value("name").toString());
+            xmlWriter.writeTextElement("pathTo", ParcelQuery.value("parcelFile").toString());
 
             xmlWriter.writeStartElement("Info");
             QList<QString> names = questionFile->getNames();
             //list of different value of the row (other than owner, name, file)
             for (int i = 0; i < names.length(); i++) {
-                xmlWriter.writeTextElement(names[i], ParcelleQuery.value(names[i]).toString());
+                xmlWriter.writeTextElement(names[i], ParcelQuery.value(names[i]).toString());
             }
 
             QList<QString> namesCombo = questionFile->getNamesCombo();
             //list of different value of the row (other than owner, name, file)
             for (int i = 0; i < namesCombo.length(); i++) {
-                xmlWriter.writeTextElement(namesCombo[i], ParcelleQuery.value(namesCombo[i]).toString());
+                xmlWriter.writeTextElement(namesCombo[i], ParcelQuery.value(namesCombo[i]).toString());
             }
             xmlWriter.writeEndElement();
 
-            // close the Parcelle
+            // close the Parcel
             xmlWriter.writeEndElement();
         }
 
@@ -339,7 +350,7 @@ void DbManager::saveToXML(QString path) {
 
 bool DbManager::addQuestion(QString name) {
     QSqlQuery query;
-    QString prep = "ALTER TABLE Parcelle ADD \"" + name + "\" TEXT;";
+    QString prep = "ALTER TABLE Parcel ADD \"" + name + "\" TEXT;";
     if(!query.exec(prep))  qDebug() << "add question error: " << query.lastError() << query.lastQuery();
     return true;
 }
@@ -349,35 +360,35 @@ bool DbManager::deleteQuestion(QList<QString> names) {
     QSqlDatabase::database().transaction();
     QSqlQuery query;
 
-    QString prep = "CREATE TABLE IF NOT EXISTS parcelle2 ("\
+    QString prep = "CREATE TABLE IF NOT EXISTS parcel2 ("\
                    "\"owner\" TEXT NOT NULL,"\
-                   "\"parcelleFile\" TEXT NOT NULL UNIQUE,"\
+                   "\"parcelFile\" TEXT NOT NULL UNIQUE,"\
                    "\"name\" TEXT NOT NULL UNIQUE,"\
                    "\"surface\" TEXT,";
 
     for (int i = 0; i < names.length(); i++) {
         prep = prep + "\"" + names[i] + "\"	TEXT,";
     }
-    prep = prep + "FOREIGN KEY(\"owner\") REFERENCES \"Person\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
+    prep = prep + "FOREIGN KEY(\"owner\") REFERENCES \"Users\"(\"username\") ON UPDATE CASCADE ON DELETE CASCADE);";
     if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError() << prep;
 
-    prep = "INSERT INTO parcelle2(owner, parcelleFile, name, surface";
+    prep = "INSERT INTO parcel2(owner, parcelFile, name, surface";
     for (int i = 0; i < names.length(); i++) {
         prep = prep + "," + names[i];
     }
 
     prep = prep + ")"
-                  "SELECT owner, parcelleFile, name, surface";
+                  "SELECT owner, parcelFile, name, surface";
     for (int i = 0; i < names.length(); i++) {
         prep = prep + "," + names[i];
     }
-    prep = prep + " FROM Parcelle;";
+    prep = prep + " FROM Parcel;";
     if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError() << prep;
 
-    prep = "DROP TABLE Parcelle;";
+    prep = "DROP TABLE Parcel;";
     if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError() << prep;
 
-    prep = "ALTER TABLE parcelle2 RENAME TO Parcelle;";
+    prep = "ALTER TABLE parcel2 RENAME TO Parcel;";
     if(!query.exec(prep))  qDebug() << "addUser error:  " << query.lastError() << prep;
 
     QSqlDatabase::database().commit();
@@ -387,7 +398,7 @@ bool DbManager::deleteQuestion(QList<QString> names) {
 
 QList<QString> DbManager::getAllColumn() {
     QList<QString> res = *new QList<QString>();
-    QString foo = "select name from PRAGMA_TABLE_INFO(\"Parcelle\");";
+    QString foo = "select name from PRAGMA_TABLE_INFO(\"Parcel\");";
     QSqlQuery query (foo);
     int idName = query.record().indexOf("name");
     while (query.next()) {

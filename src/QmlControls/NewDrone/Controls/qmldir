@@ -1,6 +1,6 @@
 module NewDrone.Controls
 
-ParcelleManager     1.0     ParcelleManager.qml
+ParcelManager     	1.0    	ParcelManager.qml
 AdminSettings       1.0     AdminSettings.qml
 SuperAdminSettings  1.0     SuperAdminSettings.qml
 UserManager			1.0		UserManager.qml

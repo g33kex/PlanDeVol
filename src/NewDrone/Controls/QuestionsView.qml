@@ -111,33 +111,33 @@ Rectangle {
         return true
     }
 
-    function deleteChecked(parcelleModel) {
-        _questionsViewController.deleteQuestion(parcelleModel, getChecked())
-        populateQA(parcelleModel, -1)
+    function deleteChecked(parcelModel) {
+        _questionsViewController.deleteQuestion(parcelModel, getChecked())
+        populateQA(parcelModel, -1)
     }
 
     function exchangeQuestion() {
         _questionsViewController.exchangeQuestion(getCheckedMult())
         clear()
-        populateQA(parcelleModel, -1)
+        populateQA(parcelModel, -1)
     }
 
-    function addQuestion(question, parcelleModel, name) {
-        _questionsViewController.addQuestion(parcelleModel, name, question)
-        populateQA(parcelleModel, -1)
+    function addQuestion(question, parcelModel, name) {
+        _questionsViewController.addQuestion(parcelModel, name, question)
+        populateQA(parcelModel, -1)
     }
 
-    function addQuestionCombo(question, answers, parcelleModel, name) {
-        _questionsViewController.addQuestionCombo(parcelleModel, name,
+    function addQuestionCombo(question, answers, parcelModel, name) {
+        _questionsViewController.addQuestionCombo(parcelModel, name,
                                                   question, answers)
-        populateQA(parcelleModel, -1)
+        populateQA(parcelModel, -1)
     }
 
     function checkIfValid(name) {
         return _questionsViewController.checkIfValid(name)
     }
 
-    function save(parcelleModel) {
+    function save(parcelModel) {
         _questionsViewController.setDefaultAnswers(getAnswers())
         _questionsViewController.setComboAnswers(getComboAnswers())
         _questionsViewController.save()
@@ -147,11 +147,11 @@ Rectangle {
         _questionsViewController.loadAndReset()
     }
 
-    function populateQA(parcelleModel, index) {
+    function populateQA(parcelModel, index) {
         clear()
-        var questions = _questionsViewController.getQuestions(parcelleModel,
+        var questions = _questionsViewController.getQuestions(parcelModel,
                                                               index)
-        var answers = _questionsViewController.getAnswers(parcelleModel, index)
+        var answers = _questionsViewController.getAnswers(parcelModel, index)
         //            console.log("-----QuestionView.qml-------\nquestion size:"+questions.length)
         for (var i = 0; i < questions.length; i++) {
             repeater.model.append({
@@ -162,11 +162,11 @@ Rectangle {
         }
 
         var comboQuestions = _questionsViewController.getComboQuestions(
-                    parcelleModel, index)
+                    parcelModel, index)
         var possibleAnswers = _questionsViewController.getPossibleAnswers(
-                    parcelleModel, index)
+                    parcelModel, index)
         var selectedAnswers = _questionsViewController.getSelectedAnswers(
-                    parcelleModel, index)
+                    parcelModel, index)
         for (i = 0; i < comboQuestions.length; i++) {
             var array = possibleAnswers[i]
 

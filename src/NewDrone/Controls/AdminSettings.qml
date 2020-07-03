@@ -39,7 +39,7 @@ Popup {
             }
             TabButton {
                 implicitHeight: 60
-                text: "Parcelles"
+                text: "Parcels"
                 background: Rectangle {
                     color: tabBar.currentIndex == 2 ? "mediumseagreen" : "lightgreen"
                     radius: 3
@@ -47,7 +47,15 @@ Popup {
             }
             TabButton {
                 implicitHeight: 60
-                text: "Paramètres"
+                text: "Parcel Manager"
+                background: Rectangle {
+                    color: tabBar.currentIndex == 3 ? "chartreuse" : "aquamarine"
+                    radius: 3
+                }
+            }
+            TabButton {
+                implicitHeight: 60
+                text: "Settings"
                 background: Rectangle {
                     color: tabBar.currentIndex == 4 ? "silver" : "lightgrey"
                     radius: 3
@@ -65,18 +73,34 @@ Popup {
 
                 MissionsView {}
                 ParcelsView {}
+                Item {
+                ParcelManager {
+                    id: parcelManager
+                    showAllUsers: true
+                    allowEdit: false
+                    onVisibleChanged: {
+                        if(visible) {
+                            parcelManager.show()
+                        }
+                        else {
+                            parcelManager.hide()
+                        }
+                    }
+                }
+                }
                 SettingsEditor {
                     id: settingsEditor
                     isSuperAdmin: false
                 }
             }
         }
+
         Button {
             id: disconnectButton
             Layout.alignment: Qt.AlignRight
             padding: 10
 
-            text: "Deconnexion"
+            text: "Disconnect"
             background: Rectangle {
                 border.width: disconnectButton.activeFocus ? 2 : 1
                 border.color: "pink"

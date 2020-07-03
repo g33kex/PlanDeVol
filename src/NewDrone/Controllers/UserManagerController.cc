@@ -32,14 +32,14 @@ void UserManagerController::addUser(SqlCustomModel *model, QString password, QSt
 void UserManagerController::deleteUsers(SqlCustomModel *model, QList<int> indexes) {
     for(int i=0; i<indexes.size();i++) {
         QString username = model->record(indexes[i]).value("username").toString();
-        qDebug() << "remove all parcelle et mission from " << username;
-        QList<QString> listParcelle = db->getAllParcelle(username);
-        for (QList<QString>::iterator j = listParcelle.begin(); j != listParcelle.end(); ++j) {
+        qDebug() << "remove all parcel et mission from " << username;
+        QList<QString> listParcel = db->getAllParcel(username);
+        for (QList<QString>::iterator j = listParcel.begin(); j != listParcel.end(); ++j) {
             QFile file (*j);
             file.remove();
         }
         QList<QString> listMission = db->getAllMission(username);
-        for (QList<QString>::iterator j = listParcelle.begin(); j != listParcelle.end(); ++j) {
+        for (QList<QString>::iterator j = listParcel.begin(); j != listParcel.end(); ++j) {
             QFile file (*j);
             file.remove();
         }

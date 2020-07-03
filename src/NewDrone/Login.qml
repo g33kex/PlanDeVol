@@ -18,10 +18,6 @@ Item {
         id: loginController
     }
 
-   // ParcelleManagerController {
-    //    id: _parcelleManagerController
-    //}
-
     Loader {
         id: rootWindowLoader
         asynchronous: true
@@ -183,14 +179,14 @@ Item {
         id: adminSettings
         width: parent.width
         height: parent.height
-        visible: false
+        visible: true
     }
 
     SuperAdminSettings {
         id: superAdminSettings
         width: parent.width
         height: parent.height
-        visible: true
+        visible: false
     }
 
     SimpleDialog {

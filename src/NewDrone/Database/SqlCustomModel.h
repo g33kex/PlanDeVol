@@ -22,7 +22,7 @@ public:
 
     void generateRoleNames();
 
-    Q_INVOKABLE void setupForParcelle();
+    Q_INVOKABLE void setupForParcel(bool showAllUsers);
     Q_INVOKABLE void setupForMission();
     Q_INVOKABLE void setupForUsers();
     QHash<int, QByteArray> roleNames() const override {	return roles;	}

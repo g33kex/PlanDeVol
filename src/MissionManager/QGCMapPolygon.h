@@ -71,8 +71,8 @@ public:
     /// Adjust polygon winding order to be clockwise (if needed)
     Q_INVOKABLE void verifyClockwiseWinding(void);
 
-    ///Save the polygon as KML (for Save as Parcelle)
-    Q_INVOKABLE void saveAsParcelle(QString name, QStringList answers, QList<int> comboAnswers);
+    ///Save the polygon as KML (for Save as Parcel)
+    Q_INVOKABLE void saveAsParcel(QString name, QStringList answers, QList<int> comboAnswers);
 
 
     /// Saves the polygon to the json object.

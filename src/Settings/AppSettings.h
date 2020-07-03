@@ -61,7 +61,7 @@ public:
     Q_PROPERTY(QString videoSavePath        READ videoSavePath      NOTIFY savePathsChanged)
     Q_PROPERTY(QString crashSavePath        READ crashSavePath       NOTIFY savePathsChanged)
     Q_PROPERTY(bool nbMission               READ nbMission          NOTIFY savePathsChanged)
-    Q_PROPERTY(bool nbParcelle              READ nbParcelle         NOTIFY savePathsChanged)
+    Q_PROPERTY(bool nbParcel              READ nbParcel         NOTIFY savePathsChanged)
 
 
     Q_PROPERTY(QString planFileExtension        MEMBER planFileExtension        CONSTANT)
@@ -85,7 +85,7 @@ public:
     QString videoSavePath       ();
     QString crashSavePath       ();
     bool    nbMission           ();
-    bool    nbParcelle          ();
+    bool    nbParcel          ();
 
     void _checkSavePathDirectories();
 

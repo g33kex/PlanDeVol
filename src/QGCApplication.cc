@@ -458,7 +458,7 @@ void QGCApplication::_initCommon()
     qmlRegisterSingletonType<ScreenToolsController>     ("QGroundControl.ScreenToolsController",    1, 0, "ScreenToolsController",  screenToolsControllerSingletonFactory);
     qmlRegisterSingletonType<ShapeFileHelper>           ("QGroundControl.ShapeFileHelper",          1, 0, "ShapeFileHelper",        shapeFileHelperSingletonFactory);
 
-    qmlRegisterType<ParcelleManagerController>      (kNDControllers,                        1, 0, "ParcelleManagerController");
+    qmlRegisterType<ParcelManagerController>      (kNDControllers,                        1, 0, "ParcelManagerController");
     qmlRegisterType<LoginController>                (kNDControllers,                        1, 0, "LoginController");
     qmlRegisterType<QuestionsViewController>		(kNDControllers, 						1, 0, "QuestionsViewController");
     qmlRegisterType<UserManagerController>          (kNDControllers,                        1, 0, "UserManagerController");

@@ -395,6 +395,7 @@ INCLUDEPATH += \
 #
 
 HEADERS += \
+    src/NewDrone/Controllers/ParcelManagerController.h \
     src/NewDrone/Controllers/SettingsEditorController.h \
     src/NewDrone/Controllers/UserManagerController.h \
     src/NewDrone/Utils/QmlValuePreview.h \
@@ -406,6 +407,7 @@ HEADERS += \
     src/GPS/Drivers/src/base_station.h \
 
 SOURCES += \
+    src/NewDrone/Controllers/ParcelManagerController.cc \
     src/NewDrone/Controllers/SettingsEditorController.cc \
     src/NewDrone/Controllers/UserManagerController.cc \
     src/api/QGCCorePlugin.cc \
@@ -851,7 +853,6 @@ HEADERS += \
     src/NewDrone/Database/DbManager.h \
     src/NewDrone/Database/SqlCustomModel.h \
     src/NewDrone/Controllers/LoginController.h \
-    src/NewDrone/Controllers/ParcelleManagerController.h \
     src/NewDrone/Controllers/QuestionsViewController.h \
     #src/NewDrone/ParcelleComplexItem.hpp \
 
@@ -862,7 +863,6 @@ SOURCES += \
     src/NewDrone/Database/DbManager.cc \
     src/NewDrone/Database/SqlCustomModel.cc \
     src/NewDrone/Controllers/LoginController.cc \
-    src/NewDrone/Controllers/ParcelleManagerController.cc \
     src/NewDrone/Controllers/QuestionsViewController.cc \
     #src/NewDrone/ParcelleComplexItem.cpp \
 

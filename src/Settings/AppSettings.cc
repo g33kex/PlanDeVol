@@ -222,9 +222,9 @@ bool AppSettings::nbMission(void){
     return db->verifNbMission(username);
 }
 
-bool AppSettings::nbParcelle(void){
-    qDebug() << " --- nb Parcelle ---";
-    return db->verifNbParcelle(username);
+bool AppSettings::nbParcel(void){
+    qDebug() << " --- nb Parcel ---";
+    return db->verifNbParcel(username);
 }
 
 void AppSettings::setBoxAlt (int index) {

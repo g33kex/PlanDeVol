@@ -11,13 +11,15 @@ import NewDrone 1.0
 Item {
     property int margin: 6
 
+    property bool showAllUsers: true
+
     function onClosed() {
         save()
         questionView.loadAndReset()
     }
 
     function save() {
-        questionView.save(parcelleModel2)
+        questionView.save(parcelModel2)
     }
 
     ColumnLayout {
@@ -51,15 +53,15 @@ Item {
             selectable: true
 
             SqlCustomModel {
-                id: parcelleModel2
+                id: parcelModel2
 
                 Component.onCompleted: {
-                    setupForParcelle()
+                    setupForParcel(showAllUsers)
                 }
             }
 
             Component.onCompleted: {
-                populateQA(parcelleModel2, -1)
+                populateQA(parcelModel2, -1)
             }
         }
 
@@ -93,8 +95,8 @@ Item {
                 Layout.topMargin: 0
                 onClicked: {
                     if (questionView.getNbChecked() === 1) {
-                        questionView.deleteChecked(parcelleModel2)
-                        questionView.save(parcelleModel2)
+                        questionView.deleteChecked(parcelModel2)
+                        questionView.save(parcelModel2)
                     } else {
                         errorDialog.show("Please select ONE question to delete.")
                         tooManyDelDialog.open()
@@ -126,14 +128,14 @@ Item {
                 if (combo_checkbox.checked) {
                     questionView.addQuestionCombo(question_textField.text,
                                                   possibleChoiceArea.text,
-                                                  parcelleModel2,
+                                                  parcelModel2,
                                                   name_textField.text)
                 } else {
                     questionView.addQuestion(question_textField.text,
-                                             parcelleModel2,
+                                             parcelModel2,
                                              name_textField.text)
                 }
-                questionView.save(parcelleModel2)
+                questionView.save(parcelModel2)
                 reset()
             } else {
                 errorDialog.show("The question name is already used!")

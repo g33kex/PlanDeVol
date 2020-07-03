@@ -72,7 +72,8 @@ Item {
                 visible:            !QGroundControl.corePlugin.options.combineSettingsAndSetup
                 onClicked: {
                     checked = true
-                    mainWindow.showSettingsView()
+                    //NewDrone : disabled settings window for users
+                    //mainWindow.showSettingsView()
                 }
             }
 

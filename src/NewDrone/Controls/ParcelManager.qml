@@ -18,13 +18,16 @@ Item {
     property int margin: 5
     anchors.fill: parent
 
-    ParcelleManagerController {
-        id: _parcelleManagerController
+    property bool showAllUsers: false
+    property bool allowEdit: true
+
+    ParcelManagerController {
+        id: _parcelManagerController
         onDownloadEnded: {
-            addParcelleProgressOverlay.close()
+            addParcelProgressOverlay.close()
             if (success) {
                 downloadSuccessDialog.open()
-                map.updateParcelles()
+                map.updateParcell()
             } else {
                 downloadFailureDialog.open()
             }
@@ -32,17 +35,21 @@ Item {
     }
 
     function show() {
-        _parcelleManagerController.updateModel(parcelleModel)
+        _parcelManagerController.updateModel(parcelModel, showAllUsers)
 
-        parcelleManagerPopup.open()
+        parcelManagerPopup.open()
+    }
+
+    function hide() {
+        parcelManagerPopup.close()
     }
 
     Popup {
-        id: parcelleManagerPopup
-        width: parent.width
-        height: parent.height
+        id: parcelManagerPopup
+        width: element.width
+        height: element.height
 
-        modal: true
+        modal: allowEdit
         focus: true
         background: Rectangle {
             color: "#C0C0C0"
@@ -71,10 +78,10 @@ Item {
                         id: page1
 
                         SqlCustomModel {
-                            id: parcelleModel
+                            id: parcelModel
 
                             Component.onCompleted: {
-                                setupForParcelle()
+                                setupForParcel(showAllUsers)
                             }
                         }
 
@@ -84,13 +91,13 @@ Item {
                             selectionMode: SelectionMode.MultiSelection
                             TableViewColumn {
                                 role: "owner"
-                                title: "Utilisateur"
+                                title: "Username"
                                 movable: false
                                 width: 2 * tableView.width / 8
                             }
                             TableViewColumn {
                                 role: "name"
-                                title: "Nom de la Parcelle"
+                                title: "Parcel Name"
                                 movable: false
                                 width: 3 * tableView.width / 8
                             }
@@ -101,7 +108,7 @@ Item {
                                 width: 3 * tableView.width / 8
                             }
 
-                            model: parcelleModel
+                            model: parcelModel
 
                             onClicked: {
                                 console.log("SELECTION CHANGED, COUNT=" + selection.count)
@@ -111,7 +118,7 @@ Item {
                                                 function (rowIndex) {
                                                     sel = rowIndex
                                                 })
-                                    questionsView3.populateQA(parcelleModel,
+                                    questionsView3.populateQA(parcelModel,
                                                               sel)
                                 } else {
                                     questionsView3.clear()
@@ -121,6 +128,7 @@ Item {
                     }
 
                     Rectangle {
+                        visible: allowEdit
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
                         Layout.fillHeight: true
@@ -134,47 +142,49 @@ Item {
                     }
 
                     Button {
+                        visible: allowEdit
                         Layout.fillWidth: true
                         Layout.margins: margin
                         text: "Ajouter"
 
                         onClicked: {
-                            if (QGroundControl.settingsManager.appSettings.nbParcelle) {
-                                addParcelleDialog.reset()
-                                addParcelleDialog.open()
+                            if (QGroundControl.settingsManager.appSettings.nbParcel) {
+                                addParcelDialog.reset()
+                                addParcelDialog.open()
                             } else {
                                 messageDialog_toomuch.open()
                             }
                         }
                     }
                     Button {
-                        id: removeParcelle
+                        visible: allowEdit
+                        id: removeParcel
                         Layout.fillWidth: true
                         Layout.margins: margin
                         text: "Supprimer"
                         signal adminVerified
                         onClicked: {
-                            removeParcelle.adminVerified.connect(
-                                        deleteParcelleOnAdminVerifed)
+                            removeParcel.adminVerified.connect(
+                                        deleteParcelOnAdminVerifed)
                             admin.open()
                         }
 
-                        function deleteParcelleOnAdminVerifed() {
+                        function deleteParcelOnAdminVerifed() {
                             adminVerified.disconnect(
-                                        deleteParcelleOnAdminVerifed)
+                                        deleteParcelOnAdminVerifed)
                             var selected = []
                             tableView.selection.forEach(function (rowIndex) {
                                 console.log("Selected : " + rowIndex)
                                 selected.push(rowIndex)
                             })
                             tableView.selection.clear()
-                            _parcelleManagerController.deleteParcelle(
-                                        parcelleModel, selected)
-                            map.updateParcelles()
+                            parcelManagerController.deleteParcel(
+                                        parcelModel, selected)
+                            map.updateParcels()
                         }
                     }
                     Button {
-
+                        visible: allowEdit
                         Layout.margins: margin
                         Layout.fillWidth: true
 
@@ -188,15 +198,16 @@ Item {
                                             function (rowIndex) {
                                                 sel = rowIndex
                                             })
-                                editParcelleDialog.parcelleIndex = sel
-                                editParcelleDialog.refresh()
-                                editParcelleDialog.open()
+                                editParcelDialog.parcelIndex = sel
+                                editParcelDialog.refresh()
+                                editParcelDialog.open()
                             } else {
-                                errorModifyOnlyOneParcelleDialog.open()
+                                errorModifyOnlyOneParcelDialog.open()
                             }
                         }
                     }
                     Button {
+                        visible: allowEdit
                         Layout.fillWidth: true
                         Layout.margins: margin
                         Layout.columnSpan: 2
@@ -208,20 +219,21 @@ Item {
                             })
                             tableView.selection.clear()
 
-                            _parcelleManagerController.addToMission(
-                                        parcelleModel,
+                            _parcelManagerController.addToMission(
+                                        parcelModel,
                                         _planMasterController.missionController,
                                         selected)
-                            parcelleManagerPopup.close()
+                            parcelManagerPopup.close()
                         }
                     }
 
                     Button {
+                        visible: allowEdit
                         Layout.fillWidth: true
                         Layout.margins: margin
                         text: "Ok"
                         onClicked: {
-                            parcelleManagerPopup.close()
+                            parcelManagerPopup.close()
                         }
                     }
                 }
@@ -240,33 +252,33 @@ Item {
                 zoomLevel: 14
                 activeMapType: map.supportedMapTypes[1]
 
-                property var parcelles
+                property var parcels
                 property var names
 
-                function updateParcelles() {
+                function updateParcels() {
                     map.clearMapItems()
-                    parcelles = _parcelleManagerController.getParcelleList()
-                    names = _parcelleManagerController.getParcelleNames()
-                    for (var i = 0; i < parcelles.length; i++) {
+                    parcels = _parcelManagerController.getParcelList()
+                    names = _parcelManagerController.getParcelNames()
+                    for (var i = 0; i < parcels.length; i++) {
                         if (zoomLevel > 11) {
                             var polygon = Qt.createQmlObject(
                                         'import QtLocation 5.3; MapPolygon {}',
                                         map)
-                            polygon.path = parcelles[i]
+                            polygon.path = parcels[i]
                             polygon.color = "#50FFA500"
                             polygon.border.width = 5
                             polygon.border.color = "red"
                             map.addMapItem(polygon)
                         } else {
-                            var parcelleIndicator = Qt.createQmlObject('
+                            var parcelIndicator = Qt.createQmlObject('
 import QtLocation 5.3;import QtQuick 2.0; MapQuickItem {sourceItem: Rectangle {
 width: 25
 height: 25
 border.width: 5
 color: "red"
 }}', map)
-                            parcelleIndicator.coordinate = parcelles[i][0]
-                            map.addMapItem(parcelleIndicator)
+                            parcelIndicator.coordinate = parcels[i][0]
+                            map.addMapItem(parcelIndicator)
                         }
 
                         var label = Qt.createQmlObject('
@@ -280,27 +292,27 @@ color: "pink"
 font.pixelSize : 22
 font.bold : true
 text: "' + names[i] + '"}}', map)
-                        label.coordinate = parcelles[i][0]
+                        label.coordinate = parcels[i][0]
                         map.addMapItem(label)
                     }
                 }
 
                 onZoomLevelChanged: {
-                    updateParcelles()
+                    updateParcels()
                 }
 
                 Component.onCompleted: {
 
-                    updateParcelles()
-                    if (parcelles.length > 0) {
-                        map.center = parcelles[0][0]
+                    updateParcels()
+                    if (parcels.length > 0) {
+                        map.center = parcels[0][0]
                     }
                 }
             }
         }
 
         Dialog {
-            id: editParcelleDialog
+            id: editParcelDialog
 
             x: (element.width - width) / 2
             y: (element.height - height) / 2
@@ -309,24 +321,24 @@ text: "' + names[i] + '"}}', map)
 
             modal: true
 
-            property int parcelleIndex: 0
+            property int parcelIndex: 0
 
             function refresh() {
                 ownerField.updateContent()
                 fileField.updateContent()
-                questionsView.populateQA(parcelleModel, parcelleIndex)
+                questionsView.populateQA(parcelModel, parcelIndex)
             }
 
             onAccepted: {
-                _parcelleManagerController.modifyParcelle(
-                            parcelleModel, parcelleIndex, ownerField.text,
+                parcelManagerController.modifyParcel(
+                            parcelModel, parcelIndex, ownerField.text,
                             fileField.text, questionsView.getAnswers(),
                             questionsView.getComboAnswers())
-                map.updateParcelles()
+                map.updateParcels()
                 questionsView3.clear()
             }
 
-            title: "Modifier Parcelle"
+            title: "Edit Parcel"
 
             standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -335,25 +347,25 @@ text: "' + names[i] + '"}}', map)
                 anchors.fill: parent
 
                 Label {
-                    text: "Utilisateur"
+                    text: "Username"
                 }
                 Label {
-                    text: "Nom"
+                    text: "Parcel Name"
                 }
                 TextField {
                     id: ownerField
                     enabled: false
                     function updateContent() {
-                        text = parcelleModel.getRecordValue(
-                                    editParcelleDialog.parcelleIndex, "owner")
+                        text = parcelModel.getRecordValue(
+                                    editParcelDialog.parcelIndex, "owner")
                     }
                 }
                 TextField {
                     id: fileField
                     enabled: false
                     function updateContent() {
-                        text = parcelleModel.getRecordValue(
-                                    editParcelleDialog.parcelleIndex, "name")
+                        text = parcelModel.getRecordValue(
+                                    editParcelDialog.parcelIndex, "name")
                     }
                 }
 
@@ -368,7 +380,7 @@ text: "' + names[i] + '"}}', map)
         }
 
         Dialog {
-            id: addParcelleDialog
+            id: addParcelDialog
 
             x: (element.width - width) / 2
             y: (element.height - height) / 2
@@ -378,18 +390,18 @@ text: "' + names[i] + '"}}', map)
 
             onAccepted: {
                 if (a_ilotField.length > 0 && a_fileField.length > 0) {
-                    if (_parcelleManagerController.checkIfExist(
+                    if (parcelManagerController.checkIfExist(
                                 QGroundControl.settingsManager.appSettings.missionSavePath
                                 + "/" + a_fileField.text)) {
-                        _parcelleManagerController.addParcelle(
-                                    parcelleModel, a_ilotField.text,
+                        parceleManagerController.addParcel(
+                                    parcelModel, a_ilotField.text,
                                     QGroundControl.settingsManager.appSettings.missionSavePath
                                     + "/" + a_fileField.text,
                                     questionsView2.getAnswers(),
                                     questionsView2.getComboAnswers())
-                        addParcelleProgressOverlay.open()
+                        addParcelProgressOverlay.open()
                     } else {
-                        parcelleExistsDialog.open()
+                        parcelExistsDialog.open()
                     }
                 } else {
                     champVideDialog.open()
@@ -397,7 +409,7 @@ text: "' + names[i] + '"}}', map)
             }
 
             Popup {
-                id: addParcelleProgressOverlay
+                id: addParcelProgressOverlay
 
                 parent: Overlay.overlay
 
@@ -417,10 +429,10 @@ text: "' + names[i] + '"}}', map)
             function reset() {
                 a_ilotField.text = ""
                 a_fileField.text = ""
-                questionsView2.populateQA(parcelleModel, -1)
+                questionsView2.populateQA(parcelModel, -1)
             }
 
-            title: "Ajouter Parcelle"
+            title: "Add Parcel"
 
             standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -429,10 +441,10 @@ text: "' + names[i] + '"}}', map)
                 anchors.fill: parent
 
                 Label {
-                    text: "Numéro d'ilot"
+                    text: "Parcel Number"
                 }
                 Label {
-                    text: "Nom du fichier"
+                    text: "File Name"
                 }
                 TextField {
                     id: a_ilotField
@@ -452,14 +464,14 @@ text: "' + names[i] + '"}}', map)
     }
 
     Dialog {
-        id: errorModifyOnlyOneParcelleDialog
+        id: errorModifyOnlyOneParcelDialog
         standardButtons: Dialog.Ok
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         modal: true
         title: "Error"
         Label {
-            text: "Choisisser une parcelle à modifier"
+            text: "Please choose a parcel to edit."
         }
     }
 
@@ -472,7 +484,7 @@ text: "' + names[i] + '"}}', map)
         title: "Warning"
         Label {
             anchors.centerIn: parent
-            text: "Limite de parcelles enregistrées atteintes."
+            text: "Limite de parcels enregistrées atteintes."
         }
     }
 
@@ -485,7 +497,7 @@ text: "' + names[i] + '"}}', map)
         title: "Success"
         Label {
             anchors.centerIn: parent
-            text: "Parcelle téléchargée avec succès."
+            text: "Parcel successfully downloaded"
         }
     }
 
@@ -498,12 +510,12 @@ text: "' + names[i] + '"}}', map)
         title: "Error"
         Label {
             anchors.centerIn: parent
-            text: "Impossible de télécharger la parcelle."
+            text: "Error when downloading the parcel."
         }
     }
 
     Dialog {
-        id: parcelleExistsDialog
+        id: parcelExistsDialog
         standardButtons: Dialog.Ok
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
@@ -511,7 +523,7 @@ text: "' + names[i] + '"}}', map)
         title: "Error"
         Label {
             anchors.centerIn: parent
-            text: "La parcelle existe déja!"
+            text: "The parcel already exists."
         }
     }
 
@@ -524,7 +536,7 @@ text: "' + names[i] + '"}}', map)
         title: "Error"
         Label {
             anchors.centerIn: parent
-            text: "Le champs numero d'ilot ou nom est vide"
+            text: "The parcel number field or name field is empty."
         }
     }
 
@@ -541,7 +553,7 @@ text: "' + names[i] + '"}}', map)
             anchors.fill: parent
 
             Label {
-                text: "username"
+                text: "Username"
             }
             TextField {
                 id: a_username
@@ -557,8 +569,8 @@ text: "' + names[i] + '"}}', map)
             }
         }
         onAccepted: {
-            if (_parcelleManagerController.verif("admin", a_password.text)) {
-                removeParcelle.deleteParcelleOnAdminVerifed()
+            if (parcelManagerController.verif("admin", a_password.text)) {
+                removeParcel.deleteParcelOnAdminVerifed()
             }
             a_password.text = ""
         }

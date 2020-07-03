@@ -30,6 +30,7 @@ void SettingsEditorController::loadSettings()
 
     //Flight Settings
     setTurnaroundDistance(settings.value(key_turnaroundDistance, 10).toDouble());
+    setLoiterRadius(settings.value(key_loiterRadius, 75).toDouble());
     setTolerance(settings.value(key_tolerance, 10).toDouble());
     setMaxClimbRate(settings.value(key_maxClimbRate, 2).toDouble());
     setMaxDescentRate(settings.value(key_maxDescentRate, 2).toDouble());
@@ -46,7 +47,7 @@ void SettingsEditorController::loadSettings()
     setOverlap(settings.value(key_overlap, 0).toInt());
 
     //Checklist
-    setChecklist(settings.value(key_checklist, "Nothing to report").toString());
+    setChecklist(settings.value(key_checklist, "All is Good:Nothing to report.").toString());
 
     settings.endGroup();
 
@@ -67,6 +68,7 @@ void SettingsEditorController::saveSettings()
 
     //Flight Settings
     settings.setValue(key_turnaroundDistance, turnaroundDistance());
+    settings.setValue(key_loiterRadius, loiterRadius());
     settings.setValue(key_tolerance, tolerance());
     settings.setValue(key_maxClimbRate, maxClimbRate());
     settings.setValue(key_maxDescentRate, maxDescentRate());

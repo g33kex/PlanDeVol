@@ -51,7 +51,7 @@ Popup {
             }
             TabButton {
                 implicitHeight: 60
-                text: "Parcelles"
+                text: "Parcels"
                 background: Rectangle {
                     color: tabBar.currentIndex == 2 ? "mediumseagreen" : "lightgreen"
                     radius: 3
@@ -59,9 +59,17 @@ Popup {
             }
             TabButton {
                 implicitHeight: 60
+                text: "Parcel Manager"
+                background: Rectangle {
+                    color: tabBar.currentIndex == 3 ? "chartreuse" : "aquamarine"
+                    radius: 3
+                }
+            }
+            TabButton {
+                implicitHeight: 60
                 text: "Questions"
                 background: Rectangle {
-                    color: tabBar.currentIndex == 3 ? "orange" : "gold"
+                    color: tabBar.currentIndex == 4 ? "orange" : "gold"
                     radius: 3
                 }
             }
@@ -69,7 +77,7 @@ Popup {
                 height: 60
                 text: "Settings"
                 background: Rectangle {
-                    color: tabBar.currentIndex == 4 ? "silver" : "lightgrey"
+                    color: tabBar.currentIndex == 5 ? "silver" : "lightgrey"
                     radius: 3
                 }
             }
@@ -77,7 +85,7 @@ Popup {
                 height: 60
                 text: "Advanced"
                 background: Rectangle {
-                    color: tabBar.currentIndex == 5 ? "plum" : "pink"
+                    color: tabBar.currentIndex == 6 ? "plum" : "pink"
                 }
             }
         }
@@ -94,6 +102,22 @@ Popup {
                 UserManager {}
                 MissionsView {}
                 ParcelsView {}
+                Item {
+                ParcelManager {
+                    id: parcelManager
+                    showAllUsers: true
+                    allowEdit: false
+                    onVisibleChanged: {
+                        if(visible) {
+                            parcelManager.show()
+                        }
+                        else {
+                            parcelManager.hide()
+                        }
+                    }
+                }
+                }
+
                 QuestionsEditor {
                     id: questionsEditor
                 }

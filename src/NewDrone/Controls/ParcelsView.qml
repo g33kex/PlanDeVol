@@ -17,55 +17,55 @@ Item {
             color: "white"
 
             SqlCustomModel {
-                id: parcelleModel
+                id: parcelModel
 
                 Component.onCompleted: {
-                    setupForParcelle()
+                    setupForParcel(true)
                 }
             }
 
             TableView {
-                id: parcelleTableView
+                id: parcelTableView
                 anchors.fill: parent
                 selectionMode: SelectionMode.MultiSelection
                 TableViewColumn {
                     role: "owner"
-                    title: "Utilisateur"
+                    title: "Username"
                     movable: false
-                    width: 2 * parcelleTableView.width / 5
+                    width: 2 * parcelTableView.width / 5
                 }
                 TableViewColumn {
                     role: "name"
-                    title: "Nom de la Parcelle"
+                    title: "Parcel Name"
                     movable: false
-                    width: 2 * parcelleTableView.width / 5
+                    width: 2 * parcelTableView.width / 5
                 }
                 TableViewColumn {
                     role: "surface"
                     title: "Surface (ha)"
                     movable: false
-                    width: parcelleTableView.width / 5
+                    width: parcelTableView.width / 5
                 }
 
-                model: parcelleModel
+                model: parcelModel
             }
         }
 
         Button {
             Layout.fillWidth: true
             Layout.margins: margin
-            text: "Supprimer Parcelle"
+            text: "Delete Parcel"
             onClicked: {
                 var selected = []
-                parcelleTableView.selection.forEach(
+                parcelTableView.selection.forEach(
                             function (rowIndex) {
                                 console.log("Selected : " + rowIndex)
                                 selected.push(rowIndex)
                             })
-                parcelleTableView.selection.clear()
+                parcelTableView.selection.clear()
 
-                _parcelleManagerController.deleteParcelle(
-                            parcelleModel, selected)
+                _parcelManagerController.deleteParcel(
+                            parcelModel, selected)
             }
         }
     }

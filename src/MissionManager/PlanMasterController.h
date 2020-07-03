@@ -18,7 +18,7 @@
 #include "MultiVehicleManager.h"
 #include "QGCLoggingCategory.h"
 #include "QGCComboBox.h"
-#include "ParcelleManagerController.h"
+#include "ParcelManagerController.h"
 
 #include "SettingsEditorController.h"
 

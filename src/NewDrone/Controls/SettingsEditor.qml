@@ -18,6 +18,11 @@ Item {
 
     property var modified: settingsEditorController.modified
 
+    FontLoader {
+        id: settingsFont
+        source: "/res/resources/fonts/FuturaBookBT.ttf"
+    }
+
     ColumnLayout {
         anchors.fill: parent
         anchors.leftMargin: 50
@@ -37,10 +42,12 @@ Item {
                 spacing: 20
 
                 GroupBox {
+                    visible: !isSuperAdmin
                     label: Label {
                         text: "Flight Presets"
                         font.bold: true
                         font.pointSize: titleSize
+                        font.family: settingsFont.name
                     }
 
                     // Layout.alignment: Qt.AlignHCenter
@@ -55,15 +62,19 @@ Item {
                         }
                         Label {
                             text: "Low"
+                            font.family: settingsFont.name
                         }
                         Label {
                             text: "Medium"
+                            font.family: settingsFont.name
                         }
                         Label {
                             text: "High"
+                            font.family: settingsFont.name
                         }
                         Label {
                             text: "Speed (m/s)"
+                            font.family: settingsFont.name
                         }
                         DoubleSpinBox {
                             editable: true
@@ -89,6 +100,7 @@ Item {
                         }
                         Label {
                             text: "Altitude (m)"
+                            font.family: settingsFont.name
                         }
                         DoubleSpinBox {
                             editable: true
@@ -115,29 +127,68 @@ Item {
                 }
 
                 GroupBox {
+                    visible: !isSuperAdmin
                     label: Label {
                         text: "Flight Settings"
                         font.bold: true
                         font.pointSize: titleSize
+                        font.family: settingsFont.name
                     }
+
 
                     GridLayout {
                         anchors.centerIn: parent
-                        columns: 2
+                        columns: 4
                         columnSpacing: space
                         rowSpacing: small_space
                         Label {
                             text: "Turnaround Distance (m)"
-                        }
-                        Label {
-                            text: "Tolerance (m)"
+                            font.family: settingsFont.name
                         }
                         DoubleSpinBox {
+                            Layout.columnSpan: 3
                             editable: true
                             to: 100
                             decimals: 1
                             value: settingsEditorController.turnaroundDistance
                             onValueChanged: settingsEditorController.turnaroundDistance = value
+                        }
+                        Label {
+                            text: "Loiter Radius (m)"
+                            font.family: settingsFont.name
+                        }
+                        DoubleSpinBox {
+                            Layout.columnSpan: 3
+                            editable: true
+                            to: 100
+                            decimals: 1
+                            value: settingsEditorController.loiterRadius
+                            onValueChanged: settingsEditorController.loiterRadius = value
+                        }
+
+                        Item {
+                            Layout.columnSpan: 4
+                            implicitHeight: 10
+                        }
+
+                        Item {
+                            implicitWidth: 1
+                        }
+                        Label {
+                            text: "Tolerance (m)"
+                            font.family: settingsFont.name
+                        }
+                        Label {
+                            text: "Max Climb Rate (m/s)"
+                            font.family: settingsFont.name
+                        }
+                        Label {
+                            text: "Max Descent Rate (m/s)"
+                            font.family: settingsFont.name
+                        }
+                        Label {
+                            text: "Terrain Following"
+                            font.family: settingsFont.name
                         }
                         DoubleSpinBox {
                             editable: true
@@ -145,12 +196,6 @@ Item {
                             decimals: 1
                             value: settingsEditorController.tolerance
                             onValueChanged: settingsEditorController.tolerance = value
-                        }
-                        Label {
-                            text: "Max Climb Rate (m/s)"
-                        }
-                        Label {
-                            text: "Max Descent Rate (m/s)"
                         }
                         DoubleSpinBox {
                             editable: true
@@ -176,6 +221,7 @@ Item {
                         text: "Camera Settings"
                         font.bold: true
                         font.pointSize: titleSize
+                        font.family: settingsFont.name
                     }
 
                     GridLayout {
@@ -184,6 +230,7 @@ Item {
                         columnSpacing: space
                         Label {
                             text: "Focal Length (mm)"
+                            font.family: settingsFont.name
                             Layout.columnSpan: 2
                         }
                         DoubleSpinBox {
@@ -197,9 +244,11 @@ Item {
                         }
                         Label {
                             text: "Sensor Width (mm)"
+                            font.family: settingsFont.name
                         }
                         Label {
                             text: "Sensor Height (mm)"
+                            font.family: settingsFont.name
                         }
                         DoubleSpinBox {
                             editable: true
@@ -224,6 +273,7 @@ Item {
                         text: "Image Settings"
                         font.bold: true
                         font.pointSize: titleSize
+                        font.family: settingsFont.name
                     }
 
                     GridLayout {
@@ -232,21 +282,29 @@ Item {
                         columnSpacing: space
                         Label {
                             text: "Image Orientation"
+                            font.family: settingsFont.name
                             Layout.columnSpan: 2
+                            visible: isSuperAdmin
                         }
                         ComboBox {
                             model: ["Landscape", "Portrait"]
+                            font.family: settingsFont.name
                             Layout.columnSpan: 2
                             Layout.minimumWidth: 180
                             currentIndex: settingsEditorController.imageOrientation
                             onCurrentIndexChanged: settingsEditorController.imageOrientation
                                                    = currentIndex
+                            visible: isSuperAdmin
                         }
                         Label {
                             text: "Image Width (px)"
+                            font.family: settingsFont.name
+                            visible: isSuperAdmin
                         }
                         Label {
                             text: "Image Height (px)"
+                            font.family: settingsFont.name
+                            visible: isSuperAdmin
                         }
                         SpinBox {
                             Layout.minimumWidth: 180
@@ -254,6 +312,7 @@ Item {
                             to: 8000
                             value: settingsEditorController.imageWidth
                             onValueChanged: settingsEditorController.imageWidth = value
+                            visible: isSuperAdmin
                         }
                         SpinBox {
                             Layout.minimumWidth: 180
@@ -261,10 +320,13 @@ Item {
                             to: 8000
                             value: settingsEditorController.imageHeight
                             onValueChanged: settingsEditorController.imageHeight = value
+                            visible: isSuperAdmin
                         }
                         Label {
-                            text: "Overlap (cm)"
+                            text: "Overlap (%)"
+                            font.family: settingsFont.name
                             Layout.columnSpan: 2
+                            visible: !isSuperAdmin
                         }
                         SpinBox {
                             Layout.minimumWidth: 180
@@ -273,6 +335,7 @@ Item {
                             to: 8000
                             value: settingsEditorController.overlap
                             onValueChanged: settingsEditorController.overlap = value
+                            visible: !isSuperAdmin
                         }
                     }
                 }
@@ -281,13 +344,16 @@ Item {
                         text: "Checklist"
                         font.bold: true
                         font.pointSize: titleSize
+                        font.family: settingsFont.name
                     }
                     TextArea {
                         implicitWidth: 600
+                        font.family: settingsFont.name
                         implicitHeight: 300
                         enabled: isSuperAdmin
                         text: settingsEditorController.checklist
                         onTextChanged: settingsEditorController.checklist=text
+                        placeholderText: "Title1:Question1\nTitle2:Question2\nTitle3:Question3\n..."
                     }
                 }
             }
@@ -296,6 +362,7 @@ Item {
         RowLayout {
             Button {
                 text: "Reset to default"
+                font.family: settingsFont.name
                 Layout.margins: small_space
                 Layout.alignment: Qt.AlignHCenter
 
@@ -306,6 +373,7 @@ Item {
             }
             Button {
                 text: "Restore"
+                font.family: settingsFont.name
                 Layout.fillWidth: true
                 Layout.margins: small_space
                 Layout.alignment: Qt.AlignHCenter
@@ -319,6 +387,7 @@ Item {
             }
             Button {
                 text: "Save"
+                font.family: settingsFont.name
                 Layout.fillWidth: true
                 Layout.margins: small_space
                 Layout.alignment: Qt.AlignHCenter

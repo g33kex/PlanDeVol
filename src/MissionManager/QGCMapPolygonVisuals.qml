@@ -191,7 +191,7 @@ Item {
     }
 
     Dialog {
-        id: saveAsParcelleDialog
+        id: saveAsParcelDialog
         x: (mainWindow.width - width) / 2
         y: (mainWindow.height - height) / 2
         height: 4 * mainWindow.height / 5
@@ -200,11 +200,11 @@ Item {
 
         onAccepted: {
             if(mapPolygon.checkIfExist(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text) && a_nameField.length > 0) {
-                mapPolygon.saveAsParcelle(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text,questionsView.getAnswers(), questionsView.getComboAnswers())
+                mapPolygon.saveAsParcel(QGroundControl.settingsManager.appSettings.missionSavePath + "/" + a_nameField.text,questionsView.getAnswers(), questionsView.getComboAnswers())
 
             }
             else {
-                 parcelleExistsDialog.open()
+                 parcelExistsDialog.open()
 
             }
         }
@@ -214,7 +214,7 @@ Item {
         }
 
 
-        title: "Save as Parcelle"
+        title: "Save as Parcel"
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -249,12 +249,12 @@ Item {
 
 
    /* QGCFileDialog {
-        id:             saveAsParcelleDialog
+        id:             saveAsParcelDialog
         folder:         QGroundControl.settingsManager.appSettings.missionSavePath
-        title:          qsTr("Select Parcelle save file")
+        title:          qsTr("Select Parcel save file")
         nameFilters:    [qsTr("All Files (*)")]
         selectExisting: false
-        fileExtension:  qsTr(".parcelle")
+        fileExtension:  qsTr(".parcel")
 
         onAcceptedForSave: {
             mapPolygon.savePolygonToKML(file);
@@ -326,11 +326,11 @@ Item {
 //        }
 
         QGCMenuItem {
-            text:           qsTr("Save as Parcelle...")
+            text:           qsTr("Save as Parcel...")
             onTriggered: {
-                if(QGroundControl.settingsManager.appSettings.nbParcelle) {
+                if(true/*QGroundControl.settingsManager.appSettings.nbParcel*/) {
                     verifLabel.text= mapPolygon.verifArea
-                    saveAsParcelleDialog.open()
+                    saveAsParcelDialog.open()
                     //verif.open()
                 }
                 else {
@@ -652,12 +652,12 @@ Item {
         y: (parent.height - height) / 2
         Label {
             anchors.centerIn: parent
-            text: "Limite de parcelles enregistrées atteintes."
+            text: "Limite de parcels enregistrées atteintes."
         }
     }
 
     Dialog {
-        id: parcelleExistsDialog
+        id: parcelExistsDialog
         standardButtons: Dialog.Ok
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
@@ -665,7 +665,7 @@ Item {
         title: "Error"
         Label {
             anchors.centerIn: parent
-            text: "Nom vide ou la parcelle existe déja!"
+            text: "Nom vide ou la parcel existe déja!"
         }
     }
 

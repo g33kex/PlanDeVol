@@ -56,6 +56,10 @@ Rectangle {
             text:   qsTr("Loiter point")
         }
 
+        Component.onCompleted: {
+            missionItem.loiterRadius = settingsEditorController.loiterRadius
+        }
+
         Column {
             anchors.left:       parent.left
             anchors.right:      parent.right
@@ -82,6 +86,7 @@ Rectangle {
                 FactTextField {
                     Layout.fillWidth:   true
                     fact:               missionItem.loiterRadius
+                    enabled: false
                 }
             }
 

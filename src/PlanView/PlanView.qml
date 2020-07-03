@@ -191,8 +191,8 @@ Item {
         }
     }
 
-    ParcelleManager {
-        id: _parcelleManager
+    ParcelManager {
+        id: _parcelManager
     }
 
     PlanMasterController {
@@ -975,11 +975,11 @@ Item {
             }*/
 
             QGCButton {
-                text:               qsTr("Parcelle Manager")
+                text:               qsTr("Parcel Manager")
                 Layout.fillWidth:   true
                 onClicked: {
                    // _planMasterController.showParcelleManager()
-                    _parcelleManager.show()
+                    _parcelManager.show()
                 }
 
             }

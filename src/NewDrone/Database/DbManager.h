@@ -9,10 +9,11 @@ class DbManager
         DbManager();
         bool addUser(const QString& username, const QString& password, const QString& nom, const QString& prenom);
 
-        bool addParcelle(const QString& owner, const QString& polygon, QString surface, QStringList answers, QList<int> comboAnswers);
+        bool addParcel(const QString& owner, const QString& polygon, QString surface, QStringList answers, QList<int> comboAnswers);
 
-        QList<QString> getAllParcelle(QString username);
-        QList<QString> getAllParcelleNames(QString username);
+        QList<QString> getAllParcel(QString username);
+        QList<QString> getAllParcel();
+        QList<QString> getAllParcelNames(QString username);
 
         bool addMission(const QString& owner, const QString& ordre);
         QList<QString> getAllMission(QString user);
@@ -27,7 +28,7 @@ class DbManager
         bool deleteQuestion(QList<QString> names);
 
         bool verifNbMission(QString username);
-        bool verifNbParcelle(QString username);
+        bool verifNbParcel(QString username);
         bool verifNbUser();
 
         bool checkIfExist(QString file);

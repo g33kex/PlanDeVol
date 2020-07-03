@@ -35,6 +35,7 @@ public:
     Q_PROPERTY(double highAltitude READ highAltitude WRITE setHighAltitude NOTIFY highAltitudeChanged)
     //Flight Settings
     Q_PROPERTY(double turnaroundDistance READ turnaroundDistance WRITE setTurnaroundDistance NOTIFY turnaroundDistanceChanged)
+    Q_PROPERTY(double loiterRadius READ loiterRadius WRITE setLoiterRadius NOTIFY loiterRadiusChanged)
     Q_PROPERTY(double tolerance READ tolerance WRITE setTolerance NOTIFY toleranceChanged)
     Q_PROPERTY(double maxClimbRate READ maxClimbRate WRITE setMaxClimbRate NOTIFY maxClimbRateChanged)
     Q_PROPERTY(double maxDescentRate READ maxDescentRate WRITE setMaxDescentRate NOTIFY maxDescentRateChanged)
@@ -64,6 +65,8 @@ public:
 
     double turnaroundDistance() const { return m_turnaroundDistance; }
 
+    double loiterRadius() const { return m_loiterRadius; }
+
     double tolerance() const { return m_tolerance; }
 
     double maxClimbRate() const { return m_maxClimbRate; }
@@ -87,6 +90,7 @@ public:
     QString checklist() const { return m_checklist; }
 
     bool modified() const { return m_modified; }
+
 
 public slots:
     void setLowSpeed(double lowSpeed) {
@@ -149,6 +153,17 @@ public slots:
       m_turnaroundDistance = turnaroundDistance;
       setModified(true);
       emit turnaroundDistanceChanged(m_turnaroundDistance);
+    }
+
+
+    void setLoiterRadius(double loiterRadius)
+    {
+        if (qFuzzyCompare(m_loiterRadius, loiterRadius))
+            return;
+
+        m_loiterRadius = loiterRadius;
+        setModified(true);
+        emit loiterRadiusChanged(m_loiterRadius);
     }
 
     void setTolerance(double tolerance) {
@@ -267,6 +282,7 @@ signals:
     void mediumAltitudeChanged(double mediumAltitude);
     void highAltitudeChanged(double highAltitude);
     void turnaroundDistanceChanged(double turnaroundDistance);
+    void loiterRadiusChanged(double loiterRadius);
     void toleranceChanged(double tolerance);
     void maxClimbRateChanged(double maxClimbRate);
     void maxDescentRateChanged(double maxDescentRate);
@@ -296,6 +312,7 @@ private:
     double m_mediumAltitude;
     double m_highAltitude;
     double m_turnaroundDistance;
+    double m_loiterRadius;
     double m_tolerance;
     double m_maxClimbRate;
     double m_maxDescentRate;
@@ -315,6 +332,7 @@ private:
     const QString key_mediumAltitude = "mediumAltitude";
     const QString key_highAltitude = "highAltitude";
     const QString key_turnaroundDistance = "turnaroundDistance";
+    const QString key_loiterRadius ="loiterRadius";
     const QString key_tolerance = "tolerance";
     const QString key_maxClimbRate = "maxClimbRate";
     const QString key_maxDescentRate = "maxDescentRate";

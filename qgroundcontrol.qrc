@@ -216,7 +216,7 @@
         <file alias="NewDrone/LoginMainWindow.qml">src/NewDrone/LoginMainWindow.qml</file>
         <file alias="NewDrone/Login.qml">src/NewDrone/Login.qml</file>
         <file alias="NewDrone/Controls/qmldir">src/QmlControls/NewDrone/Controls/qmldir</file>
-        <file alias="NewDrone/Controls/ParcelleManager.qml">src/NewDrone/Controls/ParcelleManager.qml</file>
+        <file alias="NewDrone/Controls/ParcelManager.qml">src/NewDrone/Controls/ParcelManager.qml</file>
         <file alias="NewDrone/Controls/DynamicSqlView.qml">src/NewDrone/Controls/DynamicSqlView.qml</file>
         <file alias="NewDrone/Controls/AdminSettings.qml">src/NewDrone/Controls/AdminSettings.qml</file>
         <file alias="NewDrone/Controls/SuperAdminSettings.qml">src/NewDrone/Controls/SuperAdminSettings.qml</file>

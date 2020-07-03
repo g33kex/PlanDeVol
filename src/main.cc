@@ -31,7 +31,7 @@
 #include "QuestionFile.h"
 #include "TestDir.h"
 
-#include "ParcelleManagerController.h"
+#include "ParcelManagerController.h"
 
 #ifndef __mobile__
     #include "QGCSerialPortInfo.h"
