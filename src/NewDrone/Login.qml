@@ -37,8 +37,8 @@ Item {
             color: "white"
 
             anchors.centerIn: parent
-            width: parent.width / 4
-            height: parent.width / 3
+            width: parent.width / 3
+            height: parent.width / 2
 
             ColumnLayout {
 
