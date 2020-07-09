@@ -323,7 +323,7 @@ Item {
                             visible: isSuperAdmin
                         }
                         Label {
-                            text: "Overlap (%)"
+                            text: "Front Overlap (%)"
                             font.family: abelioFont.name
                             Layout.columnSpan: 2
                             visible: !isSuperAdmin
@@ -333,8 +333,23 @@ Item {
                             Layout.columnSpan: 2
                             editable: true
                             to: 8000
-                            value: settingsEditorController.overlap
-                            onValueChanged: settingsEditorController.overlap = value
+                            value: settingsEditorController.frontOverlap
+                            onValueChanged: settingsEditorController.frontOverlap = value
+                            visible: !isSuperAdmin
+                        }
+                        Label {
+                            text: "Side Overlap (%)"
+                            font.family: abelioFont.name
+                            Layout.columnSpan: 2
+                            visible: !isSuperAdmin
+                        }
+                        SpinBox {
+                            Layout.minimumWidth: 180
+                            Layout.columnSpan: 2
+                            editable: true
+                            to: 8000
+                            value: settingsEditorController.sideOverlap
+                            onValueChanged: settingsEditorController.sideOverlap = value
                             visible: !isSuperAdmin
                         }
                     }

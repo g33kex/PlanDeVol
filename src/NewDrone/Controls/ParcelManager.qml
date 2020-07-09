@@ -178,7 +178,7 @@ Item {
                                 selected.push(rowIndex)
                             })
                             tableView.selection.clear()
-                            parcelManagerController.deleteParcel(
+                            _parcelManagerController.deleteParcel(
                                         parcelModel, selected)
                             map.updateParcels()
                         }
@@ -330,7 +330,7 @@ text: "' + names[i] + '"}}', map)
             }
 
             onAccepted: {
-                parcelManagerController.modifyParcel(
+                _parcelManagerController.modifyParcel(
                             parcelModel, parcelIndex, ownerField.text,
                             fileField.text, questionsView.getAnswers(),
                             questionsView.getComboAnswers())
@@ -390,7 +390,7 @@ text: "' + names[i] + '"}}', map)
 
             onAccepted: {
                 if (a_ilotField.length > 0 && a_fileField.length > 0) {
-                    if (parcelManagerController.checkIfExist(
+                    if (_parcelManagerController.checkIfExist(
                                 QGroundControl.settingsManager.appSettings.missionSavePath
                                 + "/" + a_fileField.text)) {
                         parceleManagerController.addParcel(
@@ -569,7 +569,7 @@ text: "' + names[i] + '"}}', map)
             }
         }
         onAccepted: {
-            if (parcelManagerController.verif("admin", a_password.text)) {
+            if (_parcelManagerController.verif("admin", a_password.text)) {
                 removeParcel.deleteParcelOnAdminVerifed()
             }
             a_password.text = ""

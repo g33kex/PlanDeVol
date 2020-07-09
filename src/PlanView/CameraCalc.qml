@@ -47,8 +47,8 @@ Column {
     }
 
     Component.onCompleted: {
-        cameraCalc.frontalOverlap.value = settingsEditorController.overlap
-        cameraCalc.sideOverlap.value = settingsEditorController.overlap
+        cameraCalc.frontalOverlap.value = settingsEditorController.frontOverlap
+        cameraCalc.sideOverlap.value = settingsEditorController.sideOverlap
     }
 
     QGCPalette { id: qgcPal; colorGroupEnabled: true }

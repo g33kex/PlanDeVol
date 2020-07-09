@@ -47,7 +47,8 @@ public:
     Q_PROPERTY(int imageWidth READ imageWidth WRITE setImageWidth NOTIFY imageWidthChanged)
     Q_PROPERTY(int imageHeight READ imageHeight WRITE setImageHeight NOTIFY imageHeightChanged)
     Q_PROPERTY(Orientation imageOrientation READ imageOrientation WRITE setImageOrientation NOTIFY imageOrientationChanged)
-    Q_PROPERTY(int overlap READ overlap WRITE setOverlap NOTIFY overlapChanged)
+    Q_PROPERTY(int frontOverlap READ frontOverlap WRITE setFrontOverlap NOTIFY frontOverlapChanged)
+    Q_PROPERTY(int sideOverlap READ sideOverlap WRITE setSideOverlap NOTIFY sideOverlapChanged)
     //Checklist
     Q_PROPERTY(QString checklist READ checklist WRITE setChecklist NOTIFY checklistChanged)
 
@@ -85,7 +86,9 @@ public:
 
     Orientation imageOrientation() const { return m_imageOrientation; }
 
-    int overlap() const { return m_overlap; }
+    int frontOverlap() const { return m_frontOverlap; }
+
+    int sideOverlap() const { return m_sideOverlap; }
 
     QString checklist() const { return m_checklist; }
 
@@ -247,13 +250,22 @@ public slots:
       emit imageOrientationChanged(m_imageOrientation);
     }
 
-    void setOverlap(int overlap) {
-      if (m_overlap == overlap)
+    void setFrontOverlap(int frontOverlap) {
+      if (m_frontOverlap == frontOverlap)
         return;
 
-      m_overlap = overlap;
+      m_frontOverlap = frontOverlap;
       setModified(true);
-      emit overlapChanged(m_overlap);
+      emit frontOverlapChanged(m_frontOverlap);
+    }
+
+    void setSideOverlap(int sideOverlap) {
+      if (m_sideOverlap == sideOverlap)
+        return;
+
+      m_sideOverlap = sideOverlap;
+      setModified(true);
+      emit frontOverlapChanged(m_sideOverlap);
     }
 
     void setChecklist(QString checklist)
@@ -292,7 +304,8 @@ signals:
     void imageWidthChanged(int imageWidth);
     void imageHeightChanged(int imageHeight);
     void imageOrientationChanged(Orientation imageOrientation);
-    void overlapChanged(int overlap);
+    void frontOverlapChanged(int frontOverlap);
+    void sideOverlapChanged(int sideOverlap);
     void checklistChanged(QString checklist);
 
     void modifiedChanged(bool modified);
@@ -322,7 +335,8 @@ private:
     int m_imageWidth;
     int m_imageHeight;
     Orientation m_imageOrientation;
-    int m_overlap;
+    int m_frontOverlap;
+    int m_sideOverlap;
     QString m_checklist;
 
     const QString key_lowSpeed = "lowSpeed";
@@ -342,7 +356,8 @@ private:
     const QString key_imageWidth = "imageWidth";
     const QString key_imageHeight = "imageHeight";
     const QString key_imageOrientation = "imageOrientation";
-    const QString key_overlap = "overlap";
+    const QString key_frontOverlap = "frontOverlap";
+    const QString key_sideOverlap = "sideOverlap";
     const QString key_checklist = "checklist";
 };
 
