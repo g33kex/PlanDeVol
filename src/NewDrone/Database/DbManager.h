@@ -31,6 +31,9 @@ class DbManager
         bool verifNbParcel(QString username);
         bool verifNbUser();
 
+        bool canCreateParcel(QString username);
+        bool canCreateParcel(QString username, double surface);
+
         bool checkIfExist(QString file);
 
         QList<QString> getAllColumn();
@@ -38,6 +41,8 @@ class DbManager
         void buildDB();
 
         void saveToXML(QString);
+
+        double getMaximumParcelSurface(QString username);
 
 private:
         QSqlDatabase m_db;

@@ -29,7 +29,11 @@ Item {
                 downloadSuccessDialog.open()
                 map.updateParcell()
             } else {
-                downloadFailureDialog.open()
+                if(aboveLimit) {
+                    errorDialog.show("The total parcels surface would be greater than the one allowed by the subscription!")
+                }else {
+                    downloadFailureDialog.open()
+                }
             }
         }
     }
@@ -145,14 +149,14 @@ Item {
                         visible: allowEdit
                         Layout.fillWidth: true
                         Layout.margins: margin
-                        text: "Ajouter"
+                        text: "Add"
 
                         onClicked: {
-                            if (QGroundControl.settingsManager.appSettings.nbParcel) {
+                            if (_parcelManagerController.canCreateParcel()) {
                                 addParcelDialog.reset()
                                 addParcelDialog.open()
                             } else {
-                                messageDialog_toomuch.open()
+                                errorDialog.show("This user isn't allowed to create parcels.")
                             }
                         }
                     }
@@ -161,7 +165,7 @@ Item {
                         id: removeParcel
                         Layout.fillWidth: true
                         Layout.margins: margin
-                        text: "Supprimer"
+                        text: "Delete"
                         signal adminVerified
                         onClicked: {
                             removeParcel.adminVerified.connect(
@@ -189,7 +193,7 @@ Item {
                         Layout.fillWidth: true
 
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Modifier"
+                        text: "Edit"
 
                         onClicked: {
                             if (tableView.selection.count === 1) {
@@ -211,7 +215,7 @@ Item {
                         Layout.fillWidth: true
                         Layout.margins: margin
                         Layout.columnSpan: 2
-                        text: "Ajouter à la mission"
+                        text: "Add to mission"
                         onClicked: {
                             var selected = []
                             tableView.selection.forEach(function (rowIndex) {
@@ -393,13 +397,14 @@ text: "' + names[i] + '"}}', map)
                     if (_parcelManagerController.checkIfExist(
                                 QGroundControl.settingsManager.appSettings.missionSavePath
                                 + "/" + a_fileField.text)) {
-                        parceleManagerController.addParcel(
+                        _parcelManagerController.addParcel(
                                     parcelModel, a_ilotField.text,
                                     QGroundControl.settingsManager.appSettings.missionSavePath
                                     + "/" + a_fileField.text,
                                     questionsView2.getAnswers(),
                                     questionsView2.getComboAnswers())
                         addParcelProgressOverlay.open()
+
                     } else {
                         parcelExistsDialog.open()
                     }
@@ -475,7 +480,7 @@ text: "' + names[i] + '"}}', map)
         }
     }
 
-    Dialog {
+   /* Dialog {
         id: messageDialog_toomuch
         standardButtons: Dialog.Ok
         x: (parent.width - width) / 2
@@ -486,7 +491,14 @@ text: "' + names[i] + '"}}', map)
             anchors.centerIn: parent
             text: "Limite de parcels enregistrées atteintes."
         }
+    }*/
+
+
+    SimpleDialog {
+        id: errorDialog
+        title: "Error"
     }
+
 
     Dialog {
         id: downloadSuccessDialog
@@ -542,7 +554,7 @@ text: "' + names[i] + '"}}', map)
 
     Dialog {
         id: admin
-        title: "Admin"
+        title: "Super Admin"
         standardButtons: Dialog.Ok | Dialog.Cancel
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
@@ -569,7 +581,7 @@ text: "' + names[i] + '"}}', map)
             }
         }
         onAccepted: {
-            if (_parcelManagerController.verif("admin", a_password.text)) {
+            if (_parcelManagerController.verif("superadmin", a_password.text)) {
                 removeParcel.deleteParcelOnAdminVerifed()
             }
             a_password.text = ""

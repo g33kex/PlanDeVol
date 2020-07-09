@@ -90,7 +90,7 @@ public:
     QList<QPointF> nedPolygon(void) const;
 
     /// Returns the area of the polygon in meters squared
-    double area(void) const;
+    Q_INVOKABLE double area(void) const;
 
     // Property methods
 

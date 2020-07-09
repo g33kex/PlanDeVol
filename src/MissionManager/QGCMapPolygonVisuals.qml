@@ -22,6 +22,7 @@ import QGroundControl.FlightMap         1.0
 import QGroundControl.ShapeFileHelper   1.0
 
 import NewDrone.Controls                1.0
+import NewDrone.Controllers             1.0
 
 /// QGCMapPolygon map visuals
 Item {
@@ -47,6 +48,9 @@ Item {
     property real _zorderSplitHandle:   QGroundControl.zOrderMapItems + 2
     property real _zorderCenterHandle:  QGroundControl.zOrderMapItems + 1   // Lowest such that drag or split takes precedence
 
+    ParcelManagerController {
+        id: _parcelManagerController
+    }
 
     function addVisuals() {
         _polygonComponent = polygonComponent.createObject(mapControl)
@@ -190,6 +194,14 @@ Item {
         }
     }
 
+
+    SimpleDialog {
+        x: (mainWindow.width - width) / 2
+        y: (mainWindow.height - height) / 2
+        id: errorDialog
+        title: "Error"
+    }
+
     Dialog {
         id: saveAsParcelDialog
         x: (mainWindow.width - width) / 2
@@ -328,13 +340,17 @@ Item {
         QGCMenuItem {
             text:           qsTr("Save as Parcel...")
             onTriggered: {
-                if(true/*QGroundControl.settingsManager.appSettings.nbParcel*/) {
-                    verifLabel.text= mapPolygon.verifArea
-                    saveAsParcelDialog.open()
-                    //verif.open()
+                if(_parcelManagerController.canCreateParcel()) {
+                    if(_parcelManagerController.canCreateParcel(mapPolygon.area() / 10000)) {
+                        verifLabel.text= mapPolygon.verifArea
+                        saveAsParcelDialog.open()
+                    }
+                    else {
+                        errorDialog.show("The total parcels surface would be greater than the one allowed by the subscription!")
+                    }
                 }
                 else {
-                    messageDialog_toomuch.open()
+                    errorDialog.show("This user isn't allowed to create parcels.")
                 }
             }
         }

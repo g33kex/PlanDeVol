@@ -88,7 +88,7 @@ void ParcelManagerController::requestParcel(QString NbIlot) {
 void ParcelManagerController::requestReply(QNetworkReply *reply) {
     if (reply->error()) {
         qDebug() << reply->errorString();
-        emit downloadEnded(false);
+        emit downloadEnded(false, false);
         return;
     }
 
@@ -97,34 +97,42 @@ void ParcelManagerController::requestReply(QNetworkReply *reply) {
 
     // dans une reponse normale, il n'y a qu'un polygon de decrit.
     if (answer.count("<Polygon>") == 1) {
+
         float surface = ShapeFileHelper::savePolygonFromGeoportail(_file, answer);
-        QSqlRecord newRecord = _model->record();
-        newRecord.setValue("owner", QVariant(username));
-        newRecord.setValue("parcelFile", QVariant(_file));
-        newRecord.setValue("name", QVariant(_file.split("/").last()));
-        newRecord.setValue("surface", QVariant(QString::number(double(surface), 'f', 2)));
+
+        if(canCreateParcel(surface)) {
+            QSqlRecord newRecord = _model->record();
+            newRecord.setValue("owner", QVariant(username));
+            newRecord.setValue("parcelFile", QVariant(_file));
+            newRecord.setValue("name", QVariant(_file.split("/").last()));
+            newRecord.setValue("surface", QVariant(QString::number(double(surface), 'f', 2)));
 
 
-        QList<QString> names = questionFile->getNames();
-        for(int i = 0; i < _answers.length(); i++){
-            newRecord.setValue(names[i], _answers[i]);
+            QList<QString> names = questionFile->getNames();
+            for(int i = 0; i < _answers.length(); i++){
+                newRecord.setValue(names[i], _answers[i]);
+            }
+
+            QList<QString> namesCombo = questionFile->getNamesCombo();
+            for(int i = 0; i < _comboAnswers.length(); i++){
+                QList<QString> repPossible = questionFile->getAnswers().at(i);
+                newRecord.setValue(namesCombo[i], repPossible.at(_comboAnswers[i]));
+            }
+
+            /*-1 is set to indicate that it will be added to the last row*/
+            if(_model->insertRecord(-1, newRecord)) {
+                _model->submitAll();
+            }
+            emit downloadEnded(true, false);
+            return;
         }
-
-        QList<QString> namesCombo = questionFile->getNamesCombo();
-        for(int i = 0; i < _comboAnswers.length(); i++){
-            QList<QString> repPossible = questionFile->getAnswers().at(i);
-            newRecord.setValue(namesCombo[i], repPossible.at(_comboAnswers[i]));
+        else {
+            emit downloadEnded(false, true);
+            return;
         }
-
-        /*-1 is set to indicate that it will be added to the last row*/
-        if(_model->insertRecord(-1, newRecord)) {
-            _model->submitAll();
-        }
-        emit downloadEnded(true);
-        return;
     }
     qDebug() << "ERROR no awnser or too many";
-    emit downloadEnded(false);
+    emit downloadEnded(false, false);
     return;
 }
 
@@ -232,5 +240,20 @@ bool ParcelManagerController::checkIfExist(QString name) {
 void ParcelManagerController::updateModel(SqlCustomModel *model, bool showAllUsers) {
     this->_showAllUsers=showAllUsers;
     model->select();
+}
+
+//Check if the user is allowed to create a parcel
+bool ParcelManagerController::canCreateParcel() {
+    qDebug() << "in cancreateparcel no surface";
+    return db->canCreateParcel(username);
+}
+
+//Check if the user can create a parcel with a surface within his plan
+bool ParcelManagerController::canCreateParcel(double surface) {
+    qDebug() << "in cancreateparcel";
+    if(!this->canCreateParcel())
+        return false;
+    qDebug() << "in cancreateparcel";
+    return db->canCreateParcel(username, surface);
 }
 

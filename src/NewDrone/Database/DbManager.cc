@@ -222,6 +222,48 @@ bool DbManager::verifNbUser() {
     return value.toInt() <= nbParam->at(0).toInt()+1;*/
 }
 
+bool DbManager::canCreateParcel(QString username) {
+    QSqlQuery query("SELECT allowParcelCreation FROM Users WHERE username = (?)");
+    query.addBindValue(username); //Always use addBindValue instead of bindValue to avoid "Parameter count mismatch" issue
+    if(query.exec()) {
+
+        query.first();
+        QString value = query.value("allowParcelCreation").toString();
+        if(value == "yes") {
+            return true;
+        }
+    }
+    qDebug() << "Can create parcel returns false, error is " << query.lastError();
+    return false;
+}
+
+bool DbManager::canCreateParcel(QString username, double surface) {
+    QSqlQuery query("SELECT SUM(CAST(surface as decimal)) AS totalSurface FROM Parcel WHERE owner = (?)");
+    query.addBindValue(username);
+    if(query.exec()) {
+        query.first();
+        double value = query.value("totalSurface").toDouble();
+        qDebug() << "Total surface = " << value << " max surface = " << getMaximumParcelSurface(username) << " parcel surface = " << surface;
+        if(surface+value <= getMaximumParcelSurface(username)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+double DbManager::getMaximumParcelSurface(QString username) {
+    QSqlQuery query("SELECT maximumParcelSurface FROM Users WHERE username = (?)");
+    query.addBindValue(username);
+    if(query.exec()) {
+        query.first();
+        double value = query.value("maximumParcelSurface").toDouble();
+        return value;
+    }
+    return 0;
+}
+
+
+
 void DbManager::buildDB() {
 
     QString tableUsers = "CREATE TABLE IF NOT EXISTS Users("

@@ -26,9 +26,13 @@ public:
 
     Q_INVOKABLE bool checkIfExist(QString name);
 
+
+    Q_INVOKABLE bool canCreateParcel();
+    Q_INVOKABLE bool canCreateParcel(double surface);
+
 //    Q_INVOKABLE QSqlTableModel getSqlParcelModel() {return *sqlParcelModel;}
 signals:
-    void downloadEnded(bool success);
+    void downloadEnded(bool success, bool aboveLimit);
 
 public slots:
     void deleteParcel(SqlCustomModel *model, QList<int> indexes);
