@@ -44,6 +44,9 @@ class DbManager
 
         double getMaximumParcelSurface(QString username);
 
+        //Returns users that are not admin or superadmin
+        QStringList *getUsers();
+
 private:
         QSqlDatabase m_db;
 };

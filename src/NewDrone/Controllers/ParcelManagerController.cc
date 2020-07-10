@@ -201,6 +201,7 @@ void ParcelManagerController::initParcelsPolygons() {
 }
 
 void ParcelManagerController::initParcelsNames() {
+    qDebug() << "in initParcelsNames";
     this->_parcelsNames = new QVariantList();
 
     QStringList names = QStringList();
@@ -209,6 +210,7 @@ void ParcelManagerController::initParcelsNames() {
     }
     else {
         names = db->getAllParcel(username);
+        qDebug() << "not showing all users, only showing "+username;
     }
 
 

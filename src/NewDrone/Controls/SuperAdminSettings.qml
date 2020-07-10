@@ -14,6 +14,8 @@ Popup {
     modal: true
     padding: 20
 
+    signal superAdminClosed()
+
     function disconnect() {
         if (settingsEditor.modified) {
             confirmDiscardModificationsAndDisconnect.show(
@@ -23,6 +25,7 @@ Popup {
         tabBar.setCurrentIndex(0)
         questionsEditor.onClosed()
         settingsWindow.setSource("")
+        superAdminClosed()
         superAdminPopup.close()
     }
 

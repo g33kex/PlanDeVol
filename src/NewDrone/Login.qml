@@ -83,16 +83,28 @@ Item {
                         //Layout.rightMargin: 20
                     }
 
-                    TextField {
+                  /*  TextField {
                         id: usernameField
                         Layout.alignment: Qt.AlignCenter
                         inputMethodHints: Qt.ImhNoAutoUppercase
+                    }*/
+
+                    ComboBox {
+                        id: usernameCombo
+                        Layout.alignment: Qt.AlignCenter
+                        Layout.preferredWidth: passwordField.width
+                        inputMethodHints: Qt.ImhNoAutoUppercase
+                        editable: true
+
+
+                        model: loginController.users
                     }
                 }
 
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                    visible: usernameCombo.currentIndex==-1
 
                     Label {
                         text: "Mot de Passe"
@@ -114,29 +126,36 @@ Item {
                     text: "Connexion"
 
                     onClicked: {
-                        var username = usernameField.text
-                        if (loginController.login(username,
-                                                  passwordField.text)) {
-                            var role = loginController.getRole(username);
+                        var username = usernameCombo.currentIndex==-1 ? usernameCombo.editText : usernameCombo.currentText
+                        var role = loginController.getRole(username);
+                        console.log("Connecting as user "+username+" with role "+role)
                             if (role === "Admin") {
-                                console.log("ADMIN LOGIN")
-                                adminSettings.open()
+                                if (loginController.login(username, passwordField.text)) {
+                                    console.log("ADMIN LOGIN")
+                                    adminSettings.open()
+                                }
+                                else {
+                                    errorLogin.open()
+                                }
                             } else if (role === "SuperAdmin") {
-                                console.log("SUPERADMIN LOGIN")
-                                superAdminSettings.open()
+                                if(loginController.login(username, passwordField.text)) {
+                                    console.log("SUPERADMIN LOGIN")
+                                    superAdminSettings.open()
+                                } else {
+                                   errorLogin.open()
+                                }
                             } else if (role === "User") {
-                                progressOverlay.open()
-                                console.log("Logged in as user " + username)
-                                loginController.loadMainWindow()
-                                rootWindowLoader.setSource("")
-                                rootWindowLoader.setSource(
-                                            "qrc:/qml/MainRootWindow.qml")
-                                rootWindowLoader.focus = true
+                                if(loginController.login(username, "")) {
+                                    progressOverlay.open()
+                                    console.log("Logged in as user " + username)
+                                    loginController.loadMainWindow()
+                                    rootWindowLoader.setSource("")
+                                    rootWindowLoader.setSource(
+                                                "qrc:/qml/MainRootWindow.qml")
+                                    rootWindowLoader.focus = true
+                                }
                             }
-                        } else {
-                            errorLogin.open()
-                        }
-                        usernameField.text = ""
+                        usernameCombo.currentIndex=0
                         passwordField.text = ""
                     }
                 }
@@ -187,6 +206,9 @@ Item {
         width: parent.width
         height: parent.height
         visible: false
+        onSuperAdminClosed: {
+            loginController.updateUsers()
+        }
     }
 
     SimpleDialog {

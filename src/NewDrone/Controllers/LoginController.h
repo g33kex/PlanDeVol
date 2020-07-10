@@ -22,6 +22,8 @@ public:
 
     Q_INVOKABLE void deleteMission(SqlCustomModel *model, QList<int> indexes);
 
+    Q_INVOKABLE void updateUsers();
+
  /*   Q_INVOKABLE void setParamSpeed(QString lowSpeed, QString medSpeed, QString HighSpeed);
     Q_INVOKABLE void setParamAlt(QString lowAlt, QString medAlt, QString HighAlt);
     Q_INVOKABLE void setParamLimit(QString session, QString parcelles, QString missions);
@@ -49,10 +51,22 @@ public:
 
     Q_INVOKABLE void    exportToXML();
 
+    Q_PROPERTY(QStringList users READ users NOTIFY usersChanged)
+
 //public slots:
 //    void onAdminClosed();
 
+    QStringList users() const
+    {
+        return m_users;
+    }
+
+
+signals:
+    void usersChanged();
+
 private:
+    QStringList m_users;
 };
 
 #endif // LOGINCONTROLLER_H

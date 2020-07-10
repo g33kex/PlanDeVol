@@ -19,11 +19,17 @@ extern QuestionFile* questionFile;
 QQmlApplicationEngine* LoginController::qmlAppEngine=nullptr;
 LoginController::LoginController()
 {
+    this->updateUsers();
 }
 
 void LoginController::loadMainWindow() {
    //qmlAppEngine->load(QUrl(QStringLiteral("qrc:/qml/MainRootWindow.qml")));
    sett->_checkSavePathDirectories();
+}
+
+void LoginController::updateUsers() {
+    this->m_users=*db->getUsers();
+    emit usersChanged();
 }
 
 //Returns true if login sucessful and sets global user variable

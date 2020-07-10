@@ -193,6 +193,7 @@ Item {
 
     ParcelManager {
         id: _parcelManager
+        showAllUsers: false
     }
 
     PlanMasterController {

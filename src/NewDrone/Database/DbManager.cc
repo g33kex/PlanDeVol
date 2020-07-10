@@ -262,6 +262,17 @@ double DbManager::getMaximumParcelSurface(QString username) {
     return 0;
 }
 
+QStringList *DbManager::getUsers() {
+    qDebug() << "In getUsers";
+    QSqlQuery query("SELECT username FROM Users WHERE role = 'User'");
+    QStringList *list = new QStringList();
+    while(query.next()) {
+        list->append(query.value("username").toString());
+        qDebug() << "Adding user " << query.value("username").toString();
+    }
+    return list;
+}
+
 
 
 void DbManager::buildDB() {
