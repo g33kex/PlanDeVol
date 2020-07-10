@@ -55,9 +55,11 @@ Rectangle {
         anchors.top:        parent.top
         spacing:            _margin
 
-        QGCButton {
-            text:                       "Optimisation du vol"
-            onClicked:                  _missionController.optimize()
+        QGCCheckBox {
+            text:                       "Optimize Mission"
+            onCheckedChanged: {
+                _missionController.optimize(checked)
+            }
         }
 
         GridLayout {

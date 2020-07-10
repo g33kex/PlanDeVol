@@ -1608,3 +1608,7 @@ double SurveyComplexItem::additionalTimeDelay (void) const
 void SurveyComplexItem::setAngle(int truc) {
     gridAngle()->setRawValue(truc);
 }
+
+int SurveyComplexItem::getAngle() {
+    return gridAngle()->rawValue().toInt();
+}

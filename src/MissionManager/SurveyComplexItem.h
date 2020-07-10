@@ -51,6 +51,7 @@ public:
     double  timeBetweenShots    (void) final;
 
     void setAngle(int truc);
+    int getAngle();
 
     // Overrides from VisualMissionionItem
     QString commandDescription  (void) const final { return tr("Survey"); }
