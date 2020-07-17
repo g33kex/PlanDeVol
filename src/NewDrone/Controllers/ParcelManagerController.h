@@ -36,6 +36,8 @@ signals:
 
 public slots:
     void deleteParcel(SqlCustomModel *model, QList<int> indexes);
+    void exportParcel(SqlCustomModel *model, int index, QString path);
+    void exportParcelToMail(SqlCustomModel *model, int index);
     void addToMission(SqlCustomModel *model,MissionController *missionController, QList<int> indexes);
     void modifyParcel(SqlCustomModel *model, int index, QString owner, QString parcelFile, QStringList answers, QList<int> comboAnswers);
     void addParcel(SqlCustomModel *model, QString ilotNumber, QString file, QStringList answers, QList<int> comboAnswers);

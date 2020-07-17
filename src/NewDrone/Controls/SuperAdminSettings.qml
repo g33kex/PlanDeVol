@@ -146,7 +146,6 @@ Popup {
             }
 
             //Needed properties from mainRootWindow
-            property alias mainWindow: advanced
             property var activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
 
             source: "qrc:/qml/AppSettings.qml"

@@ -10,6 +10,56 @@ import NewDrone.Controls 1.0
 import NewDrone.Controllers 1.0
 
 Item {
+    property alias mainWindow: loginWindow
+    //-------------------------------------------------------------------------
+    //-- Global complex dialog
+
+    /// Shows a QGCViewDialogContainer based dialog
+    ///     @param component The dialog contents
+    ///     @param title Title for dialog
+    ///     @param charWidth Width of dialog in characters
+    ///     @param buttons Buttons to show in dialog using StandardButton enum
+
+    readonly property int showDialogFullWidth:      -1  ///< Use for full width dialog
+    readonly property int showDialogDefaultWidth:   40  ///< Use for default dialog width
+
+    function showComponentDialog(component, title, charWidth, buttons) {
+        var dialogWidth = charWidth === showDialogFullWidth ? mainWindow.width : ScreenTools.defaultFontPixelWidth * charWidth
+        mainWindowDialog.width = dialogWidth
+        mainWindowDialog.dialogComponent = component
+        mainWindowDialog.dialogTitle = title
+        mainWindowDialog.dialogButtons = buttons
+        mainWindowDialog.open()
+    }
+
+    Drawer {
+        id:             mainWindowDialog
+        y:              0
+        height:         mainWindow.height
+        edge:           Qt.RightEdge
+        interactive:    false
+        background: Rectangle {
+            color:  "darkgray"
+        }
+        property var    dialogComponent: null
+        property var    dialogButtons: null
+        property string dialogTitle: ""
+        Loader {
+            id:             dlgLoader
+            anchors.fill:   parent
+            onLoaded: {
+                item.setupDialogButtons()
+            }
+        }
+        onOpened: {
+            dlgLoader.source = "QGCViewDialogContainer.qml"
+        }
+        onClosed: {
+            dlgLoader.source = ""
+        }
+    }
+
+    /////DIALOG COMPATIBILITY END
 
     property var margin: 5
     property var m2: 3
@@ -30,6 +80,7 @@ Item {
     }
 
     Rectangle {
+        id: loginWindow
         color: "black"
         anchors.fill: parent
 
@@ -181,7 +232,7 @@ Item {
         y: (parent.height - height) / 2
 
         Label {
-            text: "Mauvaise combinaison username/mot de passe"
+            text: "User and password don't match."
         }
     }
 

@@ -1,4 +1,4 @@
-#include "ParcelManagerController.h"
+﻿#include "ParcelManagerController.h"
 
 #include "DbManager.h"
 #include "GeoportailLink.h"
@@ -7,6 +7,7 @@
 #include "SurveyComplexItem.h"
 #include <QSqlTableModel>
 #include <QNetworkReply>
+#include <QDesktopServices>
 #include "MissionController.h"
 #include "QGCApplication.h"
 #include "ShapeFileHelper.h"
@@ -259,3 +260,22 @@ bool ParcelManagerController::canCreateParcel(double surface) {
     return db->canCreateParcel(username, surface);
 }
 
+
+void ParcelManagerController::exportParcel(SqlCustomModel *model, int index, QString path) {
+    QSqlRecord record = model->record(index);
+    QString owner = record.value("owner").toString();
+    QFile parcelFile(record.value("parcelFile").toString());
+
+    //Create directory for export
+    QDir dir(path+"/parcel_export-"+owner);
+    dir.mkpath(".");
+    //Copy parcel file to directory
+    parcelFile.copy(dir.path()+"/"+parcelFile.fileName().section("/", -1, -1));
+}
+
+void ParcelManagerController::exportParcelToMail(SqlCustomModel *model, int index){
+    QFile parcelFile(model->record(index).value("parcelFile").toString());
+    QString url = "mailto:?subject=Parcel%20File&attachment="+parcelFile.fileName();
+    QDesktopServices::openUrl(QUrl::fromEncoded(url.toUtf8()));
+
+}
