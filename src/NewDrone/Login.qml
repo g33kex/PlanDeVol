@@ -76,38 +76,46 @@ Item {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                     Label {
-                        text: "Username"
+                        text: "User login"
                         color: "gray"
                         Layout.alignment: Qt.AlignCenter
 
                         //Layout.rightMargin: 20
                     }
 
-                  /*  TextField {
-                        id: usernameField
-                        Layout.alignment: Qt.AlignCenter
-                        inputMethodHints: Qt.ImhNoAutoUppercase
-                    }*/
-
                     ComboBox {
                         id: usernameCombo
                         Layout.alignment: Qt.AlignCenter
                         Layout.preferredWidth: passwordField.width
                         inputMethodHints: Qt.ImhNoAutoUppercase
-                        editable: true
+                        enabled: usernameField.text === ""
 
 
                         model: loginController.users
+
                     }
                 }
 
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                    visible: usernameCombo.currentIndex==-1
 
                     Label {
-                        text: "Mot de Passe"
+                        text: "Admin login"
+                        color: "gray"
+                        Layout.alignment: Qt.AlignCenter
+
+                        //Layout.rightMargin: 20
+                    }
+
+                    TextField {
+                        id: usernameField
+                        Layout.alignment: Qt.AlignCenter
+                        inputMethodHints: Qt.ImhNoAutoUppercase
+                    }
+
+                    Label {
+                        text: "Admin password"
                         color: "gray"
                         Layout.alignment: Qt.AlignCenter
                         //Layout.rightMargin: 20
@@ -123,10 +131,10 @@ Item {
                 Button {
                     Layout.alignment: Qt.AlignCenter
                     Layout.topMargin: 20
-                    text: "Connexion"
+                    text: "Login"
 
                     onClicked: {
-                        var username = usernameCombo.currentIndex==-1 ? usernameCombo.editText : usernameCombo.currentText
+                        var username = usernameField.text === "" ? usernameCombo.currentText : usernameField.text
                         var role = loginController.getRole(username);
                         console.log("Connecting as user "+username+" with role "+role)
                             if (role === "Admin") {
@@ -157,6 +165,7 @@ Item {
                             }
                         usernameCombo.currentIndex=0
                         passwordField.text = ""
+                        usernameField.text = ""
                     }
                 }
             }

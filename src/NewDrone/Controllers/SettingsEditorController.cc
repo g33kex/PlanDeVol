@@ -44,8 +44,8 @@ void SettingsEditorController::loadSettings()
     setImageWidth(settings.value(key_imageWidth, 3864).toInt());
     setImageHeight(settings.value(key_imageHeight, 2196).toInt());
     setImageOrientation(static_cast<Orientation>(settings.value(key_imageOrientation, landscape).toInt()));
-    setFrontOverlap(settings.value(key_frontOverlap, 0).toInt());
-    setSideOverlap(settings.value(key_sideOverlap, 0).toInt());
+    setFrontOverlap(settings.value(key_frontOverlap, 30).toInt());
+    setSideOverlap(settings.value(key_sideOverlap, 30).toInt());
 
     //Checklist
     setChecklist(settings.value(key_checklist, "All is Good:Nothing to report.").toString());
