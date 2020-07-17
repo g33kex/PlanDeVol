@@ -72,7 +72,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("Waypoint alt")
             }
-            ComboBox {
+            QGCComboBox {
                 currentIndex: QGroundControl.settingsManager.appSettings.altIndex
                 model: [ "Low", "Medium", "High"]
                 onCurrentIndexChanged: {
@@ -89,7 +89,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("Speed")
             }
-            ComboBox {
+            QGCComboBox {
                 currentIndex: missionItem.speedSection.speedIndex
                 model: [ "Low", "Medium", "High"]
                 onCurrentIndexChanged: {
