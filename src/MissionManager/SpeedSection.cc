@@ -31,14 +31,17 @@ SpeedSection::SpeedSection(Vehicle* vehicle, QObject* parent)
         _metaDataMap = FactMetaData::createMapFromJsonFile(QStringLiteral(":/json/SpeedSection.FactMetaData.json"), NULL /* metaDataParent */);
     }
 
-    double flightSpeed = 0;
+    //NewDrone : set default flightspeed
+    /*double flightSpeed = 0;
     if (_vehicle->multiRotor()) {
         flightSpeed = _vehicle->defaultHoverSpeed();
     } else {
         flightSpeed = _vehicle->defaultCruiseSpeed();
-    }
+    }*/
 
-    flightSpeed = settingsEditorController->mediumSpeed();
+    double flightSpeed = settingsEditorController->mediumSpeed();
+
+    qDebug() << "TODO NEW DRONE " << "setting flight speed to " << flightSpeed;
 
     _metaDataMap[_flightSpeedName]->setRawDefaultValue(flightSpeed);
     _flightSpeedFact.setMetaData(_metaDataMap[_flightSpeedName]);
@@ -132,7 +135,10 @@ bool SpeedSection::scanForSection(QmlObjectListModel* visualItems, int scanIndex
             return false;
         }
         visualItems->removeAt(scanIndex)->deleteLater();
-        _flightSpeedFact.setRawValue(missionItem.param2());
+        //_flightSpeedFact.setRawValue(missionItem.param2());
+        //New Drone : we trust the flightSpeedFact for current speed rather than the survey
+        missionItem.setParam2(_flightSpeedFact.rawValue().toDouble());
+
         setSpecifyFlightSpeed(true);
         return true;
     }
@@ -185,7 +191,8 @@ int SpeedSection::getCruiseSpeedInd () {
         return 1;
     if(qFuzzyCompare(speed,settingsEditorController->highSpeed()))
         return 2;
-    return 1;
+    qDebug() << "Cruise Speed doesn't correspond to any index and is " << _flightSpeedFact.rawValue().toDouble();
+    return -1;
 }
 
 QString SpeedSection::getSpeedTxt () {

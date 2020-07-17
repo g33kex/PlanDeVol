@@ -74,7 +74,7 @@ Rectangle {
             }
             ComboBox {
                 currentIndex: QGroundControl.settingsManager.appSettings.altIndex
-                model: [ "Faible", "Normale", "Rapide"]
+                model: [ "Low", "Medium", "High"]
                 onCurrentIndexChanged: {
                     QGroundControl.settingsManager.appSettings.setBoxAlt(currentIndex)
                     labAlt.text = QGroundControl.settingsManager.appSettings.getAltTxt()
@@ -91,7 +91,7 @@ Rectangle {
             }
             ComboBox {
                 currentIndex: missionItem.speedSection.speedIndex
-                model: [ "Faible", "Normale", "Rapide"]
+                model: [ "Low", "Medium", "High"]
                 onCurrentIndexChanged: {
                     missionItem.speedSection.setBoxSpeed(currentIndex)
                     labSpeed.text = missionItem.speedSection.getSpeedTxt()

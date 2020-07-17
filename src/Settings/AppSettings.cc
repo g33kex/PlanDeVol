@@ -247,7 +247,8 @@ int AppSettings::getCruiseAltInd () {
         return 1;
     if(qFuzzyCompare(altitude,settingsEditorController->highAltitude()))
         return 2;
-    return 1;
+    qDebug() << "Cruise Altitude doesn't correspond to any index";
+    return -1;
 
 }
 
