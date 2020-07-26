@@ -96,12 +96,14 @@ Item {
                                 selectedForExport.push(rowIndex)
                             })
                     parcelTableView.selection.clear()
-                    fileDialog.open()
+                    var path = settingsEditorController.savePath
+                    _parcelManagerController.exportParcel(
+                                parcelModel, selectedForExport[0], path)
                 }
             }
         }
 
-        Button {
+      /*  Button {
             Layout.fillWidth: true
             Layout.margins: margin
             text: "Export to mail"
@@ -121,11 +123,11 @@ Item {
                     _parcelManagerController.exportParcelToMail(parcelModel, selectedForExport[0])
                 }
             }
-        }
+        }*/
         }
     }
 
-    FileDialog {
+   /* FileDialog {
         id:             fileDialog
         title:          qsTr("Export Parcel")
         selectExisting: true
@@ -141,7 +143,7 @@ Item {
         onRejected: {
             fileDialog.visible=false
         }
-    }
+    }*/
 
 
     SimpleDialog {

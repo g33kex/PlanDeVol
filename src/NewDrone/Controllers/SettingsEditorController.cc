@@ -2,6 +2,8 @@
 
 #include <QDebug>
 
+#include "ParameterManager.h"
+
 SettingsEditorController *SettingsEditorController::instance = nullptr;
 
 SettingsEditorController::SettingsEditorController()
@@ -47,6 +49,9 @@ void SettingsEditorController::loadSettings()
     setFrontOverlap(settings.value(key_frontOverlap, 30).toInt());
     setSideOverlap(settings.value(key_sideOverlap, 30).toInt());
 
+    //Save Settings
+    setSavePath(settings.value(key_savePath, "/storage/emulated/0/PlanDeVol/exports").toString());
+
     //Checklist
     setChecklist(settings.value(key_checklist, "All is Good:Nothing to report.").toString());
 
@@ -85,6 +90,9 @@ void SettingsEditorController::saveSettings()
     settings.setValue(key_imageOrientation, static_cast<int>(imageOrientation()));
     settings.setValue(key_frontOverlap, frontOverlap());
     settings.setValue(key_sideOverlap, sideOverlap());
+
+    //Save Settings
+    settings.setValue(key_savePath, savePath());
 
     //Checklist
     settings.setValue(key_checklist, checklist());

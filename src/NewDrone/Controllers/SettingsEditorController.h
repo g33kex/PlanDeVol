@@ -49,6 +49,8 @@ public:
     Q_PROPERTY(Orientation imageOrientation READ imageOrientation WRITE setImageOrientation NOTIFY imageOrientationChanged)
     Q_PROPERTY(int frontOverlap READ frontOverlap WRITE setFrontOverlap NOTIFY frontOverlapChanged)
     Q_PROPERTY(int sideOverlap READ sideOverlap WRITE setSideOverlap NOTIFY sideOverlapChanged)
+    //Save Settings
+    Q_PROPERTY(QString savePath READ savePath WRITE setSavePath NOTIFY savePathChanged)
     //Checklist
     Q_PROPERTY(QString checklist READ checklist WRITE setChecklist NOTIFY checklistChanged)
 
@@ -89,6 +91,9 @@ public:
     int frontOverlap() const { return m_frontOverlap; }
 
     int sideOverlap() const { return m_sideOverlap; }
+
+
+    QString savePath() const { return m_savePath; }
 
     QString checklist() const { return m_checklist; }
 
@@ -268,6 +273,16 @@ public slots:
       emit frontOverlapChanged(m_sideOverlap);
     }
 
+    void setSavePath(QString savePath)
+    {
+        if (m_savePath == savePath)
+            return;
+
+        m_savePath = savePath;
+        setModified(true);
+        emit savePathChanged(m_savePath);
+    }
+
     void setChecklist(QString checklist)
     {
         if (m_checklist == checklist)
@@ -306,6 +321,7 @@ signals:
     void imageOrientationChanged(Orientation imageOrientation);
     void frontOverlapChanged(int frontOverlap);
     void sideOverlapChanged(int sideOverlap);
+    void savePathChanged(QString savePath);
     void checklistChanged(QString checklist);
 
     void modifiedChanged(bool modified);
@@ -337,6 +353,7 @@ private:
     Orientation m_imageOrientation;
     int m_frontOverlap;
     int m_sideOverlap;
+    QString m_savePath;
     QString m_checklist;
 
     const QString key_lowSpeed = "lowSpeed";
@@ -358,6 +375,7 @@ private:
     const QString key_imageOrientation = "imageOrientation";
     const QString key_frontOverlap = "frontOverlap";
     const QString key_sideOverlap = "sideOverlap";
+    const QString key_savePath = "sidePath";
     const QString key_checklist = "checklist";
 };
 

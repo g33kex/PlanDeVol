@@ -136,6 +136,8 @@ float ShapeFileHelper::savePolygonFromGeoportail(QString filepath, QString conte
 
 bool ShapeFileHelper::savePolygonToKML(QString path, QmlObjectListModel* _polygonModel, int speed) {
     QFile file( path );
+    qDebug() << "Saving to path " << path;
+
     if ( file.open(QIODevice::WriteOnly) ) {
         QTextStream stream( &file );
         stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;

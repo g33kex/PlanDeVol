@@ -371,6 +371,29 @@ Item {
                         placeholderText: "Title1:Question1\nTitle2:Question2\nTitle3:Question3\n..."
                     }
                 }
+                GroupBox {
+                    label: Label {
+                        text: "Save Settings"
+                        font.bold: true
+                        font.pointSize: titleSize
+                        font.family: abelioFont.name
+                    }
+                    ColumnLayout {
+                        anchors.centerIn: parent
+                        Label {
+                            text: "Export Path"
+                            font.family: abelioFont.name
+                            Layout.columnSpan: 2
+                            visible: !isSuperAdmin
+                        }
+                        TextField {
+                            Layout.minimumWidth: 500
+                            text: settingsEditorController.savePath
+                            onTextChanged: settingsEditorController.savePath = text
+                            visible: !isSuperAdmin
+                        }
+                    }
+                }
             }
         }
 

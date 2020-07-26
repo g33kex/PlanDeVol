@@ -268,7 +268,14 @@ void ParcelManagerController::exportParcel(SqlCustomModel *model, int index, QSt
 
     //Create directory for export
     QDir dir(path+"/parcel_export-"+owner);
-    dir.mkpath(".");
+
+    if(!dir.mkpath(".")) {
+        qDebug() << "Cannot create directory to save parcel: " << dir.path();
+        return;
+    }
+    else {
+        qDebug() << "Created directory " << dir.absolutePath();
+    }
     //Copy parcel file to directory
     parcelFile.copy(dir.path()+"/"+parcelFile.fileName().section("/", -1, -1));
 }
