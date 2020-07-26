@@ -8,6 +8,9 @@ SettingsEditorController *SettingsEditorController::instance = nullptr;
 
 SettingsEditorController::SettingsEditorController()
 {
+    mPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
+    QString filename = "newdrone.ini";
+    mPath = mPath + "/" + filename;
     this->loadSettings();
 }
 
@@ -20,7 +23,7 @@ SettingsEditorController *SettingsEditorController::getInstance() {
 
 void SettingsEditorController::loadSettings()
 {
-    QSettings settings("/storage/emulated/0/PlanDeVol/Parameters/newdrone.ini",QSettings::NativeFormat);
+    QSettings settings(mPath/*"/storage/emulated/0/PlanDeVol/Parameters/newdrone.ini"*/,QSettings::NativeFormat);
     settings.sync();
 
     settings.beginGroup(settingsGroup);
@@ -65,7 +68,7 @@ void SettingsEditorController::loadSettings()
 
 void SettingsEditorController::saveSettings()
 {
-    QSettings settings("/storage/emulated/0/PlanDeVol/Parameters/newdrone.ini",QSettings::NativeFormat);
+    QSettings settings(mPath,QSettings::NativeFormat);
     settings.beginGroup(settingsGroup);
 
     //Flight Presets
@@ -111,7 +114,7 @@ void SettingsEditorController::saveSettings()
 
 void SettingsEditorController::resetSettings()
 {
-    QSettings settings("/storage/emulated/0/PlanDeVol/Parameters/newdrone.ini",QSettings::NativeFormat);
+    QSettings settings(mPath,QSettings::NativeFormat);
     settings.remove(settingsGroup);
     loadSettings();
 }

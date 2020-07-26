@@ -331,6 +331,7 @@ private:
     static SettingsEditorController *instance;
 
     QString settingsGroup = "NewDrone";
+    QString mPath;
     bool m_modified;
 
     double m_lowSpeed;
