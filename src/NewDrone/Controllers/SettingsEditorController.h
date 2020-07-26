@@ -330,7 +330,6 @@ private:
     explicit SettingsEditorController();
     static SettingsEditorController *instance;
 
-    QSettings settings;
     QString settingsGroup = "NewDrone";
     bool m_modified;
 

@@ -1,8 +1,8 @@
 #include "SettingsEditorController.h"
 
 #include <QDebug>
-
-#include "ParameterManager.h"
+#include <QStandardPaths>
+#include <QDir>
 
 SettingsEditorController *SettingsEditorController::instance = nullptr;
 
@@ -20,6 +20,9 @@ SettingsEditorController *SettingsEditorController::getInstance() {
 
 void SettingsEditorController::loadSettings()
 {
+    QSettings settings("/storage/emulated/0/PlanDeVol/Parameters/newdrone.ini",QSettings::NativeFormat);
+    settings.sync();
+
     settings.beginGroup(settingsGroup);
 
     //Flight Presets
@@ -62,6 +65,7 @@ void SettingsEditorController::loadSettings()
 
 void SettingsEditorController::saveSettings()
 {
+    QSettings settings("/storage/emulated/0/PlanDeVol/Parameters/newdrone.ini",QSettings::NativeFormat);
     settings.beginGroup(settingsGroup);
 
     //Flight Presets
@@ -99,12 +103,15 @@ void SettingsEditorController::saveSettings()
 
     settings.endGroup();
 
+    settings.sync();
+
     setModified(false);
 }
 
 
 void SettingsEditorController::resetSettings()
 {
+    QSettings settings("/storage/emulated/0/PlanDeVol/Parameters/newdrone.ini",QSettings::NativeFormat);
     settings.remove(settingsGroup);
     loadSettings();
 }

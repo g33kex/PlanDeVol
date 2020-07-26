@@ -12,8 +12,6 @@ import NewDrone.Controllers 1.0
 
 Item {
 
-    property var selectedForExport: []
-
     ParcelManagerController {
         id: _parcelManagerController
     }
@@ -84,46 +82,42 @@ Item {
             Layout.margins: margin
             text: "Export to file"
             onClicked: {
-                if(parcelTableView.selection.count!==1) {
-                    errorDialog.show("Please select one parcel to export.")
+                if(parcelTableView.selection.count<1) {
+                    errorDialog.show("Please select at least one parcel to export.")
                 }
                 else {
-
-                selectedForExport=[]
-                parcelTableView.selection.forEach(
-                            function (rowIndex) {
-                                console.log("Selected : " + rowIndex)
-                                selectedForExport.push(rowIndex)
-                            })
+                    var selected = []
+                    parcelTableView.selection.forEach(
+                                function (rowIndex) {
+                                    selected.push(rowIndex)
+                                })
                     parcelTableView.selection.clear()
-                    var path = settingsEditorController.savePath
+
                     _parcelManagerController.exportParcel(
-                                parcelModel, selectedForExport[0], path)
+                                parcelModel, selected, settingsEditorController.savePath)
                 }
             }
         }
 
-      /*  Button {
+        Button {
             Layout.fillWidth: true
             Layout.margins: margin
             text: "Export to mail"
             onClicked: {
                 if(parcelTableView.selection.count!==1) {
-                    errorDialog.show("Please select one parcel to export.")
+                    errorDialog.show("Please select exactly one parcel to export via email.")
                 }
                 else {
-
-                selectedForExport=[]
-                parcelTableView.selection.forEach(
-                            function (rowIndex) {
-                                console.log("Selected : " + rowIndex)
-                                selectedForExport.push(rowIndex)
-                            })
+                    var selected = []
+                    parcelTableView.selection.forEach(
+                                function (rowIndex) {
+                                    selected.push(rowIndex)
+                                })
                     parcelTableView.selection.clear()
-                    _parcelManagerController.exportParcelToMail(parcelModel, selectedForExport[0])
+                    _parcelManagerController.exportParcelToMail(parcelModel, parcelTableView.selected[0])
                 }
             }
-        }*/
+        }
         }
     }
 

@@ -261,23 +261,25 @@ bool ParcelManagerController::canCreateParcel(double surface) {
 }
 
 
-void ParcelManagerController::exportParcel(SqlCustomModel *model, int index, QString path) {
-    QSqlRecord record = model->record(index);
-    QString owner = record.value("owner").toString();
-    QFile parcelFile(record.value("parcelFile").toString());
+void ParcelManagerController::exportParcel(SqlCustomModel *model, QList<int> indexes, QString path) {
+    for(int index : indexes) {
+        QSqlRecord record = model->record(index);
+        QString owner = record.value("owner").toString();
+        QFile parcelFile(record.value("parcelFile").toString());
 
-    //Create directory for export
-    QDir dir(path+"/parcel_export-"+owner);
+        //Create directory for export
+        QDir dir(path+"/parcel_export-"+owner);
 
-    if(!dir.mkpath(".")) {
-        qDebug() << "Cannot create directory to save parcel: " << dir.path();
-        return;
+        if(!dir.mkpath(".")) {
+            qDebug() << "Cannot create directory to save parcel: " << dir.path();
+            return;
+        }
+        else {
+            qDebug() << "Created directory " << dir.absolutePath();
+        }
+        //Copy parcel file to directory
+        parcelFile.copy(dir.path()+"/"+parcelFile.fileName().section("/", -1, -1));
     }
-    else {
-        qDebug() << "Created directory " << dir.absolutePath();
-    }
-    //Copy parcel file to directory
-    parcelFile.copy(dir.path()+"/"+parcelFile.fileName().section("/", -1, -1));
 }
 
 void ParcelManagerController::exportParcelToMail(SqlCustomModel *model, int index){
