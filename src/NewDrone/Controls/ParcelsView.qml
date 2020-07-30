@@ -99,7 +99,7 @@ Item {
             }
         }
 
-        Button {
+        /*Button {
             Layout.fillWidth: true
             Layout.margins: margin
             text: "Export to mail"
@@ -114,10 +114,10 @@ Item {
                                     selected.push(rowIndex)
                                 })
                     parcelTableView.selection.clear()
-                    _parcelManagerController.exportParcelToMail(parcelModel, parcelTableView.selected[0])
+                    _parcelManagerController.exportParcelToMail(parcelModel, selected[0])
                 }
             }
-        }
+        }*/
         }
     }
 
