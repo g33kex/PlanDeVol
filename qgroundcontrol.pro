@@ -45,6 +45,10 @@ MacBuild {
     LIBS               += -framework ApplicationServices
 }
 
+AndroidBuild {
+    OTHER_FILES += $${BASEDIR}/android/src/com/newdrone/AndroidShare.java
+}
+
 LinuxBuild {
         QMAKE_CXX =ccache g++
     CONFIG  += qesp_linux_udev
@@ -257,6 +261,9 @@ AndroidBuild || iOSBuild {
         charts \
 }
 
+AndroidBuild {
+    QT += androidextras
+}
 contains(DEFINES, QGC_ENABLE_BLUETOOTH) {
 QT += \
     bluetooth \
@@ -1282,6 +1289,7 @@ contains (CONFIG, QGC_DISABLE_INSTALLER_SETUP) {
 FORMS +=
 
 DISTFILES += \
+    android/src/com/newdrone/AndroidShare.java \
     database.sqlite3
 
 RESOURCES +=

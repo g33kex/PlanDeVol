@@ -80,5 +80,9 @@
     <!-- The following comment will be replaced upon deployment with default features based on the dependencies of the application.
          Remove the comment if you do not require these default features. -->
     <!-- %%INSERT_FEATURES -->
+          <provider android:name="android.support.v4.content.FileProvider" android:authorities="org.newdrone.flightplan.fileprovider" android:exported="false" android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
+        </provider>
 
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 </manifest>

@@ -16,6 +16,12 @@
 #include <KMLFileHelper.h>
 #include <QtXmlPatterns/QXmlQuery>
 
+#if defined(Q_OS_ANDROID)
+#include <QtAndroidExtras/QAndroidJniObject>
+#include <QtAndroid>
+#endif
+
+
 extern QString username;
 extern DbManager *db;
 extern QuestionFile *questionFile;
@@ -282,9 +288,20 @@ void ParcelManagerController::exportParcel(SqlCustomModel *model, QList<int> ind
     }
 }
 
+//Here we call some java code to use android share function. If not android, we just use a normal email with attachement.
 void ParcelManagerController::exportParcelToMail(SqlCustomModel *model, int index){
     QFile parcelFile(model->record(index).value("parcelFile").toString());
+#if defined(Q_OS_ANDROID)
+    QAndroidJniObject jsText = QAndroidJniObject::fromString("Parcel export via email");
+    QAndroidJniObject jsUrl = QAndroidJniObject::fromString(parcelFile.fileName());
+    qDebug() << "exporting via mail with context" << QtAndroid::androidContext().toString() << " with text" << jsText.toString() << "with url: " << jsUrl.toString() ;
+
+    //QAndroidJniObject::callStaticMethod<void>("com/newdrone/AndroidShare", "share", "(Ljava/lang/String;Ljava/lang/String;)V", jsText.object<jstring>(), jsUrl.object<jstring>());
+    QAndroidJniObject::callStaticMethod<void>("com/newdrone/AndroidShare", "share", "(Ljava/lang/String;Ljava/lang/String;Landroid/content/Context;)V", jsText.object<jstring>(), jsUrl.object<jstring>(), QtAndroid::androidContext().object());
+
+#else
     QString url = "mailto:?subject=Parcel%20File&attachment="+parcelFile.fileName();
     QDesktopServices::openUrl(QUrl::fromEncoded(url.toUtf8()));
+#endif
 
 }
