@@ -67,7 +67,7 @@ Rectangle {
             visible:        missionItem.cameraShots > 0 && _cameraMinTriggerInterval !== 0 && _cameraMinTriggerInterval > missionItem.timeBetweenShots
         }
 
-        QGCLabel {
+       /* QGCLabel {
             text: qsTr("Presets")
         }
 
@@ -156,7 +156,7 @@ Rectangle {
                 }
                 delayedIndexChange(presetCombo._indexCustom)
             }
-        }
+        }*/
 
         CameraCalc {
             cameraCalc:                     missionItem.cameraCalc
@@ -264,15 +264,18 @@ Rectangle {
                 text:               qsTr("Images in turnarounds")
                 fact:               missionItem.cameraTriggerInTurnAround
                 enabled:            missionItem.hoverAndCaptureAllowed ? !missionItem.hoverAndCapture.rawValue : true
+                Component.onCompleted: {
+                    missionItem.cameraTriggerInTurnAround.rawValue = false
+                }
             }
 
-            FactCheckBox {
+           /* FactCheckBox {
                 text:               qsTr("Fly alternate transects")
                 fact:               missionItem.flyAlternateTransects
                 visible:            _vehicle ? (_vehicle.fixedWing || _vehicle.vtol) : false
-            }
+            }*/
 
-            QGCCheckBox {
+           /* QGCCheckBox {
                 id:                 relAlt
                 Layout.alignment:   Qt.AlignLeft
                 text:               qsTr("Relative altitude")
@@ -285,13 +288,13 @@ Rectangle {
                     target: missionItem.cameraCalc
                     onDistanceToSurfaceRelativeChanged: relAlt.checked = missionItem.cameraCalc.distanceToSurfaceRelative
                 }
-            }
+            }*/
         }
 
         SectionHeader {
             id:         terrainHeader
             text:       qsTr("Terrain")
-            checked:    missionItem.followTerrain
+            checked:    true
             visible:    !_usingPreset
         }
 

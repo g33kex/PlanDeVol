@@ -231,7 +231,7 @@ bool TransectStyleComplexItem::_load(const QJsonObject& complexObject, bool forP
     QList<JsonHelper::KeyValidateInfo> innerKeyInfoList = {
         { JsonHelper::jsonVersionKey,       QJsonValue::Double, true },
         { turnAroundDistanceName,           QJsonValue::Double, true },
-        { cameraTriggerInTurnAroundName,    QJsonValue::Bool,   true },
+        { cameraTriggerInTurnAroundName,    QJsonValue::Bool,   false },
         { hoverAndCaptureName,              QJsonValue::Bool,   true },
         { refly90DegreesName,               QJsonValue::Bool,   true },
         { _jsonCameraCalcKey,               QJsonValue::Object, true },

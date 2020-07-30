@@ -55,10 +55,10 @@ Rectangle {
         anchors.top:        parent.top
         spacing:            _margin
 
-        QGCCheckBox {
-            text:                       "Optimize Mission"
+        QGCButton {
+            text: qsTr("Optimize Mission")
             onCheckedChanged: {
-                _missionController.optimize(checked)
+                _missionController.optimize()
             }
         }
 
@@ -67,7 +67,7 @@ Rectangle {
             anchors.right:  parent.right
             columnSpacing:  ScreenTools.defaultFontPixelWidth
             rowSpacing:     columnSpacing
-            columns:        2
+            columns:        3
 
             QGCLabel {
                 text: qsTr("Waypoint alt")
@@ -82,7 +82,6 @@ Rectangle {
             }
             QGCLabel {
                 id:labAlt
-                Layout.columnSpan : 2
                 text: QGroundControl.settingsManager.appSettings.getAltTxt()
             }
 
@@ -99,7 +98,6 @@ Rectangle {
             }
             QGCLabel {
                 id : labSpeed
-                Layout.columnSpan : 2
                 text: missionItem.speedSection.getSpeedTxt()
             }
         }
@@ -110,7 +108,7 @@ Rectangle {
             spacing:        _margin
             visible:        !_simpleMissionStart
 
-            CameraSection {
+            /*CameraSection {
                 id:         cameraSection
                 checked:    !_waypointsOnlyMode && missionItem.cameraSection.settingsSpecified
                 visible:    _showCameraSection
@@ -124,9 +122,9 @@ Rectangle {
                 horizontalAlignment:    Text.AlignHCenter
                 font.pointSize:         ScreenTools.smallFontPointSize
                 visible:                _showCameraSection && cameraSection.checked
-            }
+            }*/
 
-            SectionHeader {
+            /*SectionHeader {
                 id:         vehicleInfoSectionHeader
                 text:       qsTr("Vehicle Info")
                 visible:    _offlineEditing && !_waypointsOnlyMode
@@ -188,7 +186,7 @@ Rectangle {
                     visible:                _showHoverSpeed
                     Layout.preferredWidth:  _fieldWidth
                 }
-            } // GridLayout
+            } // GridLayout*/
 
             SectionHeader {
                 id:         missionEndHeader

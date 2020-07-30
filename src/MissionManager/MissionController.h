@@ -137,7 +137,7 @@ public:
     ///     @param sequenceNumber - index for new item, -1 to clear current item
     Q_INVOKABLE void setCurrentPlanViewIndex(int sequenceNumber, bool force);
 
-    Q_INVOKABLE void optimize (bool optimize);
+    Q_INVOKABLE void optimize ();
 
     /// Determines if the mission has all data needed to be saved or sent to the vehicle. Currently the only case where this
     /// would return false is when it is still waiting on terrain data to determine correct altitudes.
@@ -310,9 +310,6 @@ private:
     QTimer                  _updateTimer;
     QGCGeoBoundingCube      _travelBoundingCube;
     QGeoCoordinate          _takeoffCoordinate;
-
-    //Mission optimization
-    QList<int>* _nonOptimizedAngles;
 
     static const char*  _settingsGroup;
 

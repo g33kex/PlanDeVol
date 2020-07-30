@@ -54,7 +54,7 @@ DECLARE_SETTINGSFACT_NO_FUNC(UnitsSettings, areaUnits)
         metaData->setName(areaUnitsName);
         metaData->setShortDescription("Area units");
         metaData->setEnumInfo(enumStrings, enumValues);
-        metaData->setRawDefaultValue(AreaUnitsSquareMeters);
+        metaData->setRawDefaultValue(AreaUnitsHectares);
         metaData->setQGCRebootRequired(true);
         _areaUnitsFact = new SettingsFact(_settingsGroup, metaData, this);
     }

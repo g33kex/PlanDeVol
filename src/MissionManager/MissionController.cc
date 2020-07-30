@@ -2218,28 +2218,15 @@ int MissionController::optimizeAngle(SurveyComplexItem* toOpt) {
     return index ;
 }
 
-void MissionController::optimize(bool optimize) {
+void MissionController::optimize() {
     if (!(_visualItems->count() == 0)) {
-        if(optimize) {
-            this->_nonOptimizedAngles = new QList<int>();
             for (int i = 1; i < _visualItems->count(); i++) {
                 VisualMissionItem* item = qobject_cast<VisualMissionItem*>(_visualItems->get(i));
                 if (item->commandName() == "Survey") {
                     SurveyComplexItem* pComplexItem = qobject_cast<SurveyComplexItem*>(item);
                     int angle = optimizeAngle(pComplexItem);
                     pComplexItem->setAngle(angle);
-                    this->_nonOptimizedAngles->append(pComplexItem->getAngle());
                 }
             }
-        }
-        else {
-            for (int i = 1; i < _visualItems->count(); i++) {
-                VisualMissionItem* item = qobject_cast<VisualMissionItem*>(_visualItems->get(i));
-                if (item->commandName() == "Survey") {
-                    SurveyComplexItem* pComplexItem = qobject_cast<SurveyComplexItem*>(item);
-                    pComplexItem->setAngle(this->_nonOptimizedAngles->at(i-1));
-                }
-            }
-        }
     }
 }

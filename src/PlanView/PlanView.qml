@@ -213,7 +213,6 @@ Item {
         }
 
         function upload() {
-            _missionController.optimize()
             if (!readyForSaveSend()) {
                 waitingOnDataMessage()
                 return
@@ -1015,7 +1014,7 @@ Item {
                 columnSpacing:      ScreenTools.defaultFontPixelWidth
 
                 QGCButton {
-                    text:               qsTr("Nouveau...")
+                    text:               qsTr("New...")
                     Layout.fillWidth:   true
                     enabled:            _planMasterController.containsItems
                     onClicked:  {
@@ -1025,7 +1024,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               qsTr("Ouvrir Mission")
+                    text:               qsTr("Open Mission")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress
                     onClicked: {
@@ -1039,7 +1038,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               "Sauvegarder"
+                    text:               "Save"
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.currentPlanFile !== ""
                     onClicked: {
@@ -1053,11 +1052,10 @@ Item {
                 }
 
                 QGCButton {
-                    text:               "Sauvegarder Mission"
+                    text:               "Save Mission"
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.containsItems
                     onClicked: {
-                        _missionController.optimize()
                         if(_appSettings.nbMission) {
                             dropPanel.hide()
                             _planMasterController.saveToSelectedFile()

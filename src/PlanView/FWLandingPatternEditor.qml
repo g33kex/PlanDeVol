@@ -185,7 +185,7 @@ Rectangle {
             onClicked:      missionItem.altitudesAreRelative = checked
         }
 
-        SectionHeader {
+        /*SectionHeader {
             id:         cameraSection
             text:       qsTr("Camera")
             visible:    _showCameraSection
@@ -212,7 +212,7 @@ Rectangle {
 
                 property Fact _stopTakingVideo: missionItem.stopTakingVideo
             }
-        }
+        }*/
     }
 
     Column {
