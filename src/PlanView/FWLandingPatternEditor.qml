@@ -57,7 +57,8 @@ Rectangle {
         }
 
         Component.onCompleted: {
-            missionItem.loiterRadius = settingsEditorController.loiterRadius
+            missionItem.loiterRadius.rawvalue = settingsEditorController.loiterRadius
+            missionItem.loiterAltitude.rawValue = 5.0
         }
 
         Column {
@@ -178,7 +179,6 @@ Rectangle {
         Item { width: 1; height: _spacer }
 
         QGCCheckBox {
-            anchors.right:  parent.right
             text:           qsTr("Altitudes relative to home")
             checked:        missionItem.altitudesAreRelative
             visible:        QGroundControl.corePlugin.options.showMissionAbsoluteAltitude || !missionItem.altitudesAreRelative
