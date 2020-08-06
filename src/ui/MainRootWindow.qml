@@ -31,8 +31,7 @@ ApplicationWindow {
     property var parent
 
     function disconnect() {
-        console.log("Disconnecting from User.")
-       // parent.show()
+        console.log("Disconnecting from User")
         mainWindow.close()
     }
 

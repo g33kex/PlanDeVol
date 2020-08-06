@@ -40,7 +40,7 @@ QML_IMPORT_PATH += $$PWD/src/QmlControls
 
 MacBuild {
     QMAKE_INFO_PLIST    = Custom-Info.plist
-    ICON                = $${BASEDIR}/resources/icons/macx.icns
+    ICON                = $${BASEDIR}/resources/abelio/ABELIO-SYMBOLE_RVB.png
     OTHER_FILES        += Custom-Info.plist
     LIBS               += -framework ApplicationServices
 }
@@ -51,7 +51,7 @@ LinuxBuild {
 }
 
 WindowsBuild {
-    RC_ICONS = resources/icons/FlightPlan.ico
+    RC_ICONS = resources/Abelio/ABELIO-SYMBOLE_RVB.png
 }
 
 #

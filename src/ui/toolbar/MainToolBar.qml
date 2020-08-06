@@ -67,7 +67,7 @@ Item {
                 id:                 settingsButton
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
-                icon.source:        "/res/QGCLogoWhite"
+                icon.source:        "/res/AbelioLogoWhite"
                 logo:               true
                 visible:            !QGroundControl.corePlugin.options.combineSettingsAndSetup
                 onClicked: {

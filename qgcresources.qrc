@@ -53,8 +53,9 @@
         <file alias="XDeleteBlack.svg">resources/XDeleteBlack.svg</file>
         <file alias="waypoint.svg">resources/waypoint.svg</file>
         <file>resources/icons/FlightPlan.ico</file>
-        <file>resources/icons/logo.jpg</file>
-        <file>resources/icons/mainlogo.png</file>
+		<file alias="AbelioLogoBlack">resources/abelio/ABELIO-SYMBOLE_NOIR.png</file>
+		<file alias="AbelioLogoWhite">resources/abelio/ABELIO-SYMBOLE_BLANC.png</file>
+		<file alias="AbelioLogoFull">resources/abelio/ABELIO-SYMBOLE_RVB.png</file>
     </qresource>
     <qresource prefix="/res/firmware">
         <file alias="3drradio.png">resources/firmware/3drradio.png</file>
