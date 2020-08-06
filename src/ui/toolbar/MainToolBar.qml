@@ -122,6 +122,16 @@ Item {
                 }
             }
 
+            QGCButton {
+                id: disconnectButtion
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                text: "Disconnect"
+                onClicked: {
+                    mainWindow.disconnect()
+                }
+            }
+
             Rectangle {
                 anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
                 anchors.top:        parent.top

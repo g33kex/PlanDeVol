@@ -28,6 +28,14 @@ ApplicationWindow {
     minimumHeight:  ScreenTools.isMobile ? Screen.height : Math.min(120 * Screen.pixelDensity, Screen.height)
     visible:        true
 
+    property var parent
+
+    function disconnect() {
+        console.log("Disconnecting from User.")
+       // parent.show()
+        mainWindow.close()
+    }
+
     Component.onCompleted: {
         if(ScreenTools.isMobile) {
             mainWindow.showFullScreen()

@@ -73,9 +73,10 @@ Item {
         asynchronous: true
         anchors.fill: parent
         visible: false
+        parent: loginWindow
         onLoaded: {
             progressOverlay.close()
-            loginMainWindow.hide()
+            loginWindow.hide()
         }
     }
 
