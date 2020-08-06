@@ -383,7 +383,8 @@ QString QGCCorePlugin::showAdvancedUIMessage() const
 void QGCCorePlugin::valuesWidgetDefaultSettings(QStringList& largeValues, QStringList& smallValues)
 {
     Q_UNUSED(smallValues);
-    largeValues << "Vehicle.groundSpeed" << "Vehicle.altitudeRelative"  << "Vehicle.flightTime" << "Vehicle.distanceToHome" << "Vehicle.headingToHome" << "Battery.voltage" << "Wind.windSpeed";
+    largeValues << "Vehicle.groundSpeed" << "Vehicle.altitudeRelative"  << "Vehicle.flightTime" << "Vehicle.distanceToHome" << "Vehicle.headingToHome";
+    smallValues << "battery.voltage" << "wind.speed";
 }
 
 QQmlApplicationEngine* QGCCorePlugin::createRootWindow(QObject *parent)
