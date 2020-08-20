@@ -211,7 +211,6 @@ void ParcelManagerController::initParcelsNames() {
     }
     else {
         names = db->getAllParcel(username);
-        qDebug() << "not showing all users, only showing "+username;
     }
 
 
