@@ -305,6 +305,10 @@ text: "' + names[i] + '"}}', map)
                     updateParcels()
                 }
 
+                onVisibleChanged: {
+                    updateParcels()
+                }
+
                 Component.onCompleted: {
 
                     updateParcels()

@@ -57,7 +57,7 @@ Rectangle {
 
         QGCButton {
             text: qsTr("Optimize Mission")
-            onCheckedChanged: {
+            onClicked: {
                 _missionController.optimize()
             }
         }
