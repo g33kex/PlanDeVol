@@ -116,7 +116,7 @@ Rectangle {
         populateQA(parcelModel, -1)
     }
 
-    function exchangeQuestion() {
+    function exchangeQuestion(parcelModel) {
         _questionsViewController.exchangeQuestion(getCheckedMult())
         clear()
         populateQA(parcelModel, -1)

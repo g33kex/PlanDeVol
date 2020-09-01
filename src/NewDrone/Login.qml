@@ -10,6 +10,7 @@ import NewDrone.Controls 1.0
 import NewDrone.Controllers 1.0
 
 Item {
+
     property alias mainWindow: loginWindow
     id: rootItem
 
@@ -76,18 +77,29 @@ Item {
 
     Loader {
         id: rootWindowLoader
-        asynchronous: true
+        asynchronous: false
         anchors.fill: parent
         visible: false
         parent: loginWindow
         onLoaded: {
-            progressOverlay.close()         }
+            progressOverlay.close()
+            hide()
+        }
+    }
+
+    function show_login_window() {
+        show()
     }
 
     Image {
         id: loginWindow
         source: "/res/AbelioField"
         anchors.fill: parent
+
+        onVisibleChanged:
+        {
+            console.log("\n\n\n\nVISIBLE CHANGED\n\n\n\n")
+        }
 
         Rectangle {
             color: "#a0ededef"
@@ -287,9 +299,9 @@ Item {
                                 console.log("Logged in as user " + username)
                                 loginController.loadMainWindow()
                                 rootWindowLoader.setSource("")
-                                rootWindowLoader.setSource(
-                                            "qrc:/qml/MainRootWindow.qml")
-                                rootWindowLoader.focus = true
+                                rootWindowLoader.setSource("qrc:/qml/MainRootWindow.qml")
+                                /*var component = Qt.createComponent("qrc:/qml/MainRootWindow.qml")
+                                var mainRootWindow = component.createObject("root")*/
                             }
                         }
                         usernameCombo.currentIndex = 0

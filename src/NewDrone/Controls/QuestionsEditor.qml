@@ -75,7 +75,7 @@ Item {
                 onClicked: {
                     if (questionView.getNbChecked() === 2
                             && questionView.isCheckedValid()) {
-                        questionView.exchangeQuestion()
+                        questionView.exchangeQuestion(parcelModel2)
                     } else {
                         errorDialog.show("Please select two questions of the same category to swap.")
                     }

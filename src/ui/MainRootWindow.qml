@@ -247,6 +247,9 @@ ApplicationWindow {
             unsavedMissionCloseDialog.check()
             close.accepted = false
         }
+        else {
+            show_login_window()
+        }
     }
 
     MessageDialog {

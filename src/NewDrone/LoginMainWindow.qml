@@ -38,7 +38,11 @@ ApplicationWindow {
         visible: true
         source: "Login.qml"
     }
-/*
+
+    function window_on_login() {
+        loginMainWindow.hide()
+    }
+
     Component.onCompleted: {
        // if (ScreenTools.isMobile) {
        //    testWindow.showFullScreen()
