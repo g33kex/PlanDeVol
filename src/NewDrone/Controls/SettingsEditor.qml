@@ -372,12 +372,12 @@ Item {
                     }
                 }
                 GroupBox {
+                    visible: !isSuperAdmin
                     label: Label {
                         text: "Save Settings"
                         font.bold: true
                         font.pointSize: titleSize
                         font.family: abelioFont.name
-                        visible: !isSuperAdmin
                     }
                     ColumnLayout {
                         anchors.centerIn: parent
