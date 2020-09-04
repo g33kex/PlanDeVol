@@ -57,10 +57,12 @@ Rectangle {
 
         PreFlightCheckGroup {
             id: customCheckGroup
-            name: qsTr("Custom checks")
+            name: qsTr("Check-list")
         }
 
-        PreFlightCheckGroup {
+        //NewDrone : remove default checklist
+
+        /*PreFlightCheckGroup {
             name: qsTr("Initial checks")
 
             // Standard check list items (group 0) - Available from the start
@@ -126,7 +128,7 @@ Rectangle {
                 name:        qsTr("Flight area")
                 manualText:  qsTr("Launch area and path free of obstacles/people?")
             }
-        }
+        }*/
     }
 
     property bool _passed:  false

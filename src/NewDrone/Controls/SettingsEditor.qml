@@ -377,6 +377,7 @@ Item {
                         font.bold: true
                         font.pointSize: titleSize
                         font.family: abelioFont.name
+                        visible: !isSuperAdmin
                     }
                     ColumnLayout {
                         anchors.centerIn: parent
