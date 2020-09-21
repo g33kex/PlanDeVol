@@ -57,7 +57,7 @@ Rectangle {
         }
 
         Component.onCompleted: {
-            missionItem.loiterRadius.rawvalue = settingsEditorController.loiterRadius
+            missionItem.loiterRadius.rawValue = settingsEditorController.loiterRadius
             missionItem.loiterAltitude.rawValue = 5.0
         }
 
