@@ -16,7 +16,6 @@
 #include "QGCQGeoCoordinate.h"
 #include "SettingsManager.h"
 #include "AppSettings.h"
-#include <math.h> //semisens
 
 #include <QPolygonF>
 
@@ -109,21 +108,7 @@ void SurveyComplexItem::save(QJsonArray&  planItems)
 {
     QJsonObject saveObject;
 
-    _saveWorker(saveObject);
-    planItems.append(saveObject);
-}
-
-void SurveyComplexItem::savePreset(const QString& name)
-{
-    QJsonObject saveObject;
-
-    _saveWorker(saveObject);
-    _savePresetJson(name, saveObject);
-}
-
-void SurveyComplexItem::_saveWorker(QJsonObject& saveObject)
-{
-    TransectStyleComplexItem::_save(saveObject);
+    _save(saveObject);
 
     saveObject[JsonHelper::jsonVersionKey] =                    5;
     saveObject[VisualMissionItem::jsonTypeKey] =                VisualMissionItem::jsonTypeComplexItemValue;
@@ -135,15 +120,8 @@ void SurveyComplexItem::_saveWorker(QJsonObject& saveObject)
 
     // Polygon shape
     _surveyAreaPolygon.saveToJson(saveObject);
-}
 
-void SurveyComplexItem::loadPreset(const QString& name)
-{
-    QString errorString;
-
-    QJsonObject presetObject = _loadPresetJson(name);
-    _loadV4V5(presetObject, 0, errorString, 5, true /* forPresets */);
-    _rebuildTransects();
+    planItems.append(saveObject);
 }
 
 bool SurveyComplexItem::load(const QJsonObject& complexObject, int sequenceNumber, QString& errorString)
@@ -163,7 +141,7 @@ bool SurveyComplexItem::load(const QJsonObject& complexObject, int sequenceNumbe
     }
 
     if (version == 4 || version == 5) {
-        if (!_loadV4V5(complexObject, sequenceNumber, errorString, version, false /* forPresets */)) {
+        if (!_loadV4V5(complexObject, sequenceNumber, errorString, version)) {
             return false;
         }
 
@@ -193,7 +171,7 @@ bool SurveyComplexItem::load(const QJsonObject& complexObject, int sequenceNumbe
     return true;
 }
 
-bool SurveyComplexItem::_loadV4V5(const QJsonObject& complexObject, int sequenceNumber, QString& errorString, int version, bool forPresets)
+bool SurveyComplexItem::_loadV4V5(const QJsonObject& complexObject, int sequenceNumber, QString& errorString, int version)
 {
     QList<JsonHelper::KeyValidateInfo> keyInfoList = {
         { VisualMissionItem::jsonTypeKey,               QJsonValue::String, true },
@@ -219,18 +197,16 @@ bool SurveyComplexItem::_loadV4V5(const QJsonObject& complexObject, int sequence
         return false;
     }
 
-    _ignoreRecalc = !forPresets;
+    _ignoreRecalc = true;
 
-    if (!forPresets) {
-        setSequenceNumber(sequenceNumber);
+    setSequenceNumber(sequenceNumber);
 
-        if (!_surveyAreaPolygon.loadFromJson(complexObject, true /* required */, errorString)) {
-            _surveyAreaPolygon.clear();
-            return false;
-        }
+    if (!_surveyAreaPolygon.loadFromJson(complexObject, true /* required */, errorString)) {
+        _surveyAreaPolygon.clear();
+        return false;
     }
 
-    if (!TransectStyleComplexItem::_load(complexObject, forPresets, errorString)) {
+    if (!_load(complexObject, false /*forPersets*/, errorString)) {
         _ignoreRecalc = false;
         return false;
     }
@@ -238,7 +214,7 @@ bool SurveyComplexItem::_loadV4V5(const QJsonObject& complexObject, int sequence
     _gridAngleFact.setRawValue              (complexObject[_jsonGridAngleKey].toDouble());
     _flyAlternateTransectsFact.setRawValue  (complexObject[_jsonFlyAlternateTransectsKey].toBool(false));
 
-    if (version == 5) {
+    if(version == 5) {
         _splitConcavePolygonsFact.setRawValue   (complexObject[_jsonSplitConcavePolygonsKey].toBool(true));
     }
 
@@ -281,7 +257,7 @@ bool SurveyComplexItem::_loadV3(const QJsonObject& complexObject, int sequenceNu
 
     _hoverAndCaptureFact.setRawValue            (complexObject[_jsonV3HoverAndCaptureKey].toBool(false));
     _refly90DegreesFact.setRawValue             (complexObject[_jsonV3Refly90DegreesKey].toBool(false));
-    _cameraTriggerInTurnAroundFact.setRawValue  (complexObject[_jsonV3CameraTriggerInTurnaroundKey].toBool(false));
+    _cameraTriggerInTurnAroundFact.setRawValue  (complexObject[_jsonV3CameraTriggerInTurnaroundKey].toBool(true));
 
     _cameraCalc.valueSetIsDistance()->setRawValue   (complexObject[_jsonV3FixedValueIsAltitudeKey].toBool(true));
     _cameraCalc.setDistanceToSurfaceRelative        (complexObject[_jsonV3GridAltitudeRelativeKey].toBool(true));
@@ -306,7 +282,7 @@ bool SurveyComplexItem::_loadV3(const QJsonObject& complexObject, int sequenceNu
     _turnAroundDistanceFact.setRawValue (gridObject[_jsonV3TurnaroundDistKey].toDouble());
 
     if (gridObject.contains(_jsonEntryPointKey)) {
-        _entryPoint = gridObject[_jsonEntryPointKey].toInt();
+        _entryPoint = gridObject[_jsonEntryPointKey].toDouble();
     } else {
         _entryPoint = EntryLocationTopRight;
     }
@@ -657,37 +633,13 @@ void SurveyComplexItem::_buildAndAppendMissionItems(QList<MissionItem*>& items, 
     bool imagesEverywhere =         _cameraTriggerInTurnAroundFact.rawValue().toBool();
     bool addTriggerAtBeginning =    !hoverAndCaptureEnabled() && imagesEverywhere;
     bool firstOverallPoint =        true;
-    int nwp =                       0; //semisens : waypoint number
-    double radius =                 40.0; //semisens : loiter radius (m)
 
     MAV_FRAME mavFrame = followTerrain() || !_cameraCalc.distanceToSurfaceRelative() ? MAV_FRAME_GLOBAL : MAV_FRAME_GLOBAL_RELATIVE_ALT;
-
-    double angle = _transects[0][0].coord.azimuthTo(_transects[0][1].coord)-_transects[0][0].coord.azimuthTo(_transects.last().last().coord); //semisens
-    if (angle > +180.0 ){angle -= 360;} //semisens
-    if (angle < -180.0 ){angle += 360;} //semisens
-    double turn = -angle/abs(angle); //semisens : connaitre le coté du premier virage en comparant les azimuths
 
     for (const QList<TransectStyleComplexItem::CoordInfo_t>& transect: _transects) {
         bool transectEntry = true;
 
         for (const CoordInfo_t& transectCoordInfo: transect) {
-            nwp++; //semisens
-            if (nwp%3 == 1 && nwp != _transects.length()*3) { //semisens : si le wp est le 3eme d'un transect alors on lui associe un loiter              
-                turn = -turn; //semisens
-                item = new MissionItem(seqNum++, //semisens
-                                   MAV_CMD_NAV_LOITER_TIME,
-                                   mavFrame,
-                                   6,                                           // semisens loiter time
-                                   0.0,                                         // empty
-                                   radius*turn,                                 // semisens radius
-                                   std::numeric_limits<double>::quiet_NaN(),    // unchanged
-                                   transectCoordInfo.coord.latitude(),
-                                   transectCoordInfo.coord.longitude(),
-                                   transectCoordInfo.coord.altitude(),
-                                   true,                                        // autoContinue
-                                   false,                                       // isCurrentItem
-                                   missionItemParent);
-            }else{ //semisens : sinon, c'est un wp classique
             item = new MissionItem(seqNum++,
                                    MAV_CMD_NAV_WAYPOINT,
                                    mavFrame,
@@ -702,7 +654,6 @@ void SurveyComplexItem::_buildAndAppendMissionItems(QList<MissionItem*>& items, 
                                    true,                                        // autoContinue
                                    false,                                       // isCurrentItem
                                    missionItemParent);
-            } //endif semisens
             items.append(item);
             if (hoverAndCaptureEnabled()) {
                 item = new MissionItem(seqNum++,
@@ -801,17 +752,17 @@ double SurveyComplexItem::_turnaroundDistance(void) const
 void SurveyComplexItem::_rebuildTransectsPhase1(void)
 {
     bool split = splitConcavePolygons()->rawValue().toBool();
-    if (split) {
-        _rebuildTransectsPhase1WorkerSplitPolygons(false /* refly */);
-    } else {
-        _rebuildTransectsPhase1WorkerSinglePolygon(false /* refly */);
-    }
+	if (split) {
+		_rebuildTransectsPhase1WorkerSplitPolygons(false /* refly */);
+	} else {
+		_rebuildTransectsPhase1WorkerSinglePolygon(false /* refly */);
+	}
     if (_refly90DegreesFact.rawValue().toBool()) {
-        if (split) {
-            _rebuildTransectsPhase1WorkerSplitPolygons(true /* refly */);
-        } else {
-            _rebuildTransectsPhase1WorkerSinglePolygon(true /* refly */);
-        }
+    	if (split) {
+    		_rebuildTransectsPhase1WorkerSplitPolygons(true /* refly */);
+    	} else {
+    		_rebuildTransectsPhase1WorkerSinglePolygon(true /* refly */);
+    	}
     }
 }
 
@@ -982,11 +933,16 @@ void SurveyComplexItem::_rebuildTransectsPhase1WorkerSinglePolygon(bool refly)
         transects[i] = transectVertices;
     }
 
-    bool firstOverallPoint = true; //semisens first only
+    // ----- Abelio Turnaround variables -----
+    bool isFirst = true;
     double angle = transects[0][0].azimuthTo(transects[0][1])-transects[0][0].azimuthTo(transects.last().last()); //semisens
-    if (angle > +180.0 ){angle -= 360;} //semisens
-    if (angle < -180.0 ){angle += 360;} //semisens
-    double turn = angle/abs(angle); //semisens : if firstTurn right -> (-1) / left -> (1)
+        if (angle > +180.0 ){angle -= 360;}
+        if (angle < -180.0 ){angle += 360;}
+    double turn = angle/abs(angle); // if firstTurn right -> (-1) / left -> (1)
+    double decal = 5.0;
+    double azimuth;
+    QGeoCoordinate lastPointCoord;
+    // ---------------------------------------
 
     // Convert to CoordInfo transects and append to _transects
     for (const QList<QGeoCoordinate>& transect : transects) {
@@ -1014,34 +970,41 @@ void SurveyComplexItem::_rebuildTransectsPhase1WorkerSinglePolygon(bool refly)
             }
         }
 
-        // Extend the transect ends for turnaround //SEMISENS
+        // Extend the transect ends for turnaround
         if (_hasTurnaround()) {
             QGeoCoordinate turnaroundCoord;
             double turnAroundDistance = _turnAroundDistanceFact.rawValue().toDouble();
 
-            if (firstOverallPoint) { //semisens first only            
-                double azimuth = transect[0].azimuthTo(transect[1]);
+            //before transect
+            azimuth = transect[0].azimuthTo(transect[1]);
+            if (isFirst)
+            {
                 turnaroundCoord = transect[0].atDistanceAndAzimuth(-turnAroundDistance, azimuth);
-                turnaroundCoord.setAltitude(qQNaN());
-                TransectStyleComplexItem::CoordInfo_t coordInfo = { turnaroundCoord, CoordTypeTurnaround };
-                coordInfoTransect.prepend(coordInfo);
-                firstOverallPoint = false;
+                isFirst = false;
             }
+            else
+            {
+                if (turn < 0.0) {
+                    azimuth -= atan(2*decal/turnAroundDistance)*180.0/M_PI;
+                    if (azimuth < 0.0 ){azimuth += 360;} //semisens adjut amuth btwn 0 and 360
+                }else{
+                    azimuth += atan(2*decal/turnAroundDistance)*180.0/M_PI;
+                    if (azimuth > +360.0 ){azimuth -= 360;} //semisens adjut amuth btwn 0 and 360
+                } turn = turn*-1; //semisens
+                double hypothenuse = sqrt(pow(turnAroundDistance/2,2)+pow(decal,2)); //semisens change new transect part lenght
+                turnaroundCoord = lastPointCoord.atDistanceAndAzimuth(-hypothenuse, azimuth);
+            }
+            turnaroundCoord.setAltitude(qQNaN());
+            TransectStyleComplexItem::CoordInfo_t coordInfo = { turnaroundCoord, CoordTypeTurnaround };
+            coordInfoTransect.prepend(coordInfo);
 
-            double azimuth = transect.last().azimuthTo(transect[transect.count() - 2]); //semisens change azimuth
-            if (turn < 0.0) {
-                azimuth -= atan(10.0/turnAroundDistance)*180.0/M_PI;
-                if (azimuth < 0.0 ){azimuth += 360;} //semisens adjut amuth btwn 0 and 360
-            }else{
-                azimuth += atan(10.0/turnAroundDistance)*180.0/M_PI;
-                if (azimuth > +360.0 ){azimuth -= 360;} //semisens adjut amuth btwn 0 and 360
-            } turn = turn*-1; //semisens
-            double hypothenuse = sqrt(pow(turnAroundDistance,2)+100.0); //semisens change new transect part lenght
-            turnaroundCoord = transect.last().atDistanceAndAzimuth(-hypothenuse, azimuth);
+            //after transect
+            azimuth = transect.last().azimuthTo(transect[transect.count() - 2]);
+            turnaroundCoord = transect.last().atDistanceAndAzimuth(-turnAroundDistance/2, azimuth);
             turnaroundCoord.setAltitude(qQNaN());
             coordInfo = { turnaroundCoord, CoordTypeTurnaround };
             coordInfoTransect.append(coordInfo);
-        }
+            lastPointCoord = turnaroundCoord;        }
 
         _transects.append(coordInfoTransect);
     }
@@ -1131,7 +1094,7 @@ void SurveyComplexItem::_rebuildTransectsPhase1WorkerSplitPolygons(bool refly)
 
 void SurveyComplexItem::_PolygonDecomposeConvex(const QPolygonF& polygon, QList<QPolygonF>& decomposedPolygons)
 {
-    // this follows "Mark Keil's Algorithm" https://mpen.ca/406/keil
+	// this follows "Mark Keil's Algorithm" https://mpen.ca/406/keil
     int decompSize = std::numeric_limits<int>::max();
     if (polygon.size() < 3) return;
     if (polygon.size() == 3) {
@@ -1512,17 +1475,11 @@ void SurveyComplexItem::_recalcCameraShots(void)
 
                 }
             } else {
-                bool isFirst = true; //semisens
                 // We have transects available, calc from those
                 for (const QList<TransectStyleComplexItem::CoordInfo_t>& transect: _transects) {
                     QGeoCoordinate firstCameraCoord, lastCameraCoord;
                     if (_hasTurnaround() && !hoverAndCaptureEnabled()) {
-                        if (isFirst) { //semisens
-                           firstCameraCoord = transect[1].coord;
-                           isFirst = false;
-                        }else{ //semisens
-                            firstCameraCoord = transect[0].coord; //semisens les transect n'ont plus que 3 vertices
-                        }
+                        firstCameraCoord = transect[1].coord;
                         lastCameraCoord = transect[transect.count() - 2].coord;
                     } else {
                         firstCameraCoord = transect.first().coord;

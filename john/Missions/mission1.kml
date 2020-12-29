@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Placemark>
+<name>The Pentagon</name>
+<Polygon>
+<extrude>1</extrude>
+<outerBoundaryIs>
+<LinearRing>
+<coordinates>
+1.18365,43.2274,50
+1.18976,43.2274,50
+1.18976,43.2249,50
+1.18365,43.2249,50
+1.18365,43.2274,50
+</coordinates>
+</LinearRing>
+</outerBoundaryIs>
+</Polygon>
+</Placemark>
+</kml>

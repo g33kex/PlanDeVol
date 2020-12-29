@@ -70,17 +70,32 @@ Item {
         coordinate.latitude  = coordinate.latitude.toFixed(_decimalPlaces)
         coordinate.longitude = coordinate.longitude.toFixed(_decimalPlaces)
         coordinate.altitude  = coordinate.altitude.toFixed(_decimalPlaces)
+
         insertComplexMissionItem(complexItemName, coordinate, _missionController.visualItems.count)
+          
     }
 
-    function insertComplexMissionItem(complexItemName, coordinate, index) {
+    function insertComplexMissionItem(complexItemName, coordinate, index) { 
+
         var sequenceNumber = _missionController.insertComplexMissionItem(complexItemName, coordinate, index)
         _missionController.setCurrentPlanViewIndex(sequenceNumber, true)
+
+        console.log("index :" + index)
+        if (index == 1)
+        {
+            insertSimpleMissionItem(editorMap.center, index)
+        }
     }
 
     function insertComplexMissionItemFromKMLOrSHP(complexItemName, file, index) {
         var sequenceNumber = _missionController.insertComplexMissionItemFromKMLOrSHP(complexItemName, file, index)
         _missionController.setCurrentPlanViewIndex(sequenceNumber, true)
+
+        console.log("index :" + index)
+        if (index == 1)
+        {
+            insertSimpleMissionItem(editorMap.center, index)
+        }
     }
 
     function updateAirspace(reset) {
